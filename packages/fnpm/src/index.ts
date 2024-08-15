@@ -1,16 +1,20 @@
+#!/usr/bin/env node
+
 import path from 'node:path';
 import { detectPM } from '@akrc/monorepo-tools';
+import { parse as parsePackageName } from 'parse-package-name';
 import { commands } from 'unpm';
 import type { AddOptions, RemoveOptions } from 'unpm';
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
 import pkg from '../package.json';
 import { exec, findProjectRoot } from './util';
 
 const pm = await detectPM(path.dirname(await findProjectRoot()));
 
-await yargs(hideBin(process.argv))
-    .version('v', pkg.version)
+await yargs(process.argv.slice(2))
+    .scriptName('fnpm')
+    .completion()
+    .recommendCommands()
     .version(pkg.version)
     .command(
         ['add <packages..>', 'a', 'install', 'i'],
@@ -92,9 +96,10 @@ await yargs(hideBin(process.argv))
         (yargs) => yargs.help(),
         (args) => {
             const [pkg, ...rest] = args._.slice(1) as string[];
+            const parsed = parsePackageName(pkg!);
             const command = commands.dlx
                 .concat(pm, {
-                    package: pkg!,
+                    package: parsed.version ? pkg! : `${pkg}@latest`,
                     args: rest,
                 })
                 .join(' ');

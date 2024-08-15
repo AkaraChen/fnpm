@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  parse-package-name@1.0.0:
+    hash: cg5gk4coy74eidehflj3tpcuri
+    path: patches/parse-package-name@1.0.0.patch
+
 importers:
 
   .:
@@ -36,6 +41,9 @@ importers:
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
+      parse-package-name:
+        specifier: ^1.0.0
+        version: 1.0.0(patch_hash=cg5gk4coy74eidehflj3tpcuri)
       tslib:
         specifier: ^2.6.3
         version: 2.6.3
@@ -884,6 +892,9 @@ packages:
   parse-ms@4.0.0:
     resolution: {integrity: sha512-TXfryirbmq34y8QBwgqCVLi+8oA3oWx2eAnSn62ITyEhEYaWRlVZ2DvMM9eZbMs/RfxPu/PK/aBLyGj4IrqMHw==}
     engines: {node: '>=18'}
+
+  parse-package-name@1.0.0:
+    resolution: {integrity: sha512-kBeTUtcj+SkyfaW4+KBe0HtsloBJ/mKTPoxpVdA57GZiPerREsUWJOhVj9anXweFiJkm5y8FG1sxFZkZ0SN6wg==}
 
   path-exists@5.0.0:
     resolution: {integrity: sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==}
@@ -1886,6 +1897,8 @@ snapshots:
       type-fest: 4.24.0
 
   parse-ms@4.0.0: {}
+
+  parse-package-name@1.0.0(patch_hash=cg5gk4coy74eidehflj3tpcuri): {}
 
   path-exists@5.0.0: {}
 

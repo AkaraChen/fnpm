@@ -13,6 +13,7 @@
     "license": "ISC",
     "devDependencies": {
         "@types/yargs": "^17.0.33",
+        "parse-package-name": "^1.0.0",
         "tslib": "^2.6.3",
         "tsup": "^8.2.4",
         "tsx": "^4.17.0",
@@ -26,6 +27,6 @@
         "yargs": "^17.7.2"
     },
     "bin": {
-        "fnpm": "dist/index.mjs"
+        "fnpm": "dist/index.js"
     }
 }
