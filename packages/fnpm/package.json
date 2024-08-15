@@ -1,25 +1,28 @@
 {
     "name": "fnpm",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsup"
+        "build": "tsup",
+        "start": "tsx ./src/index.ts"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "^22.3.0",
         "@types/yargs": "^17.0.33",
         "tslib": "^2.6.3",
         "tsup": "^8.2.4",
+        "tsx": "^4.17.0",
         "typescript": "^5.5.4",
         "unpm": "workspace:*"
     },
     "dependencies": {
+        "@akrc/monorepo-tools": "^2.0.0",
         "execa": "^9.3.1",
+        "package-up": "^5.0.0",
         "yargs": "^17.7.2"
     },
     "bin": "./dist/index.mjs"

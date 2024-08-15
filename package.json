@@ -1,11 +1,12 @@
 {
     "name": "fnpm-workspace",
     "private": true,
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
     "main": "index.js",
     "scripts": {
-        "check": "biome check . --write"
+        "check": "biome check . --write",
+        "build": "pnpm -r build"
     },
     "keywords": [],
     "author": "",

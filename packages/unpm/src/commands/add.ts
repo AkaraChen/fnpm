@@ -12,7 +12,7 @@ export interface AddOptions {
     global?: boolean;
     fixed?: boolean;
     // pnpm, yarn-classic
-    rootCheck?: boolean;
+    allowRoot?: boolean;
 }
 
 export const add: Command<AddOptions> = {
@@ -27,7 +27,7 @@ export const add: Command<AddOptions> = {
             exact,
             global,
             fixed,
-            rootCheck,
+            allowRoot,
         } = options;
 
         args.push(pm, 'add');
@@ -62,7 +62,7 @@ export const add: Command<AddOptions> = {
             args.push('--frozen-lockfile');
         }
 
-        if (rootCheck) {
+        if (allowRoot) {
             switch (pm) {
                 case 'pnpm': {
                     args.push('-w');
