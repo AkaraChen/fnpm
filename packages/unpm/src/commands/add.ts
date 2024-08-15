@@ -30,7 +30,20 @@ export const add: Command<AddOptions> = {
             allowRoot,
         } = options;
 
-        args.push(pm, 'add');
+        args.push(pm);
+
+        if (pm === 'npm') {
+            if (fixed) {
+                args.push('ci');
+            } else {
+                args.push('install');
+            }
+        } else {
+            args.push('add');
+            if (fixed) {
+                args.push('--frozen-lockfile');
+            }
+        }
 
         args.push(...packages);
 
@@ -56,10 +69,6 @@ export const add: Command<AddOptions> = {
 
         if (global) {
             args.push('--global');
-        }
-
-        if (fixed) {
-            args.push('--frozen-lockfile');
         }
 
         if (allowRoot) {

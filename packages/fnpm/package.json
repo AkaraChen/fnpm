@@ -6,7 +6,9 @@
     "type": "module",
     "scripts": {
         "build": "tsup",
-        "start": "tsx ./src/index.ts"
+        "start": "tsx ./src/index.ts",
+        "link:fnpm": "pnpm link --global --dir .",
+        "unlink:fnpm": "pnpm remove @akrc/fnpm -g"
     },
     "keywords": [],
     "author": "",
@@ -17,12 +19,15 @@
         "tslib": "^2.6.3",
         "tsup": "^8.2.4",
         "tsx": "^4.17.0",
+        "type-fest": "^4.24.0",
         "typescript": "^5.5.4",
         "unpm": "workspace:*"
     },
     "dependencies": {
         "@akrc/monorepo-tools": "^2.0.0",
+        "consola": "^3.2.3",
         "execa": "^9.3.1",
+        "load-json-file": "^7.0.1",
         "package-up": "^5.0.0",
         "yargs": "^17.7.2"
     },

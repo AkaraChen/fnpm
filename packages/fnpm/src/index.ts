@@ -1,27 +1,37 @@
 #!/usr/bin/env node
 
-import path from 'node:path';
-import { detectPM } from '@akrc/monorepo-tools';
+import { error } from 'node:console';
+import consola from 'consola';
+import { loadJsonFile } from 'load-json-file';
+import { packageUp } from 'package-up';
 import { parse as parsePackageName } from 'parse-package-name';
+import type { PackageJson } from 'type-fest';
 import { commands } from 'unpm';
 import type { AddOptions, RemoveOptions } from 'unpm';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import pkg from '../package.json';
-import { exec, findProjectRoot } from './util';
+import { detectPM, exec } from './util';
 
-const pm = await detectPM(path.dirname(await findProjectRoot()));
+const cwd = process.cwd();
+const pm = await detectPM(cwd);
 
-await yargs(process.argv.slice(2))
+const args = await yargs(hideBin(process.argv))
     .scriptName('fnpm')
     .completion()
     .recommendCommands()
     .version(pkg.version)
+    .alias('version', 'v')
+    .help()
+    .alias('help', 'h')
+    .usage('Usage: $0 <command> [options]')
     .command(
         ['add <packages..>', 'a', 'install', 'i'],
         'add packages',
         (yargs) => {
             return yargs
                 .help()
+                .alias('help', 'h')
                 .positional('packages', {
                     type: 'string',
                     array: true,
@@ -64,7 +74,7 @@ await yargs(process.argv.slice(2))
                     description: 'Install packages globally',
                 });
         },
-        (args) => {
+        async (args) => {
             const {
                 packages,
                 saveDev,
@@ -87,14 +97,15 @@ await yargs(process.argv.slice(2))
                 allowRoot: workspace,
             };
             const command = commands.add.concat(pm, options).join(' ');
-            exec(command);
+            consola.info(`Installing packages with ${pm}`);
+            await exec(command);
         },
     )
     .command(
         'dlx',
         'run a command',
-        (yargs) => yargs.help(),
-        (args) => {
+        (yargs) => yargs.help().alias('help', 'h'),
+        async (args) => {
             const [pkg, ...rest] = args._.slice(1) as string[];
             const parsed = parsePackageName(pkg!);
             const command = commands.dlx
@@ -103,7 +114,9 @@ await yargs(process.argv.slice(2))
                     args: rest,
                 })
                 .join(' ');
-            exec(command);
+            consola.info(`Running ${command}`);
+            await exec(command);
+            process.exit(0);
         },
     )
     .command(
@@ -112,6 +125,7 @@ await yargs(process.argv.slice(2))
         (yargs) => {
             return yargs
                 .help()
+                .alias('help', 'h')
                 .positional('packages', {
                     type: 'string',
                     array: true,
@@ -139,7 +153,7 @@ await yargs(process.argv.slice(2))
                     description: 'Remove packages globally',
                 });
         },
-        (args) => {
+        async (args) => {
             const { packages, saveDev, savePeer, saveOptional, global } = args;
             const options: RemoveOptions = {
                 packages,
@@ -149,7 +163,36 @@ await yargs(process.argv.slice(2))
                 global,
             };
             const command = commands.remove.concat(pm, options).join(' ');
-            exec(command);
+            consola.info(`Removing packages with ${pm}`);
+            await exec(command);
+            process.exit(0);
+        },
+    )
+    .command(
+        '*',
+        'run a script',
+        () => {},
+        async (yargs) => {
+            const args = yargs._ as string[];
+            const pkgPath = await packageUp({
+                cwd,
+            });
+            if (!pkgPath) {
+                error('No package.json found');
+            }
+            const pkg: PackageJson = await loadJsonFile(pkgPath as string);
+            const scripts = pkg.scripts || {};
+            const script = args[0] as string;
+            if (scripts[script]) {
+                await exec(`${pm} run ${args.join(' ')}`);
+                process.exit(0);
+            } else {
+                await exec(`${pm} exec ${args.join(' ')}`);
+            }
         },
     )
     .parse();
+
+if (!args._.length) {
+    error('No command specified');
+}
