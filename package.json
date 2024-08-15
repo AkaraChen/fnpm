@@ -1,0 +1,19 @@
+{
+    "name": "fnpm-workspace",
+    "private": true,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "check": "biome check . --write"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@9.6.0",
+    "devDependencies": {
+        "@akrc/tsconfig": "^1.1.0",
+        "@biomejs/biome": "^1.8.3",
+        "@types/node": "^22.3.0"
+    }
+}
