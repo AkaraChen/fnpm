@@ -7,12 +7,13 @@ import { loadJsonFile } from 'load-json-file';
 import { packageUp } from 'package-up';
 import { parse as parsePackageName } from 'parse-package-name';
 import type { PackageJson } from 'type-fest';
+import { hideBin } from 'yargs/helpers';
 
 export function exec(shell: string, cwd?: string) {
     return execa({
         shell: true,
         stdio: 'inherit',
-        cwd
+        cwd,
     })`${shell}`.catch((err) => {
         error(err);
     });
@@ -33,10 +34,14 @@ export async function getContext(cwd: string) {
         error('No package manager found.');
     }
     const pm = await detectPM(lockDir!);
-    const root = hasWFlag ? lockDir : await packageUp();
+    const root = hasWFlag
+        ? lockDir
+        : path.dirname(await packageUp().then((v) => v!));
+    const args = hideBin(process.argv);
     return {
         root,
         pm,
+        args,
     };
 }
 

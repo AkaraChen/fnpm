@@ -5,7 +5,6 @@ import type { PackageJson } from 'type-fest';
 import { commands } from 'unpm';
 import type { AddOptions, RemoveOptions } from 'unpm';
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
 import pkg from '../package.json';
 import {
     error,
@@ -16,9 +15,9 @@ import {
     readPackageJson,
 } from './util';
 
-const { root, pm } = await getContext(process.cwd());
+const ctx = await getContext(process.cwd());
 
-await yargs(hideBin(process.argv))
+await yargs(ctx.args)
     .scriptName('fnpm')
     .completion()
     .recommendCommands()
@@ -98,22 +97,22 @@ await yargs(hideBin(process.argv))
                 fixed,
                 allowRoot: workspace,
             };
-            const command = commands.add.concat(pm, options).join(' ');
-            consola.info(`Installing packages with ${pm}`);
-            await exec(command, root);
+            const command = commands.add.concat(ctx.pm, options).join(' ');
+            consola.info(`Installing packages with ${ctx.pm}`);
+            await exec(command, ctx.root);
         },
     )
     .command(
         'dlx',
         'run a command',
         (yargs) => yargs.help().alias('help', 'h'),
-        async (args) => {
-            const [pkg, ...rest] = args._.slice(1) as string[];
+        async () => {
+            const [pkg, ...rest] = ctx.args.slice(1);
             if (!pkg) {
                 error('No package specified');
             }
             const command = commands.dlx
-                .concat(pm, {
+                .concat(ctx.pm, {
                     package: normalizePackageVersion(pkg!),
                     args: rest,
                 })
@@ -166,9 +165,9 @@ await yargs(hideBin(process.argv))
                 saveOptional,
                 global,
             };
-            const command = commands.remove.concat(pm, options).join(' ');
-            consola.info(`Removing packages with ${pm}`);
-            await exec(command, root);
+            const command = commands.remove.concat(ctx.pm, options).join(' ');
+            consola.info(`Removing packages with ${ctx.pm}`);
+            await exec(command, ctx.root);
             process.exit(0);
         },
     )
@@ -178,12 +177,12 @@ await yargs(hideBin(process.argv))
         (yargs) => {
             return yargs.help().alias('help', 'h');
         },
-        async (args) => {
-            const [name, ...argv] = args._.slice(1) as string[];
+        async () => {
+            const [name, ...argv] = ctx.args.slice(1);
             if (!name) {
                 error('No package name specified');
             }
-            const shell = `${pm} create ${normalizePackageVersion(
+            const shell = `${ctx.pm} create ${normalizePackageVersion(
                 name!,
             )} ${argv.join(' ')}`;
             await exec(shell);
@@ -198,9 +197,9 @@ await yargs(hideBin(process.argv))
         async (args) => {
             const { y } = args;
             const command = commands.init
-                .concat(pm, { interactively: !y })
+                .concat(ctx.pm, { interactively: !y })
                 .join(' ');
-            consola.info(`Initializing project with ${pm}`);
+            consola.info(`Initializing project with ${ctx.pm}`);
             await exec(command);
             process.exit(0);
         },
@@ -209,14 +208,14 @@ await yargs(hideBin(process.argv))
         if (args._.length === 0) {
             error('No script specified');
         }
-        const inputs = args._ as string[];
-        const pkg: PackageJson = await readPackageJson(root!);
+        const inputs = ctx.args;
+        const pkg: PackageJson = await readPackageJson(ctx.root!);
         const scripts = pkg.scripts || {};
         const script = inputs[0];
         if (script && scripts[script]) {
-            await exec(`${pm} run ${inputs.join(' ')}`, root);
+            await exec(`${ctx.pm} run ${inputs.join(' ')}`, ctx.root);
         } else {
-            await exec(`${pm} exec ${inputs.join(' ')}`, root);
+            await exec(`${ctx.pm} exec ${inputs.join(' ')}`, ctx.root);
         }
         process.exit(0);
     })
