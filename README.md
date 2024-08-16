@@ -89,6 +89,7 @@ fnpm remove -P <package>
 ### Dlx
 
 ```
+fnpx <package>
 fnpm dlx <package>
 # npx <package>
 # yarn dlx <package>
@@ -109,4 +110,25 @@ fnpm dev <args>
 # npm run dev <args>
 # yarn dev <args>
 # pnpm dev <args>
+```
+
+### Init
+
+```
+fnpm init
+# npm init -y
+# yarn init -y
+# pnpm init
+
+fnpm init -i
+# npm init
+```
+
+### Create
+
+```
+fnpm create next-app
+# pnpm create next-app
+# yarn create next-app
+# npm init next-app
 ```
