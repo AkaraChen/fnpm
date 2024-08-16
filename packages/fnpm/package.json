@@ -2,11 +2,10 @@
     "name": "@akrc/fnpm",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
     "type": "module",
     "scripts": {
         "build": "tsup",
-        "start": "tsx ./src/index.ts",
+        "start": "tsx ./src/fnpm.ts",
         "link:fnpm": "pnpm link --global --dir .",
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g"
     },
@@ -32,6 +31,7 @@
         "yargs": "^17.7.2"
     },
     "bin": {
-        "fnpm": "dist/index.js"
+        "fnpm": "./dist/fnpm.js",
+        "fnpx": "./dist/fnpx.js"
     }
 }

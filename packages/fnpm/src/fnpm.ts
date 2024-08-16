@@ -1,22 +1,24 @@
 #!/usr/bin/env node
 
-import { error } from 'node:console';
 import consola from 'consola';
-import { loadJsonFile } from 'load-json-file';
-import { packageUp } from 'package-up';
-import { parse as parsePackageName } from 'parse-package-name';
 import type { PackageJson } from 'type-fest';
 import { commands } from 'unpm';
 import type { AddOptions, RemoveOptions } from 'unpm';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import pkg from '../package.json';
-import { detectPM, exec } from './util';
+import {
+    error,
+    exec,
+    getContext,
+    noop,
+    normalizePackageVersion,
+    readPackageJson,
+} from './util';
 
-const cwd = process.cwd();
-const pm = await detectPM(cwd);
+const { root, pm } = await getContext(process.cwd());
 
-const args = await yargs(hideBin(process.argv))
+await yargs(hideBin(process.argv))
     .scriptName('fnpm')
     .completion()
     .recommendCommands()
@@ -44,17 +46,17 @@ const args = await yargs(hideBin(process.argv))
                     description: 'Save as devDependencies',
                 })
                 .option('save-exact', {
-                    alias: ['E'],
+                    alias: ['E', 'exact'],
                     type: 'boolean',
                     description: 'Save exact version',
                 })
                 .option('save-peer', {
-                    alias: ['P'],
+                    alias: ['P', 'peer'],
                     type: 'boolean',
                     description: 'Save as peerDependencies',
                 })
                 .option('save-optional', {
-                    alias: ['O'],
+                    alias: ['O', 'optional'],
                     type: 'boolean',
                     description: 'Save as optionalDependencies',
                 })
@@ -98,7 +100,7 @@ const args = await yargs(hideBin(process.argv))
             };
             const command = commands.add.concat(pm, options).join(' ');
             consola.info(`Installing packages with ${pm}`);
-            await exec(command);
+            await exec(command, root);
         },
     )
     .command(
@@ -107,10 +109,12 @@ const args = await yargs(hideBin(process.argv))
         (yargs) => yargs.help().alias('help', 'h'),
         async (args) => {
             const [pkg, ...rest] = args._.slice(1) as string[];
-            const parsed = parsePackageName(pkg!);
+            if (!pkg) {
+                error('No package specified');
+            }
             const command = commands.dlx
                 .concat(pm, {
-                    package: parsed.version ? pkg! : `${pkg}@latest`,
+                    package: normalizePackageVersion(pkg!),
                     args: rest,
                 })
                 .join(' ');
@@ -164,35 +168,57 @@ const args = await yargs(hideBin(process.argv))
             };
             const command = commands.remove.concat(pm, options).join(' ');
             consola.info(`Removing packages with ${pm}`);
-            await exec(command);
+            await exec(command, root);
             process.exit(0);
         },
     )
     .command(
-        '*',
-        'run a script',
-        () => {},
-        async (yargs) => {
-            const args = yargs._ as string[];
-            const pkgPath = await packageUp({
-                cwd,
-            });
-            if (!pkgPath) {
-                error('No package.json found');
+        'create',
+        'create an new project using package from npm',
+        (yargs) => {
+            return yargs.help().alias('help', 'h');
+        },
+        async (args) => {
+            const [name, ...argv] = args._.slice(1) as string[];
+            if (!name) {
+                error('No package name specified');
             }
-            const pkg: PackageJson = await loadJsonFile(pkgPath as string);
-            const scripts = pkg.scripts || {};
-            const script = args[0] as string;
-            if (scripts[script]) {
-                await exec(`${pm} run ${args.join(' ')}`);
-                process.exit(0);
-            } else {
-                await exec(`${pm} exec ${args.join(' ')}`);
-            }
+            const shell = `${pm} create ${normalizePackageVersion(
+                name!,
+            )} ${argv.join(' ')}`;
+            await exec(shell);
         },
     )
-    .parse();
+    .command(
+        'init',
+        'initialize a new project',
+        (yargs) => {
+            return yargs.help().alias('help', 'h').option('y', {});
+        },
+        async (args) => {
+            const { y } = args;
+            const command = commands.init
+                .concat(pm, { interactively: !y })
+                .join(' ');
+            consola.info(`Initializing project with ${pm}`);
+            await exec(command);
+            process.exit(0);
+        },
+    )
+    .command('*', 'run a script', noop, async (args) => {
+        if (args._.length === 0) {
+            error('No script specified');
+        }
+        const inputs = args._ as string[];
+        const pkg: PackageJson = await readPackageJson(root!);
+        const scripts = pkg.scripts || {};
+        const script = inputs[0];
+        if (script && scripts[script]) {
+            await exec(`${pm} run ${inputs.join(' ')}`, root);
+        } else {
+            await exec(`${pm} exec ${inputs.join(' ')}`, root);
+        }
+        process.exit(0);
+    })
 
-if (!args._.length) {
-    error('No command specified');
-}
+    .parse();
