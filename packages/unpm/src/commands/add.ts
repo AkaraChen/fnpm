@@ -1,6 +1,7 @@
+import { type InstallOptions, install } from './install';
 import type { Command } from './type';
 
-export interface AddOptions {
+export interface AddOptions extends InstallOptions {
     packages: string[];
     // npm only, and enabled by default
     save?: boolean;
@@ -10,14 +11,12 @@ export interface AddOptions {
     exact?: boolean;
     // yarn, pnpm
     global?: boolean;
-    fixed?: boolean;
     // pnpm, yarn-classic
     allowRoot?: boolean;
 }
 
 export const add: Command<AddOptions> = {
     concat(pm, options): string[] {
-        const args: string[] = [];
         const {
             packages,
             save,
@@ -30,20 +29,7 @@ export const add: Command<AddOptions> = {
             allowRoot,
         } = options;
 
-        args.push(pm);
-
-        if (pm === 'npm') {
-            if (fixed) {
-                args.push('ci');
-            } else {
-                args.push('install');
-            }
-        } else {
-            args.push('add');
-            if (fixed) {
-                args.push('--frozen-lockfile');
-            }
-        }
+        const args: string[] = install.concat(pm, { fixed });
 
         args.push(...packages);
 

@@ -182,9 +182,12 @@ await yargs(ctx.args)
             if (!name) {
                 error('No package name specified');
             }
-            const shell = `${ctx.pm} create ${normalizePackageVersion(
-                name!,
-            )} ${argv.join(' ')}`;
+            const shell = commands.create
+                .concat(ctx.pm, {
+                    name: normalizePackageVersion(name!),
+                    args: argv,
+                })
+                .join(' ');
             await exec(shell);
         },
     )
@@ -204,18 +207,50 @@ await yargs(ctx.args)
             process.exit(0);
         },
     )
+    .command(['test', 't'], 'run tests', noop, async () => {
+        const command = commands.test
+            .concat(ctx.pm, {
+                args: ctx.args.slice(1),
+            })
+            .join(' ');
+        consola.info(`Running tests with ${ctx.pm}`);
+        await exec(command, ctx.root);
+        process.exit(0);
+    })
+    .command('ci', 'run continuous integration', noop, async () => {
+        const command = commands.install.concat(ctx.pm, {
+            fixed: true,
+        }).join(' ');
+        consola.info(`Running CI with ${ctx.pm}`);
+        await exec(command, ctx.root);
+        process.exit(0);
+    })
     .command('*', 'run a script', noop, async (args) => {
         if (args._.length === 0) {
-            error('No script specified');
+            consola.info('Installing dependencies');
+            const shell = commands.install.concat(ctx.pm, {});
+            await exec(shell.join(' '), ctx.root);
+            process.exit(0);
         }
         const inputs = ctx.args;
         const pkg: PackageJson = await readPackageJson(ctx.root!);
         const scripts = pkg.scripts || {};
         const script = inputs[0];
         if (script && scripts[script]) {
-            await exec(`${ctx.pm} run ${inputs.join(' ')}`, ctx.root);
+            const shell = commands.run
+                .concat(ctx.pm, {
+                    script: script,
+                    args: inputs.slice(1),
+                })
+                .join(' ');
+            await exec(shell, ctx.root);
         } else {
-            await exec(`${ctx.pm} exec ${inputs.join(' ')}`, ctx.root);
+            const shell = commands.exec
+                .concat(ctx.pm, {
+                    args: inputs,
+                })
+                .join(' ');
+            await exec(shell, ctx.root);
         }
         process.exit(0);
     })

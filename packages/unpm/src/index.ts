@@ -4,4 +4,9 @@ export type {
     DlxOptions,
     RemoveOptions,
     InitOptions,
+    InstallOptions,
+    RunOptions,
+    ExecOptions,
+    TestOptions,
+    CreateOptions,
 } from './commands';

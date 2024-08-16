@@ -29,14 +29,14 @@ export async function getContext(cwd: string) {
     if (hasWFlag) {
         process.argv.splice(2, 1);
     }
-        const args = hideBin(process.argv);
+    const args = hideBin(process.argv);
     const lockDir = await findLockDir(cwd);
     if (!lockDir) {
         return {
             root: cwd,
             pm: preferredPM,
             args,
-        }
+        };
     }
     const pm = await detectPM(lockDir);
     const root = hasWFlag

@@ -10,6 +10,6 @@ export const init: Command<InitOptions> = {
         if (pm === 'pnpm') {
             return ['pnpm', 'init'];
         }
-        return interactively ? [pm, 'init', '-y'] : [pm, 'init'];
+        return interactively ? [pm, 'init'] : [pm, 'init', '-y'];
     },
 };
