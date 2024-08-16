@@ -29,15 +29,19 @@ export async function getContext(cwd: string) {
     if (hasWFlag) {
         process.argv.splice(2, 1);
     }
-    const lockDir = await findProjectRoot(cwd);
+        const args = hideBin(process.argv);
+    const lockDir = await findLockDir(cwd);
     if (!lockDir) {
-        error('No package manager found.');
+        return {
+            root: cwd,
+            pm: preferredPM,
+            args,
+        }
     }
-    const pm = await detectPM(lockDir!);
+    const pm = await detectPM(lockDir);
     const root = hasWFlag
         ? lockDir
         : path.dirname(await packageUp().then((v) => v!));
-    const args = hideBin(process.argv);
     return {
         root,
         pm,
@@ -45,7 +49,7 @@ export async function getContext(cwd: string) {
     };
 }
 
-async function findProjectRoot(cwd: string) {
+async function findLockDir(cwd: string) {
     for (const pm of ['pnpm', 'yarn', 'npm'] as PM[]) {
         try {
             return await findUpRoot(cwd, pm);
@@ -58,7 +62,7 @@ async function findProjectRoot(cwd: string) {
 }
 
 // TODO: make this configurable
-const preferredPM = 'pnpm';
+const preferredPM = 'pnpm' as const;
 
 async function detectPM(dir: string) {
     try {
