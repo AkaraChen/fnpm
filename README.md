@@ -32,31 +32,47 @@ fnpm ui
 
 ```
 fnpm add/a/install/i <package>
+
 # npm install <package>
 # yarn add <package>
 # pnpm add <package>
+```
 
+```
 fnpm add -D <package>
+
 # npm install -D <package>
 # yarn add -D <package>
 # pnpm add -D <package>
+```
 
+```
 fnpm add -O <package>
+
 # npm install --save-optional <package>
 # yarn add --optional <package>
 # pnpm add --optional <package>
+```
 
+```
 fnpm add -P <package>
+
 # npm install --save-peer <package>
 # yarn add --peer <package>
 # pnpm add --peer <package>
+```
 
+```
 fnm add -F <package>
+
 # npm ci
 # yarn install --frozen-lockfile
 # pnpm install --frozen-lockfile
+```
 
+```
 fnpm add -W <package>
+
 # npm install <package>
 # yarn add <package> -W
 # pnpm add <package> -w
@@ -66,21 +82,31 @@ fnpm add -W <package>
 
 ```
 fnpm remove/r/uninstall/u <package>
+
 # npm uninstall <package>
 # yarn remove <package>
 # pnpm remove <package>
+```
 
+```
 fnpm remove -D <package>
+
 # npm uninstall -D <package>
 # yarn remove -D <package>
 # pnpm remove -D <package>
+```
 
+```
 fnpm remove -O <package>
+
 # npm uninstall --save-optional <package>
 # yarn remove --optional <package>
 # pnpm remove --optional <package>
+```
 
+```
 fnpm remove -P <package>
+
 # npm uninstall --save-peer <package>
 # yarn remove --peer <package>
 # pnpm remove --peer <package>
@@ -91,6 +117,7 @@ fnpm remove -P <package>
 ```
 fnpx <package>
 fnpm dlx <package>
+
 # npx <package>
 # yarn dlx <package>
 # pnpm dlx <package>
@@ -100,6 +127,7 @@ fnpm dlx <package>
 
 ```
 fnpm tsup <args>
+
 # npm exec tsup <args>
 # yarn tsup <args>
 # pnpm tsup <args>
@@ -107,6 +135,7 @@ fnpm tsup <args>
 
 ```
 fnpm dev <args>
+
 # npm run dev <args>
 # yarn dev <args>
 # pnpm dev <args>
@@ -116,11 +145,15 @@ fnpm dev <args>
 
 ```
 fnpm init
+
 # npm init -y
 # yarn init -y
 # pnpm init
+```
 
+```
 fnpm init -i
+
 # npm init
 ```
 
@@ -128,6 +161,7 @@ fnpm init -i
 
 ```
 fnpm create next-app
+
 # pnpm create next-app
 # yarn create next-app
 # npm init next-app
