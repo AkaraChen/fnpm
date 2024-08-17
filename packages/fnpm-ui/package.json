@@ -6,6 +6,7 @@
     "scripts": {
         "build": "remix vite:build",
         "dev": "remix vite:dev",
+        "dev:server": "tsx ./server/index.ts",
         "start": "remix-serve ./build/server/index.js",
         "typecheck": "tsc"
     },
@@ -17,11 +18,15 @@
         "@remix-run/react": "^2.11.2",
         "@remix-run/serve": "^2.11.2",
         "@tabler/icons-react": "^3.12.0",
+        "consola": "^3.2.3",
+        "get-port-please": "^3.1.2",
+        "hono": "^4.5.5",
         "isbot": "^4.1.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
+        "@hono/node-server": "^1.12.0",
         "@remix-run/dev": "^2.11.2",
         "@types/react": "^18.2.20",
         "@types/react-dom": "^18.2.7",
