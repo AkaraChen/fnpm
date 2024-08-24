@@ -36,7 +36,6 @@ await yargs(ctx.args)
                 .positional('packages', {
                     type: 'string',
                     array: true,
-                    demandOption: true,
                     description: 'Packages to install',
                 })
                 .option('save-dev', {
@@ -86,8 +85,9 @@ await yargs(ctx.args)
                 workspace,
                 global,
             } = args;
+            consola.info(`Installing packages with ${ctx.pm}`);
             const options: AddOptions = {
-                packages,
+                packages: packages!,
                 save: true,
                 saveDev,
                 savePeer,
@@ -97,9 +97,11 @@ await yargs(ctx.args)
                 fixed,
                 allowRoot: workspace,
             };
-            const command = commands.add.concat(ctx.pm, options).join(' ');
-            consola.info(`Installing packages with ${ctx.pm}`);
+            const command = options.packages
+                ? commands.add.concat(ctx.pm, options).join(' ')
+                : commands.install.concat(ctx.pm, options).join(' ');
             await exec(command, ctx.root);
+            process.exit(0);
         },
     )
     .command(
@@ -218,9 +220,11 @@ await yargs(ctx.args)
         process.exit(0);
     })
     .command('ci', 'run continuous integration', noop, async () => {
-        const command = commands.install.concat(ctx.pm, {
-            fixed: true,
-        }).join(' ');
+        const command = commands.install
+            .concat(ctx.pm, {
+                fixed: true,
+            })
+            .join(' ');
         consola.info(`Running CI with ${ctx.pm}`);
         await exec(command, ctx.root);
         process.exit(0);

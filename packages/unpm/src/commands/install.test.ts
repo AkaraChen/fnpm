@@ -17,8 +17,8 @@ describe('install', () => {
     it('should return the correct command for yarn and yarn-classic', () => {
         const result1 = install.concat('yarn', {});
         const result2 = install.concat('yarn-classic', {});
-        expect(result1).toEqual(['yarn']);
-        expect(result2).toEqual(['yarn']);
+        expect(result1).toEqual(['yarn', 'add']);
+        expect(result2).toEqual(['yarn', 'add']);
     });
 
     it('should return the correct command for pnpm with fixed option', () => {

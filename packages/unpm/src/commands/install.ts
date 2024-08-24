@@ -16,7 +16,10 @@ export const install: Command<InstallOptions> = {
                 return ['npm', 'install'];
             case 'yarn':
             case 'yarn-classic':
-                return ['yarn'];
+                if (fixed) {
+                    return ['yarn', 'add', '--frozen-lockfile'];
+                }
+                return ['yarn', 'add'];
             case 'pnpm':
                 if (fixed) {
                     return ['pnpm', 'install', '--frozen-lockfile'];
