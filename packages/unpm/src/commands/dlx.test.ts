@@ -8,7 +8,16 @@ describe('dlx', () => {
             args: ['--flag1', '--flag2'],
         };
         const result = dlx.concat('npm', options);
-        expect(result).toEqual(['npx', 'my-package', '--flag1', '--flag2']);
+        expect(result).toEqual([
+            'npx',
+            '-p',
+            'my-package',
+            '-y',
+            '-c',
+            'my-package',
+            '--flag1',
+            '--flag2',
+        ]);
     });
 
     it('should return the correct command for yarn', () => {

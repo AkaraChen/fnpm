@@ -27,5 +27,8 @@
             "types": "./dist/index.d.cts",
             "require": "./dist/index.cjs"
         }
+    },
+    "dependencies": {
+        "parse-package-name": "^1.0.0"
     }
 }

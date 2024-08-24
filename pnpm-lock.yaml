@@ -87,6 +87,10 @@ importers:
   packages/fnpm-ui: {}
 
   packages/unpm:
+    dependencies:
+      parse-package-name:
+        specifier: ^1.0.0
+        version: 1.0.0(patch_hash=cg5gk4coy74eidehflj3tpcuri)
     devDependencies:
       tslib:
         specifier: ^2.6.3
