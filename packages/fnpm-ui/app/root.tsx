@@ -7,7 +7,7 @@ import {
 } from '@remix-run/react';
 import './tailwind.css';
 import '@mantine/core/styles.css';
-import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
+import { Box, ColorSchemeScript, Flex, MantineProvider, createTheme } from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
 
 const theme = createTheme({});
@@ -27,12 +27,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <MantineProvider theme={theme}>
-                    <div className='flex'>
-                        <div className='w-[300px]'>
+                    <Flex>
+                        <Box
+                            w={'300px'}
+                        >
                             <Navbar />
-                        </div>
-                        <div className='p-4 w-full h-full'>{children}</div>
-                    </div>
+                        </Box>
+                        <Box
+                            w={'100%'}
+                            h={'100%'}
+                            p={16}
+                        >{children}</Box>
+                    </Flex>
                 </MantineProvider>
                 <ScrollRestoration />
                 <Scripts />

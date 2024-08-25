@@ -1,7 +1,7 @@
-import { Title } from '@mantine/core';
+import { Box, Flex, Title } from '@mantine/core';
 import type { ComponentProps, FC, ReactNode } from 'react';
 
-export interface PageHeaderProps extends ComponentProps<'header'> {
+export interface PageHeaderProps extends ComponentProps<typeof Flex> {
     title: string;
     extra?: ReactNode;
 }
@@ -9,11 +9,11 @@ export interface PageHeaderProps extends ComponentProps<'header'> {
 export const PageHeader: FC<PageHeaderProps> = (props) => {
     const { title, extra, ...rest } = props;
     return (
-        <header {...rest} className='w-full flex items-center'>
+        <Flex {...rest} w={'100%'} align={'center'} display={'flex'} mb={20}>
             <Title size={'h3'} fw={600}>
                 {title}
             </Title>
-            {extra && <div className='ml-4'>{extra}</div>}
-        </header>
+            {extra && <Box ml={16} >{extra}</Box>}
+        </Flex>
     );
 };
