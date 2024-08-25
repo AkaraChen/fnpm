@@ -23,11 +23,10 @@ await yargs(ctx.args)
         if (!command) {
             error('No command specified');
         }
-        const shell = commands.dlx
-            .concat(ctx.pm, {
-                package: standardizeVersion(command!),
-                args: rest,
-            })
+        const shell = commands.dlx.concat(ctx.pm, {
+            package: standardizeVersion(command!),
+            args: rest,
+        });
         await exec(shell);
     })
     .help()

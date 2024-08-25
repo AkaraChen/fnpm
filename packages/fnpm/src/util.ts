@@ -14,16 +14,12 @@ export interface ExecOptions {
 }
 
 // TODO: catch error in verbose mode
-export function exec(shell: string[], opts: ExecOptions= {}) {
+export function exec(shell: string[], opts: ExecOptions = {}) {
     const { cwd } = opts;
     const [command, ...args] = shell;
-    return execa(
-        command!,
-        args,
-        {
-            cwd,
-        }
-    );
+    return execa(command!, args, {
+        cwd,
+    });
 }
 
 export function error(message: string) {

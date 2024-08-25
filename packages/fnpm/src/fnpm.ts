@@ -114,11 +114,10 @@ await yargs(ctx.args)
             if (!pkg) {
                 error('No package specified');
             }
-            const command = commands.dlx
-                .concat(ctx.pm, {
-                    package: standardizeVersion(pkg!),
-                    args: rest,
-                })
+            const command = commands.dlx.concat(ctx.pm, {
+                package: standardizeVersion(pkg!),
+                args: rest,
+            });
             consola.info(`Running ${command}`);
             await exec(command);
             process.exit(0);
@@ -184,11 +183,10 @@ await yargs(ctx.args)
             if (!name) {
                 error('No package name specified');
             }
-            const shell = commands.create
-                .concat(ctx.pm, {
-                    name: standardizeVersion(name!),
-                    args: argv,
-                })
+            const shell = commands.create.concat(ctx.pm, {
+                name: standardizeVersion(name!),
+                args: argv,
+            });
             await exec(shell);
         },
     )
@@ -200,27 +198,24 @@ await yargs(ctx.args)
         },
         async (args) => {
             const { y } = args;
-            const command = commands.init
-                .concat(ctx.pm, { interactively: !y })
+            const command = commands.init.concat(ctx.pm, { interactively: !y });
             consola.info(`Initializing project with ${ctx.pm}`);
             await exec(command);
             process.exit(0);
         },
     )
     .command(['test', 't'], 'run tests', noop, async () => {
-        const command = commands.test
-            .concat(ctx.pm, {
-                args: ctx.args.slice(1),
-            })
+        const command = commands.test.concat(ctx.pm, {
+            args: ctx.args.slice(1),
+        });
         consola.info(`Running tests with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
         process.exit(0);
     })
     .command('ci', 'run continuous integration', noop, async () => {
-        const command = commands.install
-            .concat(ctx.pm, {
-                fixed: true,
-            })
+        const command = commands.install.concat(ctx.pm, {
+            fixed: true,
+        });
         consola.info(`Running CI with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
         process.exit(0);
@@ -242,18 +237,16 @@ await yargs(ctx.args)
         const scripts = pkg.scripts || {};
         const script = inputs[0];
         if (script && scripts[script]) {
-            const shell = commands.run
-                .concat(ctx.pm, {
-                    script: script,
-                    args: inputs.slice(1),
-                })
-            await exec(shell, {cwd: ctx.root});
+            const shell = commands.run.concat(ctx.pm, {
+                script: script,
+                args: inputs.slice(1),
+            });
+            await exec(shell, { cwd: ctx.root });
         } else {
-            const shell = commands.exec
-                .concat(ctx.pm, {
-                    args: inputs,
-                })
-            await exec(shell, {cwd: ctx.root});
+            const shell = commands.exec.concat(ctx.pm, {
+                args: inputs,
+            });
+            await exec(shell, { cwd: ctx.root });
         }
         process.exit(0);
     })
