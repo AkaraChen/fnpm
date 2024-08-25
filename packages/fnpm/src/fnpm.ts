@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import consola from 'consola';
-import type { PackageJson } from 'type-fest';
+import * as doctor from 'fnpm-doctor';
 import { commands } from 'pm-combo';
-import type { AddOptions, RemoveOptions } from 'unpm';
+import type { AddOptions, RemoveOptions } from 'pm-combo';
+import type { PackageJson } from 'type-fest';
 import yargs from 'yargs';
 import pkg from '../package.json';
 import {
@@ -229,6 +230,11 @@ await yargs(ctx.args)
         await exec(command, ctx.root);
         process.exit(0);
     })
+    .command('doctor', 'diagnose common issues', noop, async () => {
+        const result = await doctor.scan(ctx.root);
+        result.diagnoses.forEach(doctor.writeToConsole);
+        process.exit(0);
+    })
     .command('*', 'run a script', noop, async (args) => {
         if (args._.length === 0) {
             consola.info('Installing dependencies');
@@ -258,5 +264,4 @@ await yargs(ctx.args)
         }
         process.exit(0);
     })
-
     .parse();

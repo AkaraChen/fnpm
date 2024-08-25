@@ -9,14 +9,13 @@ import { parse as parsePackageName } from 'parse-package-name';
 import type { PackageJson } from 'type-fest';
 import { hideBin } from 'yargs/helpers';
 
+// TODO: catch error in verbose mode
 export function exec(shell: string, cwd?: string) {
     return execa({
         shell: true,
         stdio: 'inherit',
         cwd,
-    })`${shell}`.catch((err) => {
-        error(err);
-    });
+    })`${shell}`;
 }
 
 export function error(message: string) {
@@ -65,10 +64,7 @@ async function findLockDir(cwd: string) {
 const preferredPM = 'pnpm' as const;
 
 async function detectPM(dir: string) {
-    try {
-        return detectPMByLock(dir);
-    } catch {}
-    return preferredPM;
+    return detectPMByLock(dir).unwrapOr(preferredPM);
 }
 
 export async function readPackageJson(cwd: string) {
