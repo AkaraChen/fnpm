@@ -5,7 +5,6 @@ import {
     Scripts,
     ScrollRestoration,
 } from '@remix-run/react';
-import './tailwind.css';
 import '@mantine/core/styles.css';
 import { Box, ColorSchemeScript, Flex, MantineProvider, createTheme } from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
