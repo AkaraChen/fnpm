@@ -3,7 +3,7 @@
 import { commands } from 'pm-combo';
 import yargs from 'yargs';
 import pkg from '../package.json';
-import { error, exec, getContext, noop, normalizePackageVersion } from './util';
+import { error, exec, getContext, noop, standardizeVersion } from './util';
 
 const ctx = await getContext(process.cwd());
 
@@ -25,7 +25,7 @@ await yargs(ctx.args)
         }
         const shell = commands.dlx
             .concat(ctx.pm, {
-                package: normalizePackageVersion(command!),
+                package: standardizeVersion(command!),
                 args: rest,
             })
             .join(' ');

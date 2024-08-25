@@ -1,4 +1,4 @@
-import { parse } from 'parse-package-name';
+import npa from 'npm-package-arg';
 import type { Command } from './type';
 
 export interface DlxOptions {
@@ -11,8 +11,8 @@ export const dlx: Command<DlxOptions> = {
         const { package: pkg, args = [] } = options;
         switch (pm) {
             case 'npm': {
-                const parsed = parse(pkg);
-                return ['npx', '-p', pkg, '-y', '-c', parsed.name, ...args];
+                const parsed = npa(pkg);
+                return ['npx', '-p', pkg, '-y', '-c', parsed.name!, ...args];
             }
             case 'yarn': {
                 return ['yarn', 'dlx', pkg, ...args];

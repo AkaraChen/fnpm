@@ -29,7 +29,7 @@
         }
     },
     "dependencies": {
-        "parse-package-name": "^1.0.0"
+        "npm-package-arg": "^11.0.3"
     },
     "publishConfig": {
         "access": "public"

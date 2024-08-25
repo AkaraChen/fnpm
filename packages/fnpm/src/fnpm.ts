@@ -12,8 +12,8 @@ import {
     exec,
     getContext,
     noop,
-    normalizePackageVersion,
     readPackageJson,
+    standardizeVersion,
 } from './util';
 
 const ctx = await getContext(process.cwd());
@@ -116,7 +116,7 @@ await yargs(ctx.args)
             }
             const command = commands.dlx
                 .concat(ctx.pm, {
-                    package: normalizePackageVersion(pkg!),
+                    package: standardizeVersion(pkg!),
                     args: rest,
                 })
                 .join(' ');
@@ -187,7 +187,7 @@ await yargs(ctx.args)
             }
             const shell = commands.create
                 .concat(ctx.pm, {
-                    name: normalizePackageVersion(name!),
+                    name: standardizeVersion(name!),
                     args: argv,
                 })
                 .join(' ');
