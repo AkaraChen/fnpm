@@ -2,7 +2,7 @@
 
 import consola from 'consola';
 import type { PackageJson } from 'type-fest';
-import { commands } from 'unpm';
+import { commands } from 'pm-combo';
 import type { AddOptions, RemoveOptions } from 'unpm';
 import yargs from 'yargs';
 import pkg from '../package.json';

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { commands } from 'unpm';
+import { commands } from 'pm-combo';
 import yargs from 'yargs';
 import pkg from '../package.json';
 import { error, exec, getContext, noop, normalizePackageVersion } from './util';

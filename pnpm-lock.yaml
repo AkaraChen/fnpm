@@ -65,6 +65,9 @@ importers:
       parse-package-name:
         specifier: ^1.0.0
         version: 1.0.0(patch_hash=cg5gk4coy74eidehflj3tpcuri)
+      pm-combo:
+        specifier: workspace:*
+        version: link:../pm-combo
       tslib:
         specifier: ^2.6.3
         version: 2.6.3
@@ -80,13 +83,10 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
-      unpm:
-        specifier: workspace:*
-        version: link:../unpm
 
   packages/fnpm-ui: {}
 
-  packages/unpm:
+  packages/pm-combo:
     dependencies:
       parse-package-name:
         specifier: ^1.0.0
