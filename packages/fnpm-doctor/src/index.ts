@@ -19,5 +19,6 @@ export async function scan(searchDir: string): Promise<ScanResult> {
 }
 
 export { writeToConsole } from './utils';
+export { resolveContext } from './context';
 
 export default scan;

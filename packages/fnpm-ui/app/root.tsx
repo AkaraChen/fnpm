@@ -6,9 +6,15 @@ import {
     ScrollRestoration,
 } from '@remix-run/react';
 import '@mantine/core/styles.css';
-import { Box, ColorSchemeScript, Flex, MantineProvider, createTheme } from '@mantine/core';
+import {
+    Box,
+    ColorSchemeScript,
+    Flex,
+    MantineProvider,
+    createTheme,
+} from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
-import "@fontsource-variable/inter";
+import '@fontsource-variable/inter';
 
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
@@ -30,16 +36,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <body>
                 <MantineProvider theme={theme}>
                     <Flex>
-                        <Box
-                            w={'300px'}
-                        >
+                        <Box w={'300px'}>
                             <Navbar />
                         </Box>
-                        <Box
-                            w={'100%'}
-                            h={'100%'}
-                            p={16}
-                        >{children}</Box>
+                        <Box w={'100%'} h={'100%'} p={16}>
+                            {children}
+                        </Box>
                     </Flex>
                 </MantineProvider>
                 <ScrollRestoration />

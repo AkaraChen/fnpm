@@ -13,7 +13,7 @@ export const PageHeader: FC<PageHeaderProps> = (props) => {
             <Title size={'h3'} fw={600}>
                 {title}
             </Title>
-            {extra && <Box ml={16} >{extra}</Box>}
+            {extra && <Box ml={16}>{extra}</Box>}
         </Flex>
     );
 };
