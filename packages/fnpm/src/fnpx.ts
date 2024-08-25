@@ -28,7 +28,6 @@ await yargs(ctx.args)
                 package: standardizeVersion(command!),
                 args: rest,
             })
-            .join(' ');
         await exec(shell);
     })
     .help()

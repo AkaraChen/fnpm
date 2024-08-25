@@ -62,6 +62,9 @@ importers:
       package-up:
         specifier: ^5.0.0
         version: 5.0.0
+      pm-combo:
+        specifier: workspace:*
+        version: link:../pm-combo
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -69,9 +72,6 @@ importers:
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
-      pm-combo:
-        specifier: workspace:*
-        version: link:../pm-combo
       tslib:
         specifier: ^2.6.3
         version: 2.6.3

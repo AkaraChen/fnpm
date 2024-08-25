@@ -99,9 +99,9 @@ await yargs(ctx.args)
                 allowRoot: workspace,
             };
             const command = options.packages
-                ? commands.add.concat(ctx.pm, options).join(' ')
-                : commands.install.concat(ctx.pm, options).join(' ');
-            await exec(command, ctx.root);
+                ? commands.add.concat(ctx.pm, options)
+                : commands.install.concat(ctx.pm, options);
+            await exec(command, { cwd: ctx.root });
             process.exit(0);
         },
     )
@@ -119,7 +119,6 @@ await yargs(ctx.args)
                     package: standardizeVersion(pkg!),
                     args: rest,
                 })
-                .join(' ');
             consola.info(`Running ${command}`);
             await exec(command);
             process.exit(0);
@@ -168,9 +167,9 @@ await yargs(ctx.args)
                 saveOptional,
                 global,
             };
-            const command = commands.remove.concat(ctx.pm, options).join(' ');
+            const command = commands.remove.concat(ctx.pm, options);
             consola.info(`Removing packages with ${ctx.pm}`);
-            await exec(command, ctx.root);
+            await exec(command, { cwd: ctx.root });
             process.exit(0);
         },
     )
@@ -190,7 +189,6 @@ await yargs(ctx.args)
                     name: standardizeVersion(name!),
                     args: argv,
                 })
-                .join(' ');
             await exec(shell);
         },
     )
@@ -204,7 +202,6 @@ await yargs(ctx.args)
             const { y } = args;
             const command = commands.init
                 .concat(ctx.pm, { interactively: !y })
-                .join(' ');
             consola.info(`Initializing project with ${ctx.pm}`);
             await exec(command);
             process.exit(0);
@@ -215,9 +212,8 @@ await yargs(ctx.args)
             .concat(ctx.pm, {
                 args: ctx.args.slice(1),
             })
-            .join(' ');
         consola.info(`Running tests with ${ctx.pm}`);
-        await exec(command, ctx.root);
+        await exec(command, { cwd: ctx.root });
         process.exit(0);
     })
     .command('ci', 'run continuous integration', noop, async () => {
@@ -225,9 +221,8 @@ await yargs(ctx.args)
             .concat(ctx.pm, {
                 fixed: true,
             })
-            .join(' ');
         consola.info(`Running CI with ${ctx.pm}`);
-        await exec(command, ctx.root);
+        await exec(command, { cwd: ctx.root });
         process.exit(0);
     })
     .command('doctor', 'diagnose common issues', noop, async () => {
@@ -239,7 +234,7 @@ await yargs(ctx.args)
         if (args._.length === 0) {
             consola.info('Installing dependencies');
             const shell = commands.install.concat(ctx.pm, {});
-            await exec(shell.join(' '), ctx.root);
+            await exec(shell, { cwd: ctx.root });
             process.exit(0);
         }
         const inputs = ctx.args;
@@ -252,15 +247,13 @@ await yargs(ctx.args)
                     script: script,
                     args: inputs.slice(1),
                 })
-                .join(' ');
-            await exec(shell, ctx.root);
+            await exec(shell, {cwd: ctx.root});
         } else {
             const shell = commands.exec
                 .concat(ctx.pm, {
                     args: inputs,
                 })
-                .join(' ');
-            await exec(shell, ctx.root);
+            await exec(shell, {cwd: ctx.root});
         }
         process.exit(0);
     })

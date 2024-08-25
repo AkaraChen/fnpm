@@ -9,13 +9,21 @@ import { packageUp } from 'package-up';
 import type { PackageJson } from 'type-fest';
 import { hideBin } from 'yargs/helpers';
 
+export interface ExecOptions {
+    cwd?: string;
+}
+
 // TODO: catch error in verbose mode
-export function exec(shell: string, cwd?: string) {
-    return execa({
-        shell: true,
-        stdio: 'inherit',
-        cwd,
-    })`${shell}`;
+export function exec(shell: string[], opts: ExecOptions= {}) {
+    const { cwd } = opts;
+    const [command, ...args] = shell;
+    return execa(
+        command!,
+        args,
+        {
+            cwd,
+        }
+    );
 }
 
 export function error(message: string) {
