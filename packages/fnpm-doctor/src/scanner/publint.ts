@@ -1,9 +1,9 @@
+import { sentenceCase } from 'change-case';
 import { Effect } from 'effect';
 import { publint as run } from 'publint';
 import { formatMessage } from 'publint/utils';
 import { readPackage } from 'read-pkg';
 import type { Scanner } from './scanner';
-import { sentenceCase } from 'change-case'
 
 export const publint: Scanner = (ctx) => {
     return Effect.promise(async () => {

@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { type PM, findUpRoot } from '@akrc/monorepo-tools';
+import { findUpRoot } from '@akrc/monorepo-tools';
 import { detectPMByLock } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { execa } from 'execa';
@@ -19,6 +19,7 @@ export function exec(shell: string[], opts: ExecOptions = {}) {
     const [command, ...args] = shell;
     return execa(command!, args, {
         cwd,
+        stdio: 'inherit',
     });
 }
 
@@ -33,17 +34,17 @@ export async function getContext(cwd: string) {
         process.argv.splice(2, 1);
     }
     const args = hideBin(process.argv);
-    const lockDir = await findLockDir(cwd);
-    if (!lockDir) {
+    const lockDir = await findUpRoot(cwd).result();
+    if (lockDir.isErr()) {
         return {
             root: cwd,
             pm: preferredPM,
             args,
         };
     }
-    const pm = await detectPM(lockDir);
+    const pm = detectPMByLock(lockDir.unwrap()).unwrapOr(preferredPM);
     const root = hasWFlag
-        ? lockDir
+        ? lockDir.unwrap()
         : path.dirname(await packageUp().then((v) => v!));
     return {
         root,
@@ -52,24 +53,8 @@ export async function getContext(cwd: string) {
     };
 }
 
-async function findLockDir(cwd: string) {
-    for (const pm of ['pnpm', 'yarn', 'npm'] as PM[]) {
-        try {
-            return await findUpRoot(cwd, pm);
-        } catch {}
-    }
-    const pkg = await packageUp();
-    if (pkg) {
-        return path.dirname(pkg);
-    }
-}
-
 // TODO: make this configurable
 const preferredPM = 'pnpm' as const;
-
-async function detectPM(dir: string) {
-    return detectPMByLock(dir).unwrapOr(preferredPM);
-}
 
 export async function readPackageJson(cwd: string) {
     const pkgPath = await packageUp({
