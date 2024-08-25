@@ -8,8 +8,11 @@ import {
 import '@mantine/core/styles.css';
 import { Box, ColorSchemeScript, Flex, MantineProvider, createTheme } from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
+import "@fontsource-variable/inter";
 
-const theme = createTheme({});
+const theme = createTheme({
+    fontFamily: 'Inter, sans-serif',
+});
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (
