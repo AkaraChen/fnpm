@@ -39,6 +39,12 @@ await yargs(ctx.args)
                     array: true,
                     description: 'Packages to install',
                 })
+                .option('save', {
+                    alias: ['d'],
+                    type: 'boolean',
+                    description: 'Save to dependencies',
+                    default: true,
+                })
                 .option('save-dev', {
                     alias: ['D'],
                     type: 'boolean',
@@ -85,11 +91,12 @@ await yargs(ctx.args)
                 fixed,
                 workspace,
                 global,
+                save
             } = args;
             consola.info(`Installing packages with ${ctx.pm}`);
             const options: AddOptions = {
                 packages: packages!,
-                save: true,
+                save,
                 saveDev,
                 savePeer,
                 saveOptional,
