@@ -39,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                         <Box w={'300px'}>
                             <Navbar />
                         </Box>
-                        <Box w={'100%'} h={'100%'} p={16}>
+                        <Box w={'100%'} h={'100vh'} p={16}>
                             {children}
                         </Box>
                     </Flex>

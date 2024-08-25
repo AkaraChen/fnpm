@@ -7,16 +7,19 @@ import classes from './navbar.module.css';
 const data = [
     { link: '/', label: 'Dashboard', icon: IconDashboard },
     { link: '/graph', label: 'Graph', icon: IconMap },
-    { link: '/package', label: 'Package', icon: IconPackage },
+    { link: '/packages', label: 'Package', icon: IconPackage },
 ];
 
 export function Navbar() {
-    const links = data.map((item) => (
-        <NavLink className={classes.link} to={item.link} key={item.label}>
-            <item.icon className={classes.linkIcon} stroke={1.5} />
-            <span>{item.label}</span>
-        </NavLink>
-    ));
+    const links = data.map((item) => {
+        const Icon = item.icon;
+        return (
+            <NavLink className={classes.link} to={item.link} key={item.label}>
+                <Icon className={classes.linkIcon} stroke={1.5} />
+                <span>{item.label}</span>
+            </NavLink>
+        );
+    });
 
     return (
         <nav className={classes.navbar}>

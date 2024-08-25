@@ -33,5 +33,8 @@
             "side-channel": "npm:@nolyfill/side-channel@^1",
             "which-typed-array": "npm:@nolyfill/which-typed-array@^1"
         }
+    },
+    "dependencies": {
+        "use-deep-compare-effect": "^1.8.1"
     }
 }

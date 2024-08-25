@@ -3,14 +3,24 @@ import {
     type Edge,
     type Node,
     ReactFlow,
+    ReactFlowProvider,
     useEdgesState,
     useNodesState,
     useReactFlow,
 } from '@xyflow/react';
-import { type FC, useCallback, useEffect, useMemo } from 'react';
+import {
+    type FC,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+} from 'react';
 import '@xyflow/react/dist/style.css';
 import Dagre from '@dagrejs/dagre';
 import type { SerializeFrom } from '@remix-run/node';
+import { getDeps } from 'fnpm-utils';
+import type { PackageJson } from 'type-fest';
+import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 
 export interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
@@ -30,19 +40,22 @@ const getLayoutedElements = (
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     g.setGraph({ rankdir: options.direction });
 
-    edges.forEach((edge) => g.setEdge(edge.source, edge.target));
-    nodes.forEach((node) =>
+    for (const edge of edges) {
+        g.setEdge(edge.source, edge.target);
+    }
+
+    for (const node of nodes) {
         g.setNode(node.id, {
             ...node,
             width: node.measured?.width ?? 0,
             height: node.measured?.height ?? 0,
-        }),
-    );
+        });
+    }
 
     Dagre.layout(g);
 
     return {
-        nodes: nodes.map<Node>((node) => {
+        nodes: nodes.map((node) => {
             const position = g.node(node.id);
             // We are shifting the dagre node position (anchor=center center) to the top left
             // so it matches the React Flow node anchor point (top left).
@@ -64,17 +77,9 @@ const getNodesAndEdges = (projects: Array<SerializeFrom<Project>>) => {
         },
     })) as Node[];
     const names = new Set(projects.map((p) => p.manifest.name!));
-    const depsFields = [
-        'dependencies',
-        'devDependencies',
-        'peerDependencies',
-        'optionalDependencies',
-    ] as const;
     const edges = projects.reduce((prev, curr) => {
         const deps: Set<string> = new Set(
-            depsFields.flatMap((field) =>
-                Object.keys(curr.manifest[field] ?? {}),
-            ),
+            getDeps(curr.manifest as PackageJson),
         );
         const localDeps = [...intersection(names, deps)];
         for (const localDep of localDeps) {
@@ -90,51 +95,44 @@ const getNodesAndEdges = (projects: Array<SerializeFrom<Project>>) => {
     return { nodes, edges };
 };
 
-const InnerDependencyFlow: FC = () => {
-    const { fitView, setNodes, setEdges, getEdges, getNodes } = useReactFlow();
-
-    const nodes = getNodes();
-    const edges = getEdges();
-    const onLayout = useCallback(
-        (direction: 'TB' | 'LR') => {
-            const layouted = getLayoutedElements(nodes, edges, {
-                direction,
-            });
-
-            setNodes([...layouted.nodes]);
-            setEdges([...layouted.edges]);
-
-            window.requestAnimationFrame(() => {
-                fitView();
-            });
-        },
-        [nodes, edges],
-    );
-    useEffect(() => {
-        onLayout('TB');
-    }, []);
-    return null;
-};
-
-export const DependencyFlow: FC<DependencyFlowProps> = (props) => {
+const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
     const { projects } = props;
+    const { fitView } = useReactFlow();
     const initial = useMemo(() => getNodesAndEdges(projects), [projects]);
-    const [nodes, , onNodesChange] = useNodesState(initial.nodes);
-    const [edges, , onEdgesChange] = useEdgesState(initial.edges);
+    const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges);
+
+    useDeepCompareEffectNoCheck(() => {
+        const layouted = getLayoutedElements(nodes, edges, {
+            direction: 'TB',
+        });
+        setNodes(layouted.nodes);
+        setEdges(layouted.edges);
+
+        window.requestAnimationFrame(() => {
+            fitView();
+        });
+    }, [nodes, edges]);
 
     return (
         <ReactFlow
-            style={{
-                width: '100%',
-                height: '100%',
-            }}
+            style={{ width: '100%', height: '100%' }}
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             fitView
-        >
-            <InnerDependencyFlow />
-        </ReactFlow>
+            proOptions={{
+                hideAttribution: true,
+            }}
+        />
+    );
+};
+
+export const DependencyFlow: FC<DependencyFlowProps> = (props) => {
+    return (
+        <ReactFlowProvider>
+            <InnerDependencyFlow {...props} />
+        </ReactFlowProvider>
     );
 };

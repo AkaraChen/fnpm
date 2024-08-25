@@ -1,0 +1,27 @@
+{
+    "name": "fnpm-utils",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "scripts": {
+        "build": "tsup"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "tslib": "^2.6.3",
+        "tsup": "^8.2.4",
+        "type-fest": "^4.24.0",
+        "typescript": "^5.5.4"
+    },
+    "types": "./dist/index.d.ts",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    }
+}
