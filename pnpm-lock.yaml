@@ -153,15 +153,9 @@ importers:
       consola:
         specifier: ^3.2.3
         version: 3.2.3
-      get-port-please:
-        specifier: ^3.1.2
-        version: 3.1.2
-      hono:
-        specifier: ^4.5.5
-        version: 4.5.5
       isbot:
-        specifier: ^4.1.0
-        version: 4.4.0
+        specifier: ^5.1.17
+        version: 5.1.17
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -169,9 +163,6 @@ importers:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@hono/node-server':
-        specifier: ^1.12.0
-        version: 1.12.0
       '@remix-run/dev':
         specifier: ^2.11.2
         version: 2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41))(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41)))
@@ -203,8 +194,8 @@ importers:
         specifier: ^5.1.0
         version: 5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41))
       vite-tsconfig-paths:
-        specifier: ^4.2.1
-        version: 4.3.2(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41)))
+        specifier: ^5.0.1
+        version: 5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41)))
 
   packages/pm-combo:
     dependencies:
@@ -898,10 +889,6 @@ packages:
   '@gwhitney/detect-indent@7.0.1':
     resolution: {integrity: sha512-7bQW+gkKa2kKZPeJf6+c6gFK9ARxQfn+FKy9ScTBppyKRWH2KzsmweXUoklqeEiHiNVWaeP5csIdsNq6w7QhzA==}
     engines: {node: '>=12.20'}
-
-  '@hono/node-server@1.12.0':
-    resolution: {integrity: sha512-e6oHjNiErRxsZRZBmc2KucuvY3btlO/XPncIpP2X75bRdTilF9GLjm3NHvKKunpJbbJJj31/FoPTksTf8djAVw==}
-    engines: {node: '>=18.14.1'}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -2036,9 +2023,6 @@ packages:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
 
-  get-port-please@3.1.2:
-    resolution: {integrity: sha512-Gxc29eLs1fbn6LQ4jSU4vXjlwyZhF5HsGuMAa7gqBP4Rw4yxxltyDUuF5MBclFzDTXO+ACchGQoeela4DSfzdQ==}
-
   get-port@5.1.1:
     resolution: {integrity: sha512-g/Q1aTSDOxFpchXC4i8ZWvxA1lnPqx/JHqcpIw0/LX9T8x/GBbi6YnlN5nhaKIFkT8oFsscUKgDJYxfwfS6QsQ==}
     engines: {node: '>=8'}
@@ -2110,10 +2094,6 @@ packages:
 
   hast-util-whitespace@2.0.1:
     resolution: {integrity: sha512-nAxA0v8+vXSBDt3AnRUNjyRIQ0rD+ntpbAp4LnPkumc5M9yUbSMa4XDU9Q6etY4f1Wp4bNgvc1yjiZtsTTrSng==}
-
-  hono@4.5.5:
-    resolution: {integrity: sha512-fXBXHqaVfimWofbelLXci8pZyIwBMkDIwCa4OwZvK+xVbEyYLELVP4DfbGaj1aEM6ZY3hHgs4qLvCO2ChkhgQw==}
-    engines: {node: '>=16.0.0'}
 
   hosted-git-info@6.1.1:
     resolution: {integrity: sha512-r0EI+HBMcXadMrugk0GCQ+6BQV39PiWAZVfq7oIckeGiN7sjRGyQxPdft3nQekFTCQbYxLBH+/axZMeH8UX6+w==}
@@ -2278,8 +2258,8 @@ packages:
     resolution: {integrity: sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==}
     engines: {node: '>=0.10.0'}
 
-  isbot@4.4.0:
-    resolution: {integrity: sha512-8ZvOWUA68kyJO4hHJdWjyreq7TYNWTS9y15IzeqVdKxR9pPr3P/3r9AHcoIv9M0Rllkao5qWz2v1lmcyKIVCzQ==}
+  isbot@5.1.17:
+    resolution: {integrity: sha512-/wch8pRKZE+aoVhRX/hYPY1C7dMCeeMyhkQLNLNlYAbGQn9bkvMB8fOUXNnk5I0m4vDYbBJ9ciVtkr9zfBJ7qA==}
     engines: {node: '>=18'}
 
   isexe@2.0.0:
@@ -3799,8 +3779,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-tsconfig-paths@4.3.2:
-    resolution: {integrity: sha512-0Vd/a6po6Q+86rPlntHye7F31zA2URZMbH8M3saAZ/xR9QoGN/L21bxEGfXdWmFdNkqPpRdxFT7nmNe12e9/uA==}
+  vite-tsconfig-paths@5.0.1:
+    resolution: {integrity: sha512-yqwv+LstU7NwPeNqajZzLEBVpUFU6Dugtb2P84FXuvaoYA+/70l9MHE+GYfYAycVyPSDYZ7mjOFuYBRqlEpTig==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -4511,8 +4491,6 @@ snapshots:
   '@floating-ui/utils@0.2.7': {}
 
   '@gwhitney/detect-indent@7.0.1': {}
-
-  '@hono/node-server@1.12.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -5856,8 +5834,6 @@ snapshots:
 
   get-nonce@1.0.1: {}
 
-  get-port-please@3.1.2: {}
-
   get-port@5.1.1: {}
 
   get-stream@6.0.1: {}
@@ -5958,8 +5934,6 @@ snapshots:
       - supports-color
 
   hast-util-whitespace@2.0.1: {}
-
-  hono@4.5.5: {}
 
   hosted-git-info@6.1.1:
     dependencies:
@@ -6077,7 +6051,7 @@ snapshots:
 
   is-windows@1.0.2: {}
 
-  isbot@4.4.0: {}
+  isbot@5.1.17: {}
 
   isexe@2.0.0: {}
 
@@ -7788,7 +7762,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-tsconfig-paths@4.3.2(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41))):
+  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.1(@types/node@22.3.0)(sugarss@4.0.1(postcss@8.4.41))):
     dependencies:
       debug: 4.3.6
       globrex: 0.1.2

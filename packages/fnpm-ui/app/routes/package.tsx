@@ -1,3 +1,9 @@
+import { PageHeader } from '~/components/page-header';
+
 export default function Page() {
-    return 'package';
+    return (
+        <>
+            <PageHeader title='Package' />
+        </>
+    );
 }

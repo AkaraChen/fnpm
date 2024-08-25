@@ -1,10 +1,14 @@
-import { Button } from '@mantine/core';
 import type { MetaFunction } from '@remix-run/node';
+import { PageHeader } from '~/components/page-header';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'fnpm UI' }];
 };
 
 export default function Index() {
-    return <Button>OK</Button>;
+    return (
+        <>
+            <PageHeader title='Dashboard' />
+        </>
+    );
 }

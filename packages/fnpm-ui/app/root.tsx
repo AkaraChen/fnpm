@@ -31,7 +31,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                         <div className='w-[300px]'>
                             <Navbar />
                         </div>
-                        <div className='p-4'>{children}</div>
+                        <div className='p-4 w-full h-full'>{children}</div>
                     </div>
                 </MantineProvider>
                 <ScrollRestoration />

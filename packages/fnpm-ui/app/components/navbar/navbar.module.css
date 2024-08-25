@@ -1,7 +1,6 @@
 .navbar {
-  height: rem(700px);
+  height: 100vh;
   width: rem(300px);
-  padding: var(--mantine-spacing-md);
   display: flex;
   flex-direction: column;
   border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
@@ -12,15 +11,12 @@
 }
 
 .header {
-  padding-bottom: var(--mantine-spacing-md);
-  margin-bottom: var(--mantine-spacing-sm);
   border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    padding: var(--mantine-spacing-md);
 }
 
-.footer {
-  padding-top: var(--mantine-spacing-md);
-  margin-top: var(--mantine-spacing-md);
-  border-top: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+.links {
+  padding: var(--mantine-spacing-md);
 }
 
 .link {

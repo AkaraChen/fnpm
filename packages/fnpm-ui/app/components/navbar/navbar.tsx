@@ -25,18 +25,8 @@ export function Navbar() {
                     <div className='text-lg font-semibold'>fnpm UI</div>
                     <Code>{pkg.version}</Code>
                 </Group>
-                {links}
+                <div className={classes.links}>{links}</div>
             </div>
-            {/* <div className={classes.footer}>
-                <Link
-                    to='#'
-                    className={classes.link}
-                    onClick={(event) => event.preventDefault()}
-                >
-                    <IconLogout className={classes.linkIcon} stroke={1.5} />
-                    <span>Quit</span>
-                </Link>
-            </div> */}
         </nav>
     );
 }
