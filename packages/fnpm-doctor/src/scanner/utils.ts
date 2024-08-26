@@ -1,7 +1,7 @@
 import pc from 'picocolors';
-import type { Diagnose } from './context';
+import type { ScannerDiagnose } from './scanner';
 
-export function getLevelColor(level: Diagnose['level']) {
+export function getLevelColor(level: ScannerDiagnose['level']) {
     return level === 'error'
         ? pc.red
         : level === 'warning'
@@ -9,7 +9,7 @@ export function getLevelColor(level: Diagnose['level']) {
           : pc.green;
 }
 
-export function writeToConsole(diagnose: Diagnose) {
+export function writeToConsole(diagnose: ScannerDiagnose) {
     const workspace = diagnose.workspace ?? 'root';
     const method =
         diagnose.level === 'error'

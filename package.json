@@ -6,7 +6,8 @@
     "main": "index.js",
     "scripts": {
         "check": "biome check . --write",
-        "build": "pnpm -r build",
+        "build": "turbo build",
+        "dev": "turbo dev",
         "test": "pnpm -r test",
         "release": "bumpp -r && pnpm -r publish"
     },

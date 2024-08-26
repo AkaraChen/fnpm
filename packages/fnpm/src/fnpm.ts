@@ -91,7 +91,7 @@ await yargs(ctx.args)
                 fixed,
                 workspace,
                 global,
-                save
+                save,
             } = args;
             consola.info(`Installing packages with ${ctx.pm}`);
             const options: AddOptions = {

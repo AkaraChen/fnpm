@@ -2,7 +2,7 @@ import { Effect } from 'effect';
 import { run } from 'npm-check-updates';
 import path from 'pathe';
 import { readPackage } from 'read-pkg';
-import type { Context } from '../context';
+import type { ScannerContext } from './scanner';
 import type { Scanner } from './scanner';
 
 interface UpdateMeta {
@@ -10,7 +10,7 @@ interface UpdateMeta {
     version: string;
 }
 
-function resolveWorkspace(ctx: Context, filePath: string) {
+function resolveWorkspace(ctx: ScannerContext, filePath: string) {
     const dir = path.dirname(filePath);
     return ctx.resolve(dir);
 }

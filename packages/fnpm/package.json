@@ -7,7 +7,8 @@
         "build": "tsup",
         "start": "tsx ./src/fnpm.ts",
         "link:fnpm": "pnpm link --global --dir .",
-        "unlink:fnpm": "pnpm remove @akrc/fnpm -g"
+        "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
+        "dev": "tsup --watch"
     },
     "keywords": ["fnpm"],
     "author": "AkaraChen",

@@ -2,8 +2,8 @@
 
 import { NodeRuntime } from '@effect/platform-node';
 import { Effect, pipe } from 'effect';
-import scan from '.';
-import { writeToConsole } from './utils';
+import { scan } from './scanner';
+import { writeToConsole } from './scanner/utils';
 
 const program = pipe(
     Effect.promise(async () => {

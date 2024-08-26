@@ -31,7 +31,7 @@ export const versionMismatch: Scanner = (ctx) => {
             if (versions.size > 1) {
                 ctx.report({
                     level: 'error',
-                    title: 'Version mismatch',
+                    title: `${name} version mismatch`,
                     description: `Version mismatch for ${name}: ${Array.from(versions).join(', ')}`,
                     scope: 'dependencies',
                 });

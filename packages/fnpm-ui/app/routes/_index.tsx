@@ -1,11 +1,24 @@
-import { Box, Button, Card, Grid, Group, Text } from '@mantine/core';
+import {
+    Box,
+    Button,
+    Card,
+    Divider,
+    Flex,
+    Grid,
+    Group,
+    ScrollArea,
+    Text,
+} from '@mantine/core';
 import type { MetaFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { getDeps } from 'fnpm-utils';
 import {
+    BiohazardIcon,
+    CandyIcon,
     type LucideIcon,
     PackageIcon,
     ShieldQuestionIcon,
+    TriangleAlertIcon,
     UploadIcon,
     WorkflowIcon,
 } from 'lucide-react';
@@ -14,7 +27,7 @@ import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { PageHeader } from '~/components/page-header';
-import { resolveContext } from '../fnpm/fnpm.server';
+import { resolveContext, scan } from '../fnpm/fnpm.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'fnpm UI' }];
@@ -71,9 +84,11 @@ export async function loader() {
             count: number;
         }>,
     );
+    const { diagnoses } = await scan(process.cwd());
     return {
         projects,
         depsGraph,
+        diagnoses,
     };
 }
 
@@ -140,6 +155,7 @@ export default function Index() {
                                         labelLine={false}
                                         label={getFormattedLabel}
                                         fill='#82ca9d'
+                                        isAnimationActive={false}
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
@@ -159,8 +175,35 @@ export default function Index() {
                     <InfoCard
                         icon={ShieldQuestionIcon}
                         title='Diagnostic Issues'
-                        value={10}
-                        graph={<DependencyFlow projects={[]} />}
+                        value={data.diagnoses.length}
+                        graph={
+                            <ScrollArea h={'300px'}>
+                                {data.diagnoses.map((diagnose) => (
+                                    <Box key={diagnose.description}>
+                                        <Flex gap={8} pt={10}>
+                                            <Box flex={1}>
+                                                {diagnose.level === 'error' ? (
+                                                    <BiohazardIcon color='gray' />
+                                                ) : diagnose.level ===
+                                                  'warning' ? (
+                                                    <TriangleAlertIcon color='gray' />
+                                                ) : (
+                                                    <CandyIcon color='gray' />
+                                                )}
+                                            </Box>
+                                            <Text w={'100%'}>
+                                                {diagnose.title}
+                                            </Text>
+                                        </Flex>
+                                        <Text py={10} size='sm' c={'dark'}>
+                                            {diagnose.workspace ?? 'root'}[
+                                            {diagnose.scope}]
+                                        </Text>
+                                        <Divider />
+                                    </Box>
+                                ))}
+                            </ScrollArea>
+                        }
                         href='/packages'
                     />
                 </Grid.Col>
