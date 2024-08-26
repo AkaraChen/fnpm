@@ -133,21 +133,21 @@ const getFormattedLabel = (e: any) => {
     );
 };
 
-interface ItemProps {
+interface CardItemProps {
     icon: TablerIcon;
     title: ReactNode;
     description: ReactNode;
 }
 
-const Item: FC<ItemProps> = (props) => {
+const CardItem: FC<CardItemProps> = (props) => {
     const { icon: Icon, title, description } = props;
     return (
         <Box>
             <Flex gap={8} pt={10}>
                 <Box flex={1}>
-                    <Icon />
+                    <Icon color='black' style={{ opacity: '60%'}} />
                 </Box>
-                <Text w={'100%'}>{title}</Text>
+                <Box w={'100%'}>{title}</Box>
             </Flex>
             <Box pb={10}>{description}</Box>
             <Divider />
@@ -219,9 +219,9 @@ export default function Index() {
                                     graph={
                                         <ScrollArea h={'300px'}>
                                             {updates.map((update) => (
-                                                <Item
+                                                <CardItem
                                                     icon={IconPackageExport}
-                                                    key={update.name}
+                                                    key={Math.random()}
                                                     title={
                                                         <Flex align={'center'}>
                                                             <Text>
@@ -268,7 +268,7 @@ export default function Index() {
                         graph={
                             <ScrollArea h={'300px'}>
                                 {diagnoses.map((diagnose) => (
-                                    <Item
+                                    <CardItem
                                         key={diagnose.description}
                                         icon={
                                             diagnose.level === 'error'
