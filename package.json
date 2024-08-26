@@ -36,6 +36,7 @@
         }
     },
     "dependencies": {
+        "open": "^10.1.0",
         "use-deep-compare-effect": "^1.8.1"
     }
 }

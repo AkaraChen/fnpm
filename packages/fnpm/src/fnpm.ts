@@ -15,6 +15,8 @@ import {
     readPackageJson,
     standardizeVersion,
 } from './util';
+import { getPort } from 'get-port-please';
+import { start } from 'fnpm-ui';
 
 const ctx = await getContext(process.cwd());
 
@@ -230,6 +232,17 @@ await yargs(ctx.args)
     .command('doctor', 'diagnose common issues', noop, async () => {
         const result = await doctor.scan(ctx.root);
         result.diagnoses.forEach(doctor.writeToConsole);
+        process.exit(0);
+    })
+    .command('ui', 'open the package manager UI', (yargs) => {
+        return yargs.option('port', {
+            alias: ['p', 'P'],
+            type: 'number',
+            description: 'Port to use',
+        })
+    }, async (yargs) => {
+        const port = yargs.port || await getPort();
+        await start(port);
         process.exit(0);
     })
     .command('*', 'run a script', noop, async (args) => {

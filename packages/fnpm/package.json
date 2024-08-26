@@ -10,7 +10,9 @@
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsup --watch"
     },
-    "keywords": ["fnpm"],
+    "keywords": [
+        "fnpm"
+    ],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -30,6 +32,8 @@
         "consola": "^3.2.3",
         "execa": "^9.3.1",
         "fnpm-doctor": "workspace:*",
+        "fnpm-ui": "workspace:*",
+        "get-port-please": "^3.1.2",
         "load-json-file": "^7.0.1",
         "npm-package-arg": "^11.0.3",
         "package-up": "^5.0.0",
