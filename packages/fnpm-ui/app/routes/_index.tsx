@@ -11,17 +11,18 @@ import {
 } from '@mantine/core';
 import type { MetaFunction } from '@remix-run/node';
 import { Await, Link, defer, useLoaderData } from '@remix-run/react';
-import { getDeps } from 'fnpm-utils';
 import {
-    BiohazardIcon,
-    BoxesIcon,
-    type LucideIcon,
-    PackagePlusIcon,
-    ShieldQuestionIcon,
-    TriangleAlertIcon,
-    UploadIcon,
-    WorkflowIcon,
-} from 'lucide-react';
+    IconBiohazard,
+    IconFileInfo,
+    IconJumpRope,
+    IconPackageExport,
+    IconPackages,
+    IconShieldQuestion,
+    IconUpload,
+    IconZoomExclamation,
+    type TablerIcon,
+} from '@tabler/icons-react';
+import { getDeps } from 'fnpm-utils';
 import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
@@ -34,7 +35,7 @@ export const meta: MetaFunction = () => {
 };
 
 interface InfoCardProps {
-    icon: LucideIcon;
+    icon: TablerIcon;
     title: string;
     value: ReactNode;
     href: string;
@@ -133,7 +134,7 @@ const getFormattedLabel = (e: any) => {
 };
 
 interface ItemProps {
-    icon: LucideIcon;
+    icon: TablerIcon;
     title: ReactNode;
     description: ReactNode;
 }
@@ -144,7 +145,7 @@ const Item: FC<ItemProps> = (props) => {
         <Box>
             <Flex gap={8} pt={10}>
                 <Box flex={1}>
-                    <Icon color='gray' />
+                    <Icon />
                 </Box>
                 <Text w={'100%'}>{title}</Text>
             </Flex>
@@ -163,7 +164,7 @@ export default function Index() {
             <Grid>
                 <Grid.Col span={3}>
                     <InfoCard
-                        icon={WorkflowIcon}
+                        icon={IconJumpRope}
                         title='Total Workspaces'
                         value={projects.length}
                         href='/graph'
@@ -172,7 +173,7 @@ export default function Index() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <InfoCard
-                        icon={BoxesIcon}
+                        icon={IconPackages}
                         title='Total Dependencies'
                         value={depsGraph.reduce(
                             (acc, curr) => acc + curr.count,
@@ -200,7 +201,7 @@ export default function Index() {
                     <Suspense
                         fallback={
                             <InfoCard
-                                icon={UploadIcon}
+                                icon={IconUpload}
                                 title='Dependency Updates'
                                 value={0}
                                 href='/packages'
@@ -211,7 +212,7 @@ export default function Index() {
                         <Await resolve={updates}>
                             {(updates) => (
                                 <InfoCard
-                                    icon={UploadIcon}
+                                    icon={IconUpload}
                                     title='Dependency Updates'
                                     value={updates.length}
                                     href='/packages'
@@ -219,7 +220,7 @@ export default function Index() {
                                         <ScrollArea h={'300px'}>
                                             {updates.map((update) => (
                                                 <Item
-                                                    icon={PackagePlusIcon}
+                                                    icon={IconPackageExport}
                                                     key={update.name}
                                                     title={
                                                         <Flex align={'center'}>
@@ -261,7 +262,7 @@ export default function Index() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <InfoCard
-                        icon={ShieldQuestionIcon}
+                        icon={IconShieldQuestion}
                         title='Diagnostic Issues'
                         value={diagnoses.length}
                         graph={
@@ -271,12 +272,10 @@ export default function Index() {
                                         key={diagnose.description}
                                         icon={
                                             diagnose.level === 'error'
-                                                ? BiohazardIcon
+                                                ? IconBiohazard
                                                 : diagnose.level === 'warning'
-                                                  ? TriangleAlertIcon
-                                                  : diagnose.level === 'info'
-                                                    ? ShieldQuestionIcon
-                                                    : ShieldQuestionIcon
+                                                  ? IconZoomExclamation
+                                                  : IconFileInfo
                                         }
                                         title={diagnose.title}
                                         description={
