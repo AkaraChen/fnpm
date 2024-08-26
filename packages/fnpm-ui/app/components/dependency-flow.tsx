@@ -18,6 +18,7 @@ import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 
 export interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
+    rootProject?: SerializeFrom<Project>;
 }
 
 function intersection<T>(a: Set<T>, b: Set<T>): Set<T> {
@@ -62,7 +63,10 @@ const getLayoutedElements = (
     };
 };
 
-const getNodesAndEdges = (projects: Array<SerializeFrom<Project>>) => {
+const getNodesAndEdges = (
+    projects: Array<SerializeFrom<Project>>,
+    rootProject?: SerializeFrom<Project>,
+) => {
     const nodes = projects.map((project) => ({
         id: project.manifest.name!,
         position: { x: 0, y: 0 },
@@ -86,13 +90,26 @@ const getNodesAndEdges = (projects: Array<SerializeFrom<Project>>) => {
         }
         return prev;
     }, [] as Edge[]);
+    if (rootProject) {
+        for (const project of projects) {
+            edges.push({
+                id: `${rootProject.manifest.name!}-${project.manifest.name!}`,
+                source: rootProject.manifest.name!,
+                target: project.manifest.name!,
+                animated: true,
+            });
+        }
+    }
     return { nodes, edges };
 };
 
 const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
-    const { projects } = props;
+    const { projects, rootProject } = props;
     const { fitView } = useReactFlow();
-    const initial = useMemo(() => getNodesAndEdges(projects), [projects]);
+    const initial = useMemo(
+        () => getNodesAndEdges(projects, rootProject),
+        [projects, rootProject],
+    );
     const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges);
 

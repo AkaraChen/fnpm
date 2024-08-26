@@ -27,8 +27,9 @@ import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
+import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
-import { resolveContext, scan, update } from '../fnpm/fnpm.server';
+import { resolveContext, scan, update } from '../server/fnpm.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'fnpm UI' }];
@@ -101,6 +102,7 @@ export async function loader() {
         depsGraph,
         diagnoses,
         updates,
+        rootProject: context.rootProject,
     });
 }
 
@@ -156,10 +158,10 @@ const CardItem: FC<CardItemProps> = (props) => {
 };
 
 export default function Index() {
-    const { depsGraph, projects, diagnoses, updates } =
+    const { depsGraph, projects, diagnoses, updates, rootProject } =
         useLoaderData<typeof loader>();
     return (
-        <>
+        <BasePage>
             <PageHeader title='Dashboard' />
             <Grid>
                 <Grid.Col span={3}>
@@ -168,7 +170,12 @@ export default function Index() {
                         title='Total Workspaces'
                         value={projects.length}
                         href='/graph'
-                        graph={<DependencyFlow projects={projects} />}
+                        graph={
+                            <DependencyFlow
+                                projects={projects}
+                                rootProject={rootProject}
+                            />
+                        }
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>
@@ -303,6 +310,6 @@ export default function Index() {
                     />
                 </Grid.Col>
             </Grid>
-        </>
+        </BasePage>
     );
 }

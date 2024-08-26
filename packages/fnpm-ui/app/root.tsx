@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <MantineProvider theme={theme}>
-                    <Flex>
+                    <Flex style={{ overflowY: 'hidden' }}>
                         <Box w={'300px'}>
                             <Navbar />
                         </Box>

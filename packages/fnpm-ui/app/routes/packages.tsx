@@ -1,8 +1,9 @@
 import { Box, NativeSelect, Skeleton } from '@mantine/core';
 import { Await, Outlet, defer, useLoaderData } from '@remix-run/react';
 import { Suspense } from 'react';
+import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
-import { resolveContext } from '../fnpm/fnpm.server';
+import { resolveContext } from '../server/fnpm.server';
 
 export async function loader() {
     const context = resolveContext(process.cwd());
@@ -14,7 +15,7 @@ export async function loader() {
 export default function Page() {
     const data = useLoaderData<typeof loader>();
     return (
-        <>
+        <BasePage>
             <PageHeader title='Package' />
             <Suspense fallback={<Skeleton h={'60px'} w={'300px'} />}>
                 <Await resolve={data.context}>
@@ -30,6 +31,6 @@ export default function Page() {
             <Box py={20} w={'100%'} h={'100%'}>
                 <Outlet />
             </Box>
-        </>
+        </BasePage>
     );
 }
