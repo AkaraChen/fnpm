@@ -1,4 +1,4 @@
-import { getDep } from 'fnpm-utils';
+import { getDep } from "fnpm-toolkit";
 import { run } from 'npm-check-updates';
 import path from 'pathe';
 import { readPackage } from 'read-pkg';

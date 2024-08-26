@@ -112,7 +112,7 @@ importers:
       effect:
         specifier: ^3.6.5
         version: 3.6.5
-      fnpm-utils:
+      fnpm-toolkit:
         specifier: workspace:*
         version: link:../fnpm-utils
       npm-check-updates:
@@ -188,7 +188,7 @@ importers:
       fnpm-doctor:
         specifier: workspace:*
         version: link:../fnpm-doctor
-      fnpm-utils:
+      fnpm-toolkit:
         specifier: workspace:*
         version: link:../fnpm-utils
       isbot:

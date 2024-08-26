@@ -22,7 +22,7 @@ import {
     IconZoomExclamation,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { getDeps } from 'fnpm-utils';
+import { getDeps } from "fnpm-toolkit";
 import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
