@@ -3,9 +3,10 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import { Await, defer, useLoaderData } from '@remix-run/react';
 import { resolveContext } from 'fnpm-doctor';
 import { Suspense } from 'react';
+import { root } from '~/server/config.server';
 
 export function loader(args: LoaderFunctionArgs) {
-    const project = resolveContext(process.cwd()).then((context) => {
+    const project = resolveContext(root).then((context) => {
         return context.projects.find(
             (p) => p.manifest.name === args.params.name,
         );

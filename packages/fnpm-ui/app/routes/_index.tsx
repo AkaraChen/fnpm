@@ -29,6 +29,7 @@ import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
+import { root } from '~/server/config.server';
 import { resolveContext, scan, update } from '../server/fnpm.server';
 
 export const meta: MetaFunction = () => {
@@ -71,7 +72,7 @@ const InfoCard: FC<InfoCardProps> = (props) => {
 };
 
 export async function loader() {
-    const context = await resolveContext(process.cwd());
+    const context = await resolveContext(root);
     const depsGraph = context.projects.reduce(
         (acc, project) => {
             const count = getDeps(project.manifest as PackageJson);
@@ -86,7 +87,7 @@ export async function loader() {
             count: number;
         }>,
     );
-    const { diagnoses } = await scan(process.cwd());
+    const { diagnoses } = await scan(root);
     const updates = update(context).then((updates) => {
         return Object.entries(updates ?? {}).flatMap(([workspace, json]) => {
             return json.flatMap((update) => {

@@ -1,1 +1,1 @@
-export declare function start(port: number): Promise<void>;
+export declare function start(port: number, root: string): Promise<void>;

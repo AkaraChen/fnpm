@@ -246,7 +246,7 @@ await yargs(ctx.args)
         },
         async (yargs) => {
             const port = yargs.port || (await getPort());
-            await start(port);
+            await start(port, ctx.root);
             process.exit(0);
         },
     )

@@ -3,10 +3,11 @@ import { Await, Outlet, defer, useLoaderData } from '@remix-run/react';
 import { Suspense } from 'react';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
+import { root } from '~/server/config.server';
 import { resolveContext } from '../server/fnpm.server';
 
 export async function loader() {
-    const context = resolveContext(process.cwd());
+    const context = resolveContext(root);
     return defer({
         context,
     });
