@@ -6,10 +6,9 @@ import {
     ScannerContextImpl,
     type ScannerDiagnose,
 } from './scanner';
-import { update } from './update';
 import { versionMismatch } from './version-mismatch';
 
-export const scanners: Scanner[] = [eslint, update, versionMismatch, publint];
+export const scanners: Scanner[] = [eslint, versionMismatch, publint];
 
 export interface ScanResult {
     diagnoses: ScannerDiagnose[];

@@ -14,3 +14,15 @@ export function getDeps(pkg: PackageJson) {
         ),
     ];
 }
+
+export function getDep(pkg: PackageJson, dep: string) {
+    for (const field of depsFields) {
+        if (pkg[field]?.[dep]) {
+            return {
+                field,
+                version: pkg[field][dep],
+            };
+        }
+    }
+    return null;
+}

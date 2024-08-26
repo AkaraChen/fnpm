@@ -1,1 +1,1 @@
-export { resolveContext, scan } from 'fnpm-doctor';
+export { resolveContext, scan, update } from 'fnpm-doctor';

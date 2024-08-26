@@ -27,7 +27,7 @@ import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { PageHeader } from '~/components/page-header';
-import { resolveContext, scan } from '../fnpm/fnpm.server';
+import { resolveContext, scan, update } from '../fnpm/fnpm.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'fnpm UI' }];
@@ -69,8 +69,8 @@ const InfoCard: FC<InfoCardProps> = (props) => {
 };
 
 export async function loader() {
-    const { projects } = await resolveContext(process.cwd());
-    const depsGraph = projects.reduce(
+    const context = await resolveContext(process.cwd());
+    const depsGraph = context.projects.reduce(
         (acc, project) => {
             const count = getDeps(project.manifest as PackageJson);
             acc.push({
@@ -85,10 +85,12 @@ export async function loader() {
         }>,
     );
     const { diagnoses } = await scan(process.cwd());
+    const updates = await update(context);
     return {
-        projects,
+        projects: context.projects,
         depsGraph,
         diagnoses,
+        updates,
     };
 }
 
@@ -118,6 +120,28 @@ const getFormattedLabel = (e: any) => {
         >
             {payload.name}
         </text>
+    );
+};
+
+interface ItemProps {
+    icon: LucideIcon;
+    title: ReactNode;
+    description: ReactNode;
+}
+
+const Item: FC<ItemProps> = (props) => {
+    const { icon: Icon, title, description } = props;
+    return (
+        <Box>
+            <Flex gap={8} pt={10}>
+                <Box flex={1}>
+                    <Icon color='gray' />
+                </Box>
+                <Text w={'100%'}>{title}</Text>
+            </Flex>
+            <Box pb={10}>{description}</Box>
+            <Divider />
+        </Box>
     );
 };
 
@@ -166,9 +190,53 @@ export default function Index() {
                     <InfoCard
                         icon={UploadIcon}
                         title='Dependency Updates'
-                        value={10}
+                        value={Object.values(data.updates || {}).reduce(
+                            (acc, curr) => acc + curr.length,
+                            0,
+                        )}
                         href='/packages'
-                        graph={<DependencyFlow projects={[]} />}
+                        graph={
+                            <ScrollArea h={'300px'}>
+                                {Object.entries(data.updates ?? {}).map(
+                                    ([workspace, json]) => {
+                                        return json.map((update) => {
+                                            return (
+                                                <Item
+                                                    icon={CandyIcon}
+                                                    key={update.name}
+                                                    title={
+                                                        <Flex align={'center'}>
+                                                            <Text>
+                                                                {update.name}
+                                                            </Text>
+                                                            <Text
+                                                                size='sm'
+                                                                ml={'auto'}
+                                                            >
+                                                                {update.current}{' '}
+                                                                {' > '}
+                                                                {update.latest}
+                                                            </Text>
+                                                        </Flex>
+                                                    }
+                                                    description={
+                                                        <Box>
+                                                            <Text
+                                                                size='sm'
+                                                                c={'dark'}
+                                                                span
+                                                            >
+                                                                {workspace}
+                                                            </Text>
+                                                        </Box>
+                                                    }
+                                                />
+                                            );
+                                        });
+                                    },
+                                )}
+                            </ScrollArea>
+                        }
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>
@@ -179,39 +247,36 @@ export default function Index() {
                         graph={
                             <ScrollArea h={'300px'}>
                                 {data.diagnoses.map((diagnose) => (
-                                    <Box key={diagnose.description}>
-                                        <Flex gap={8} pt={10}>
-                                            <Box flex={1}>
-                                                {diagnose.level === 'error' ? (
-                                                    <BiohazardIcon color='gray' />
-                                                ) : diagnose.level ===
-                                                  'warning' ? (
-                                                    <TriangleAlertIcon color='gray' />
-                                                ) : (
-                                                    <CandyIcon color='gray' />
-                                                )}
-                                            </Box>
-                                            <Text w={'100%'}>
-                                                {diagnose.title}
-                                            </Text>
-                                        </Flex>
-                                        <Box py={10}>
-                                            <Text
-                                                size='sm'
-                                                c={'dark'}
-                                                fw={500}
-                                                span
-                                            >
-                                                [{diagnose.scope}]{' '}
-                                            </Text>
-                                            <Text size='sm' c={'dark'} span>
-                                                {diagnose.workspace?.join(
-                                                    ', ',
-                                                ) ?? 'root'}
-                                            </Text>
-                                        </Box>
-                                        <Divider />
-                                    </Box>
+                                    <Item
+                                        key={diagnose.description}
+                                        icon={
+                                            diagnose.level === 'error'
+                                                ? BiohazardIcon
+                                                : diagnose.level === 'warning'
+                                                  ? TriangleAlertIcon
+                                                  : diagnose.level === 'info'
+                                                    ? ShieldQuestionIcon
+                                                    : ShieldQuestionIcon
+                                        }
+                                        title={diagnose.title}
+                                        description={
+                                            <>
+                                                <Text
+                                                    size='sm'
+                                                    c={'dark'}
+                                                    fw={500}
+                                                    span
+                                                >
+                                                    [{diagnose.scope}]{' '}
+                                                </Text>
+                                                <Text size='sm' c={'dark'} span>
+                                                    {diagnose.workspace?.join(
+                                                        ', ',
+                                                    ) ?? 'root'}
+                                                </Text>
+                                            </>
+                                        }
+                                    />
                                 ))}
                             </ScrollArea>
                         }
