@@ -145,7 +145,7 @@ const CardItem: FC<CardItemProps> = (props) => {
         <Box>
             <Flex gap={8} pt={10}>
                 <Box flex={1}>
-                    <Icon color='black' style={{ opacity: '60%'}} />
+                    <Icon color='black' style={{ opacity: '60%' }} />
                 </Box>
                 <Box w={'100%'}>{title}</Box>
             </Flex>
