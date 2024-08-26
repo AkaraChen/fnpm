@@ -8,7 +8,7 @@
         "check": "biome check . --write",
         "build": "turbo build",
         "dev": "turbo dev",
-        "test": "pnpm -r test",
+        "test": "turbo test",
         "release": "bumpp -r && pnpm -r publish"
     },
     "keywords": [],

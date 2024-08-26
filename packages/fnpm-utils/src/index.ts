@@ -8,5 +8,9 @@ const depsFields = [
 ] as const;
 
 export function getDeps(pkg: PackageJson) {
-    return depsFields.flatMap((field) => Object.keys(pkg[field] ?? {}));
+    return [
+        ...new Set(
+            depsFields.flatMap((field) => Object.keys(pkg[field] ?? {})),
+        ),
+    ];
 }
