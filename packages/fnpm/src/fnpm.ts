@@ -2,6 +2,8 @@
 
 import consola from 'consola';
 import * as doctor from 'fnpm-doctor';
+import { start } from 'fnpm-ui';
+import { getPort } from 'get-port-please';
 import { commands } from 'pm-combo';
 import type { AddOptions, RemoveOptions } from 'pm-combo';
 import type { PackageJson } from 'type-fest';
@@ -15,8 +17,6 @@ import {
     readPackageJson,
     standardizeVersion,
 } from './util';
-import { getPort } from 'get-port-please';
-import { start } from 'fnpm-ui';
 
 const ctx = await getContext(process.cwd());
 
@@ -234,17 +234,22 @@ await yargs(ctx.args)
         result.diagnoses.forEach(doctor.writeToConsole);
         process.exit(0);
     })
-    .command('ui', 'open the package manager UI', (yargs) => {
-        return yargs.option('port', {
-            alias: ['p', 'P'],
-            type: 'number',
-            description: 'Port to use',
-        })
-    }, async (yargs) => {
-        const port = yargs.port || await getPort();
-        await start(port);
-        process.exit(0);
-    })
+    .command(
+        'ui',
+        'open the package manager UI',
+        (yargs) => {
+            return yargs.option('port', {
+                alias: ['p', 'P'],
+                type: 'number',
+                description: 'Port to use',
+            });
+        },
+        async (yargs) => {
+            const port = yargs.port || (await getPort());
+            await start(port);
+            process.exit(0);
+        },
+    )
     .command('*', 'run a script', noop, async (args) => {
         if (args._.length === 0) {
             consola.info('Installing dependencies');

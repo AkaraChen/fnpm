@@ -10,19 +10,19 @@ import {
     Text,
 } from '@mantine/core';
 import type { MetaFunction } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import { getDeps } from 'fnpm-utils';
 import {
     BiohazardIcon,
-    CandyIcon,
+    BoxesIcon,
     type LucideIcon,
-    PackageIcon,
+    PackagePlusIcon,
     ShieldQuestionIcon,
     TriangleAlertIcon,
     UploadIcon,
     WorkflowIcon,
 } from 'lucide-react';
-import type { FC, ReactNode } from 'react';
+import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
@@ -85,13 +85,22 @@ export async function loader() {
         }>,
     );
     const { diagnoses } = await scan(process.cwd());
-    const updates = await update(context);
-    return {
+    const updates = update(context).then((updates) => {
+        return Object.entries(updates ?? {}).flatMap(([workspace, json]) => {
+            return json.flatMap((update) => {
+                return {
+                    workspace,
+                    ...update,
+                };
+            });
+        });
+    });
+    return defer({
         projects: context.projects,
         depsGraph,
         diagnoses,
         updates,
-    };
+    });
 }
 
 const RADIAN = Math.PI / 180;
@@ -146,7 +155,8 @@ const Item: FC<ItemProps> = (props) => {
 };
 
 export default function Index() {
-    const data = useLoaderData<typeof loader>();
+    const { depsGraph, projects, diagnoses, updates } =
+        useLoaderData<typeof loader>();
     return (
         <>
             <PageHeader title='Dashboard' />
@@ -155,16 +165,16 @@ export default function Index() {
                     <InfoCard
                         icon={WorkflowIcon}
                         title='Total Workspaces'
-                        value={data.projects.length}
+                        value={projects.length}
                         href='/graph'
-                        graph={<DependencyFlow projects={data.projects} />}
+                        graph={<DependencyFlow projects={projects} />}
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <InfoCard
-                        icon={PackageIcon}
+                        icon={BoxesIcon}
                         title='Total Dependencies'
-                        value={data.depsGraph.reduce(
+                        value={depsGraph.reduce(
                             (acc, curr) => acc + curr.count,
                             0,
                         )}
@@ -173,7 +183,7 @@ export default function Index() {
                             <ResponsiveContainer width={'100%'} height={'100%'}>
                                 <PieChart>
                                     <Pie
-                                        data={data.depsGraph}
+                                        data={depsGraph}
                                         dataKey={'count'}
                                         nameKey={'name'}
                                         labelLine={false}
@@ -187,22 +197,29 @@ export default function Index() {
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <InfoCard
-                        icon={UploadIcon}
-                        title='Dependency Updates'
-                        value={Object.values(data.updates || {}).reduce(
-                            (acc, curr) => acc + curr.length,
-                            0,
-                        )}
-                        href='/packages'
-                        graph={
-                            <ScrollArea h={'300px'}>
-                                {Object.entries(data.updates ?? {}).map(
-                                    ([workspace, json]) => {
-                                        return json.map((update) => {
-                                            return (
+                    <Suspense
+                        fallback={
+                            <InfoCard
+                                icon={UploadIcon}
+                                title='Dependency Updates'
+                                value={0}
+                                href='/packages'
+                                graph={<ScrollArea h={'300px'} />}
+                            />
+                        }
+                    >
+                        <Await resolve={updates}>
+                            {(updates) => (
+                                <InfoCard
+                                    icon={UploadIcon}
+                                    title='Dependency Updates'
+                                    value={updates.length}
+                                    href='/packages'
+                                    graph={
+                                        <ScrollArea h={'300px'}>
+                                            {updates.map((update) => (
                                                 <Item
-                                                    icon={CandyIcon}
+                                                    icon={PackagePlusIcon}
                                                     key={update.name}
                                                     title={
                                                         <Flex align={'center'}>
@@ -212,6 +229,7 @@ export default function Index() {
                                                             <Text
                                                                 size='sm'
                                                                 ml={'auto'}
+                                                                c={'dark'}
                                                             >
                                                                 {update.current}{' '}
                                                                 {' > '}
@@ -226,27 +244,29 @@ export default function Index() {
                                                                 c={'dark'}
                                                                 span
                                                             >
-                                                                {workspace}
+                                                                {
+                                                                    update.workspace
+                                                                }
                                                             </Text>
                                                         </Box>
                                                     }
                                                 />
-                                            );
-                                        });
-                                    },
-                                )}
-                            </ScrollArea>
-                        }
-                    />
+                                            ))}
+                                        </ScrollArea>
+                                    }
+                                />
+                            )}
+                        </Await>
+                    </Suspense>
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <InfoCard
                         icon={ShieldQuestionIcon}
                         title='Diagnostic Issues'
-                        value={data.diagnoses.length}
+                        value={diagnoses.length}
                         graph={
                             <ScrollArea h={'300px'}>
-                                {data.diagnoses.map((diagnose) => (
+                                {diagnoses.map((diagnose) => (
                                     <Item
                                         key={diagnose.description}
                                         icon={
