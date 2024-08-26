@@ -54,6 +54,7 @@ export const update: Scanner = (ctx) => {
                 description: `Dependency ${dep} can be updated to ${meta.version} in workspaces ${workspaces.join(
                     ', ',
                 )}`,
+                workspace: workspaces,
                 scope: 'dependencies',
             });
         }

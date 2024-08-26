@@ -195,10 +195,21 @@ export default function Index() {
                                                 {diagnose.title}
                                             </Text>
                                         </Flex>
-                                        <Text py={10} size='sm' c={'dark'}>
-                                            {diagnose.workspace ?? 'root'}[
-                                            {diagnose.scope}]
-                                        </Text>
+                                        <Box py={10}>
+                                            <Text
+                                                size='sm'
+                                                c={'dark'}
+                                                fw={500}
+                                                span
+                                            >
+                                                [{diagnose.scope}]{' '}
+                                            </Text>
+                                            <Text size='sm' c={'dark'} span>
+                                                {diagnose.workspace?.join(
+                                                    ', ',
+                                                ) ?? 'root'}
+                                            </Text>
+                                        </Box>
                                         <Divider />
                                     </Box>
                                 ))}

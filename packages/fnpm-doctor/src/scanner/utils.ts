@@ -10,7 +10,7 @@ export function getLevelColor(level: ScannerDiagnose['level']) {
 }
 
 export function writeToConsole(diagnose: ScannerDiagnose) {
-    const workspace = diagnose.workspace ?? 'root';
+    const workspace = diagnose.workspace ?? ['root'];
     const method =
         diagnose.level === 'error'
             ? console.error
@@ -19,7 +19,7 @@ export function writeToConsole(diagnose: ScannerDiagnose) {
               : console.log;
     const level = getLevelColor(diagnose.level)(diagnose.level.toUpperCase());
     method(
-        `${pc.cyan(workspace)}[${pc.dim(diagnose.scope)}]`,
+        `${pc.cyan(workspace.join(','))}[${pc.dim(diagnose.scope)}]`,
         pc.bold(level),
         pc.bold(diagnose.title),
     );

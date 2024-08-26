@@ -13,7 +13,7 @@ export interface ScannerDiagnose {
     title: string;
     description: string;
     docs?: string;
-    workspace?: string;
+    workspace?: string[];
     scope?: string;
 }
 

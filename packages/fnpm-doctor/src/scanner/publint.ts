@@ -33,7 +33,7 @@ export const publint: Scanner = (ctx) => {
                                     project.manifest,
                                 )!,
                                 docs: 'https://pub.dev/packages/publint',
-                                workspace: pkg.name,
+                                workspace: [pkg.name],
                                 scope: 'publishing',
                             });
                         }
