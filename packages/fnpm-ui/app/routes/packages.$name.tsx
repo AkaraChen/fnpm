@@ -170,8 +170,7 @@ const DepsMenuItemIcon: FC<DepsMenuItemIconProps> = (props) => {
 const DepsMenu: FC<DepsMenuProps> = (props) => {
     const { project, pm } = useContext(PageContext);
     const { name } = props;
-    // const { field, version } = getDep(project.manifest as PackageJson, name)!;
-    // console.log(field, version);
+    const { field, version } = getDep(project.manifest as PackageJson, name)!;
     const remove = useRun({
         cwd: project.rootDir,
         command: commands.remove
@@ -183,9 +182,23 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
             window.location.reload();
         },
     });
+    const move = useRun({
+        cwd: project.rootDir,
+        command: commands.add
+            .concat(pm, {
+                packages: [`${name}@${version}`],
+                saveProd: field === 'devDependencies',
+                saveDev: field === 'dependencies',
+            })
+            .join(' '),
+        onSuccess() {
+            window.location.reload();
+        },
+    });
     return (
         <>
             {remove.holder}
+            {move.holder}
             <Menu shadow='md' width={200}>
                 <Menu.Target>
                     <ActionIcon variant='default' aria-label='Settings'>
@@ -215,10 +228,13 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
 
                     <Menu.Label>Danger zone</Menu.Label>
                     <Menu.Item
-                        disabled
+                        disabled={pm === 'yarn'}
                         leftSection={
                             <DepsMenuItemIcon icon={IconArrowsLeftRight} />
                         }
+                        onClick={() => {
+                            move.start();
+                        }}
                     >
                         Move
                     </Menu.Item>

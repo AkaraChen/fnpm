@@ -8,6 +8,7 @@ export interface AddOptions extends InstallOptions {
     saveDev?: boolean;
     savePeer?: boolean;
     saveOptional?: boolean;
+    saveProd?: boolean;
     exact?: boolean;
     // yarn, pnpm
     global?: boolean;
@@ -23,10 +24,11 @@ export const add: Command<AddOptions> = {
             saveDev,
             savePeer,
             saveOptional,
+            saveProd,
             exact,
             global,
             fixed,
-            allowRoot,
+            allowRoot = true,
         } = options;
 
         const args: string[] = install.concat(pm, { fixed });
@@ -47,6 +49,14 @@ export const add: Command<AddOptions> = {
 
         if (saveOptional) {
             args.push('--save-optional');
+        }
+
+        if (saveProd) {
+            if (pm === 'yarn') {
+                args.push('--prod');
+            } else {
+                args.push('--save-prod');
+            }
         }
 
         if (exact) {
