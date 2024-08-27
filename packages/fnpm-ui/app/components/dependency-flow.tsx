@@ -1,7 +1,10 @@
 import type { Project } from '@pnpm/types';
 import {
     type Edge,
+    Handle,
     type Node,
+    type NodeProps,
+    Position,
     ReactFlow,
     ReactFlowProvider,
     useEdgesState,
@@ -11,6 +14,7 @@ import {
 import { type FC, useMemo } from 'react';
 import '@xyflow/react/dist/style.css';
 import Dagre from '@dagrejs/dagre';
+import { Card, Text } from '@mantine/core';
 import type { SerializeFrom } from '@remix-run/node';
 import { getDeps } from 'fnpm-toolkit';
 import type { PackageJson } from 'type-fest';
@@ -68,10 +72,11 @@ const getNodesAndEdges = (
     rootProject?: SerializeFrom<Project>,
 ) => {
     const nodes = projects.map((project) => ({
+        type: 'custom',
         id: project.manifest.name!,
         position: { x: 0, y: 0 },
         data: {
-            label: project.manifest.name!,
+            workspace: project.manifest.name!,
         },
     })) as Node[];
     const names = new Set(projects.map((p) => p.manifest.name!));
@@ -103,6 +108,18 @@ const getNodesAndEdges = (
     return { nodes, edges };
 };
 
+const CustomNode: FC<NodeProps<Node<{ workspace: string }>>> = ({ data }) => {
+    return (
+        <>
+            <Handle type='target' position={Position.Top} />
+            <Card shadow='sm' padding='lg' radius='md' withBorder>
+                <Text>{data.workspace}</Text>
+            </Card>
+            <Handle type='source' position={Position.Bottom} />
+        </>
+    );
+};
+
 const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
     const { projects, rootProject } = props;
     const { fitView } = useReactFlow();
@@ -129,6 +146,7 @@ const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
         <ReactFlow
             style={{ width: '100%', height: '100%' }}
             nodes={nodes}
+            nodeTypes={{ custom: CustomNode }}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
