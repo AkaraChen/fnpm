@@ -1,5 +1,4 @@
 import {
-    Alert,
     Box,
     Button,
     Card,
@@ -16,7 +15,6 @@ import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import {
     IconBiohazard,
     IconFileInfo,
-    IconInfoCircle,
     IconJumpRope,
     IconPackageExport,
     IconPackages,
@@ -233,43 +231,55 @@ export default function Index() {
                                     value={updates.length}
                                     href='/packages'
                                     graph={
-                                        <ScrollArea h={'300px'}>
-                                            {updates.map((update) => (
-                                                <CardItem
-                                                    icon={IconPackageExport}
-                                                    key={Math.random()}
-                                                    title={
-                                                        <Flex align={'center'}>
-                                                            <Text>
-                                                                {update.name}
-                                                            </Text>
-                                                            <Text
-                                                                size='sm'
-                                                                ml={'auto'}
-                                                                c={'dark'}
+                                        updates.length === 0 ? (
+                                            <AllClear />
+                                        ) : (
+                                            <ScrollArea h={'300px'}>
+                                                {updates.map((update) => (
+                                                    <CardItem
+                                                        icon={IconPackageExport}
+                                                        key={Math.random()}
+                                                        title={
+                                                            <Flex
+                                                                align={'center'}
                                                             >
-                                                                {update.current}{' '}
-                                                                {' > '}
-                                                                {update.latest}
-                                                            </Text>
-                                                        </Flex>
-                                                    }
-                                                    description={
-                                                        <Box>
-                                                            <Text
-                                                                size='sm'
-                                                                c={'dark'}
-                                                                span
-                                                            >
-                                                                {
-                                                                    update.workspace
-                                                                }
-                                                            </Text>
-                                                        </Box>
-                                                    }
-                                                />
-                                            ))}
-                                        </ScrollArea>
+                                                                <Text>
+                                                                    {
+                                                                        update.name
+                                                                    }
+                                                                </Text>
+                                                                <Text
+                                                                    size='sm'
+                                                                    ml={'auto'}
+                                                                    c={'dark'}
+                                                                >
+                                                                    {
+                                                                        update.current
+                                                                    }{' '}
+                                                                    {' > '}
+                                                                    {
+                                                                        update.latest
+                                                                    }
+                                                                </Text>
+                                                            </Flex>
+                                                        }
+                                                        description={
+                                                            <Box>
+                                                                <Text
+                                                                    size='sm'
+                                                                    c={'dark'}
+                                                                    span
+                                                                >
+                                                                    {
+                                                                        update.workspace
+                                                                    }
+                                                                </Text>
+                                                            </Box>
+                                                        }
+                                                    />
+                                                ))}
+                                            </ScrollArea>
+                                        )
                                     }
                                 />
                             )}
