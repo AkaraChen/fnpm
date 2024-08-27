@@ -10,7 +10,9 @@
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsup --watch"
     },
-    "keywords": ["fnpm"],
+    "keywords": [
+        "fnpm"
+    ],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -21,9 +23,9 @@
     "devDependencies": {
         "@types/yargs": "^17.0.33",
         "parse-package-name": "^1.0.0",
-        "tslib": "^2.6.3",
+        "tslib": "^2.7.0",
         "tsup": "^8.2.4",
-        "type-fest": "^4.24.0",
+        "type-fest": "^4.25.0",
         "typescript": "^5.5.4"
     },
     "dependencies": {

@@ -14,13 +14,13 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@9.7.1",
+    "packageManager": "pnpm@9.9.0",
     "devDependencies": {
         "@akrc/tsconfig": "^1.1.0",
         "@biomejs/biome": "^1.8.3",
-        "@types/node": "^22.3.0",
+        "@types/node": "^22.5.0",
         "bumpp": "^9.5.2",
-        "tsx": "^4.17.0",
+        "tsx": "^4.19.0",
         "vitest": "^2.0.5"
     },
     "pnpm": {
@@ -28,13 +28,13 @@
             "parse-package-name@1.0.0": "patches/parse-package-name@1.0.0.patch"
         },
         "overrides": {
-            "is-arguments": "npm:@nolyfill/is-arguments@^1",
-            "is-core-module": "npm:@nolyfill/is-core-module@^1",
-            "is-generator-function": "npm:@nolyfill/is-generator-function@^1",
-            "is-typed-array": "npm:@nolyfill/is-typed-array@^1",
-            "isarray": "npm:@nolyfill/isarray@^1",
-            "side-channel": "npm:@nolyfill/side-channel@^1",
-            "which-typed-array": "npm:@nolyfill/which-typed-array@^1"
+            "is-arguments": "npm:@nolyfill/is-arguments@^1.0.29",
+            "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39",
+            "is-generator-function": "npm:@nolyfill/is-generator-function@^1.0.29",
+            "is-typed-array": "npm:@nolyfill/is-typed-array@^1.0.29",
+            "isarray": "npm:@nolyfill/isarray@^1.0.29",
+            "side-channel": "npm:@nolyfill/side-channel@^1.0.29",
+            "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.29"
         }
     }
 }
