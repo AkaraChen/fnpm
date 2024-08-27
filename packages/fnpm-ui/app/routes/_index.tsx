@@ -1,4 +1,5 @@
 import {
+    Alert,
     Box,
     Button,
     Card,
@@ -15,6 +16,7 @@ import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import {
     IconBiohazard,
     IconFileInfo,
+    IconInfoCircle,
     IconJumpRope,
     IconPackageExport,
     IconPackages,
@@ -30,6 +32,7 @@ import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
+import { AllClear } from '~/components/result';
 import { root } from '~/server/config.server';
 import { resolveContext, scan, update } from '../server/fnpm.server';
 
@@ -279,38 +282,47 @@ export default function Index() {
                         title='Diagnostic Issues'
                         value={diagnoses.length}
                         graph={
-                            <ScrollArea h={'300px'}>
-                                {diagnoses.map((diagnose) => (
-                                    <CardItem
-                                        key={diagnose.description}
-                                        icon={
-                                            diagnose.level === 'error'
-                                                ? IconBiohazard
-                                                : diagnose.level === 'warning'
-                                                  ? IconZoomExclamation
-                                                  : IconFileInfo
-                                        }
-                                        title={diagnose.title}
-                                        description={
-                                            <>
-                                                <Text
-                                                    size='sm'
-                                                    c={'dark'}
-                                                    fw={500}
-                                                    span
-                                                >
-                                                    [{diagnose.scope}]{' '}
-                                                </Text>
-                                                <Text size='sm' c={'dark'} span>
-                                                    {diagnose.workspace?.join(
-                                                        ', ',
-                                                    ) ?? 'root'}
-                                                </Text>
-                                            </>
-                                        }
-                                    />
-                                ))}
-                            </ScrollArea>
+                            diagnoses.length === 0 ? (
+                                <AllClear />
+                            ) : (
+                                <ScrollArea h={'300px'}>
+                                    {diagnoses.map((diagnose) => (
+                                        <CardItem
+                                            key={diagnose.description}
+                                            icon={
+                                                diagnose.level === 'error'
+                                                    ? IconBiohazard
+                                                    : diagnose.level ===
+                                                        'warning'
+                                                      ? IconZoomExclamation
+                                                      : IconFileInfo
+                                            }
+                                            title={diagnose.title}
+                                            description={
+                                                <>
+                                                    <Text
+                                                        size='sm'
+                                                        c={'dark'}
+                                                        fw={500}
+                                                        span
+                                                    >
+                                                        [{diagnose.scope}]{' '}
+                                                    </Text>
+                                                    <Text
+                                                        size='sm'
+                                                        c={'dark'}
+                                                        span
+                                                    >
+                                                        {diagnose.workspace?.join(
+                                                            ', ',
+                                                        ) ?? 'root'}
+                                                    </Text>
+                                                </>
+                                            }
+                                        />
+                                    ))}
+                                </ScrollArea>
+                            )
                         }
                         href='/packages'
                     />
