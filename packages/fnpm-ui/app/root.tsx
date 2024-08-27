@@ -15,12 +15,15 @@ import {
 } from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
 import '@fontsource-variable/inter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
 });
 
 export function Layout({ children }: { children: React.ReactNode }) {
+    const client = useMemo(() => new QueryClient(), []);
     return (
         <html lang='en'>
             <head>
@@ -35,14 +38,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <MantineProvider theme={theme}>
-                    <Flex style={{ overflowY: 'hidden' }}>
-                        <Box w={'300px'}>
-                            <Navbar />
-                        </Box>
-                        <Box w={'100%'} h={'100vh'} p={16}>
-                            {children}
-                        </Box>
-                    </Flex>
+                    <QueryClientProvider client={client}>
+                        <Flex style={{ overflowY: 'hidden' }}>
+                            <Box w={'300px'}>
+                                <Navbar />
+                            </Box>
+                            <Box w={'100%'} h={'100vh'} p={16}>
+                                {children}
+                            </Box>
+                        </Flex>
+                    </QueryClientProvider>
                 </MantineProvider>
                 <ScrollRestoration />
                 <Scripts />

@@ -7,6 +7,7 @@ import {
     Grid,
     Group,
     ScrollArea,
+    Skeleton,
     Text,
 } from '@mantine/core';
 import type { MetaFunction } from '@remix-run/node';
@@ -22,7 +23,7 @@ import {
     IconZoomExclamation,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { getDeps } from "fnpm-toolkit";
+import { getDeps } from 'fnpm-toolkit';
 import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
@@ -47,8 +48,8 @@ interface InfoCardProps {
 const InfoCard: FC<InfoCardProps> = (props) => {
     const { icon: Icon, title, value, href, graph } = props;
     return (
-        <Card shadow='sm' padding='lg' radius='md' withBorder>
-            <Group mb='xs'>
+        <Card padding='lg' radius='md' withBorder>
+            <Group mb='xs' gap={8}>
                 <Icon size={24} />
                 <Text fw={500} size={'lg'}>
                     {title}
@@ -213,7 +214,11 @@ export default function Index() {
                                 title='Dependency Updates'
                                 value={0}
                                 href='/packages'
-                                graph={<ScrollArea h={'300px'} />}
+                                graph={
+                                    <ScrollArea h={'300px'}>
+                                        <Skeleton height={'300px'} w={'100%'} />
+                                    </ScrollArea>
+                                }
                             />
                         }
                     >

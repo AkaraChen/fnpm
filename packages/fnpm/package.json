@@ -15,11 +15,12 @@
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/akarachen/fnpm"
+        "url": "git+https://github.com/akarachen/fnpm.git"
     },
     "license": "ISC",
     "devDependencies": {
         "@types/yargs": "^17.0.33",
+        "parse-package-name": "^1.0.0",
         "tslib": "^2.6.3",
         "tsup": "^8.2.4",
         "type-fest": "^4.24.0",
@@ -33,7 +34,6 @@
         "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
         "load-json-file": "^7.0.1",
-        "npm-package-arg": "^11.0.3",
         "package-up": "^5.0.0",
         "pm-combo": "workspace:*",
         "yargs": "^17.7.2"

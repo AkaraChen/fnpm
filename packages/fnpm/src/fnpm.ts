@@ -14,8 +14,8 @@ import {
     exec,
     getContext,
     noop,
+    normalizePackageVersion,
     readPackageJson,
-    standardizeVersion,
 } from './util';
 
 const ctx = await getContext(process.cwd());
@@ -124,7 +124,7 @@ await yargs(ctx.args)
                 error('No package specified');
             }
             const command = commands.dlx.concat(ctx.pm, {
-                package: standardizeVersion(pkg!),
+                package: normalizePackageVersion(pkg!),
                 args: rest,
             });
             consola.info(`Running ${command}`);
@@ -193,7 +193,7 @@ await yargs(ctx.args)
                 error('No package name specified');
             }
             const shell = commands.create.concat(ctx.pm, {
-                name: standardizeVersion(name!),
+                name: normalizePackageVersion(name!),
                 args: argv,
             });
             await exec(shell);

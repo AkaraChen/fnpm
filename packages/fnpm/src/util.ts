@@ -4,8 +4,8 @@ import { detectPMByLock } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { execa } from 'execa';
 import { loadJsonFile } from 'load-json-file';
-import npa from 'npm-package-arg';
 import { packageUp } from 'package-up';
+import { parse as parsePackageName } from 'parse-package-name';
 import type { PackageJson } from 'type-fest';
 import { hideBin } from 'yargs/helpers';
 
@@ -67,9 +67,9 @@ export async function readPackageJson(cwd: string) {
     return pkg;
 }
 
-export function standardizeVersion(input: string) {
-    const parsed = npa(input);
-    return parsed.type ? input : `${input}@latest`;
+export function normalizePackageVersion(input: string) {
+    const parsed = parsePackageName(input);
+    return parsed.version ? input : `${input}@latest`;
 }
 
 export function noop() {}

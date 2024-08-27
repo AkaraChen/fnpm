@@ -30,7 +30,7 @@
         }
     },
     "dependencies": {
-        "npm-package-arg": "^11.0.3"
+        "parse-package-name": "^1.0.0"
     },
     "publishConfig": {
         "access": "public"

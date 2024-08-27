@@ -12,7 +12,7 @@ import { type FC, useMemo } from 'react';
 import '@xyflow/react/dist/style.css';
 import Dagre from '@dagrejs/dagre';
 import type { SerializeFrom } from '@remix-run/node';
-import { getDeps } from "fnpm-toolkit";
+import { getDeps } from 'fnpm-toolkit';
 import type { PackageJson } from 'type-fest';
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 

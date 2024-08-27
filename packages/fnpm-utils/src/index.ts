@@ -7,6 +7,8 @@ const depsFields = [
     'optionalDependencies',
 ] as const;
 
+export type DepsField = (typeof depsFields)[number];
+
 export function getDeps(pkg: PackageJson) {
     return [
         ...new Set(
