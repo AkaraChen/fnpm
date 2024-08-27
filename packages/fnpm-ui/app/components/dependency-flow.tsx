@@ -19,6 +19,7 @@ import type { SerializeFrom } from '@remix-run/node';
 import { getDeps } from 'fnpm-toolkit';
 import type { PackageJson } from 'type-fest';
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
+import { useNavigate } from '@remix-run/react';
 
 export interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
@@ -109,10 +110,14 @@ const getNodesAndEdges = (
 };
 
 const CustomNode: FC<NodeProps<Node<{ workspace: string }>>> = ({ data }) => {
+    const navigate = useNavigate();
     return (
         <>
             <Handle type='target' position={Position.Top} />
-            <Card shadow='sm' padding='lg' radius='md' withBorder>
+            <Card shadow='sm' padding='lg' radius='md' withBorder onClick={() => {
+                const url = `/packages/${encodeURIComponent(data.workspace)}`;
+                navigate(url);
+            }}>
                 <Text>{data.workspace}</Text>
             </Card>
             <Handle type='source' position={Position.Bottom} />
