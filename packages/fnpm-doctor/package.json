@@ -30,7 +30,8 @@
         "picocolors": "^1.0.1",
         "publint": "^0.2.10",
         "read-pkg": "^9.0.1",
-        "try-files": "^1.1.0"
+        "try-files": "^1.1.0",
+        "pkg-dir": "^8.0.0"
     },
     "type": "module",
     "main": "./dist/index.cjs",

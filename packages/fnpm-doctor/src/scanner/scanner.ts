@@ -3,8 +3,9 @@ import type { Effect } from 'effect';
 export type Scanner = (ctx: ScannerContext) => Effect.Effect<void>;
 
 import fs, { promises as fsp } from 'node:fs';
-import * as mt from '@akrc/monorepo-tools';
+import type * as mt from '@akrc/monorepo-tools';
 import path from 'pathe';
+import { resolveContext } from '../context';
 
 export type ScannerDiagnoseLevel = 'error' | 'warning' | 'info';
 
@@ -35,15 +36,16 @@ export class ScannerContextImpl implements ScannerContext {
     pm!: mt.PM;
     projects!: Awaited<ReturnType<typeof mt.scanProjects>>;
     root!: string;
+    isMonoRepo!: boolean;
 
     constructor(public cwd: string) {}
 
     async init() {
-        this.root = await mt.findRepoRoot(this.cwd);
-        this.pm = mt
-            .detectPMByLock(this.root)
-            .expect('Could not determine package manager');
-        this.projects = await mt.scanProjects(this.root, this.pm);
+        const rawContext = await resolveContext(this.cwd);
+        this.root = rawContext.root;
+        this.pm = rawContext.pm;
+        this.projects = rawContext.projects;
+        this.isMonoRepo = rawContext.isMonoRepo;
     }
 
     report(...diagnoses: ScannerDiagnose[]) {

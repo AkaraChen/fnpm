@@ -28,7 +28,7 @@ export const add: Command<AddOptions> = {
             exact,
             global,
             fixed,
-            allowRoot = true,
+            allowRoot,
         } = options;
 
         const args: string[] = install.concat(pm, { fixed });
