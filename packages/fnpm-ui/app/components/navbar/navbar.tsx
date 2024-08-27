@@ -1,4 +1,4 @@
-import { Code, Group } from '@mantine/core';
+import { Box, Code, Flex, Group, Stack, Text, rem } from '@mantine/core';
 import { NavLink } from '@remix-run/react';
 import { IconDashboard, IconMap, IconPackage } from '@tabler/icons-react';
 import pkg from 'package.json';
@@ -15,21 +15,36 @@ export function Navbar() {
         const Icon = item.icon;
         return (
             <NavLink className={classes.link} to={item.link} key={item.label}>
-                <Icon className={classes.linkIcon} stroke={1.5} />
-                <span>{item.label}</span>
+                <Flex align={'center'} px={'xs'} py={'sm'}>
+                    <Icon
+                        className={classes.linkIcon}
+                        stroke={1.5}
+                        style={{
+                            width: rem(25),
+                            height: rem(25),
+                        }}
+                    />
+                    <Text size='sm' span fw={500} ml={'sm'}>
+                        {item.label}
+                    </Text>
+                </Flex>
             </NavLink>
         );
     });
 
     return (
-        <nav className={classes.navbar}>
-            <div className={classes.navbarMain}>
-                <Group className={classes.header} justify='space-between'>
+        <Stack className={classes.navbar} h={'100vh'} w={rem(300)}>
+            <Box flex={1}>
+                <Group
+                    className={classes.header}
+                    justify='space-between'
+                    p={'md'}
+                >
                     <div className='text-lg font-semibold'>fnpm UI</div>
                     <Code>{pkg.version}</Code>
                 </Group>
-                <div className={classes.links}>{links}</div>
-            </div>
-        </nav>
+                <Box p={'md'}>{links}</Box>
+            </Box>
+        </Stack>
     );
 }

@@ -199,7 +199,7 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                     </ActionIcon>
                 </Menu.Target>
 
-                <Menu.Dropdown aria-modal>
+                <Menu.Dropdown>
                     <Menu.Label>Package</Menu.Label>
                     <Menu.Item
                         leftSection={<DepsMenuItemIcon icon={IconBrandNpm} />}
