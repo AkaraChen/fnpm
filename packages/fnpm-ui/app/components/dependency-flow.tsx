@@ -24,6 +24,7 @@ import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 export interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
     rootProject?: SerializeFrom<Project>;
+    isMonoRepo: boolean;
 }
 
 function intersection<T>(a: Set<T>, b: Set<T>): Set<T> {
@@ -70,6 +71,7 @@ const getLayoutedElements = (
 
 const getNodesAndEdges = (
     projects: Array<SerializeFrom<Project>>,
+    isMonoRepo: boolean,
     rootProject?: SerializeFrom<Project>,
 ) => {
     const nodes = projects.map((project) => ({
@@ -81,22 +83,24 @@ const getNodesAndEdges = (
         },
     })) as Node[];
     const names = new Set(projects.map((p) => p.manifest.name!));
-    const edges = projects.reduce((prev, curr) => {
-        const deps: Set<string> = new Set(
-            getDeps(curr.manifest as PackageJson),
-        );
-        const localDeps = [...intersection(names, deps)];
-        for (const localDep of localDeps) {
-            prev.push({
-                id: `${curr.manifest.name!}-${localDep}`,
-                source: curr.manifest.name!,
-                target: localDep,
-                animated: true,
-            });
-        }
-        return prev;
-    }, [] as Edge[]);
-    if (rootProject) {
+    const edges = isMonoRepo
+        ? projects.reduce((prev, curr) => {
+              const deps: Set<string> = new Set(
+                  getDeps(curr.manifest as PackageJson),
+              );
+              const localDeps = [...intersection(names, deps)];
+              for (const localDep of localDeps) {
+                  prev.push({
+                      id: `${curr.manifest.name!}-${localDep}`,
+                      source: curr.manifest.name!,
+                      target: localDep,
+                      animated: true,
+                  });
+              }
+              return prev;
+          }, [] as Edge[])
+        : [];
+    if (rootProject && isMonoRepo) {
         for (const project of projects) {
             edges.push({
                 id: `${rootProject.manifest.name!}-${project.manifest.name!}`,
@@ -132,11 +136,11 @@ const CustomNode: FC<NodeProps<Node<{ workspace: string }>>> = ({ data }) => {
 };
 
 const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
-    const { projects, rootProject } = props;
+    const { projects, rootProject, isMonoRepo } = props;
     const { fitView } = useReactFlow();
     const initial = useMemo(
-        () => getNodesAndEdges(projects, rootProject),
-        [projects, rootProject],
+        () => getNodesAndEdges(projects, isMonoRepo, rootProject),
+        [projects, rootProject, isMonoRepo],
     );
     const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges);

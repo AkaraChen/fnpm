@@ -7,10 +7,11 @@ import { root } from '~/server/config.server';
 import { resolveContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const { projects, rootProject } = await resolveContext(root);
+    const { projects, rootProject, isMonoRepo } = await resolveContext(root);
     return {
         projects,
         rootProject,
+        isMonoRepo,
     };
 }
 

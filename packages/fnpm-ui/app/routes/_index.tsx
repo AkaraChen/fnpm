@@ -106,6 +106,7 @@ export async function loader() {
         diagnoses,
         updates,
         rootProject: context.rootProject,
+        isMonoRepo: context.isMonoRepo,
     });
 }
 
@@ -161,7 +162,7 @@ const CardItem: FC<CardItemProps> = (props) => {
 };
 
 export default function Index() {
-    const { depsGraph, projects, diagnoses, updates, rootProject } =
+    const { depsGraph, projects, diagnoses, updates, rootProject, isMonoRepo } =
         useLoaderData<typeof loader>();
     return (
         <BasePage>
@@ -177,6 +178,7 @@ export default function Index() {
                             <DependencyFlow
                                 projects={projects}
                                 rootProject={rootProject}
+                                isMonoRepo={isMonoRepo}
                             />
                         }
                     />
