@@ -4,26 +4,23 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "build": "tsup",
-        "dev": "tsup --watch",
+        "build": "rslib build",
+        "dev": "rslib build --watch",
         "test": "vitest run"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "tslib": "^2.7.0",
-        "tsup": "^8.2.4",
-        "type-fest": "^4.25.0",
-        "typescript": "^5.5.4"
+        "type-fest": "^4.25.0"
     },
-    "types": "./dist/index.d.ts",
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.js",
+    "types": "./dist/esm/index.d.ts",
+    "main": "./dist/cjs/index.cjs",
+    "module": "./dist/esm/index.js",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
+            "types": "./dist/esm/index.d.ts",
+            "import": "./dist/esm/index.js"
         }
     },
     "publishConfig": {
