@@ -7,6 +7,8 @@ export interface RunBody {
     cwd: string;
 }
 
+export type RunEventName = 'start' | 'stdout' | 'end';
+
 export async function action(args: ActionFunctionArgs) {
     const body: RunBody = await args.request.json();
     const exec = execa(body.command, {
@@ -18,6 +20,10 @@ export async function action(args: ActionFunctionArgs) {
         all: true,
     });
     return eventStream(args.request.signal, function setup(send) {
+        send({
+            event: 'start',
+            data: `Running command: ${body.command}`,
+        });
         async function fn() {
             for await (const chunk of exec) {
                 send({

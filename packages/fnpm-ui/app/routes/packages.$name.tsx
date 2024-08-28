@@ -156,46 +156,40 @@ const PublishField: FC = () => {
     );
 };
 
-const ScriptItem: FC<{ name: string }> = ({ name }) => {
+const Scripts: FC = () => {
     const { project, pm } = useContext(PageContext);
     const run = useRun({
-        command: commands.run
-            .concat(pm, {
-                script: name,
-            })
-            .join(' '),
         cwd: project.rootDir,
     });
     return (
-        <>
-            {run.holder}
-            <ActionIcon
-                variant='default'
-                aria-label='Run'
-                onClick={() => {
-                    run.start();
-                }}
-            >
-                <IconPlayerPlay
-                    style={{ width: '70%', height: '70%' }}
-                    stroke={1.5}
-                />
-            </ActionIcon>
-        </>
-    );
-};
-
-const Scripts: FC = () => {
-    const { project } = useContext(PageContext);
-    return (
         <SimpleGrid cols={2}>
+            {run.holder}
             {Object.entries(project.manifest.scripts || {}).map(
                 ([key, value]) => (
                     <CardItem
                         key={key}
                         label={key}
                         content={value}
-                        extra={<ScriptItem name={key} />}
+                        extra={
+                            <ActionIcon
+                                variant='default'
+                                aria-label='Run'
+                                onClick={() => {
+                                    run.start({
+                                        command: commands.run
+                                            .concat(pm, {
+                                                script: key,
+                                            })
+                                            .join(' '),
+                                    });
+                                }}
+                            >
+                                <IconPlayerPlay
+                                    style={{ width: '70%', height: '70%' }}
+                                    stroke={1.5}
+                                />
+                            </ActionIcon>
+                        }
                     />
                 ),
             )}
@@ -232,34 +226,15 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
     const { project, pm } = useContext(PageContext);
     const { name } = props;
     const { field, version } = getDep(project.manifest as PackageJson, name)!;
-    const remove = useRun({
+    const run = useRun({
         cwd: project.rootDir,
-        command: commands.remove
-            .concat(pm, {
-                packages: [name],
-            })
-            .join(' '),
-        onSuccess() {
-            window.location.reload();
-        },
-    });
-    const move = useRun({
-        cwd: project.rootDir,
-        command: commands.add
-            .concat(pm, {
-                packages: [`${name}@${version}`],
-                saveProd: field === 'devDependencies',
-                saveDev: field === 'dependencies',
-            })
-            .join(' '),
         onSuccess() {
             window.location.reload();
         },
     });
     return (
         <>
-            {remove.holder}
-            {move.holder}
+            {run.holder}
             <Menu shadow='md' width={200}>
                 <Menu.Target>
                     <ActionIcon variant='default' aria-label='Settings'>
@@ -294,7 +269,15 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                             <DepsMenuItemIcon icon={IconArrowsLeftRight} />
                         }
                         onClick={() => {
-                            move.start();
+                            run.start({
+                                command: commands.add
+                                    .concat(pm, {
+                                        packages: [`${name}@${version}`],
+                                        saveProd: field === 'devDependencies',
+                                        saveDev: field === 'dependencies',
+                                    })
+                                    .join(' '),
+                            });
                         }}
                     >
                         Move
@@ -303,7 +286,13 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                         color='red'
                         leftSection={<DepsMenuItemIcon icon={IconTrash} />}
                         onClick={() => {
-                            remove.start();
+                            run.start({
+                                command: commands.remove
+                                    .concat(pm, {
+                                        packages: [name],
+                                    })
+                                    .join(' '),
+                            });
                         }}
                     >
                         Uninstall

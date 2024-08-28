@@ -10,16 +10,23 @@ import santize from 'sanitize-html';
 const conv = new AnsiConv();
 
 export interface RunOptions {
-    command: string;
-    cwd: string;
+    command?: string;
+    cwd?: string;
+}
+
+export interface RunProps extends RunOptions {
     onSuccess?: () => void;
 }
 
-export const useRun = (props: RunOptions) => {
-    const { command, cwd, onSuccess } = props;
+export const useRun = (props: RunProps) => {
+    const { onSuccess, ...rest } = props;
     const [logs, setLogs] = useState<string[]>([]);
     const run = useMutation({
-        async mutationFn() {
+        async mutationFn(opts: RunOptions) {
+            const { command, cwd } = opts;
+            if (!command || !cwd) {
+                throw new Error('command and cwd are required');
+            }
             return await fetchEventSource('/run', {
                 openWhenHidden: true,
                 method: 'POST',
@@ -36,9 +43,12 @@ export const useRun = (props: RunOptions) => {
             });
         },
     });
-    const start = () => {
+    const start = (options?: RunOptions) => {
         open();
-        run.mutate();
+        run.mutate({
+            ...rest,
+            ...options,
+        });
     };
     const onClose = () => {
         close();

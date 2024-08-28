@@ -13,12 +13,12 @@ import {
 import type { MetaFunction } from '@remix-run/node';
 import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import {
+    IconAlertTriangle,
     IconBiohazard,
-    IconFileInfo,
+    IconCircleDashedCheck,
     IconJumpRope,
     IconPackageExport,
     IconPackages,
-    IconShieldQuestion,
     IconUpload,
     IconZoomExclamation,
     type TablerIcon,
@@ -106,7 +106,6 @@ export async function loader() {
         diagnoses,
         updates,
         rootProject: context.rootProject,
-        isMonoRepo: context.isMonoRepo,
     });
 }
 
@@ -162,7 +161,7 @@ const CardItem: FC<CardItemProps> = (props) => {
 };
 
 export default function Index() {
-    const { depsGraph, projects, diagnoses, updates, rootProject, isMonoRepo } =
+    const { depsGraph, projects, diagnoses, updates, rootProject } =
         useLoaderData<typeof loader>();
     return (
         <BasePage>
@@ -178,7 +177,6 @@ export default function Index() {
                             <DependencyFlow
                                 projects={projects}
                                 rootProject={rootProject}
-                                isMonoRepo={isMonoRepo}
                             />
                         }
                     />
@@ -290,7 +288,7 @@ export default function Index() {
                 </Grid.Col>
                 <Grid.Col span={3}>
                     <InfoCard
-                        icon={IconShieldQuestion}
+                        icon={IconZoomExclamation}
                         title='Diagnostic Issues'
                         value={diagnoses.length}
                         graph={
@@ -306,8 +304,8 @@ export default function Index() {
                                                     ? IconBiohazard
                                                     : diagnose.level ===
                                                         'warning'
-                                                      ? IconZoomExclamation
-                                                      : IconFileInfo
+                                                      ? IconAlertTriangle
+                                                      : IconCircleDashedCheck
                                             }
                                             title={diagnose.title}
                                             description={
