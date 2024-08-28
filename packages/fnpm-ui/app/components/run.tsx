@@ -2,8 +2,12 @@ import { Modal, Paper, ScrollArea, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '@fontsource/space-mono';
+import AnsiConv from 'ansi-to-html';
+import santize from 'sanitize-html';
+
+const conv = new AnsiConv();
 
 export interface RunOptions {
     command: string;
@@ -43,6 +47,10 @@ export const useRun = (props: RunOptions) => {
         onSuccess?.();
     };
     const [opened, { open, close }] = useDisclosure(false);
+    const endRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    });
     const holder = (
         <Modal
             opened={opened}
@@ -53,13 +61,32 @@ export const useRun = (props: RunOptions) => {
             aria-modal
         >
             <Paper radius={4} style={{ overflow: 'hidden' }}>
-                <Stack bg={'#000'} p={20} ff={'Space Mono'} gap={4}>
-                    {logs.map((log) => (
-                        <Text key={Math.random()} c={'white'}>
-                            {log}
-                        </Text>
-                    ))}
-                </Stack>
+                <ScrollArea>
+                    <Stack bg={'#000'} p={20} ff={'Space Mono'} gap={4}>
+                        {logs.map((log) => (
+                            <Text
+                                key={Math.random()}
+                                c={'white'}
+                                // biome-ignore lint/security/noDangerouslySetInnerHtml: santized, so is ok.
+                                dangerouslySetInnerHTML={{
+                                    __html: santize(conv.toHtml(log), {
+                                        allowedTags: [
+                                            'span',
+                                            'b',
+                                            'i',
+                                            'u',
+                                            'br',
+                                            'strike',
+                                        ],
+                                        allowedAttributes: { span: ['style'] },
+                                    }),
+                                }}
+                                maw={'calc(768px - 40px)'}
+                            />
+                        ))}
+                        <div ref={endRef} />
+                    </Stack>
+                </ScrollArea>
             </Paper>
         </Modal>
     );
