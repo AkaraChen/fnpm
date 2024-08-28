@@ -40,7 +40,7 @@ export class ScannerContextImpl implements ScannerContext {
 
     constructor(public cwd: string) {}
 
-    async init() {
+    async init(): Promise<void> {
         const rawContext = await resolveContext(this.cwd);
         this.root = rawContext.root;
         this.pm = rawContext.pm;
@@ -48,19 +48,19 @@ export class ScannerContextImpl implements ScannerContext {
         this.isMonoRepo = rawContext.isMonoRepo;
     }
 
-    report(...diagnoses: ScannerDiagnose[]) {
+    report(...diagnoses: ScannerDiagnose[]): void {
         this.diagnoses.push(...diagnoses);
     }
-    resolve(filePath: string) {
+    resolve(filePath: string): string {
         return path.resolve(this.root, filePath);
     }
-    exists(filePath: string) {
+    exists(filePath: string): boolean {
         return fs.existsSync(filePath);
     }
-    async file(filePath: string) {
+    async file(filePath: string): Promise<string> {
         return fsp.readFile(filePath, 'utf-8');
     }
-    async json<T>(jsonPath: string) {
+    async json<T>(jsonPath: string): Promise<T> {
         return JSON.parse(await this.file(jsonPath)) as T;
     }
 }

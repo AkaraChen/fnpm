@@ -9,7 +9,7 @@ const depsFields = [
 
 export type DepsField = (typeof depsFields)[number];
 
-export function getDeps(pkg: PackageJson) {
+export function getDeps(pkg: PackageJson): string[] {
     return [
         ...new Set(
             depsFields.flatMap((field) => Object.keys(pkg[field] ?? {})),
@@ -17,7 +17,13 @@ export function getDeps(pkg: PackageJson) {
     ];
 }
 
-export function getDep(pkg: PackageJson, dep: string) {
+export function getDep(
+    pkg: PackageJson,
+    dep: string,
+): {
+    field: DepsField;
+    version: string;
+} | null {
     for (const field of depsFields) {
         if (pkg[field]?.[dep]) {
             return {
@@ -29,30 +35,33 @@ export function getDep(pkg: PackageJson, dep: string) {
     return null;
 }
 
-export function hasExports(pkg: PackageJson) {
+export function hasExports(pkg: PackageJson): boolean {
     return !!(pkg.exports || pkg.main || pkg.main);
 }
 
-export function hasBin(pkg: PackageJson) {
+export function hasBin(pkg: PackageJson): boolean {
     return !!pkg.bin;
 }
 
-export function getBin(pkg: PackageJson) {
+export function getBin(pkg: PackageJson): Array<{
+    name: string;
+    path: string;
+}> {
     if (typeof pkg.bin === 'object') {
         return Object.entries(pkg.bin).map(([name, path]) => ({
             name,
-            path,
+            path: path!,
         }));
     }
-    return [{ name: pkg.name, path: pkg.bin }];
+    return [{ name: pkg.name!, path: pkg.bin! }];
 }
 
-export function hasTypes(pkg: PackageJson) {
+export function hasTypes(pkg: PackageJson): boolean {
     const exportsHasType = JSON.stringify(pkg.exports)?.includes('.d.ts');
     return !!(pkg.types || pkg.typesVersions || pkg.typings) || exportsHasType;
 }
 
-export function getRepository(pkg: PackageJson) {
+export function getRepository(pkg: PackageJson): string | undefined {
     const field =
         typeof pkg.repository === 'object'
             ? pkg.repository.url

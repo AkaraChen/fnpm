@@ -1,3 +1,9 @@
 {
-    "extends": "@akrc/tsconfig/node.json"
+    "extends": "@akrc/tsconfig/node.json",
+    "compilerOptions": {
+        "allowJs": false,
+        "declaration": true,
+        "isolatedDeclarations": true
+    },
+    "include": ["${configDir}/src"]
 }

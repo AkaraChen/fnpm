@@ -25,7 +25,7 @@ const pmNames = ['npm', 'yarn', 'pnpm'];
 export async function transformInfo(
     updates: Record<string, string>,
     root: string,
-) {
+): Promise<UpdateManifest[]> {
     const result: UpdateManifest[] = [];
     const info = updates as Record<string, string>;
     const pkg = await readPackage({ cwd: root });
@@ -40,7 +40,9 @@ export async function transformInfo(
     return result;
 }
 
-export const update = async (ctx: RawContext) => {
+export const update = async (
+    ctx: RawContext,
+): Promise<Record<string, UpdateManifest[]>> => {
     const updates = await run({
         workspaces: ctx.isMonoRepo,
         cwd: ctx.root,

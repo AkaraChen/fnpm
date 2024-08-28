@@ -7,8 +7,19 @@ import { type InstallOptions, install } from './install';
 import { type RemoveOptions, remove } from './remove';
 import { type RunOptions, run } from './run';
 import { type TestOptions, test } from './test';
+import type { Command } from './type';
 
-export const commands = {
+export const commands: {
+    add: Command<AddOptions>;
+    dlx: Command<DlxOptions>;
+    remove: Command<RemoveOptions>;
+    init: Command<InitOptions>;
+    install: Command<InstallOptions>;
+    exec: Command<ExecOptions>;
+    run: Command<RunOptions>;
+    test: Command<TestOptions>;
+    create: Command<CreateOptions>;
+} = {
     add,
     dlx,
     remove,
