@@ -23,7 +23,6 @@
         "@tanstack/react-query": "^5.52.2",
         "@xyflow/react": "^12.1.1",
         "ansi-to-html": "^0.7.2",
-        "consola": "^3.2.3",
         "execa": "^9.3.1",
         "fnpm-doctor": "workspace:*",
         "fnpm-toolkit": "workspace:*",
@@ -55,7 +54,7 @@
     "engines": {
         "node": ">=20.0.0"
     },
-    "files": ["./build", "./start.d.ts", "./start.mjs"],
+    "files": ["build", "start.d.ts", "start.mjs"],
     "exports": {
         ".": {
             "types": "./start.d.ts",

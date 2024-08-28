@@ -1,5 +1,6 @@
 import {
     ActionIcon,
+    Anchor,
     Box,
     Card,
     Flex,
@@ -22,7 +23,14 @@ import {
     type TablerIcon,
 } from '@tabler/icons-react';
 import { resolveContext } from 'fnpm-doctor';
-import { getDep } from 'fnpm-toolkit';
+import {
+    getBin,
+    getDep,
+    getRepository,
+    hasBin,
+    hasExports,
+    hasTypes,
+} from 'fnpm-toolkit';
 import { commands } from 'pm-combo';
 import { type FC, type ReactNode, createContext, useContext } from 'react';
 import type { PackageJson } from 'type-fest';
@@ -64,33 +72,86 @@ const CardItem: FC<CardItemProps> = ({ label, content, extra }) => {
 };
 
 const PublishField: FC = () => {
-    const { project } = useContext(PageContext);
+    const { project, pm } = useContext(PageContext);
+    const json = project.manifest as PackageJson;
+    const pkgSize = useRun({
+        cwd: project.rootDir,
+        command: commands.dlx
+            .concat(pm, {
+                package: 'pkg-size',
+            })
+            .join(' '),
+    });
     return (
         <SimpleGrid cols={2}>
-            <CardItem label='Version' content={project.manifest.version!} />
-            <CardItem
-                label='Type'
-                // @ts-ignore
-                content={project.manifest.type || 'commonjs'}
-            />
+            {pkgSize.holder}
+            <CardItem label='Version' content={json.version!} />
+            <CardItem label='Type' content={json.type || 'commonjs'} />
             <CardItem
                 label='Has export'
-                content={
-                    project.manifest.exports
-                        ? 'Yes'
-                        : project.manifest.module
-                          ? 'Yes'
-                          : project.manifest.main
-                            ? 'Yes'
-                            : 'No'
-                }
+                content={hasExports(json) ? 'Yes' : 'No'}
             />
+            {hasBin(json) && (
+                <CardItem
+                    label='Bin'
+                    content={getBin(json)
+                        .map((b) => b.name)
+                        .join(', ')}
+                />
+            )}
+            {hasExports(json) && (
+                <CardItem
+                    label='Has Type'
+                    content={hasTypes(json) ? 'Yes' : 'No'}
+                />
+            )}
             <CardItem
                 label='Dependencies'
-                content={
-                    Object.keys(project.manifest.dependencies || {}).length
-                }
+                content={Object.keys(json.dependencies || {}).length}
             />
+            {json.repository && (
+                <CardItem
+                    label='Repository'
+                    content={
+                        <Anchor
+                            href={getRepository(json)}
+                            target='_blank'
+                            size='sm'
+                        >
+                            Open
+                        </Anchor>
+                    }
+                />
+            )}
+            {!json.private && (
+                <CardItem
+                    label='npm'
+                    content={
+                        <Anchor
+                            href={new URL(json.name!, 'https://npm.im').href}
+                            target='_blank'
+                            size='sm'
+                        >
+                            Open
+                        </Anchor>
+                    }
+                />
+            )}
+            {!json.private && (
+                <CardItem
+                    label='Size'
+                    content={
+                        <Anchor
+                            onClick={() => {
+                                pkgSize.start();
+                            }}
+                            size='sm'
+                        >
+                            Check
+                        </Anchor>
+                    }
+                />
+            )}
         </SimpleGrid>
     );
 };

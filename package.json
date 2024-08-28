@@ -3,7 +3,6 @@
     "private": true,
     "version": "1.4.0",
     "description": "",
-    "main": "index.js",
     "scripts": {
         "check": "biome check . --write",
         "build": "turbo build",

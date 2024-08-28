@@ -40,5 +40,8 @@
     "bin": {
         "fnpm": "./dist/fnpm.js",
         "fnpx": "./dist/fnpx.js"
-    }
+    },
+    "files": [
+        "dist"
+    ]
 }

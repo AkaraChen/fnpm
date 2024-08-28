@@ -92,7 +92,7 @@ export async function loader() {
     const { diagnoses } = await scan(root);
     const updates = update(context).then((updates) => {
         return Object.entries(updates ?? {}).flatMap(([workspace, json]) => {
-            return json.flatMap((update) => {
+            return json.map((update) => {
                 return {
                     workspace,
                     ...update,
