@@ -16,30 +16,43 @@ export interface RawContext {
 }
 
 export async function resolveContext(cwd: string): Promise<RawContext> {
-    const root = await mt.findRepoRoot(cwd);
-    if (await mt.isRoot(root)) {
-        const pm = mt
-            .detectPMByLock(root)
-            .expect('Could not determine package manager');
-        const projects = await mt.scanProjects(root, pm);
-        const rootProject = projects.find((p) => p.rootDir === root)!;
-        return { root, pm, projects, rootProject, isMonoRepo: true };
+    const findResult = await mt.findUpRoot(cwd).result();
+    if (findResult.isOk()) {
+        const root = findResult.unwrap();
+        const pm = mt.detectPMByLock(root).mapOr('pnpm', x => x);
+        const projects = (await mt.scanProjects(root, pm).result()).expect('No projects found');
+        const rootProject = projects.find(p => p.rootDir === root)!;
+        return {
+            root,
+            pm,
+            projects,
+            rootProject,
+            isMonoRepo: true
+        }
     }
-    const pkgDir = await packageDirectory({ cwd });
-    if (!pkgDir) {
-        throw new Error('Could not find package.json');
+    const root = await packageDirectory({ cwd });
+    if (!root) {
+        throw new Error('No package.json found');
     }
-    const pm = mt
-        .detectPMByLock(pkgDir)
-        .expect('Could not determine package manager');
-    const projects: Project[] = [
-        {
-            rootDir: pkgDir as ProjectRootDir,
-            rootDirRealPath: pkgDir as ProjectRootDirRealPath,
-            manifest: (await readPackage({ cwd })) as any,
-            writeProjectManifest: {} as any,
+    const pm = mt.detectPMByLock(root).unwrap();
+    const rootProject: Project = {
+        rootDir: root as ProjectRootDir,
+        rootDirRealPath: root as ProjectRootDirRealPath,
+        manifest: (await readPackage({
+            cwd: root,
+        })) as Project["manifest"],
+        writeProjectManifest() {
+            throw new Error("Not implemented");
         },
-    ];
-    const rootProject = projects[0] as Project;
-    return { root: pkgDir, pm, projects, rootProject, isMonoRepo: false };
+    };
+    const projects: Project[] = [
+        rootProject,
+    ]
+    return {
+        root,
+        pm,
+        projects,
+        rootProject,
+        isMonoRepo: false
+    }
 }
