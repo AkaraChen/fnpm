@@ -31,7 +31,7 @@ export async function action(args: ActionFunctionArgs) {
                     data: chunk,
                 });
             }
-            const result = await exec;
+            const result = await exec.catch((error) => error);
             send({
                 event: 'end',
                 data: `Process finished with code ${result.exitCode}`,

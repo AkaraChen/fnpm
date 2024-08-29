@@ -4,7 +4,6 @@ import { execa } from 'execa';
 import { resolveContext } from 'fnpm-doctor';
 import { parse as parsePackageName } from 'parse-package-name';
 import { packageDirectory } from 'pkg-dir';
-import type { PackageJson } from 'type-fest';
 import { hideBin } from 'yargs/helpers';
 
 export interface ExecOptions {
@@ -17,8 +16,9 @@ export function exec(shell: string[], opts: ExecOptions = {}) {
     const [command, ...args] = shell;
     return execa(command!, args, {
         cwd,
-        stdio: 'inherit',
-    });
+        stderr: 'inherit',
+        stdout: 'inherit',
+    }).catch(noop);
 }
 
 export function error(message: string) {

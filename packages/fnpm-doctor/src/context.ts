@@ -19,16 +19,18 @@ export async function resolveContext(cwd: string): Promise<RawContext> {
     const findResult = await mt.findUpRoot(cwd).result();
     if (findResult.isOk()) {
         const root = findResult.unwrap();
-        const pm = mt.detectPMByLock(root).mapOr('pnpm', x => x);
-        const projects = (await mt.scanProjects(root, pm).result()).expect('No projects found');
-        const rootProject = projects.find(p => p.rootDir === root)!;
+        const pm = mt.detectPMByLock(root).mapOr('pnpm', (x) => x);
+        const projects = (await mt.scanProjects(root, pm).result()).expect(
+            'No projects found',
+        );
+        const rootProject = projects.find((p) => p.rootDir === root)!;
         return {
             root,
             pm,
             projects,
             rootProject,
-            isMonoRepo: true
-        }
+            isMonoRepo: true,
+        };
     }
     const root = await packageDirectory({ cwd });
     if (!root) {
@@ -40,19 +42,17 @@ export async function resolveContext(cwd: string): Promise<RawContext> {
         rootDirRealPath: root as ProjectRootDirRealPath,
         manifest: (await readPackage({
             cwd: root,
-        })) as Project["manifest"],
+        })) as Project['manifest'],
         writeProjectManifest() {
-            throw new Error("Not implemented");
+            throw new Error('Not implemented');
         },
     };
-    const projects: Project[] = [
-        rootProject,
-    ]
+    const projects: Project[] = [rootProject];
     return {
         root,
         pm,
         projects,
         rootProject,
-        isMonoRepo: false
-    }
+        isMonoRepo: false,
+    };
 }
