@@ -6,17 +6,11 @@ import { start } from 'fnpm-ui';
 import { getPort } from 'get-port-please';
 import { commands } from 'pm-combo';
 import type { AddOptions, RemoveOptions } from 'pm-combo';
+import { readPackage } from 'read-pkg';
 import type { PackageJson } from 'type-fest';
 import yargs from 'yargs';
 import pkg from '../package.json';
-import {
-    error,
-    exec,
-    getContext,
-    noop,
-    normalizePackageVersion,
-    readPackageJson,
-} from './util';
+import { error, exec, getContext, noop, normalizePackageVersion } from './util';
 
 const ctx = await getContext(process.cwd());
 
@@ -258,7 +252,7 @@ await yargs(ctx.args)
             process.exit(0);
         }
         const inputs = ctx.args;
-        const pkg: PackageJson = await readPackageJson(ctx.root!);
+        const pkg: PackageJson = await readPackage({ cwd: ctx.root });
         const scripts = pkg.scripts || {};
         const script = inputs[0];
         if (script && scripts[script]) {

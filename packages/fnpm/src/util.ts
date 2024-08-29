@@ -1,11 +1,9 @@
-import path from 'node:path';
-import { findUpRoot } from '@akrc/monorepo-tools';
-import { detectPMByLock } from '@akrc/monorepo-tools';
+import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { execa } from 'execa';
-import { loadJsonFile } from 'load-json-file';
-import { packageUp } from 'package-up';
+import { resolveContext } from 'fnpm-doctor';
 import { parse as parsePackageName } from 'parse-package-name';
+import { packageDirectory } from 'pkg-dir';
 import type { PackageJson } from 'type-fest';
 import { hideBin } from 'yargs/helpers';
 
@@ -28,43 +26,24 @@ export function error(message: string) {
     process.exit(1);
 }
 
-export async function getContext(cwd: string) {
+export async function getContext(
+    cwd: string,
+): Promise<{ root: string; pm: PM; args: string[] }> {
+    const ctx = await resolveContext(cwd);
     const hasWFlag = process.argv[2] === '-w';
     if (hasWFlag) {
         process.argv.splice(2, 1);
     }
     const args = hideBin(process.argv);
-    const lockDir = await findUpRoot(cwd).result();
-    if (lockDir.isErr()) {
-        return {
-            root: cwd,
-            pm: preferredPM,
-            args,
-        };
+    const root = hasWFlag ? ctx.root : await packageDirectory({ cwd });
+    if (!root) {
+        throw error('Could not find package.json');
     }
-    const pm = detectPMByLock(lockDir.unwrap()).unwrapOr(preferredPM);
-    const root = hasWFlag
-        ? lockDir.unwrap()
-        : path.dirname(await packageUp().then((v) => v!));
     return {
-        root,
-        pm,
+        pm: ctx.pm,
         args,
+        root,
     };
-}
-
-// TODO: make this configurable
-const preferredPM = 'pnpm' as const;
-
-export async function readPackageJson(cwd: string) {
-    const pkgPath = await packageUp({
-        cwd,
-    });
-    if (!pkgPath) {
-        error('No package.json found');
-    }
-    const pkg: PackageJson = await loadJsonFile(pkgPath as string);
-    return pkg;
 }
 
 export function normalizePackageVersion(input: string) {

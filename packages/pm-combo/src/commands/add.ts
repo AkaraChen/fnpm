@@ -40,15 +40,23 @@ export const add: Command<AddOptions> = {
         }
 
         if (saveDev) {
-            args.push('--save-dev');
+            args.push('-D');
         }
 
         if (savePeer) {
-            args.push('--save-peer');
+            if (pm === 'yarn') {
+                args.push('-P');
+            } else {
+                args.push('--save-peer');
+            }
         }
 
         if (saveOptional) {
-            args.push('--save-optional');
+            if (pm === 'yarn') {
+                args.push('-O');
+            } else {
+                args.push('--save-optional');
+            }
         }
 
         if (saveProd) {
@@ -60,7 +68,11 @@ export const add: Command<AddOptions> = {
         }
 
         if (exact) {
-            args.push('--save-exact');
+            if (pm === 'yarn') {
+                args.push('-E');
+            } else {
+                args.push('--save-exact');
+            }
         }
 
         if (global) {
