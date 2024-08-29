@@ -18,6 +18,7 @@ export function exec(shell: string[], opts: ExecOptions = {}) {
         cwd,
         stderr: 'inherit',
         stdout: 'inherit',
+        stdin: 'inherit',
     }).catch(noop);
 }
 
