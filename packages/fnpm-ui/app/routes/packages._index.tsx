@@ -1,10 +1,13 @@
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { redirect, useLoaderData, useNavigate } from '@remix-run/react';
 import { resolveContext } from 'fnpm-doctor';
 import { useEffect } from 'react';
 import { root } from '~/server/config.server';
 
 export async function loader() {
     const context = await resolveContext(root);
+    if (!context.rootProject) {
+        return redirect('/404');
+    }
     return context.rootProject.manifest.name;
 }
 

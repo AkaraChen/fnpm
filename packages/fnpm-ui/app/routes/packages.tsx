@@ -35,7 +35,8 @@ export default function Page() {
                             w={'300px'}
                             label={'Select package'}
                             value={
-                                params.name || context.rootProject.manifest.name
+                                params.name ||
+                                context.rootProject!.manifest.name
                             }
                             onChange={(e) => {
                                 const value = e.currentTarget.value;

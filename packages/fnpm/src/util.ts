@@ -36,10 +36,7 @@ export async function getContext(
         process.argv.splice(2, 1);
     }
     const args = hideBin(process.argv);
-    const root = hasWFlag ? ctx.root : await packageDirectory({ cwd });
-    if (!root) {
-        throw error('Could not find package.json');
-    }
+    const root = hasWFlag ? ctx.root : (await packageDirectory({ cwd })) || cwd;
     return {
         pm: ctx.pm,
         args,

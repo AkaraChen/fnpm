@@ -4,7 +4,7 @@
     "version": "1.5.0",
     "type": "module",
     "scripts": {
-        "build": "remix vite:build",
+        "build": "tsc && remix vite:build",
         "dev": "remix vite:dev",
         "start": "remix-serve ./build/server/index.js",
         "typecheck": "tsc"

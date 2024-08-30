@@ -11,7 +11,7 @@ export interface RawContext {
     root: string;
     pm: mt.PM;
     projects: Project[];
-    rootProject: Project;
+    rootProject?: Project;
     isMonoRepo: boolean;
 }
 
@@ -34,7 +34,12 @@ export async function resolveContext(cwd: string): Promise<RawContext> {
     }
     const root = await packageDirectory({ cwd });
     if (!root) {
-        throw new Error('No package.json found');
+        return {
+            root: cwd,
+            pm: 'pnpm',
+            projects: [],
+            isMonoRepo: false,
+        };
     }
     const pm = mt.detectPMByLock(root).unwrap();
     const rootProject: Project = {

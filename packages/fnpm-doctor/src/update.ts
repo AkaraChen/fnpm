@@ -67,6 +67,6 @@ export const update = async (
     }
     const info = updates as Record<string, string>;
     const manifests = await transformInfo(info, ctx.root);
-    result[ctx.rootProject.manifest.name!] = manifests;
+    result[ctx.rootProject!.manifest.name!] = manifests;
     return result;
 };
