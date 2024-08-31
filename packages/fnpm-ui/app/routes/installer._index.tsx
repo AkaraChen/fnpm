@@ -1,12 +1,13 @@
-import { Button, Checkbox, Flex, Stack, TextInput, rem } from '@mantine/core';
-import { useLoaderData } from '@remix-run/react';
-import { IconSearch } from '@tabler/icons-react';
-import { commands } from 'pm-combo';
-import { Suspense, useDeferredValue, useState } from 'react';
-import { NpmSearch } from '~/components/npm-search';
-import { useRun } from '~/components/run';
-import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { Button, Checkbox, Flex, Stack, TextInput, rem } from "@mantine/core";
+import { useLoaderData } from "@remix-run/react";
+import { IconSearch } from "@tabler/icons-react";
+import { commands } from "pm-combo";
+import { Suspense, useDeferredValue, useState } from "react";
+import { NpmSearch } from "~/components/npm-search";
+import { useRun } from "~/components/run";
+import { useQueryParams } from "~/hooks/qps";
+import { root } from "~/server/config.server";
+import { resolveContext } from "~/server/fnpm.server";
 
 export async function loader() {
     const context = resolveContext(root);
@@ -16,7 +17,7 @@ export async function loader() {
 export default function Page() {
     const data = useLoaderData<typeof loader>();
     const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useQueryParams("search");
     const deffered = useDeferredValue(search);
     const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
     const run = useRun({
@@ -26,11 +27,11 @@ export default function Page() {
         },
     });
     return (
-        <Stack h={'100%'}>
+        <Stack h={"100%"}>
             {run.holder}
-            <Flex mb={10} w={'100%'} gap={8}>
+            <Flex mb={10} w={"100%"} gap={8}>
                 <TextInput
-                    placeholder='Search packages'
+                    placeholder="Search packages"
                     w={400}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -55,9 +56,9 @@ export default function Page() {
                                             name ===
                                                 data.rootProject!.manifest.name,
                                     })
-                                    .join(' '),
+                                    .join(" "),
                                 cwd: data.projects.find(
-                                    (project) => project.manifest.name === name,
+                                    (project) => project.manifest.name === name
                                 )?.rootDir,
                             })),
                         });
@@ -69,7 +70,7 @@ export default function Page() {
             <Flex mb={10} gap={20}>
                 {data.projects.map((project) => {
                     const isSelected = selectedProjects.includes(
-                        project.manifest.name!,
+                        project.manifest.name!
                     );
                     return (
                         <Checkbox
@@ -85,8 +86,8 @@ export default function Page() {
                                     setSelectedProjects(
                                         selectedProjects.filter(
                                             (name) =>
-                                                name !== project.manifest.name,
-                                        ),
+                                                name !== project.manifest.name
+                                        )
                                     );
                                 }
                             }}
@@ -104,7 +105,7 @@ export default function Page() {
                             setSelectedPackages([...selectedPackages, name]);
                         } else {
                             setSelectedPackages(
-                                selectedPackages.filter((pkg) => pkg !== name),
+                                selectedPackages.filter((pkg) => pkg !== name)
                             );
                         }
                     }}
