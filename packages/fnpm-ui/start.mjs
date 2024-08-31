@@ -1,9 +1,9 @@
 // @ts-check
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execa } from 'execa';
 import open from 'open';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 
 /**
  *

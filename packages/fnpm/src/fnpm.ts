@@ -105,6 +105,7 @@ await yargs(ctx.args)
                 ? commands.add.concat(ctx.pm, options)
                 : commands.install.concat(ctx.pm, options);
             await exec(command, { cwd: ctx.root });
+            process.exit(0);
         },
     )
     .command(
@@ -122,6 +123,7 @@ await yargs(ctx.args)
             });
             consola.info(`Running ${command}`);
             await exec(command);
+            process.exit(0);
         },
     )
     .command(
@@ -170,6 +172,7 @@ await yargs(ctx.args)
             const command = commands.remove.concat(ctx.pm, options);
             consola.info(`Removing packages with ${ctx.pm}`);
             await exec(command, { cwd: ctx.root });
+            process.exit(0);
         },
     )
     .command(
@@ -201,6 +204,7 @@ await yargs(ctx.args)
             const command = commands.init.concat(ctx.pm, { interactively: !y });
             consola.info(`Initializing project with ${ctx.pm}`);
             await exec(command);
+            process.exit(0);
         },
     )
     .command(['test', 't'], 'run tests', noop, async () => {
@@ -209,6 +213,7 @@ await yargs(ctx.args)
         });
         consola.info(`Running tests with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
+        process.exit(0);
     })
     .command('ci', 'run continuous integration', noop, async () => {
         const command = commands.install.concat(ctx.pm, {
@@ -216,10 +221,12 @@ await yargs(ctx.args)
         });
         consola.info(`Running CI with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
+        process.exit(0);
     })
     .command('doctor', 'diagnose common issues', noop, async () => {
         const result = await doctor.scan(ctx.root);
         result.diagnoses.forEach(doctor.writeToConsole);
+        process.exit(0);
     })
     .command(
         'ui',
@@ -232,11 +239,14 @@ await yargs(ctx.args)
             });
         },
         async (yargs) => {
-            const port = yargs.port || (await getPort({
-                port: 13131
-            }));
+            const port =
+                yargs.port ||
+                (await getPort({
+                    port: 13131,
+                }));
             consola.info(`Starting UI on http://localhost:${port}`);
             await start(port, ctx.root);
+            process.exit(0);
         },
     )
     .command('*', 'run a script', noop, async (args) => {
@@ -244,6 +254,7 @@ await yargs(ctx.args)
             consola.info('Installing dependencies');
             const shell = commands.install.concat(ctx.pm, {});
             await exec(shell, { cwd: ctx.root });
+            process.exit(0);
         }
         const inputs = ctx.args;
         const pkg: PackageJson = await readPackage({ cwd: ctx.root });
@@ -261,5 +272,6 @@ await yargs(ctx.args)
             });
             await exec(shell, { cwd: ctx.root });
         }
+        process.exit(0);
     })
     .parse();
