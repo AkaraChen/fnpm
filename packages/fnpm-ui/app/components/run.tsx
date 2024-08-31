@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import '@fontsource/space-mono';
 import AnsiConv from 'ansi-to-html';
-import santize from 'sanitize-html';
+import DOMPurify from 'dompurify';
 
 const conv = new AnsiConv();
 
@@ -18,7 +18,7 @@ export interface RunProps extends RunOptions {
     onSuccess?: () => void;
 }
 
-export const useRun = (props: RunProps) => {
+export const useRun = (props: RunProps = {}) => {
     const { onSuccess, ...rest } = props;
     const [logs, setLogs] = useState<string[]>([]);
     const run = useMutation({
@@ -79,17 +79,20 @@ export const useRun = (props: RunProps) => {
                                 c={'white'}
                                 // biome-ignore lint/security/noDangerouslySetInnerHtml: santized, so is ok.
                                 dangerouslySetInnerHTML={{
-                                    __html: santize(conv.toHtml(log), {
-                                        allowedTags: [
-                                            'span',
-                                            'b',
-                                            'i',
-                                            'u',
-                                            'br',
-                                            'strike',
-                                        ],
-                                        allowedAttributes: { span: ['style'] },
-                                    }),
+                                    __html: DOMPurify.sanitize(
+                                        conv.toHtml(log),
+                                        {
+                                            ALLOWED_TAGS: [
+                                                'span',
+                                                'b',
+                                                'i',
+                                                'u',
+                                                'br',
+                                                'strike',
+                                            ],
+                                            ALLOWED_ATTR: ['style'],
+                                        },
+                                    ),
                                 }}
                                 maw={'calc(768px - 40px)'}
                             />

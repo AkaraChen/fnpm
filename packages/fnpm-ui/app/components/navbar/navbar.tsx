@@ -1,6 +1,11 @@
 import { Box, Code, Flex, Group, Stack, Text, rem } from '@mantine/core';
 import { NavLink } from '@remix-run/react';
-import { IconDashboard, IconMap, IconPackage } from '@tabler/icons-react';
+import {
+    IconDashboard,
+    IconDownload,
+    IconMap,
+    IconPackage,
+} from '@tabler/icons-react';
 import pkg from 'package.json';
 import classes from './navbar.module.css';
 
@@ -8,6 +13,7 @@ const data = [
     { link: '/', label: 'Dashboard', icon: IconDashboard },
     { link: '/graph', label: 'Graph', icon: IconMap },
     { link: '/packages', label: 'Package', icon: IconPackage },
+    { link: '/installer', label: 'Installer', icon: IconDownload },
 ];
 
 export function Navbar() {
