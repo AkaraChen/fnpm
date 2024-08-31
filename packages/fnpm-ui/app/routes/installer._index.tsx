@@ -1,5 +1,6 @@
 import { Button, Checkbox, Flex, Stack, TextInput } from '@mantine/core';
 import { useLoaderData } from '@remix-run/react';
+import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
 import { NpmSearch } from '~/components/npm-search';
 import { useRun } from '~/components/run';
@@ -17,9 +18,15 @@ export default function Page() {
     const [search, setSearch] = useState('');
     const deffered = useDeferredValue(search);
     const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
-    const run = useRun();
+    const run = useRun({
+        onSuccess() {
+            setSelectedPackages([]);
+            setSelectedProjects([]);
+        },
+    });
     return (
         <Stack h={'100%'}>
+            {run.holder}
             <Flex mb={10} w={'100%'} gap={8}>
                 <TextInput
                     placeholder='Search packages'
@@ -27,7 +34,28 @@ export default function Page() {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <Button>Install</Button>
+                <Button
+                    onClick={() => {
+                        run.start({
+                            queue: selectedProjects.map((name) => ({
+                                command: commands.add
+                                    .concat(data.pm, {
+                                        packages: selectedPackages,
+                                        allowRoot:
+                                            data.isMonoRepo &&
+                                            name ===
+                                                data.rootProject!.manifest.name,
+                                    })
+                                    .join(' '),
+                                cwd: data.projects.find(
+                                    (project) => project.manifest.name === name,
+                                )?.rootDir,
+                            })),
+                        });
+                    }}
+                >
+                    Install
+                </Button>
             </Flex>
             <Flex mb={10} gap={20}>
                 {data.projects.map((project) => {

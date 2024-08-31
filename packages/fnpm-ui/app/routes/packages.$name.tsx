@@ -76,11 +76,15 @@ const PublishField: FC = () => {
     const json = project.manifest as PackageJson;
     const pkgSize = useRun({
         cwd: project.rootDir,
-        command: commands.dlx
-            .concat(pm, {
-                package: 'pkg-size',
-            })
-            .join(' '),
+        queue: [
+            {
+                command: commands.dlx
+                    .concat(pm, {
+                        package: 'pkg-size',
+                    })
+                    .join(' '),
+            },
+        ],
     });
     return (
         <SimpleGrid cols={2}>
@@ -176,11 +180,15 @@ const Scripts: FC = () => {
                                 aria-label='Run'
                                 onClick={() => {
                                     run.start({
-                                        command: commands.run
-                                            .concat(pm, {
-                                                script: key,
-                                            })
-                                            .join(' '),
+                                        queue: [
+                                            {
+                                                command: commands.run
+                                                    .concat(pm, {
+                                                        script: key,
+                                                    })
+                                                    .join(' '),
+                                            },
+                                        ],
                                     });
                                 }}
                             >
@@ -270,13 +278,21 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                         }
                         onClick={() => {
                             run.start({
-                                command: commands.add
-                                    .concat(pm, {
-                                        packages: [`${name}@${version}`],
-                                        saveProd: field === 'devDependencies',
-                                        saveDev: field === 'dependencies',
-                                    })
-                                    .join(' '),
+                                queue: [
+                                    {
+                                        command: commands.add
+                                            .concat(pm, {
+                                                packages: [
+                                                    `${name}@${version}`,
+                                                ],
+                                                saveProd:
+                                                    field === 'devDependencies',
+                                                saveDev:
+                                                    field === 'dependencies',
+                                            })
+                                            .join(' '),
+                                    },
+                                ],
                             });
                         }}
                     >
@@ -287,11 +303,15 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                         leftSection={<DepsMenuItemIcon icon={IconTrash} />}
                         onClick={() => {
                             run.start({
-                                command: commands.remove
-                                    .concat(pm, {
-                                        packages: [name],
-                                    })
-                                    .join(' '),
+                                queue: [
+                                    {
+                                        command: commands.remove
+                                            .concat(pm, {
+                                                packages: [name],
+                                            })
+                                            .join(' '),
+                                    },
+                                ],
                             });
                         }}
                     >

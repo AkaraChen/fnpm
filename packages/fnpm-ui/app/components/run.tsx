@@ -10,8 +10,8 @@ import DOMPurify from 'dompurify';
 const conv = new AnsiConv();
 
 export interface RunOptions {
-    command?: string;
     cwd?: string;
+    queue?: Array<{ command: string; cwd?: string }>;
 }
 
 export interface RunProps extends RunOptions {
@@ -23,24 +23,32 @@ export const useRun = (props: RunProps = {}) => {
     const [logs, setLogs] = useState<string[]>([]);
     const run = useMutation({
         async mutationFn(opts: RunOptions) {
-            const { command, cwd } = opts;
-            if (!command || !cwd) {
-                throw new Error('command and cwd are required');
+            const { queue, cwd } = opts;
+            for (const element of queue!) {
+                const abort = new AbortController();
+                await fetchEventSource('/run', {
+                    openWhenHidden: true,
+                    method: 'POST',
+                    signal: abort.signal,
+                    onerror(err) {
+                        console.error(err);
+                    },
+                    onmessage(ev) {
+                        setLogs((prev) => [...prev, ev.data]);
+                        if (ev.event === 'end') {
+                            abort.abort('end');
+                        }
+                    },
+                    body: JSON.stringify({
+                        command: element.command,
+                        cwd: element.cwd || cwd,
+                    }),
+                });
             }
-            return await fetchEventSource('/run', {
-                openWhenHidden: true,
-                method: 'POST',
-                onerror(err) {
-                    console.error(err);
-                },
-                onmessage(ev) {
-                    setLogs((prev) => [...prev, ev.data]);
-                },
-                body: JSON.stringify({
-                    command,
-                    cwd,
-                }),
-            });
+        },
+        retry: false,
+        onError(error) {
+            console.error(error);
         },
     });
     const start = (options?: RunOptions) => {
