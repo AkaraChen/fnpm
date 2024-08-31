@@ -7,7 +7,7 @@ import {
     Stack,
     Text,
 } from '@mantine/core';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { type FC, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import type { LoaderData as NpmSearchResp } from '~/routes/npm-search';
@@ -21,7 +21,7 @@ export interface NpmSearchProps {
 export const NpmSearch: FC<NpmSearchProps> = (props) => {
     const { search, onToggle } = props;
     const { ref, inView } = useInView();
-    const query = useSuspenseInfiniteQuery({
+    const query = useInfiniteQuery({
         queryKey: ['searchPackages', search],
         initialPageParam: 0,
         queryFn: async (opts) => {
@@ -29,9 +29,9 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
             url.searchParams.set('query', search);
             url.searchParams.set('page', opts.pageParam.toString());
 
-            return (await fetch(url).then((res) =>
-                res.json(),
-            )) as NpmSearchResp;
+            return (await fetch(url, {
+                signal: opts.signal,
+            }).then((res) => res.json())) as NpmSearchResp;
         },
         getNextPageParam: (_, __, lastPageParams) => {
             return lastPageParams + 1;
@@ -50,7 +50,7 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
             }}
         >
             <SimpleGrid cols={3}>
-                {query.data.pages.map((page) => {
+                {query.data?.pages.map((page) => {
                     return page.objects.map((pkg) => {
                         const checked = props.toggles.includes(
                             pkg.package.name,

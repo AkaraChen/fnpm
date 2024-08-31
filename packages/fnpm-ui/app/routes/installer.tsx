@@ -17,7 +17,7 @@ export default function Installer() {
     return (
         <BasePage>
             <PageHeader title='Installer' />
-            <Box py={20} w={'100%'} h={'calc(100% - 60px)'}>
+            <Box w={'100%'} h={'calc(100% - 60px)'}>
                 <Outlet />
             </Box>
         </BasePage>

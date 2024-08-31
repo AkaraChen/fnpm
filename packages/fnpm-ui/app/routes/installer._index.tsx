@@ -1,5 +1,6 @@
-import { Button, Checkbox, Flex, Stack, TextInput } from '@mantine/core';
+import { Button, Checkbox, Flex, Stack, TextInput, rem } from '@mantine/core';
 import { useLoaderData } from '@remix-run/react';
+import { IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
 import { NpmSearch } from '~/components/npm-search';
@@ -33,6 +34,14 @@ export default function Page() {
                     w={400}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    leftSection={
+                        <IconSearch
+                            style={{
+                                width: rem(16),
+                                height: rem(16),
+                            }}
+                        />
+                    }
                 />
                 <Button
                     onClick={() => {
