@@ -2,6 +2,8 @@
 
 import { execa } from 'execa';
 import open from 'open';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
 /**
  *
@@ -14,12 +16,12 @@ export const start = async (port, root) => {
     setTimeout(() => {
         open(url.href);
     }, 1000);
-    process.env.FNPM_ROOT = root;
     await execa({
         env: {
             PORT: String(port),
+            FNPM_ROOT: root,
         },
-        cwd: import.meta.dirname,
+        cwd: dirname(fileURLToPath(import.meta.url)),
         stderr: 'inherit',
     })`npm run start`;
 };
