@@ -20,5 +20,6 @@ export const start = async (port, root) => {
             PORT: String(port),
         },
         cwd: import.meta.dirname,
+        stderr: 'inherit',
     })`npm run start`;
 };
