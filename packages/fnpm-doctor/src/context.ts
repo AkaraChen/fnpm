@@ -15,11 +15,13 @@ export interface RawContext {
     isMonoRepo: boolean;
 }
 
+const prefferedPM = 'pnpm' as const;
+
 export async function resolveContext(cwd: string): Promise<RawContext> {
     const findResult = await mt.findUpRoot(cwd).result();
     if (findResult.isOk()) {
         const root = findResult.unwrap();
-        const pm = mt.detectPMByLock(root).mapOr('pnpm', (x) => x);
+        const pm = mt.detectPMByLock(root).unwrapOr(prefferedPM);
         const projects = (await mt.scanProjects(root, pm).result()).expect(
             'No projects found',
         );
@@ -41,7 +43,7 @@ export async function resolveContext(cwd: string): Promise<RawContext> {
             isMonoRepo: false,
         };
     }
-    const pm = mt.detectPMByLock(root).unwrap();
+    const pm = mt.detectPMByLock(root).unwrapOr(prefferedPM);
     const rootProject: Project = {
         rootDir: root as ProjectRootDir,
         rootDirRealPath: root as ProjectRootDirRealPath,
