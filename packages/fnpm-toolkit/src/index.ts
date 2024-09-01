@@ -1,3 +1,4 @@
+import semver from 'semver';
 import type { PackageJson } from 'type-fest';
 
 const depsFields = [
@@ -9,11 +10,12 @@ const depsFields = [
 
 export type DepsField = (typeof depsFields)[number];
 
-export function getDeps(pkg: PackageJson): string[] {
+export function getDeps(
+    pkg: PackageJson,
+    fields: Readonly<DepsField[]> = depsFields,
+): string[] {
     return [
-        ...new Set(
-            depsFields.flatMap((field) => Object.keys(pkg[field] ?? {})),
-        ),
+        ...new Set(fields.flatMap((field) => Object.keys(pkg[field] ?? {}))),
     ];
 }
 
@@ -43,6 +45,17 @@ export function hasBin(pkg: PackageJson): boolean {
     return !!pkg.bin;
 }
 
+export function hasExportFields(pkg: PackageJson, field: string): boolean {
+    if (field in pkg) return true;
+    const exports = pkg.exports;
+    const exps = Array.isArray(exports) ? exports : [exports];
+    for (const exp of exps) {
+        if (typeof exp === 'string') continue;
+        if (exp && field in exp) return true;
+    }
+    return false;
+}
+
 export function getBin(pkg: PackageJson): Array<{
     name: string;
     path: string;
@@ -67,4 +80,53 @@ export function getRepository(pkg: PackageJson): string | undefined {
             ? pkg.repository.url
             : pkg.repository;
     return field?.slice('git+'.length, -'.git'.length);
+}
+
+export const devDepsMatchers: Array<RegExp> = [
+    // typescript
+    /^@types\//,
+    /typescript/,
+    // eslint
+    /^eslint/,
+    // transpilers
+    /^babel/,
+    /^swc/,
+    // testing
+    /^jest/,
+    /^@testing-library\//,
+    // bundlers
+    /^webpack/,
+    /^rollup/,
+    /^tsup/,
+    // formatters
+    /^prettier/,
+    /^biome/,
+    // git hooks
+    /^commitlint/,
+    /^lint-staged/,
+    // e2e frameworks
+    /^cypress/,
+    /^playwright/,
+    // css
+    /^postcss/,
+    // monorepo
+    /^@nrwl/,
+    /^nx/,
+    /^lerna/,
+    /^@rushstack\//,
+    /^turbo/,
+];
+
+export function sortSemver(versions: string[]): string[] {
+    return versions.sort((a, b) => semver.compare(a, b)).reverse();
+}
+
+export function hasReact(pkg: PackageJson): boolean {
+    const deps = getDeps(pkg, [
+        'dependencies',
+        'optionalDependencies',
+        'peerDependencies',
+    ]);
+    if (deps.includes('react')) return true;
+    return false;
 }

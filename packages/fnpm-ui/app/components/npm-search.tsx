@@ -37,6 +37,7 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
         getNextPageParam: (_, __, lastPageParams) => {
             return lastPageParams + 1;
         },
+        enabled: Boolean(search),
     });
     const { ref } = useInView({
         onChange(inView) {
