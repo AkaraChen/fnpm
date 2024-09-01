@@ -1,6 +1,6 @@
 import { NativeSelect, Skeleton } from '@mantine/core';
 import type { SerializeFrom } from '@remix-run/node';
-import { Await, useNavigate, useParams } from '@remix-run/react';
+import { Await, useParams } from '@remix-run/react';
 import type { RawContext } from 'fnpm-doctor';
 import { type FC, Suspense } from 'react';
 
