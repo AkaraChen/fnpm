@@ -1,12 +1,14 @@
 import {
     Checkbox,
     Flex,
+    Modal,
     Paper,
     ScrollArea,
     SimpleGrid,
     Stack,
     Text,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { type FC, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -20,7 +22,6 @@ export interface NpmSearchProps {
 
 export const NpmSearch: FC<NpmSearchProps> = (props) => {
     const { search, onToggle } = props;
-    const { ref, inView } = useInView();
     const query = useInfiniteQuery({
         queryKey: ['searchPackages', search],
         initialPageParam: 0,
@@ -37,11 +38,13 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
             return lastPageParams + 1;
         },
     });
-    useEffect(() => {
-        if (inView) {
-            query.fetchNextPage();
-        }
-    }, [inView, query.fetchNextPage]);
+    const { ref } = useInView({
+        onChange(inView) {
+            if (inView) {
+                query.fetchNextPage();
+            }
+        },
+    });
     return (
         <ScrollArea
             h={'100%'}

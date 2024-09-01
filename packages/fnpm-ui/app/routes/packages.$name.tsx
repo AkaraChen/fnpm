@@ -34,7 +34,7 @@ import {
 import { commands } from 'pm-combo';
 import { type FC, type ReactNode, createContext, useContext } from 'react';
 import type { PackageJson } from 'type-fest';
-import { useRun } from '~/components/run';
+import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 
 export async function loader(args: LoaderFunctionArgs) {

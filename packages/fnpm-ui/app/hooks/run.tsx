@@ -9,9 +9,14 @@ import DOMPurify from 'dompurify';
 
 const conv = new AnsiConv();
 
+export interface RunElement {
+    command: string;
+    cwd?: string;
+}
+
 export interface RunOptions {
     cwd?: string;
-    queue?: Array<{ command: string; cwd?: string }>;
+    queue?: Array<RunElement>;
 }
 
 export interface RunProps extends RunOptions {

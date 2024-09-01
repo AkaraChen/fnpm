@@ -3,9 +3,10 @@ import { useLoaderData } from '@remix-run/react';
 import { IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
+import { InstallConfirm } from '~/components/install-confirm';
 import { NpmSearch } from '~/components/npm-search';
-import { useRun } from '~/components/run';
 import { useQueryParams } from '~/hooks/qps';
+import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import { resolveContext } from '~/server/fnpm.server';
 
@@ -26,6 +27,7 @@ export default function Page() {
             setSelectedProjects([]);
         },
     });
+    const [open, setOpen] = useState(false);
     return (
         <Stack h={'100%'}>
             {run.holder}
@@ -44,28 +46,69 @@ export default function Page() {
                         />
                     }
                 />
-                <Button
-                    onClick={() => {
-                        run.start({
-                            queue: selectedProjects.map((name) => ({
-                                command: commands.add
-                                    .concat(data.pm, {
-                                        packages: selectedPackages,
-                                        allowRoot:
-                                            data.isMonoRepo &&
-                                            name ===
-                                                data.rootProject!.manifest.name,
-                                    })
-                                    .join(' '),
-                                cwd: data.projects.find(
-                                    (project) => project.manifest.name === name,
-                                )?.rootDir,
-                            })),
+                <InstallConfirm
+                    key={selectedPackages.join(',')}
+                    packages={selectedPackages}
+                    onConfirm={(options) => {
+                        const prods = options.packages.filter(
+                            (pkg) => pkg.field === 'prod',
+                        );
+                        const dev = options.packages.filter(
+                            (pkg) => pkg.field === 'dev',
+                        );
+                        const peer = options.packages.filter(
+                            (pkg) => pkg.field === 'peer',
+                        );
+                        const optional = options.packages.filter(
+                            (pkg) => pkg.field === 'optional',
+                        );
+
+                        const queue = selectedProjects.flatMap((name) => {
+                            const shells = [
+                                commands.add.concat(data.pm, {
+                                    packages: prods.map((pkg) => pkg.name),
+                                    allowRoot:
+                                        data.rootProject?.manifest.name ===
+                                        name,
+                                }),
+                                commands.add.concat(data.pm, {
+                                    packages: dev.map((pkg) => pkg.name),
+                                    saveDev: true,
+                                    allowRoot:
+                                        data.rootProject?.manifest.name ===
+                                        name,
+                                }),
+                                commands.add.concat(data.pm, {
+                                    packages: peer.map((pkg) => pkg.name),
+                                    savePeer: true,
+                                    allowRoot:
+                                        data.rootProject?.manifest.name ===
+                                        name,
+                                }),
+                                commands.add.concat(data.pm, {
+                                    packages: optional.map((pkg) => pkg.name),
+                                    saveOptional: true,
+                                    allowRoot:
+                                        data.rootProject?.manifest.name ===
+                                        name,
+                                }),
+                            ].map((c) => c.join(' '));
+                            return shells.map<RunElement>((shell) => {
+                                return {
+                                    command: shell,
+                                    cwd: data.projects.find(
+                                        (project) =>
+                                            project.manifest.name === name,
+                                    )?.rootDir,
+                                };
+                            });
                         });
+                        run.start({ queue });
                     }}
-                >
-                    Install
-                </Button>
+                    opened={open}
+                    onOpenChange={setOpen}
+                />
+                <Button onClick={() => setOpen(true)}>Install</Button>
             </Flex>
             <Flex mb={10} gap={20}>
                 {data.projects.map((project) => {
