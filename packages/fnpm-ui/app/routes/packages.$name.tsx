@@ -2,6 +2,7 @@ import {
     ActionIcon,
     Anchor,
     Box,
+    Button,
     Card,
     Flex,
     Grid,
@@ -13,7 +14,7 @@ import {
     rem,
 } from '@mantine/core';
 import type { LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import {
     IconAdjustments,
     IconArrowsLeftRight,
@@ -378,6 +379,7 @@ const PageContext = createContext<PageContext>(null as unknown as PageContext);
 
 export default function Page() {
     const data = useLoaderData<typeof loader>();
+    const navigate = useNavigate();
     return (
         <PageContext.Provider value={data}>
             <Grid
@@ -418,9 +420,24 @@ export default function Page() {
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Card withBorder h={'100%'}>
-                        <Text fw={500} mb={20}>
-                            Dependency
-                        </Text>
+                        <Flex>
+                            <Text fw={500} mb={20}>
+                                Dependency
+                            </Text>
+                            <Button
+                                size='xs'
+                                ml={'auto'}
+                                onClick={() => {
+                                    navigate(
+                                        `/installer/${encodeURIComponent(
+                                            data.project.manifest.name!,
+                                        )}`,
+                                    );
+                                }}
+                            >
+                                Install
+                            </Button>
+                        </Flex>
                         <ScrollArea h={'100%'}>
                             <Dependency />
                         </ScrollArea>

@@ -1,16 +1,26 @@
 import { Box, Button, Flex, Modal, NativeSelect, Stack } from '@mantine/core';
 import { devDepsMatchers } from 'fnpm-toolkit';
 import { parse } from 'parse-package-name';
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import { NpmPkgInfo } from './npm-pkg-info';
 
-export interface InstallConfirmData {
-    packages: Array<{
-        name: string;
-        version?: string;
-        field: 'dev' | 'prod' | 'peer' | 'optional';
-    }>;
+export interface InstallConfirmItem {
+    name: string;
+    version?: string;
 }
+
+interface InstallConfirmItemWithField extends InstallConfirmItem {
+    field: InstallConfirmField;
+}
+
+export interface InstallConfirmData {
+    dev: InstallConfirmItem[];
+    prod: InstallConfirmItem[];
+    peer: InstallConfirmItem[];
+    optional: InstallConfirmItem[];
+}
+
+export type InstallConfirmField = keyof InstallConfirmData;
 
 export interface InstallConfirmProps {
     packages: string[];
@@ -23,18 +33,30 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
     const { packages, onConfirm, opened, onOpenChange } = props;
     const [data, setData] = useState<InstallConfirmData>(() => {
         return {
-            packages: packages.map((name) => {
-                const parsed = parse(name);
-                const matchDev = devDepsMatchers.some((matcher) =>
-                    matcher.test(parsed.name),
-                );
-                return {
-                    name,
-                    field: matchDev ? 'dev' : 'prod',
-                };
+            dev: [],
+            prod: packages.map((pkg) => {
+                const { name, version } = parse(pkg);
+                return { name, version };
             }),
+            peer: [],
+            optional: [],
         };
     });
+    const all: Array<InstallConfirmItemWithField> = useMemo(() => {
+        const prod = data.prod.map((pkg) => {
+            return { ...pkg, field: 'prod' as const };
+        });
+        const dev = data.dev.map((pkg) => {
+            return { ...pkg, field: 'dev' as const };
+        });
+        const peer = data.peer.map((pkg) => {
+            return { ...pkg, field: 'peer' as const };
+        });
+        const optional = data.optional.map((pkg) => {
+            return { ...pkg, field: 'optional' as const };
+        });
+        return [...prod, ...dev, ...peer, ...optional];
+    }, [data]);
     return (
         <Modal
             opened={opened}
@@ -43,7 +65,7 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
             size={'lg'}
         >
             <Stack my={12}>
-                {data.packages.map((pkg) => (
+                {all.map((pkg) => (
                     <Flex key={pkg.name} align={'center'}>
                         <NpmPkgInfo
                             name={pkg.name}
@@ -51,15 +73,18 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                             onVersionChange={(v) => {
                                 setData((data) => {
                                     return {
-                                        packages: data.packages.map((p) => {
-                                            if (p.name === pkg.name) {
-                                                return {
-                                                    ...p,
-                                                    version: v,
-                                                };
-                                            }
-                                            return p;
-                                        }),
+                                        ...data,
+                                        [pkg.field]: data[pkg.field].map(
+                                            (item) => {
+                                                if (item.name === pkg.name) {
+                                                    return {
+                                                        ...item,
+                                                        version: v,
+                                                    };
+                                                }
+                                                return item;
+                                            },
+                                        ),
                                     };
                                 });
                             }}
@@ -69,17 +94,13 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                                 data={['prod', 'dev', 'peer', 'optional']}
                                 value={pkg.field}
                                 onChange={(e) => {
-                                    setData({
-                                        packages: data.packages.map((p) => {
-                                            if (p.name === pkg.name) {
-                                                return {
-                                                    ...p,
-                                                    field: e.target
-                                                        .value as any,
-                                                };
-                                            }
-                                            return p;
-                                        }),
+                                    const field = e.target
+                                        .value as InstallConfirmField;
+                                    setData((data) => {
+                                        return {
+                                            ...data,
+                                            [field]: [...data[field], pkg],
+                                        };
                                     });
                                 }}
                             />

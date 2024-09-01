@@ -50,49 +50,40 @@ export default function Page() {
                     key={selectedPackages.join(',')}
                     packages={selectedPackages}
                     onConfirm={(options) => {
-                        const prods = options.packages.filter(
-                            (pkg) => pkg.field === 'prod',
-                        );
-                        const dev = options.packages.filter(
-                            (pkg) => pkg.field === 'dev',
-                        );
-                        const peer = options.packages.filter(
-                            (pkg) => pkg.field === 'peer',
-                        );
-                        const optional = options.packages.filter(
-                            (pkg) => pkg.field === 'optional',
-                        );
+                        const { dev, prod, peer, optional } = options;
 
                         const queue = selectedProjects.flatMap((name) => {
+                            const isRoot =
+                                data.rootProject?.manifest.name === name;
                             const shells = [
-                                commands.add.concat(data.pm, {
-                                    packages: prods.map((pkg) => pkg.name),
-                                    allowRoot:
-                                        data.rootProject?.manifest.name ===
-                                        name,
-                                }),
-                                commands.add.concat(data.pm, {
-                                    packages: dev.map((pkg) => pkg.name),
-                                    saveDev: true,
-                                    allowRoot:
-                                        data.rootProject?.manifest.name ===
-                                        name,
-                                }),
-                                commands.add.concat(data.pm, {
-                                    packages: peer.map((pkg) => pkg.name),
-                                    savePeer: true,
-                                    allowRoot:
-                                        data.rootProject?.manifest.name ===
-                                        name,
-                                }),
-                                commands.add.concat(data.pm, {
-                                    packages: optional.map((pkg) => pkg.name),
-                                    saveOptional: true,
-                                    allowRoot:
-                                        data.rootProject?.manifest.name ===
-                                        name,
-                                }),
-                            ].map((c) => c.join(' '));
+                                prod.length &&
+                                    commands.add.concat(data.pm, {
+                                        packages: prod.map((pkg) => pkg.name),
+                                        allowRoot: isRoot,
+                                    }),
+                                dev.length &&
+                                    commands.add.concat(data.pm, {
+                                        packages: dev.map((pkg) => pkg.name),
+                                        saveDev: true,
+                                        allowRoot: isRoot,
+                                    }),
+                                peer.length &&
+                                    commands.add.concat(data.pm, {
+                                        packages: peer.map((pkg) => pkg.name),
+                                        savePeer: true,
+                                        allowRoot: isRoot,
+                                    }),
+                                optional.length &&
+                                    commands.add.concat(data.pm, {
+                                        packages: optional.map(
+                                            (pkg) => pkg.name,
+                                        ),
+                                        saveOptional: true,
+                                        allowRoot: isRoot,
+                                    }),
+                            ]
+                                .filter((v) => !(v === 0))
+                                .map((c) => c!.join(' '));
                             return shells.map<RunElement>((shell) => {
                                 return {
                                     command: shell,
