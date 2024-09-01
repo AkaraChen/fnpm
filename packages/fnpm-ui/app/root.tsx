@@ -17,6 +17,7 @@ import { Navbar } from './components/navbar/navbar';
 import '@fontsource-variable/inter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import '~/lib/date';
 
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',

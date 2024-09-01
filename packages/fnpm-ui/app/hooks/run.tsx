@@ -5,42 +5,55 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import '@fontsource/space-mono';
 import AnsiConv from 'ansi-to-html';
-import santize from 'sanitize-html';
+import DOMPurify from 'dompurify';
 
 const conv = new AnsiConv();
 
-export interface RunOptions {
-    command?: string;
+export interface RunElement {
+    command: string;
     cwd?: string;
+}
+
+export interface RunOptions {
+    cwd?: string;
+    queue?: Array<RunElement>;
 }
 
 export interface RunProps extends RunOptions {
     onSuccess?: () => void;
 }
 
-export const useRun = (props: RunProps) => {
+export const useRun = (props: RunProps = {}) => {
     const { onSuccess, ...rest } = props;
     const [logs, setLogs] = useState<string[]>([]);
     const run = useMutation({
         async mutationFn(opts: RunOptions) {
-            const { command, cwd } = opts;
-            if (!command || !cwd) {
-                throw new Error('command and cwd are required');
+            const { queue, cwd } = opts;
+            for (const element of queue!) {
+                const abort = new AbortController();
+                await fetchEventSource('/run', {
+                    openWhenHidden: true,
+                    method: 'POST',
+                    signal: abort.signal,
+                    onerror(err) {
+                        console.error(err);
+                    },
+                    onmessage(ev) {
+                        setLogs((prev) => [...prev, ev.data]);
+                        if (ev.event === 'end') {
+                            abort.abort('end');
+                        }
+                    },
+                    body: JSON.stringify({
+                        command: element.command,
+                        cwd: element.cwd || cwd,
+                    }),
+                });
             }
-            return await fetchEventSource('/run', {
-                openWhenHidden: true,
-                method: 'POST',
-                onerror(err) {
-                    console.error(err);
-                },
-                onmessage(ev) {
-                    setLogs((prev) => [...prev, ev.data]);
-                },
-                body: JSON.stringify({
-                    command,
-                    cwd,
-                }),
-            });
+        },
+        retry: false,
+        onError(error) {
+            console.error(error);
         },
     });
     const start = (options?: RunOptions) => {
@@ -79,17 +92,20 @@ export const useRun = (props: RunProps) => {
                                 c={'white'}
                                 // biome-ignore lint/security/noDangerouslySetInnerHtml: santized, so is ok.
                                 dangerouslySetInnerHTML={{
-                                    __html: santize(conv.toHtml(log), {
-                                        allowedTags: [
-                                            'span',
-                                            'b',
-                                            'i',
-                                            'u',
-                                            'br',
-                                            'strike',
-                                        ],
-                                        allowedAttributes: { span: ['style'] },
-                                    }),
+                                    __html: DOMPurify.sanitize(
+                                        conv.toHtml(log),
+                                        {
+                                            ALLOWED_TAGS: [
+                                                'span',
+                                                'b',
+                                                'i',
+                                                'u',
+                                                'br',
+                                                'strike',
+                                            ],
+                                            ALLOWED_ATTR: ['style'],
+                                        },
+                                    ),
                                 }}
                                 maw={'calc(768px - 40px)'}
                             />

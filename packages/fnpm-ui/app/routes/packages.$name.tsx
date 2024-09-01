@@ -2,6 +2,7 @@ import {
     ActionIcon,
     Anchor,
     Box,
+    Button,
     Card,
     Flex,
     Grid,
@@ -13,7 +14,7 @@ import {
     rem,
 } from '@mantine/core';
 import type { LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import {
     IconAdjustments,
     IconArrowsLeftRight,
@@ -34,7 +35,7 @@ import {
 import { commands } from 'pm-combo';
 import { type FC, type ReactNode, createContext, useContext } from 'react';
 import type { PackageJson } from 'type-fest';
-import { useRun } from '~/components/run';
+import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -76,11 +77,15 @@ const PublishField: FC = () => {
     const json = project.manifest as PackageJson;
     const pkgSize = useRun({
         cwd: project.rootDir,
-        command: commands.dlx
-            .concat(pm, {
-                package: 'pkg-size',
-            })
-            .join(' '),
+        queue: [
+            {
+                command: commands.dlx
+                    .concat(pm, {
+                        package: 'pkg-size',
+                    })
+                    .join(' '),
+            },
+        ],
     });
     return (
         <SimpleGrid cols={2}>
@@ -176,11 +181,15 @@ const Scripts: FC = () => {
                                 aria-label='Run'
                                 onClick={() => {
                                     run.start({
-                                        command: commands.run
-                                            .concat(pm, {
-                                                script: key,
-                                            })
-                                            .join(' '),
+                                        queue: [
+                                            {
+                                                command: commands.run
+                                                    .concat(pm, {
+                                                        script: key,
+                                                    })
+                                                    .join(' '),
+                                            },
+                                        ],
                                     });
                                 }}
                             >
@@ -270,13 +279,21 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                         }
                         onClick={() => {
                             run.start({
-                                command: commands.add
-                                    .concat(pm, {
-                                        packages: [`${name}@${version}`],
-                                        saveProd: field === 'devDependencies',
-                                        saveDev: field === 'dependencies',
-                                    })
-                                    .join(' '),
+                                queue: [
+                                    {
+                                        command: commands.add
+                                            .concat(pm, {
+                                                packages: [
+                                                    `${name}@${version}`,
+                                                ],
+                                                saveProd:
+                                                    field === 'devDependencies',
+                                                saveDev:
+                                                    field === 'dependencies',
+                                            })
+                                            .join(' '),
+                                    },
+                                ],
                             });
                         }}
                     >
@@ -287,11 +304,15 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                         leftSection={<DepsMenuItemIcon icon={IconTrash} />}
                         onClick={() => {
                             run.start({
-                                command: commands.remove
-                                    .concat(pm, {
-                                        packages: [name],
-                                    })
-                                    .join(' '),
+                                queue: [
+                                    {
+                                        command: commands.remove
+                                            .concat(pm, {
+                                                packages: [name],
+                                            })
+                                            .join(' '),
+                                    },
+                                ],
                             });
                         }}
                     >
@@ -358,6 +379,7 @@ const PageContext = createContext<PageContext>(null as unknown as PageContext);
 
 export default function Page() {
     const data = useLoaderData<typeof loader>();
+    const navigate = useNavigate();
     return (
         <PageContext.Provider value={data}>
             <Grid
@@ -398,9 +420,24 @@ export default function Page() {
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Card withBorder h={'100%'}>
-                        <Text fw={500} mb={20}>
-                            Dependency
-                        </Text>
+                        <Flex>
+                            <Text fw={500} mb={20}>
+                                Dependency
+                            </Text>
+                            <Button
+                                size='xs'
+                                ml={'auto'}
+                                onClick={() => {
+                                    navigate(
+                                        `/installer/${encodeURIComponent(
+                                            data.project.manifest.name!,
+                                        )}`,
+                                    );
+                                }}
+                            >
+                                Install
+                            </Button>
+                        </Flex>
                         <ScrollArea h={'100%'}>
                             <Dependency />
                         </ScrollArea>

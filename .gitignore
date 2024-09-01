@@ -134,3 +134,6 @@ build
 
 # turbo
 .turbo
+
+# macos
+.DS_Store
