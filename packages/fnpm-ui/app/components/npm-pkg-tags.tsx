@@ -6,7 +6,7 @@ import {
     SiReact,
     SiTypescript,
 } from '@icons-pack/react-simple-icons';
-import { Flex, rem } from '@mantine/core';
+import { Flex, Skeleton, rem } from '@mantine/core';
 import {
     hasBin,
     hasExportFields,
@@ -20,7 +20,7 @@ import { usePackument } from '~/requests/npm';
 
 export interface NpmPkgTagsProps {
     name: string;
-    version?: string;
+    version: string;
 }
 
 const iconProps: Partial<ComponentProps<IconType>> = {
@@ -42,11 +42,10 @@ export const NpmPkgTags: FC<NpmPkgTagsProps> = (props) => {
     const query = usePackument(name);
     const manifest = useMemo(() => {
         if (!query.data?.versions) return null;
-        const versions = sortSemver(Object.keys(query.data.versions));
-        return query.data.versions[version || versions[0]];
+        return query.data.versions[version];
     }, [query.data?.versions, version]);
     if (!manifest) {
-        return null;
+        return <Skeleton w={48} h={20} />;
     }
     const isTyped = hasTypes(manifest as PackageJson);
     const isReactLib = hasReact(manifest as PackageJson);

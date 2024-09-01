@@ -14,7 +14,7 @@ export interface NpmPkgInfoProps {
 export const NpmPkgInfo: FC<NpmPkgInfoProps> = (props) => {
     const { name, onVersionChange } = props;
     const packument = usePackument(name);
-    const versions = Object.keys(packument.data?.versions || {});
+    const versions = sortSemver(Object.keys(packument.data?.versions || {}));
     const version = props.version || sortSemver(versions)[0];
     return (
         <Stack gap={3}>

@@ -32,12 +32,22 @@ export interface InstallConfirmProps {
 export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
     const { packages, onConfirm, opened, onOpenChange } = props;
     const [data, setData] = useState<InstallConfirmData>(() => {
+        const dev: InstallConfirmItem[] = [];
+        const prod: InstallConfirmItem[] = [];
+        for (const pkg of packages) {
+            const { name, version } = parse(pkg);
+            const item: InstallConfirmItem = {
+                name,
+                version: version === 'latest' ? undefined : version,
+            };
+            const arr = devDepsMatchers.some((matcher) => matcher.test(name))
+                ? dev
+                : prod;
+            arr.push(item);
+        }
         return {
-            dev: [],
-            prod: packages.map((pkg) => {
-                const { name, version } = parse(pkg);
-                return { name, version };
-            }),
+            dev,
+            prod,
             peer: [],
             optional: [],
         };

@@ -14,7 +14,7 @@ import {
     rem,
 } from '@mantine/core';
 import type { LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
-import { Link, useLoaderData, useNavigate } from '@remix-run/react';
+import { useLoaderData, useNavigate } from '@remix-run/react';
 import {
     IconAdjustments,
     IconArrowsLeftRight,
