@@ -1,10 +1,8 @@
-import { Button, Flex, Modal, NativeSelect, Stack, Text } from '@mantine/core';
+import { Box, Button, Flex, Modal, NativeSelect, Stack } from '@mantine/core';
 import { devDepsMatchers } from 'fnpm-toolkit';
 import { parse } from 'parse-package-name';
 import { type FC, useState } from 'react';
 import { NpmPkgInfo } from './npm-pkg-info';
-import { NpmPkgTags } from './npm-pkg-tags';
-import { VersionSelector } from './version-selector';
 
 export interface InstallConfirmData {
     packages: Array<{
@@ -67,25 +65,6 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                             }}
                         />
                         <Flex ml={'auto'} gap={8}>
-                            {/* <VersionSelector
-                                name={pkg.name}
-                                version={pkg.version}
-                                onChange={() => {
-                                    setData((data) => {
-                                        return {
-                                            packages: data.packages.map((p) => {
-                                                if (p.name === pkg.name) {
-                                                    return {
-                                                        ...p,
-                                                        version: pkg.version,
-                                                    };
-                                                }
-                                                return p;
-                                            }),
-                                        };
-                                    });
-                                }}
-                            /> */}
                             <NativeSelect
                                 data={['prod', 'dev', 'peer', 'optional']}
                                 value={pkg.field}
@@ -108,15 +87,17 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                     </Flex>
                 ))}
             </Stack>
-            <Button
-                mt={12}
-                onClick={() => {
-                    onConfirm(data);
-                    onOpenChange(false);
-                }}
-            >
-                Confirm
-            </Button>
+            <Box style={{ textAlign: 'right' }}>
+                <Button
+                    mt={12}
+                    onClick={() => {
+                        onConfirm(data);
+                        onOpenChange(false);
+                    }}
+                >
+                    Confirm
+                </Button>
+            </Box>
         </Modal>
     );
 };

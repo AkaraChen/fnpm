@@ -1,7 +1,7 @@
-import { Flex, NativeSelect, Select, Stack, Text } from '@mantine/core';
+import { Flex, NativeSelect, Skeleton, Stack, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { sortSemver } from 'fnpm-toolkit';
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
 import { usePackument } from '~/requests/npm';
 import { NpmPkgTags } from './npm-pkg-tags';
 
@@ -25,20 +25,26 @@ export const NpmPkgInfo: FC<NpmPkgInfoProps> = (props) => {
                 <NpmPkgTags name={name} version={version} />
             </Flex>
             <Flex align={'center'} gap={8}>
-                <NativeSelect
-                    data={versions}
-                    value={version}
-                    w={120}
-                    variant='unstyled'
-                    onChange={(e) => {
-                        onVersionChange?.(e.target.value);
-                    }}
-                    color='black'
-                    size='sm'
-                />
-                <Text size='sm' c={'gray'}>
-                    Published {dayjs(packument.data?.time.modified).fromNow()}
-                </Text>
+                {packument.data ? (
+                    <>
+                        <NativeSelect
+                            data={versions}
+                            value={version}
+                            w={120}
+                            variant='unstyled'
+                            onChange={(e) => {
+                                onVersionChange?.(e.target.value);
+                            }}
+                            size='sm'
+                        />
+                        <Text size='sm' c={'gray'}>
+                            Published{' '}
+                            {dayjs(packument.data?.time.modified).fromNow()}
+                        </Text>
+                    </>
+                ) : (
+                    <Skeleton width={280} height={36} />
+                )}
             </Flex>
         </Stack>
     );
