@@ -10,7 +10,7 @@ import {
     Skeleton,
     Text,
 } from '@mantine/core';
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction, SerializeFrom } from '@remix-run/node';
 import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import {
     IconAlertTriangle,
@@ -109,6 +109,8 @@ export async function loader() {
     });
 }
 
+type LoaderData = Awaited<ReturnType<typeof loader>>['data'];
+
 const RADIAN = Math.PI / 180;
 const getFormattedLabel = (e: any) => {
     const {
@@ -160,6 +162,184 @@ const CardItem: FC<CardItemProps> = (props) => {
     );
 };
 
+interface TotalWorkspaceProps {
+    projects: SerializeFrom<LoaderData['projects']>;
+    rootProject?: SerializeFrom<LoaderData['rootProject']>;
+}
+
+const TotalWorkspace: FC<TotalWorkspaceProps> = (props) => {
+    const { projects, rootProject } = props;
+    return (
+        <InfoCard
+            icon={IconJumpRope}
+            title='Total Workspaces'
+            value={projects.length}
+            href='/graph'
+            graph={
+                <DependencyFlow projects={projects} rootProject={rootProject} />
+            }
+        />
+    );
+};
+
+interface TotalDepsProps {
+    depsGraph: SerializeFrom<LoaderData['depsGraph']>;
+}
+
+const TotalDeps: FC<TotalDepsProps> = (props) => {
+    const { depsGraph } = props;
+    return (
+        <InfoCard
+            icon={IconPackages}
+            title='Total Dependencies'
+            value={depsGraph.reduce((acc, curr) => acc + curr.count, 0)}
+            href='/packages'
+            graph={
+                <ResponsiveContainer width={'100%'} height={'100%'}>
+                    <PieChart>
+                        <Pie
+                            data={depsGraph}
+                            dataKey={'count'}
+                            nameKey={'name'}
+                            labelLine={false}
+                            label={getFormattedLabel}
+                            fill='#82ca9d'
+                            isAnimationActive={false}
+                        />
+                    </PieChart>
+                </ResponsiveContainer>
+            }
+        />
+    );
+};
+
+interface DependencyUpdatesProps {
+    updates: Promise<SerializeFrom<LoaderData['updates']>>;
+}
+
+const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
+    const { updates } = props;
+    return (
+        <Suspense
+            fallback={
+                <InfoCard
+                    icon={IconUpload}
+                    title='Dependency Updates'
+                    value={0}
+                    href='/packages'
+                    graph={
+                        <ScrollArea h={'300px'}>
+                            <Skeleton height={'300px'} w={'100%'} />
+                        </ScrollArea>
+                    }
+                />
+            }
+        >
+            <Await resolve={updates}>
+                {(updates) => (
+                    <InfoCard
+                        icon={IconUpload}
+                        title='Dependency Updates'
+                        value={updates.length}
+                        href='/packages'
+                        graph={
+                            updates.length === 0 ? (
+                                <AllClear />
+                            ) : (
+                                <ScrollArea h={'300px'}>
+                                    {updates.map((update) => (
+                                        <CardItem
+                                            icon={IconPackageExport}
+                                            key={Math.random()}
+                                            title={
+                                                <Flex align={'center'}>
+                                                    <Text>{update.name}</Text>
+                                                    <Text
+                                                        size='sm'
+                                                        ml={'auto'}
+                                                        c={'dark'}
+                                                    >
+                                                        {update.current} {' > '}
+                                                        {update.latest}
+                                                    </Text>
+                                                </Flex>
+                                            }
+                                            description={
+                                                <Box>
+                                                    <Text
+                                                        size='sm'
+                                                        c={'dark'}
+                                                        span
+                                                    >
+                                                        {update.workspace}
+                                                    </Text>
+                                                </Box>
+                                            }
+                                        />
+                                    ))}
+                                </ScrollArea>
+                            )
+                        }
+                    />
+                )}
+            </Await>
+        </Suspense>
+    );
+};
+
+interface DiagnosticIssuesProps {
+    diagnoses: SerializeFrom<LoaderData['diagnoses']>;
+}
+
+const DiagnosticIssues: FC<DiagnosticIssuesProps> = (props) => {
+    const { diagnoses } = props;
+    return (
+        <InfoCard
+            icon={IconZoomExclamation}
+            title='Diagnostic Issues'
+            value={diagnoses.length}
+            graph={
+                diagnoses.length === 0 ? (
+                    <AllClear />
+                ) : (
+                    <ScrollArea h={'300px'}>
+                        {diagnoses.map((diagnose) => (
+                            <CardItem
+                                key={diagnose.description}
+                                icon={
+                                    diagnose.level === 'error'
+                                        ? IconBiohazard
+                                        : diagnose.level === 'warning'
+                                          ? IconAlertTriangle
+                                          : IconCircleDashedCheck
+                                }
+                                title={diagnose.title}
+                                description={
+                                    <>
+                                        <Text
+                                            size='sm'
+                                            c={'dark'}
+                                            fw={500}
+                                            span
+                                        >
+                                            [{diagnose.scope}]{' '}
+                                        </Text>
+                                        <Text size='sm' c={'dark'} span>
+                                            {diagnose.workspace?.join(', ') ??
+                                                'root'}
+                                        </Text>
+                                    </>
+                                }
+                            />
+                        ))}
+                    </ScrollArea>
+                )
+            }
+            href='/packages'
+        />
+    );
+};
+
 export default function Index() {
     const { depsGraph, projects, diagnoses, updates, rootProject } =
         useLoaderData<typeof loader>();
@@ -168,174 +348,19 @@ export default function Index() {
             <PageHeader title='Dashboard' />
             <Grid>
                 <Grid.Col span={3}>
-                    <InfoCard
-                        icon={IconJumpRope}
-                        title='Total Workspaces'
-                        value={projects.length}
-                        href='/graph'
-                        graph={
-                            <DependencyFlow
-                                projects={projects}
-                                rootProject={rootProject}
-                            />
-                        }
+                    <TotalWorkspace
+                        projects={projects}
+                        rootProject={rootProject}
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <InfoCard
-                        icon={IconPackages}
-                        title='Total Dependencies'
-                        value={depsGraph.reduce(
-                            (acc, curr) => acc + curr.count,
-                            0,
-                        )}
-                        href='/packages'
-                        graph={
-                            <ResponsiveContainer width={'100%'} height={'100%'}>
-                                <PieChart>
-                                    <Pie
-                                        data={depsGraph}
-                                        dataKey={'count'}
-                                        nameKey={'name'}
-                                        labelLine={false}
-                                        label={getFormattedLabel}
-                                        fill='#82ca9d'
-                                        isAnimationActive={false}
-                                    />
-                                </PieChart>
-                            </ResponsiveContainer>
-                        }
-                    />
+                    <TotalDeps depsGraph={depsGraph} />
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <Suspense
-                        fallback={
-                            <InfoCard
-                                icon={IconUpload}
-                                title='Dependency Updates'
-                                value={0}
-                                href='/packages'
-                                graph={
-                                    <ScrollArea h={'300px'}>
-                                        <Skeleton height={'300px'} w={'100%'} />
-                                    </ScrollArea>
-                                }
-                            />
-                        }
-                    >
-                        <Await resolve={updates}>
-                            {(updates) => (
-                                <InfoCard
-                                    icon={IconUpload}
-                                    title='Dependency Updates'
-                                    value={updates.length}
-                                    href='/packages'
-                                    graph={
-                                        updates.length === 0 ? (
-                                            <AllClear />
-                                        ) : (
-                                            <ScrollArea h={'300px'}>
-                                                {updates.map((update) => (
-                                                    <CardItem
-                                                        icon={IconPackageExport}
-                                                        key={Math.random()}
-                                                        title={
-                                                            <Flex
-                                                                align={'center'}
-                                                            >
-                                                                <Text>
-                                                                    {
-                                                                        update.name
-                                                                    }
-                                                                </Text>
-                                                                <Text
-                                                                    size='sm'
-                                                                    ml={'auto'}
-                                                                    c={'dark'}
-                                                                >
-                                                                    {
-                                                                        update.current
-                                                                    }{' '}
-                                                                    {' > '}
-                                                                    {
-                                                                        update.latest
-                                                                    }
-                                                                </Text>
-                                                            </Flex>
-                                                        }
-                                                        description={
-                                                            <Box>
-                                                                <Text
-                                                                    size='sm'
-                                                                    c={'dark'}
-                                                                    span
-                                                                >
-                                                                    {
-                                                                        update.workspace
-                                                                    }
-                                                                </Text>
-                                                            </Box>
-                                                        }
-                                                    />
-                                                ))}
-                                            </ScrollArea>
-                                        )
-                                    }
-                                />
-                            )}
-                        </Await>
-                    </Suspense>
+                    <DependencyUpdates updates={updates} />
                 </Grid.Col>
                 <Grid.Col span={3}>
-                    <InfoCard
-                        icon={IconZoomExclamation}
-                        title='Diagnostic Issues'
-                        value={diagnoses.length}
-                        graph={
-                            diagnoses.length === 0 ? (
-                                <AllClear />
-                            ) : (
-                                <ScrollArea h={'300px'}>
-                                    {diagnoses.map((diagnose) => (
-                                        <CardItem
-                                            key={diagnose.description}
-                                            icon={
-                                                diagnose.level === 'error'
-                                                    ? IconBiohazard
-                                                    : diagnose.level ===
-                                                        'warning'
-                                                      ? IconAlertTriangle
-                                                      : IconCircleDashedCheck
-                                            }
-                                            title={diagnose.title}
-                                            description={
-                                                <>
-                                                    <Text
-                                                        size='sm'
-                                                        c={'dark'}
-                                                        fw={500}
-                                                        span
-                                                    >
-                                                        [{diagnose.scope}]{' '}
-                                                    </Text>
-                                                    <Text
-                                                        size='sm'
-                                                        c={'dark'}
-                                                        span
-                                                    >
-                                                        {diagnose.workspace?.join(
-                                                            ', ',
-                                                        ) ?? 'root'}
-                                                    </Text>
-                                                </>
-                                            }
-                                        />
-                                    ))}
-                                </ScrollArea>
-                            )
-                        }
-                        href='/packages'
-                    />
+                    <DiagnosticIssues diagnoses={diagnoses} />
                 </Grid.Col>
             </Grid>
         </BasePage>
