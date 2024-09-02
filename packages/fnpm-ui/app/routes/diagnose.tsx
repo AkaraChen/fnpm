@@ -69,7 +69,7 @@ const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
                         <Badge fw={500} variant='light' component='span'>
                             {scope}
                         </Badge>
-                        <Text span ml={8}>
+                        <Text span ml={8} c={'gray'}>
                             {workspace?.join(', ')}
                         </Text>
                     </Text>

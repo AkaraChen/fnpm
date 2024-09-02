@@ -248,7 +248,7 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
                     icon={IconUpload}
                     title='Dependency Updates'
                     value={0}
-                    href='/packages'
+                    href='/updates'
                     graph={
                         <ScrollArea h={'300px'}>
                             <Skeleton height={'300px'} w={'100%'} />
@@ -263,7 +263,7 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
                         icon={IconUpload}
                         title='Dependency Updates'
                         value={updates.length}
-                        href='/packages'
+                        href='/updates'
                         graph={
                             updates.length === 0 ? (
                                 <AllClear />
