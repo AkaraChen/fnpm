@@ -9,7 +9,7 @@
         "dev": "turbo dev",
         "test": "turbo test",
         "release": "bumpp -r && pnpm -r publish",
-        "knip": "knip --config ./knip.json",
+        "knip": "knip",
         "circular": "madge --circular --extensions ts ./packages"
     },
     "keywords": [],

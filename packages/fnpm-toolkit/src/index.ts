@@ -130,3 +130,17 @@ export function hasReact(pkg: PackageJson): boolean {
     if (deps.includes('react')) return true;
     return false;
 }
+
+export type SemverType = 'major' | 'minor' | 'patch';
+
+export function compartUpdate(older: string, newer: string): SemverType | null {
+    const cleanedOlder = semver.coerce(older)!;
+    const cleanedNewer = semver.coerce(newer)!;
+    if (semver.major(cleanedOlder) !== semver.major(cleanedNewer))
+        return 'major';
+    if (semver.minor(cleanedOlder) !== semver.minor(cleanedNewer))
+        return 'minor';
+    if (semver.patch(cleanedOlder) !== semver.patch(cleanedNewer))
+        return 'patch';
+    return null;
+}

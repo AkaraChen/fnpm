@@ -1,4 +1,5 @@
 import {
+    Badge,
     Box,
     Button,
     Card,
@@ -24,7 +25,7 @@ import {
     IconZoomExclamation,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { getDeps } from 'fnpm-toolkit';
+import { compartUpdate, getDeps } from 'fnpm-toolkit';
 import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
@@ -91,16 +92,36 @@ export async function loader() {
         }>,
     );
     const { diagnoses } = await scan(root);
-    const updates = update(context).then((updates) => {
-        return Object.entries(updates ?? {}).flatMap(([workspace, json]) => {
-            return json.map((update) => {
-                return {
-                    workspace,
-                    ...update,
-                };
-            });
+    const updates = update(context)
+        .then((updates) => {
+            return Object.entries(updates ?? {}).flatMap(
+                ([workspace, json]) => {
+                    return json.map((update) => {
+                        return {
+                            workspace: [workspace],
+                            ...update,
+                        };
+                    });
+                },
+            );
+        })
+        .then((updates) => {
+            const deduped = updates.reduce(
+                (acc, curr) => {
+                    const exsiting = acc.find(
+                        (update) => update.name === curr.name,
+                    );
+                    if (exsiting) {
+                        exsiting.workspace.push(...curr.workspace);
+                    } else {
+                        acc.push(curr);
+                    }
+                    return acc;
+                },
+                [] as typeof updates,
+            );
+            return deduped;
         });
-    });
     return defer({
         projects: context.projects,
         depsGraph,
@@ -248,36 +269,14 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
                                 <AllClear />
                             ) : (
                                 <ScrollArea h={'300px'}>
-                                    {updates.map((update) => (
-                                        <CardItem
-                                            icon={IconPackageExport}
-                                            key={Math.random()}
-                                            title={
-                                                <Flex align={'center'}>
-                                                    <Text>{update.name}</Text>
-                                                    <Text
-                                                        size='sm'
-                                                        ml={'auto'}
-                                                        c={'dark'}
-                                                    >
-                                                        {update.current} {' > '}
-                                                        {update.latest}
-                                                    </Text>
-                                                </Flex>
-                                            }
-                                            description={
-                                                <Box>
-                                                    <Text
-                                                        size='sm'
-                                                        c={'dark'}
-                                                        span
-                                                    >
-                                                        {update.workspace}
-                                                    </Text>
-                                                </Box>
-                                            }
-                                        />
-                                    ))}
+                                    {updates.map((update) => {
+                                        return (
+                                            <DependencyUpdateItem
+                                                update={update}
+                                                key={Math.random()}
+                                            />
+                                        );
+                                    })}
                                 </ScrollArea>
                             )
                         }
@@ -285,6 +284,48 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
                 )}
             </Await>
         </Suspense>
+    );
+};
+
+interface DependencyUpdateItemProps {
+    update: SerializeFrom<LoaderData['updates']>[0];
+}
+
+const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
+    const { update } = props;
+    const type = compartUpdate(update.current, update.latest);
+    return (
+        <CardItem
+            icon={IconPackageExport}
+            title={
+                <Flex align={'center'}>
+                    <Text>{update.name}</Text>
+                    <Badge
+                        ml={'auto'}
+                        color={
+                            type === 'major'
+                                ? 'red'
+                                : type === 'minor'
+                                  ? 'yellow'
+                                  : 'blue'
+                        }
+                    >
+                        {type}
+                    </Badge>
+                </Flex>
+            }
+            description={
+                <Stack mt={4} gap={8}>
+                    <Badge variant='light'>
+                        {update.current} {' > '}
+                        {update.latest}
+                    </Badge>
+                    <Text size='sm' c={'dark'}>
+                        {update.workspace.join(', ')}
+                    </Text>
+                </Stack>
+            }
+        />
     );
 };
 
