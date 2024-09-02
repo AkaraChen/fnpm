@@ -116,6 +116,9 @@ importers:
       fnpm-toolkit:
         specifier: workspace:*
         version: link:../fnpm-toolkit
+      module-replacements:
+        specifier: ^2.5.0
+        version: 2.5.0
       npm-check-updates:
         specifier: ^17.1.0
         version: 17.1.0
@@ -3153,6 +3156,9 @@ packages:
     resolution: {integrity: sha512-p7PzSVEWiW9fHRX9oM+V4aV5B2nCVddVNv4DZ/JB6t9GsXY4E+ZVhPpnwUX7bbJyGeeVZqhS8q/JZ/H77IqPFA==}
     engines: {node: '>=18'}
     hasBin: true
+
+  module-replacements@2.5.0:
+    resolution: {integrity: sha512-m00JBwLSr7sur96PeAfAwNcyQk5MEm/GzZtZSRM+UjdzjNcgzPrWsWpsCpaRP+Fq+ROykt1TCr4GSR/ajcB83w==}
 
   morgan@1.10.0:
     resolution: {integrity: sha512-AbegBVI4sh6El+1gNwvD5YIck7nSA36weD7xvIxG4in80j/UoK8AEGaWnnz8v1GxonMCltmlNs5ZKbGvl9b1XQ==}
@@ -7848,6 +7854,8 @@ snapshots:
       glob: 7.2.3
       requirejs: 2.3.7
       requirejs-config-file: 4.0.0
+
+  module-replacements@2.5.0: {}
 
   morgan@1.10.0:
     dependencies:

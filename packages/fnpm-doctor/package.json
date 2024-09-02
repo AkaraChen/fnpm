@@ -22,6 +22,7 @@
         "change-case": "^5.4.4",
         "effect": "^3.6.7",
         "fnpm-toolkit": "workspace:*",
+        "module-replacements": "^2.5.0",
         "npm-check-updates": "^17.1.0",
         "pathe": "^1.1.2",
         "picocolors": "^1.0.1",

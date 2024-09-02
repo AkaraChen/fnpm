@@ -5,7 +5,5 @@
             "entry": ["src/{fnpm,fnpx}.ts"]
         }
     },
-    "ignoreDependencies": [
-        "tslib"
-    ]
+    "ignoreDependencies": ["tslib"]
 }

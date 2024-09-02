@@ -8,12 +8,13 @@ import {
     Group,
     ScrollArea,
     Skeleton,
+    Stack,
     Text,
 } from '@mantine/core';
 import type { MetaFunction, SerializeFrom } from '@remix-run/node';
 import { Await, Link, defer, useLoaderData } from '@remix-run/react';
 import {
-    IconAlertTriangle,
+    IconAlertCircle,
     IconBiohazard,
     IconCircleDashedCheck,
     IconJumpRope,
@@ -293,24 +294,29 @@ interface DiagnosticIssuesProps {
 
 const DiagnosticIssues: FC<DiagnosticIssuesProps> = (props) => {
     const { diagnoses } = props;
+    const withoutInfo = diagnoses.filter((d) => d.level !== 'info');
+    const infos = diagnoses.filter((d) => d.level === 'info');
     return (
         <InfoCard
             icon={IconZoomExclamation}
             title='Diagnostic Issues'
-            value={diagnoses.length}
+            value={withoutInfo.length}
             graph={
-                diagnoses.length === 0 ? (
-                    <AllClear />
+                withoutInfo.length === 0 ? (
+                    <AllClear>
+                        {infos.length > 0 &&
+                            `Only ${infos.length} non-serious issues found`}
+                    </AllClear>
                 ) : (
                     <ScrollArea h={'300px'}>
-                        {diagnoses.map((diagnose) => (
+                        {withoutInfo.map((diagnose) => (
                             <CardItem
                                 key={diagnose.description}
                                 icon={
                                     diagnose.level === 'error'
                                         ? IconBiohazard
                                         : diagnose.level === 'warning'
-                                          ? IconAlertTriangle
+                                          ? IconAlertCircle
                                           : IconCircleDashedCheck
                                 }
                                 title={diagnose.title}

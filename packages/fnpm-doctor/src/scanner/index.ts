@@ -1,5 +1,6 @@
 import { Effect } from 'effect';
 import { eslint } from './eslint';
+import { moduleReplacement } from './module-replacement';
 import { publint } from './publint';
 import {
     type Scanner,
@@ -8,7 +9,12 @@ import {
 } from './scanner';
 import { versionMismatch } from './version-mismatch';
 
-const scanners: Scanner[] = [eslint, versionMismatch, publint];
+const scanners: Scanner[] = [
+    eslint,
+    versionMismatch,
+    publint,
+    moduleReplacement,
+];
 
 export interface ScanResult {
     diagnoses: ScannerDiagnose[];

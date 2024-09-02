@@ -12,7 +12,7 @@ const Result: FC<ResultProps> = (props) => {
         <Flex w={'100%'} h={'100%'} align='center'>
             <Stack align='center' w={'100%'}>
                 <Icon size={120} color='#555' />
-                <Text c={'dark'} size='lg' fw={500}>
+                <Text c={'#555'} fw={500} size='lg'>
                     {children}
                 </Text>
             </Stack>
@@ -20,6 +20,7 @@ const Result: FC<ResultProps> = (props) => {
     );
 };
 
-export const AllClear: FC = () => {
-    return <Result icon={IconMoodSmile}>All Clear</Result>;
+export const AllClear: FC<PropsWithChildren> = (props) => {
+    const children = props.children ?? 'All Clear';
+    return <Result icon={IconMoodSmile}>{children}</Result>;
 };

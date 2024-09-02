@@ -13,7 +13,7 @@ export interface ScannerDiagnose {
     level: ScannerDiagnoseLevel;
     title: string;
     description: string;
-    docs?: string;
+    docs?: URL;
     workspace?: string[];
     scope?: string;
 }
