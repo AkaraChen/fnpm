@@ -9,7 +9,8 @@
         "dev": "turbo dev",
         "test": "turbo test",
         "release": "bumpp -r && pnpm -r publish",
-        "knip": "knip --config ./knip.json"
+        "knip": "knip --config ./knip.json",
+        "circular": "madge --circular --extensions ts ./packages"
     },
     "keywords": [],
     "author": "",
@@ -21,6 +22,7 @@
         "@types/node": "^22.5.1",
         "bumpp": "^9.5.2",
         "knip": "^5.29.1",
+        "madge": "^8.0.0",
         "tslib": "^2.7.0",
         "tsup": "^8.2.4",
         "turbo": "^2.1.1",
