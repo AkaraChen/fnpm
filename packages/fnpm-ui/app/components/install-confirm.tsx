@@ -104,12 +104,17 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                                 data={['prod', 'dev', 'peer', 'optional']}
                                 value={pkg.field}
                                 onChange={(e) => {
-                                    const field = e.target
+                                    const orignal = pkg.field;
+                                    const value = e.target
                                         .value as InstallConfirmField;
                                     setData((data) => {
                                         return {
                                             ...data,
-                                            [field]: [...data[field], pkg],
+                                            [orignal]: data[orignal].filter(
+                                                (item) =>
+                                                    item.name !== pkg.name,
+                                            ),
+                                            [value]: [...data[value], pkg],
                                         };
                                     });
                                 }}
