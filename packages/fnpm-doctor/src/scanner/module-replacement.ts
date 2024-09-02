@@ -1,13 +1,14 @@
 import { Effect } from 'effect';
 import { getDeps } from 'fnpm-toolkit';
-import {
-    type DocumentedModuleReplacement,
-    type NativeModuleReplacement,
-    type SimpleModuleReplacement,
-    microUtilsReplacements,
-    nativeReplacements,
-    preferredReplacements,
+import type {
+    DocumentedModuleReplacement,
+    NativeModuleReplacement,
+    SimpleModuleReplacement,
 } from 'module-replacements';
+import microUtilsReplacements from 'module-replacements/manifests/micro-utilities.json';
+import nativeReplacements from 'module-replacements/manifests/native.json';
+import preferredReplacements from 'module-replacements/manifests/preferred.json';
+
 import type { PackageJson } from 'read-pkg';
 import type { Scanner } from './scanner';
 

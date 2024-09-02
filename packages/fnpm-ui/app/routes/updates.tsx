@@ -43,7 +43,18 @@ interface UpdateManifestWithWorkspace extends UpdateManifest {
 
 export async function loader() {
     const ctx = await resolveContext(root);
-    const updates = update(ctx);
+    const updates = update(ctx).then((updates) => {
+        return Object.entries(updates).reduce(
+            (acc, [workspace, updates]) => {
+                return Object.assign({}, acc, {
+                    [workspace]: updates.map((update) =>
+                        Object.assign({}, update, { workspace }),
+                    ),
+                });
+            },
+            {} as Record<string, UpdateManifestWithWorkspace[]>,
+        );
+    });
     const { projects, pm } = ctx;
     return defer({
         updates,
@@ -218,10 +229,7 @@ export default function Page() {
                                     value={{
                                         selected,
                                         setSelected,
-                                        updates: updates as Record<
-                                            string,
-                                            UpdateManifestWithWorkspace[]
-                                        >,
+                                        updates,
                                         check,
                                         unCheck,
                                         projects: data.projects,
