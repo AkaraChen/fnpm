@@ -188,6 +188,7 @@ const UpdateButton: FC = () => {
                 leftSection={
                     <IconUpload style={{ width: rem(20), height: rem(20) }} />
                 }
+                w={128}
                 onClick={() => {
                     openConfirm();
                 }}
@@ -220,7 +221,7 @@ export default function Page() {
     return (
         <BasePage>
             <PageHeader title='Updates' />
-            <Box h={'100%'} style={{ overflow: 'hidden' }} pos={'relative'}>
+            <Box h={'100%'} style={{ overflow: 'hidden' }}>
                 <Suspense>
                     <Await resolve={data.updates}>
                         {(updates) => {
@@ -252,8 +253,8 @@ export default function Page() {
                                         </SimpleGrid>
                                         <Box
                                             pos={'absolute'}
-                                            right={40}
-                                            bottom={40}
+                                            right={24}
+                                            bottom={24}
                                         >
                                             <UpdateButton />
                                         </Box>

@@ -1,6 +1,14 @@
-import { Button, Checkbox, Flex, Stack, TextInput, rem } from '@mantine/core';
+import {
+    Box,
+    Button,
+    Checkbox,
+    Flex,
+    Stack,
+    TextInput,
+    rem,
+} from '@mantine/core';
 import { useLoaderData } from '@remix-run/react';
-import { IconSearch } from '@tabler/icons-react';
+import { IconDownload, IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
 import { InstallConfirm } from '~/components/install-confirm';
@@ -99,7 +107,6 @@ export default function Page() {
                     opened={open}
                     onOpenChange={setOpen}
                 />
-                <Button onClick={() => setOpen(true)}>Install</Button>
             </Flex>
             <Flex mb={10} gap={20}>
                 {data.projects.map((project) => {
@@ -145,6 +152,20 @@ export default function Page() {
                     }}
                 />
             </Suspense>
+            <Box pos={'absolute'} right={40} bottom={40}>
+                <Button
+                    onClick={() => setOpen(true)}
+                    size='md'
+                    w={128}
+                    leftSection={
+                        <IconDownload
+                            style={{ width: rem(20), height: rem(20) }}
+                        />
+                    }
+                >
+                    Install
+                </Button>
+            </Box>
         </Stack>
     );
 }

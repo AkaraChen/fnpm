@@ -105,7 +105,7 @@ export default function Page() {
     const data = useLoaderData<typeof loader>();
     const [level, setLevel] = useQueryParams<ScannerDiagnoseLevel>(
         'level',
-        'info',
+        'warning',
     );
     const grouped = group(data, (d) => d.level);
     return (
