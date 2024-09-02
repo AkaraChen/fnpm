@@ -8,6 +8,7 @@ import { type RemoveOptions, remove } from './remove';
 import { type RunOptions, run } from './run';
 import { type TestOptions, test } from './test';
 import type { Command } from './type';
+import { type UpdateOptions, update } from './update';
 
 export const commands: {
     add: Command<AddOptions>;
@@ -19,6 +20,7 @@ export const commands: {
     run: Command<RunOptions>;
     test: Command<TestOptions>;
     create: Command<CreateOptions>;
+    update: Command<UpdateOptions>;
 } = {
     add,
     dlx,
@@ -29,6 +31,7 @@ export const commands: {
     run,
     test,
     create,
+    update,
 };
 
 export type {
@@ -41,4 +44,5 @@ export type {
     RunOptions,
     TestOptions,
     CreateOptions,
+    UpdateOptions,
 };

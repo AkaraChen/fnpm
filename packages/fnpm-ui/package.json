@@ -16,6 +16,7 @@
         "@icons-pack/react-simple-icons": "^10.0.0",
         "@mantine/core": "^7.12.1",
         "@mantine/hooks": "^7.12.1",
+        "@mantine/modals": "^7.12.2",
         "@microsoft/fetch-event-source": "^2.0.1",
         "@remix-run/node": "^2.11.2",
         "@remix-run/react": "^2.11.2",

@@ -5,6 +5,7 @@ import {
     IconDownload,
     IconMap,
     IconPackage,
+    IconUpload,
     IconZoomExclamation,
     type TablerIcon,
 } from '@tabler/icons-react';
@@ -23,6 +24,7 @@ const data: NavItem[] = [
     { link: '/packages', label: 'Package', icon: IconPackage },
     { link: '/installer', label: 'Installer', icon: IconDownload },
     { link: '/diagnose', label: 'Diagnoses', icon: IconZoomExclamation },
+    { link: '/updates', label: 'Updates', icon: IconUpload },
 ];
 
 export function Navbar() {

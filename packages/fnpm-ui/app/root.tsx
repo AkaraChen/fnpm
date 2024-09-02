@@ -18,6 +18,7 @@ import '@fontsource-variable/inter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import '~/lib/date';
+import { ModalsProvider } from '@mantine/modals';
 
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
@@ -40,14 +41,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <body>
                 <MantineProvider theme={theme}>
                     <QueryClientProvider client={client}>
-                        <Flex style={{ overflowY: 'hidden' }}>
-                            <Box w={'300px'}>
-                                <Navbar />
-                            </Box>
-                            <Box w={'100%'} h={'100vh'} p={16}>
-                                {children}
-                            </Box>
-                        </Flex>
+                        <ModalsProvider>
+                            <Flex style={{ overflowY: 'hidden' }}>
+                                <Box w={'300px'}>
+                                    <Navbar />
+                                </Box>
+                                <Box w={'100%'} h={'100vh'} p={16}>
+                                    {children}
+                                </Box>
+                            </Flex>
+                        </ModalsProvider>
                     </QueryClientProvider>
                 </MantineProvider>
                 <ScrollRestoration />

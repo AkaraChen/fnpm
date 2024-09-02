@@ -111,11 +111,7 @@ export default function Page() {
     return (
         <BasePage>
             <PageHeader title='Diagnose' />
-            <Stack
-                w={'calc(100vw-300px)'}
-                h={'100%'}
-                style={{ overflow: 'hidden' }}
-            >
+            <Stack w={'100%'} h={'100%'} style={{ overflow: 'hidden' }}>
                 <NativeSelect
                     label='level'
                     w={120}

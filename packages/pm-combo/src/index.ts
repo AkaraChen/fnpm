@@ -9,4 +9,5 @@ export type {
     ExecOptions,
     TestOptions,
     CreateOptions,
+    UpdateOptions,
 } from './commands';
