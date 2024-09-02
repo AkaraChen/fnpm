@@ -7,18 +7,12 @@ import {
     SiTypescript,
 } from '@icons-pack/react-simple-icons';
 import { Flex, Skeleton, rem } from '@mantine/core';
-import {
-    hasBin,
-    hasExportFields,
-    hasReact,
-    hasTypes,
-    sortSemver,
-} from 'fnpm-toolkit';
+import { hasBin, hasExportFields, hasReact, hasTypes } from 'fnpm-toolkit';
 import { type ComponentProps, type FC, useMemo } from 'react';
 import type { PackageJson } from 'type-fest';
 import { usePackument } from '~/requests/npm';
 
-export interface NpmPkgTagsProps {
+interface NpmPkgTagsProps {
     name: string;
     version: string;
 }

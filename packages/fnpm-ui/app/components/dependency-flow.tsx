@@ -21,7 +21,7 @@ import { getDeps } from 'fnpm-toolkit';
 import type { PackageJson } from 'type-fest';
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 
-export interface DependencyFlowProps {
+interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
     rootProject?: SerializeFrom<Project>;
 }

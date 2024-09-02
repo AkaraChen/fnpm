@@ -4,7 +4,7 @@ import { parse } from 'parse-package-name';
 import { type FC, useMemo, useState } from 'react';
 import { NpmPkgInfo } from './npm-pkg-info';
 
-export interface InstallConfirmItem {
+interface InstallConfirmItem {
     name: string;
     version?: string;
 }
@@ -13,16 +13,16 @@ interface InstallConfirmItemWithField extends InstallConfirmItem {
     field: InstallConfirmField;
 }
 
-export interface InstallConfirmData {
+interface InstallConfirmData {
     dev: InstallConfirmItem[];
     prod: InstallConfirmItem[];
     peer: InstallConfirmItem[];
     optional: InstallConfirmItem[];
 }
 
-export type InstallConfirmField = keyof InstallConfirmData;
+type InstallConfirmField = keyof InstallConfirmData;
 
-export interface InstallConfirmProps {
+interface InstallConfirmProps {
     packages: string[];
     onConfirm: (data: InstallConfirmData) => void;
     opened: boolean;

@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { usePackument } from '~/requests/npm';
 import { NpmPkgTags } from './npm-pkg-tags';
 
-export interface NpmPkgInfoProps {
+interface NpmPkgInfoProps {
     name: string;
     version?: string;
     onVersionChange: (version: string) => void;

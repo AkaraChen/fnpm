@@ -2,11 +2,11 @@ import { Flex, Stack, Text } from '@mantine/core';
 import { IconMoodSmile, type TablerIcon } from '@tabler/icons-react';
 import type { FC, PropsWithChildren } from 'react';
 
-export interface ResultProps extends PropsWithChildren {
+interface ResultProps extends PropsWithChildren {
     icon: TablerIcon;
 }
 
-export const Result: FC<ResultProps> = (props) => {
+const Result: FC<ResultProps> = (props) => {
     const { icon: Icon, children } = props;
     return (
         <Flex w={'100%'} h={'100%'} align='center'>

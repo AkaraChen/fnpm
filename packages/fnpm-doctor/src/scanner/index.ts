@@ -8,7 +8,7 @@ import {
 } from './scanner';
 import { versionMismatch } from './version-mismatch';
 
-export const scanners: Scanner[] = [eslint, versionMismatch, publint];
+const scanners: Scanner[] = [eslint, versionMismatch, publint];
 
 export interface ScanResult {
     diagnoses: ScannerDiagnose[];

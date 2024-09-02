@@ -1,7 +1,7 @@
 import { Box, Flex, Title } from '@mantine/core';
 import type { ComponentProps, FC, ReactNode } from 'react';
 
-export interface PageHeaderProps extends ComponentProps<typeof Flex> {
+interface PageHeaderProps extends ComponentProps<typeof Flex> {
     title: string;
     extra?: ReactNode;
 }

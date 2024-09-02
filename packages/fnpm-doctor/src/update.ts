@@ -22,7 +22,7 @@ export interface UpdateManifest {
 
 const pmNames = ['npm', 'yarn', 'pnpm'];
 
-export async function transformInfo(
+async function transformInfo(
     updates: Record<string, string>,
     root: string,
 ): Promise<UpdateManifest[]> {

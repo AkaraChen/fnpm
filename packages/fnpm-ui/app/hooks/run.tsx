@@ -14,12 +14,12 @@ export interface RunElement {
     cwd?: string;
 }
 
-export interface RunOptions {
+interface RunOptions {
     cwd?: string;
     queue?: Array<RunElement>;
 }
 
-export interface RunProps extends RunOptions {
+interface RunProps extends RunOptions {
     onSuccess?: () => void;
 }
 

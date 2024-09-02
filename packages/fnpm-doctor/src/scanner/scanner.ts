@@ -18,7 +18,7 @@ export interface ScannerDiagnose {
     scope?: string;
 }
 
-export interface ScannerContext {
+interface ScannerContext {
     cwd: string;
     root: string;
     diagnoses: ScannerDiagnose[];

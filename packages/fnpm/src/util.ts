@@ -6,7 +6,7 @@ import { parse as parsePackageName } from 'parse-package-name';
 import { packageDirectory } from 'pkg-dir';
 import { hideBin } from 'yargs/helpers';
 
-export interface ExecOptions {
+interface ExecOptions {
     cwd?: string;
 }
 

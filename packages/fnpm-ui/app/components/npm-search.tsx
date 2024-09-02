@@ -14,7 +14,7 @@ import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import type { LoaderData as NpmSearchResp } from '~/routes/npm-search';
 
-export interface NpmSearchProps {
+interface NpmSearchProps {
     search: string;
     toggles: string[];
     onToggle: (name: string, checked: boolean) => void;

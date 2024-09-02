@@ -2,7 +2,7 @@ import pc from 'picocolors';
 import type { Formatter } from 'picocolors/types';
 import type { ScannerDiagnose } from './scanner';
 
-export function getLevelColor(level: ScannerDiagnose['level']): Formatter {
+function getLevelColor(level: ScannerDiagnose['level']): Formatter {
     return level === 'error'
         ? pc.red
         : level === 'warning'

@@ -14,10 +14,7 @@
     "devDependencies": {
         "@types/semver": "^7.5.8",
         "semver": "^7.6.3",
-        "tslib": "^2.7.0",
-        "tsup": "^8.2.4",
-        "type-fest": "^4.25.0",
-        "typescript": "^5.5.4"
+        "type-fest": "^4.25.0"
     },
     "types": "./dist/index.d.ts",
     "main": "./dist/index.cjs",
