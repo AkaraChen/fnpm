@@ -26,7 +26,6 @@
         "@xyflow/react": "^12.2.0",
         "ansi-to-html": "^0.7.2",
         "dayjs": "^1.11.13",
-        "execa": "^9.3.1",
         "fnpm-doctor": "workspace:*",
         "fnpm-toolkit": "workspace:*",
         "isbot": "^5.1.17",
@@ -41,6 +40,7 @@
         "react-intersection-observer": "^9.13.0",
         "recharts": "^2.12.7",
         "remix-utils": "^7.6.0",
+        "tinyexec": "^0.3.0",
         "use-deep-compare-effect": "^1.8.1"
     },
     "devDependencies": {

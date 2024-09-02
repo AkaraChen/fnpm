@@ -1,9 +1,9 @@
 import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
-import { execa } from 'execa';
 import { resolveContext } from 'fnpm-doctor';
 import { parse as parsePackageName } from 'parse-package-name';
 import { packageDirectory } from 'pkg-dir';
+import { x } from 'tinyexec';
 import { hideBin } from 'yargs/helpers';
 
 interface ExecOptions {
@@ -14,12 +14,12 @@ interface ExecOptions {
 export function exec(shell: string[], opts: ExecOptions = {}) {
     const { cwd } = opts;
     const [command, ...args] = shell;
-    return execa(command!, args, {
-        cwd,
-        stderr: 'inherit',
-        stdout: 'inherit',
-        stdin: 'inherit',
-    }).catch(noop);
+    return x(command!, args, {
+        nodeOptions: {
+            cwd,
+            stdio: 'inherit',
+        },
+    });
 }
 
 export function error(message: string) {

@@ -64,9 +64,6 @@ importers:
       consola:
         specifier: ^3.2.3
         version: 3.2.3
-      execa:
-        specifier: ^9.3.1
-        version: 9.3.1
       fnpm-doctor:
         specifier: workspace:*
         version: link:../fnpm-doctor
@@ -85,6 +82,9 @@ importers:
       read-pkg:
         specifier: ^9.0.1
         version: 9.0.1
+      tinyexec:
+        specifier: ^0.3.0
+        version: 0.3.0
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -207,9 +207,6 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
-      execa:
-        specifier: ^9.3.1
-        version: 9.3.1
       fnpm-doctor:
         specifier: workspace:*
         version: link:../fnpm-doctor
@@ -252,6 +249,9 @@ importers:
       remix-utils:
         specifier: ^7.6.0
         version: 7.6.0(@remix-run/node@2.11.2(typescript@5.5.4))(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/router@1.19.1)(react@18.3.1)(zod@3.23.8)
+      tinyexec:
+        specifier: ^0.3.0
+        version: 0.3.0
       use-deep-compare-effect:
         specifier: ^1.8.1
         version: 1.8.1(react@18.3.1)
@@ -1537,13 +1537,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sec-ant/readable-stream@0.4.1':
-    resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
-
-  '@sindresorhus/merge-streams@4.0.0':
-    resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
-    engines: {node: '>=18'}
-
   '@snyk/github-codeowners@1.1.0':
     resolution: {integrity: sha512-lGFf08pbkEac0NYgVf4hdANpAgApRjNByLXB+WBip3qj1iendOIyAwP2GKkKbQMNVy2r1xxDf0ssfWscoiC+Vw==}
     engines: {node: '>=8.10'}
@@ -2525,10 +2518,6 @@ packages:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
     engines: {node: '>=16.17'}
 
-  execa@9.3.1:
-    resolution: {integrity: sha512-gdhefCCNy/8tpH/2+ajP9IQc14vXchNdd0weyzSJEFURhRMGncQ+zKFxwjAufIewPEJm9BPOaJnvg2UtlH2gPQ==}
-    engines: {node: ^18.19.0 || >=20.5.0}
-
   exit-hook@2.2.1:
     resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
     engines: {node: '>=6'}
@@ -2568,10 +2557,6 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
-
-  figures@6.1.0:
-    resolution: {integrity: sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg==}
-    engines: {node: '>=18'}
 
   filing-cabinet@5.0.2:
     resolution: {integrity: sha512-RZlFj8lzyu6jqtFBeXNqUjjNG6xm+gwXue3T70pRxw1W40kJwlgq0PSWAmh0nAnn5DHuBIecLXk9+1VKS9ICXA==}
@@ -2691,10 +2676,6 @@ packages:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
     engines: {node: '>=16'}
 
-  get-stream@9.0.1:
-    resolution: {integrity: sha512-kVCxPF3vQM/N0B1PmoqVUqgHP+EeVjmZSQn+1oCRPxd2P21P2F19lIgbR3HBosbB1PUhOAoctJnfEn2GbN2eZA==}
-    engines: {node: '>=18'}
-
   get-tsconfig@4.8.0:
     resolution: {integrity: sha512-Pgba6TExTZ0FJAn1qkJAjIeKoDJ3CsI2ChuLohJnZl/tTU8MVrq3b+2t5UOPfRa4RMsorClBjJALkJUMjG1PAw==}
 
@@ -2787,10 +2768,6 @@ packages:
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
-
-  human-signals@8.0.0:
-    resolution: {integrity: sha512-/1/GPCpDUCCYwlERiYjxoczfP0zfvZMU/OWgQPMya9AbAE24vseigFdhAMObpc8Q4lc/kjutPfUddDYyAmejnA==}
-    engines: {node: '>=18.18.0'}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -2947,17 +2924,9 @@ packages:
     resolution: {integrity: sha512-LnQR4bZ9IADDRSkvpqMGvt/tEJWclzklNgSw48V5EAaAeDd6qGvN8ei6k5p0tvxSR171VmGyHuTiAOfxAbr8kA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  is-stream@4.0.1:
-    resolution: {integrity: sha512-Dnz92NInDqYckGEUJv689RbRiTSEHCQ7wOVeALbkOz999YpqT46yMRIGtSNl2iCL1waAZSx40+h59NV/EwzV/A==}
-    engines: {node: '>=18'}
-
   is-unicode-supported@0.1.0:
     resolution: {integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==}
     engines: {node: '>=10'}
-
-  is-unicode-supported@2.0.0:
-    resolution: {integrity: sha512-FRdAyx5lusK1iHG0TWpVtk9+1i+GjrzRffhDg4ovQ7mcidMQ6mj+MhKPmvh7Xwyv5gIS06ns49CA7Sqg7lC22Q==}
-    engines: {node: '>=18'}
 
   is-url-superb@4.0.0:
     resolution: {integrity: sha512-GI+WjezhPPcbM+tqE9LnmsY5qqjwHzTvjJ36wxYX5ujNXefSUJ/T17r5bqDV8yLhcgB59KTPNOc9O9cmHTPWsA==}
@@ -4375,10 +4344,6 @@ packages:
     resolution: {integrity: sha512-dOESqjYr96iWYylGObzd39EuNTa5VJxyvVAEm5Jnh7KGo75V43Hk1odPQkNDyXNmUR6k+gEiDVXnjB8HJ3crXw==}
     engines: {node: '>=12'}
 
-  strip-final-newline@4.0.0:
-    resolution: {integrity: sha512-aulFJcD6YK8V1G7iRB5tigAP4TsHBZZrOV8pjV++zdUwmeV8uzbY7yn6h9MswN62adStNZFuCIx4haBnRuMDaw==}
-    engines: {node: '>=18'}
-
   strip-json-comments@2.0.1:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
@@ -4457,6 +4422,9 @@ packages:
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
+
+  tinyexec@0.3.0:
+    resolution: {integrity: sha512-tVGE0mVJPGb0chKhqmsoosjsS+qUnJVGJpZgsHYQcGoPlG3B51R3PouqTgEGH2Dc9jjFyOqOpix6ZHNMXp1FZg==}
 
   tinyglobby@0.2.5:
     resolution: {integrity: sha512-Dlqgt6h0QkoHttG53/WGADNh9QhcjCAIZMTERAVhdpmIBEejSuLI9ZmGKWzB7tweBjlk30+s/ofi4SLmBeTYhw==}
@@ -5032,10 +5000,6 @@ packages:
   yocto-queue@1.1.1:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
-
-  yoctocolors@2.1.1:
-    resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
-    engines: {node: '>=18'}
 
   zod-package-json@1.0.3:
     resolution: {integrity: sha512-Mb6GzuRyUEl8X+6V6xzHbd4XV0au/4gOYrYP+CAfHL32uPmGswES+v2YqonZiW1NZWVA3jkssCKSU2knonm/aQ==}
@@ -6166,10 +6130,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.20.0':
     optional: true
 
-  '@sec-ant/readable-stream@0.4.1': {}
-
-  '@sindresorhus/merge-streams@4.0.0': {}
-
   '@snyk/github-codeowners@1.1.0':
     dependencies:
       commander: 4.1.1
@@ -7294,21 +7254,6 @@ snapshots:
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
 
-  execa@9.3.1:
-    dependencies:
-      '@sindresorhus/merge-streams': 4.0.0
-      cross-spawn: 7.0.3
-      figures: 6.1.0
-      get-stream: 9.0.1
-      human-signals: 8.0.0
-      is-plain-obj: 4.1.0
-      is-stream: 4.0.1
-      npm-run-path: 5.3.0
-      pretty-ms: 9.1.0
-      signal-exit: 4.1.0
-      strip-final-newline: 4.0.0
-      yoctocolors: 2.1.1
-
   exit-hook@2.2.1: {}
 
   express@4.19.2:
@@ -7376,10 +7321,6 @@ snapshots:
   fdir@6.2.0(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
-
-  figures@6.1.0:
-    dependencies:
-      is-unicode-supported: 2.0.0
 
   filing-cabinet@5.0.2:
     dependencies:
@@ -7494,11 +7435,6 @@ snapshots:
   get-stream@6.0.1: {}
 
   get-stream@8.0.1: {}
-
-  get-stream@9.0.1:
-    dependencies:
-      '@sec-ant/readable-stream': 0.4.1
-      is-stream: 4.0.1
 
   get-tsconfig@4.8.0:
     dependencies:
@@ -7638,8 +7574,6 @@ snapshots:
 
   human-signals@5.0.0: {}
 
-  human-signals@8.0.0: {}
-
   iconv-lite@0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -7746,11 +7680,7 @@ snapshots:
 
   is-stream@3.0.0: {}
 
-  is-stream@4.0.1: {}
-
   is-unicode-supported@0.1.0: {}
-
-  is-unicode-supported@2.0.0: {}
 
   is-url-superb@4.0.0: {}
 
@@ -9355,8 +9285,6 @@ snapshots:
 
   strip-final-newline@3.0.0: {}
 
-  strip-final-newline@4.0.0: {}
-
   strip-json-comments@2.0.1: {}
 
   strip-json-comments@5.0.1: {}
@@ -9441,6 +9369,8 @@ snapshots:
   tiny-invariant@1.3.3: {}
 
   tinybench@2.9.0: {}
+
+  tinyexec@0.3.0: {}
 
   tinyglobby@0.2.5:
     dependencies:
@@ -9976,8 +9906,6 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.1.1: {}
-
-  yoctocolors@2.1.1: {}
 
   zod-package-json@1.0.3:
     dependencies:

@@ -2,8 +2,8 @@
 
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execa } from 'execa';
 import open from 'open';
+import { x } from 'tinyexec';
 
 /**
  *
@@ -16,12 +16,15 @@ export const start = async (port, root) => {
     setTimeout(() => {
         open(url.href);
     }, 1000);
-    await execa({
-        env: {
-            PORT: String(port),
-            FNPM_ROOT: root,
+    await x('npm', ['run', 'start'], {
+        nodeOptions: {
+            env: {
+                NODE_ENV: 'production',
+                PORT: String(port),
+                FNPM_ROOT: root,
+            },
+            cwd: dirname(fileURLToPath(import.meta.url)),
+            stdio: ['ignore', 'inherit', 'ignore'],
         },
-        cwd: dirname(fileURLToPath(import.meta.url)),
-        stderr: 'inherit',
-    })`npm run start`;
+    });
 };

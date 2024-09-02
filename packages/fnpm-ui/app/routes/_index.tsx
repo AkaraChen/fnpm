@@ -345,8 +345,10 @@ const DiagnosticIssues: FC<DiagnosticIssuesProps> = (props) => {
             graph={
                 withoutInfo.length === 0 ? (
                     <AllClear>
-                        {infos.length > 0 &&
-                            `Only ${infos.length} non-serious issues found`}
+                        {infos.length > 0 ?
+                            `Only ${infos.length} non-serious issues found`
+                            : 'No issues found'
+                        }
                     </AllClear>
                 ) : (
                     <ScrollArea h={'300px'}>
