@@ -4,10 +4,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import '@fontsource/space-mono';
-import AnsiConv from 'ansi-to-html';
-import DOMPurify from 'dompurify';
-
-const conv = new AnsiConv();
+import { transformAnsi } from '~/lib/term';
 
 export interface RunElement {
     command: string;
@@ -92,20 +89,7 @@ export const useRun = (props: RunProps = {}) => {
                                 c={'white'}
                                 // biome-ignore lint/security/noDangerouslySetInnerHtml: santized, so is ok.
                                 dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(
-                                        conv.toHtml(log),
-                                        {
-                                            ALLOWED_TAGS: [
-                                                'span',
-                                                'b',
-                                                'i',
-                                                'u',
-                                                'br',
-                                                'strike',
-                                            ],
-                                            ALLOWED_ATTR: ['style'],
-                                        },
-                                    ),
+                                    __html: transformAnsi(log),
                                 }}
                                 maw={'calc(768px - 40px)'}
                             />

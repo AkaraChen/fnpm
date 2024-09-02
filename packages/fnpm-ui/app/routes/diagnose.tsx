@@ -15,6 +15,7 @@ import type { FC } from 'react';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { useQueryParams } from '~/hooks/qps';
+import { transformAnsi } from '~/lib/term';
 import { root } from '~/server/config.server';
 import {
     type ScannerDiagnose,
@@ -65,7 +66,7 @@ const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
                         display={'flex'}
                         style={{ alignItems: 'center' }}
                     >
-                        <Badge fw={500} variant='light'>
+                        <Badge fw={500} variant='light' component='span'>
                             {scope}
                         </Badge>
                         <Text span ml={8}>
@@ -73,9 +74,14 @@ const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
                         </Text>
                     </Text>
                 </Flex>
-                <Text c={'#555'} size='sm'>
-                    {description}
-                </Text>
+                <Text
+                    c={'#555'}
+                    size='sm'
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+                    dangerouslySetInnerHTML={{
+                        __html: transformAnsi(description),
+                    }}
+                />
                 {docs && (
                     <Flex gap={12}>
                         {docs && (
@@ -140,6 +146,7 @@ export default function Page() {
                                 return (
                                     show && (
                                         <DiagnoseGroup
+                                            key={currentLevel}
                                             level={
                                                 currentLevel as ScannerDiagnoseLevel
                                             }
