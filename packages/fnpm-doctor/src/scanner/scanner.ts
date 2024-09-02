@@ -10,6 +10,7 @@ import { resolveContext } from '../context';
 export type ScannerDiagnoseLevel = 'error' | 'warning' | 'info';
 
 export interface ScannerDiagnose {
+    id: string;
     level: ScannerDiagnoseLevel;
     title: string;
     description: string;
@@ -48,8 +49,19 @@ export class ScannerContextImpl implements ScannerContext {
         this.isMonoRepo = rawContext.isMonoRepo;
     }
 
-    report(...diagnoses: ScannerDiagnose[]): void {
-        this.diagnoses.push(...diagnoses);
+    report(diagnose: ScannerDiagnose): void {
+        const existing = this.diagnoses.find((d) => d.id === diagnose.id);
+        if (existing) {
+            this.diagnoses[this.diagnoses.indexOf(existing)] = {
+                ...existing,
+                workspace: [
+                    ...(existing.workspace || []),
+                    ...(diagnose.workspace || []),
+                ],
+            };
+        } else {
+            this.diagnoses.push(diagnose);
+        }
     }
     resolve(filePath: string): string {
         return path.resolve(this.root, filePath);

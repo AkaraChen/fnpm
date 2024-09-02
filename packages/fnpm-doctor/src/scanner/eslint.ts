@@ -21,6 +21,7 @@ export const eslint: Scanner = (ctx) => {
             if (file) {
                 if (hasEslintRc) {
                     ctx.report({
+                        id: 'multiple-eslint-configurations',
                         level: 'warning',
                         title: 'Multiple ESLint configurations',
                         description:

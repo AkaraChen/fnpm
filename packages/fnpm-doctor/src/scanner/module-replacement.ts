@@ -18,6 +18,7 @@ export const moduleReplacement: Scanner = (ctx) => {
             for (const native of nativeReplacements.moduleReplacements as NativeModuleReplacement[]) {
                 if (deps.includes(native.moduleName)) {
                     ctx.report({
+                        id: `native-module-${native.moduleName}`,
                         title: `Native module ${native.moduleName} is used`,
                         description: `The module ${native.moduleName} is a native module and has a replacement. You should consider using ${native.replacement} instead.`,
                         level: 'warning',
@@ -33,6 +34,7 @@ export const moduleReplacement: Scanner = (ctx) => {
             for (const micro of microUtilsReplacements.moduleReplacements as SimpleModuleReplacement[]) {
                 if (deps.includes(micro.moduleName)) {
                     ctx.report({
+                        id: `micro-utils-module-${micro.moduleName}`,
                         title: `Micro utils module ${micro.moduleName} is used`,
                         description: `The module ${micro.moduleName} is a micro utils module and has a replacement. You should consider using ${micro.replacement} instead.`,
                         level: 'warning',
@@ -44,8 +46,9 @@ export const moduleReplacement: Scanner = (ctx) => {
             for (const preferred of preferredReplacements.moduleReplacements as DocumentedModuleReplacement[]) {
                 if (deps.includes(preferred.moduleName)) {
                     ctx.report({
-                        title: `Preferred module ${preferred.moduleName} is used`,
-                        description: `The module ${preferred.moduleName} is a preferred module and has a replacement. You should see the documentation at ${preferred.docPath}.`,
+                        id: `preferred-module-${preferred.moduleName}`,
+                        title: `Not recommended module ${preferred.moduleName} is used`,
+                        description: `The module ${preferred.moduleName} is not a recommended module and has a replacement. You should see the documentation at ${preferred.docPath}.`,
                         level: 'info',
                         docs: new URL(
                             `${preferred.docPath}.md`,

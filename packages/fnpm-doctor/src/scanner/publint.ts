@@ -21,18 +21,21 @@ export const publint: Scanner = (ctx) => {
                                     : message.type === 'warning'
                                       ? 'warning'
                                       : 'error';
-                            const title = message.code;
+                            const title = sentenceCase(message.code);
                             const pkg = await readPackage({
                                 cwd: project.rootDir,
                             });
+                            const docs = new URL('https://publint.dev/rules');
+                            docs.hash = message.code.toLowerCase();
                             ctx.report({
+                                id: `publint-${title}`,
                                 level,
-                                title: sentenceCase(title),
+                                title,
                                 description: formatMessage(
                                     message,
                                     project.manifest,
                                 )!,
-                                docs: 'https://pub.dev/packages/publint',
+                                docs,
                                 workspace: [pkg.name],
                                 scope: 'publishing',
                             });

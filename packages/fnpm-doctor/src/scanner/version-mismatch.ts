@@ -41,6 +41,7 @@ export const versionMismatch: Scanner = (ctx) => {
                 new Set(versions.map((v) => v.version)).size > 1;
             if (hasMismatch) {
                 ctx.report({
+                    id: `version-mismatch-${name}`,
                     level: 'error',
                     title: `${name} version mismatch`,
                     description: `Version mismatch for ${name}: ${Array.from(
