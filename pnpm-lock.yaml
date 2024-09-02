@@ -228,6 +228,9 @@ importers:
       query-registry:
         specifier: ^3.0.1
         version: 3.0.1
+      radash:
+        specifier: ^12.1.0
+        version: 12.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -3665,6 +3668,10 @@ packages:
 
   quote-unquote@1.0.0:
     resolution: {integrity: sha512-twwRO/ilhlG/FIgYeKGFqyHhoEhqgnKVkcmqMKi2r524gz3ZbDTcyFt38E9xjJI2vT+KbRNHVbnJ/e0I25Azwg==}
+
+  radash@12.1.0:
+    resolution: {integrity: sha512-b0Zcf09AhqKS83btmUeYBS8tFK7XL2e3RvLmZcm0sTdF1/UUlHSsjXdCcWNxe7yfmAlPve5ym0DmKGtTzP6kVQ==}
+    engines: {node: '>=14.18.0'}
 
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
@@ -8358,6 +8365,8 @@ snapshots:
   quick-lru@7.0.0: {}
 
   quote-unquote@1.0.0: {}
+
+  radash@12.1.0: {}
 
   range-parser@1.2.1: {}
 

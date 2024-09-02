@@ -5,15 +5,24 @@ import {
     IconDownload,
     IconMap,
     IconPackage,
+    IconZoomExclamation,
+    type TablerIcon,
 } from '@tabler/icons-react';
 import pkg from 'package.json';
 import classes from './navbar.module.css';
 
-const data = [
+interface NavItem {
+    link: string;
+    label: string;
+    icon: TablerIcon;
+}
+
+const data: NavItem[] = [
     { link: '/', label: 'Dashboard', icon: IconDashboard },
     { link: '/graph', label: 'Graph', icon: IconMap },
     { link: '/packages', label: 'Package', icon: IconPackage },
     { link: '/installer', label: 'Installer', icon: IconDownload },
+    { link: '/diagnose', label: 'Diagnoses', icon: IconZoomExclamation },
 ];
 
 export function Navbar() {

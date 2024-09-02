@@ -341,7 +341,7 @@ const DiagnosticIssues: FC<DiagnosticIssuesProps> = (props) => {
                     </ScrollArea>
                 )
             }
-            href='/packages'
+            href='/diagnose'
         />
     );
 };

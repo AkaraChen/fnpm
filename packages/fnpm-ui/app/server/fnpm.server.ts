@@ -1,1 +1,7 @@
-export { resolveContext, scan, update } from 'fnpm-doctor';
+export {
+    resolveContext,
+    scan,
+    update,
+    type ScannerDiagnoseLevel,
+    type ScannerDiagnose,
+} from 'fnpm-doctor';
