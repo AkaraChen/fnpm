@@ -17,7 +17,7 @@ export async function action(args: ActionFunctionArgs) {
         nodeOptions: {
             cwd: body.cwd,
             env: {
-                NODE_ENV: 'production',
+                NODE_ENV: 'development',
                 FORCE_COLOR: 'true',
             },
         },
