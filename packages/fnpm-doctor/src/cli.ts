@@ -1,15 +1,22 @@
 #!/usr/bin/env node
 
 import { NodeRuntime } from '@effect/platform-node';
-import { Effect, pipe } from 'effect';
+import { Effect } from 'effect';
 import { scan } from './scanner';
 import { writeToConsole } from './scanner/utils';
 
-const program = pipe(
-    Effect.promise(async () => {
-        const result = await scan(process.cwd());
-        result.diagnoses.forEach(writeToConsole);
-    }),
-);
+const program = Effect.gen(function* () {
+    const { diagnoses } = yield* Effect.tryPromise({
+        try() {
+            return scan(process.cwd());
+        },
+        catch(e) {
+            console.error(e);
+        },
+    });
+    yield* Effect.forEach(diagnoses, (n) =>
+        Effect.sync(() => writeToConsole(n)),
+    );
+});
 
 NodeRuntime.runMain(program);
