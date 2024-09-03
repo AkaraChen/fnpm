@@ -158,7 +158,7 @@ importers:
         version: 4.26.0
 
   packages/fnpm-ui:
-    dependencies:
+    devDependencies:
       '@dagrejs/dagre':
         specifier: ^1.1.4
         version: 1.1.4
@@ -183,6 +183,12 @@ importers:
       '@microsoft/fetch-event-source':
         specifier: ^2.0.1
         version: 2.0.1
+      '@pnpm/types':
+        specifier: ^12.1.0
+        version: 12.1.0
+      '@remix-run/dev':
+        specifier: ^2.11.2
+        version: 2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.5.2)(sugarss@4.0.1(postcss@8.4.44))(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.2)(sugarss@4.0.1(postcss@8.4.44)))
       '@remix-run/node':
         specifier: ^2.11.2
         version: 2.11.2(typescript@5.5.4)
@@ -198,12 +204,21 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.53.3
         version: 5.53.3(react@18.3.1)
+      '@types/react':
+        specifier: ^18.3.5
+        version: 18.3.5
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
       '@xyflow/react':
         specifier: ^12.2.0
         version: 12.2.0(@types/react@18.3.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       ansi-to-html:
         specifier: ^0.7.2
         version: 0.7.2
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.20(postcss@8.4.44)
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -228,6 +243,15 @@ importers:
       pm-combo:
         specifier: workspace:*
         version: link:../pm-combo
+      postcss:
+        specifier: ^8.4.44
+        version: 8.4.44
+      postcss-preset-mantine:
+        specifier: ^1.17.0
+        version: 1.17.0(postcss@8.4.44)
+      postcss-simple-vars:
+        specifier: ^7.0.1
+        version: 7.0.1(postcss@8.4.44)
       query-registry:
         specifier: ^3.0.1
         version: 3.0.1
@@ -252,37 +276,12 @@ importers:
       tinyexec:
         specifier: ^0.3.0
         version: 0.3.0
-      use-deep-compare-effect:
-        specifier: ^1.8.1
-        version: 1.8.1(react@18.3.1)
-    devDependencies:
-      '@pnpm/types':
-        specifier: ^12.1.0
-        version: 12.1.0
-      '@remix-run/dev':
-        specifier: ^2.11.2
-        version: 2.11.2(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4))(@remix-run/serve@2.11.2(typescript@5.5.4))(@types/node@22.5.2)(sugarss@4.0.1(postcss@8.4.44))(typescript@5.5.4)(vite@5.4.2(@types/node@22.5.2)(sugarss@4.0.1(postcss@8.4.44)))
-      '@types/react':
-        specifier: ^18.3.5
-        version: 18.3.5
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.0
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.20(postcss@8.4.44)
-      postcss:
-        specifier: ^8.4.44
-        version: 8.4.44
-      postcss-preset-mantine:
-        specifier: ^1.17.0
-        version: 1.17.0(postcss@8.4.44)
-      postcss-simple-vars:
-        specifier: ^7.0.1
-        version: 7.0.1(postcss@8.4.44)
       type-fest:
         specifier: ^4.26.0
         version: 4.26.0
+      use-deep-compare-effect:
+        specifier: ^1.8.1
+        version: 1.8.1(react@18.3.1)
       vite:
         specifier: ^5.4.2
         version: 5.4.2(@types/node@22.5.2)(sugarss@4.0.1(postcss@8.4.44))
