@@ -4,4 +4,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
     plugins: [remix(), tsconfigPaths()],
+    build: {
+        target: 'esnext',
+        minify: true,
+    },
 });
