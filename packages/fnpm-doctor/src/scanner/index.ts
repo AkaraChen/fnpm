@@ -23,10 +23,8 @@ export interface ScanResult {
 export async function scan(searchDir: string): Promise<ScanResult> {
     const context = new ScannerContextImpl(searchDir);
     await context.init();
-    await Promise.all(
-        scanners.map(
-            async (scanner) => await Effect.runPromise(scanner(context)),
-        ),
+    await Effect.runPromise(
+        Effect.forEach(scanners, (scanner) => scanner(context)),
     );
     return {
         diagnoses: context.diagnoses,

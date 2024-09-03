@@ -44,15 +44,11 @@ interface UpdateManifestWithWorkspace extends UpdateManifest {
 export async function loader() {
     const ctx = await resolveContext(root);
     const updates = update(ctx).then((updates) => {
-        return Object.entries(updates).reduce(
-            (acc, [workspace, updates]) => {
-                return Object.assign({}, acc, {
-                    [workspace]: updates.map((update) =>
-                        Object.assign({}, update, { workspace }),
-                    ),
-                });
-            },
-            {} as Record<string, UpdateManifestWithWorkspace[]>,
+        return Object.fromEntries(
+            Object.entries(updates).map(([workspace, updates]) => [
+                workspace,
+                updates.map((update) => ({ ...update, workspace })),
+            ]),
         );
     });
     const { projects, pm } = ctx;

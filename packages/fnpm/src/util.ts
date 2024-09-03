@@ -46,7 +46,7 @@ export async function getContext(
 
 export function normalizePackageVersion(input: string) {
     const parsed = parsePackageName(input);
-    return parsed.version ? input : `${input}@latest`;
+    return `${parsed.name}@${parsed.version}`;
 }
 
 export function noop() {}

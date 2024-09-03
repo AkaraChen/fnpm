@@ -10,6 +10,19 @@ const depsFields = [
 
 export type DepsField = (typeof depsFields)[number];
 
+export function traverseDepsField(
+    pkg: PackageJson,
+    fn: (field: Record<string, string>) => void,
+    fields: Readonly<DepsField[]> = depsFields,
+): void {
+    for (const field of fields) {
+        const deps = pkg[field];
+        if (deps) {
+            fn(deps as Record<string, string>);
+        }
+    }
+}
+
 export function getDeps(
     pkg: PackageJson,
     fields: Readonly<DepsField[]> = depsFields,

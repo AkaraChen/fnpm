@@ -29,7 +29,8 @@
         "pkg-dir": "^8.0.0",
         "publint": "^0.2.10",
         "read-pkg": "^9.0.1",
-        "try-files": "^1.1.0"
+        "try-files": "^1.1.0",
+        "ts-pattern": "^5.3.1"
     },
     "type": "module",
     "main": "./dist/index.cjs",

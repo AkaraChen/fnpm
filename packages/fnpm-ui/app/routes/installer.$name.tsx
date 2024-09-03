@@ -18,7 +18,8 @@ export async function loader(args: LoaderFunctionArgs) {
     const project = context.projects.find(
         (project) => project.manifest.name === name,
     );
-    const isRoot = context.rootProject?.manifest.name === name;
+    const isRoot =
+        context.isMonoRepo && context.rootProject?.manifest.name === name;
     return { pm, project, isRoot };
 }
 

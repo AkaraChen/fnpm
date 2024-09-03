@@ -10,7 +10,7 @@ import {
 import { useLoaderData } from '@remix-run/react';
 import { IconDownload, IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
-import { Suspense, useDeferredValue, useState } from 'react';
+import { Suspense, useContext, useDeferredValue, useState } from 'react';
 import { InstallConfirm } from '~/components/install-confirm';
 import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';
@@ -62,6 +62,7 @@ export default function Page() {
 
                         const queue = selectedProjects.flatMap((name) => {
                             const isRoot =
+                                data.isMonoRepo &&
                                 data.rootProject?.manifest.name === name;
                             const shells = [
                                 prod.length &&
