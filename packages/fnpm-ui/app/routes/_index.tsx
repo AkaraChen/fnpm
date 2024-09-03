@@ -77,20 +77,13 @@ const InfoCard: FC<InfoCardProps> = (props) => {
 
 export async function loader() {
     const context = await resolveContext(root);
-    const depsGraph = context.projects.reduce(
-        (acc, project) => {
-            const count = getDeps(project.manifest as PackageJson);
-            acc.push({
-                name: project.manifest.name!,
-                count: count.length,
-            });
-            return acc;
-        },
-        [] as Array<{
-            name: string;
-            count: number;
-        }>,
-    );
+    const depsGraph = context.projects.map((project) => {
+        const count = getDeps(project.manifest as PackageJson);
+        return {
+            name: project.manifest.name!,
+            count: count.length,
+        };
+    });
     const { diagnoses } = await scan(root);
     const updates = update(context)
         .then((updates) => {
@@ -108,11 +101,11 @@ export async function loader() {
         .then((updates) => {
             const deduped = updates.reduce(
                 (acc, curr) => {
-                    const exsiting = acc.find(
+                    const existing = acc.find(
                         (update) => update.name === curr.name,
                     );
-                    if (exsiting) {
-                        exsiting.workspace.push(...curr.workspace);
+                    if (existing) {
+                        existing.workspace.push(...curr.workspace);
                     } else {
                         acc.push(curr);
                     }

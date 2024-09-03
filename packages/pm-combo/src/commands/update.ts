@@ -10,7 +10,7 @@ export interface UpdateOptions
 export const update: Command<UpdateOptions> = {
     concat(pm, options) {
         const args: string[] = [pm, 'up'];
-        args.push(...add.concat(pm, options));
+        args.push(...add.concat(pm, options).slice(2));
         return args;
     },
 };
