@@ -13,7 +13,7 @@ import type { PackageJson } from 'read-pkg';
 import type { Scanner } from './scanner';
 
 export const moduleReplacement: Scanner = (ctx) => {
-    return Effect.promise(async () => {
+    return Effect.sync(() => {
         for (const project of ctx.projects) {
             const deps = getDeps(project.manifest as PackageJson);
             for (const native of nativeReplacements.moduleReplacements as NativeModuleReplacement[]) {

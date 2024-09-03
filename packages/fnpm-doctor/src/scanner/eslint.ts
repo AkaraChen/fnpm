@@ -18,20 +18,19 @@ export const eslint: Scanner = (ctx) => {
                 root: project.rootDir,
                 absolute: false,
             });
-            if (file) {
-                if (hasEslintRc) {
-                    ctx.report({
-                        id: 'multiple-eslint-configurations',
-                        level: 'warning',
-                        title: 'Multiple ESLint configurations',
-                        description:
-                            'Multiple ESLint configurations found in the project, this can lead to unexpected behavior. Consider consolidating them into a single configuration file.',
-                        scope: 'configuration',
-                    });
-                    return;
-                }
-                hasEslintRc = true;
+            if (!file) continue;
+            if (hasEslintRc) {
+                ctx.report({
+                    id: 'multiple-eslint-configurations',
+                    level: 'warning',
+                    title: 'Multiple ESLint configurations',
+                    description:
+                        'Multiple ESLint configurations found in the project, this can lead to unexpected behavior. Consider consolidating them into a single configuration file.',
+                    scope: 'configuration',
+                });
+                break;
             }
+            hasEslintRc = true;
         }
     });
 };

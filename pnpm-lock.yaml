@@ -137,6 +137,9 @@ importers:
       try-files:
         specifier: ^1.1.0
         version: 1.1.0
+      ts-pattern:
+        specifier: ^5.3.1
+        version: 5.3.1
     devDependencies:
       '@pnpm/types':
         specifier: ^12.1.0
@@ -4492,6 +4495,9 @@ packages:
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+
+  ts-pattern@5.3.1:
+    resolution: {integrity: sha512-1RUMKa8jYQdNfmnK4jyzBK3/PS/tnjcZ1CW0v1vWDeYe5RBklc/nquw03MEoB66hVBm4BnlCfmOqDVxHyT1DpA==}
 
   tsconfck@3.1.1:
     resolution: {integrity: sha512-00eoI6WY57SvZEVjm13stEVE90VkEdJAFGgpFLTsZbJyW/LwFQ7uQxJHWpZ2hzSWgCPKc9AnBnNP+0X7o3hAmQ==}
@@ -9427,6 +9433,8 @@ snapshots:
       '@ts-graphviz/core': 2.0.3
 
   ts-interface-checker@0.1.13: {}
+
+  ts-pattern@5.3.1: {}
 
   tsconfck@3.1.1(typescript@5.5.4):
     optionalDependencies:

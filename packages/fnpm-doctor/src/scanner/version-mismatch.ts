@@ -1,4 +1,6 @@
 import { Effect } from 'effect';
+import { traverseDepsField } from 'fnpm-toolkit';
+import type { PackageJson } from 'read-pkg';
 import type { Scanner } from './scanner';
 
 interface VersionMap {
@@ -10,18 +12,9 @@ export const versionMismatch: Scanner = (ctx) => {
     return Effect.sync(() => {
         const versionMap = new Map<string, VersionMap[]>();
         for (const project of ctx.projects) {
-            const { manifest } = project;
-            const fields = [
-                'dependencies',
-                'devDependencies',
-                'peerDependencies',
-                'optionalDependencies',
-            ] as Array<keyof typeof manifest>;
-            for (const field of fields) {
-                const dependencies = manifest[field] as
-                    | Record<string, string>
-                    | undefined;
-                if (dependencies) {
+            traverseDepsField(
+                project.manifest as PackageJson,
+                (dependencies) => {
                     for (const [name, version] of Object.entries(
                         dependencies,
                     )) {
@@ -33,8 +26,8 @@ export const versionMismatch: Scanner = (ctx) => {
                         });
                         versionMap.set(name, versions);
                     }
-                }
-            }
+                },
+            );
         }
         for (const [name, versions] of versionMap.entries()) {
             const hasMismatch =
