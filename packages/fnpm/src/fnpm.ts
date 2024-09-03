@@ -14,7 +14,7 @@ import { error, exec, getContext, noop, normalizePackageVersion } from './util';
 
 const ctx = await getContext(process.cwd());
 
-await yargs(ctx.args)
+yargs(ctx.args)
     .scriptName('fnpm')
     .completion()
     .recommendCommands()
@@ -26,8 +26,8 @@ await yargs(ctx.args)
     .command(
         ['add <packages..>', 'a', 'install', 'i'],
         'add packages',
-        (yargs) => {
-            return yargs
+        (yargs) =>
+            yargs
                 .help()
                 .alias('help', 'h')
                 .positional('packages', {
@@ -75,8 +75,7 @@ await yargs(ctx.args)
                     alias: ['G', 'g'],
                     type: 'boolean',
                     description: 'Install packages globally',
-                });
-        },
+                }),
         async (args) => {
             const {
                 packages,
@@ -105,7 +104,6 @@ await yargs(ctx.args)
                 ? commands.add.concat(ctx.pm, options)
                 : commands.install.concat(ctx.pm, options);
             await exec(command, { cwd: ctx.root });
-            process.exit(0);
         },
     )
     .command(
@@ -123,14 +121,13 @@ await yargs(ctx.args)
             });
             consola.info(`Running ${command}`);
             await exec(command);
-            process.exit(0);
         },
     )
     .command(
         ['remove <packages..>', 'rm', 'uninstall', 'un'],
         'remove packages',
-        (yargs) => {
-            return yargs
+        (yargs) =>
+            yargs
                 .help()
                 .alias('help', 'h')
                 .positional('packages', {
@@ -158,8 +155,7 @@ await yargs(ctx.args)
                     alias: ['G', 'g'],
                     type: 'boolean',
                     description: 'Remove packages globally',
-                });
-        },
+                }),
         async (args) => {
             const { packages, saveDev, savePeer, saveOptional, global } = args;
             const options: RemoveOptions = {
@@ -172,15 +168,11 @@ await yargs(ctx.args)
             const command = commands.remove.concat(ctx.pm, options);
             consola.info(`Removing packages with ${ctx.pm}`);
             await exec(command, { cwd: ctx.root });
-            process.exit(0);
         },
     )
     .command(
         'create',
         'create an new project using package from npm',
-        (yargs) => {
-            return yargs.help().alias('help', 'h');
-        },
         async () => {
             const [name, ...argv] = ctx.args.slice(1);
             if (!name) {
@@ -196,37 +188,35 @@ await yargs(ctx.args)
     .command(
         'init',
         'initialize a new project',
-        (yargs) => {
-            return yargs.help().alias('help', 'h').option('y', {});
-        },
+        (yargs) =>
+            yargs.option('y', {
+                type: 'boolean',
+                default: true,
+            }),
         async (args) => {
             const { y } = args;
             const command = commands.init.concat(ctx.pm, { interactively: !y });
             consola.info(`Initializing project with ${ctx.pm}`);
             await exec(command);
-            process.exit(0);
         },
     )
-    .command(['test', 't'], 'run tests', noop, async () => {
+    .command(['test', 't'], 'run tests', async () => {
         const command = commands.test.concat(ctx.pm, {
             args: ctx.args.slice(1),
         });
         consola.info(`Running tests with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
-        process.exit(0);
     })
-    .command('ci', 'run continuous integration', noop, async () => {
+    .command('ci', 'run continuous integration', async () => {
         const command = commands.install.concat(ctx.pm, {
             fixed: true,
         });
         consola.info(`Running CI with ${ctx.pm}`);
         await exec(command, { cwd: ctx.root });
-        process.exit(0);
     })
-    .command('doctor', 'diagnose common issues', noop, async () => {
+    .command('doctor', 'diagnose common issues', async () => {
         const result = await doctor.scan(ctx.root);
         result.diagnoses.forEach(doctor.writeToConsole);
-        process.exit(0);
     })
     .command(
         'ui',
@@ -246,7 +236,6 @@ await yargs(ctx.args)
                 }));
             consola.info(`Starting UI on http://localhost:${port}`);
             await start(port, ctx.root);
-            process.exit(0);
         },
     )
     .command('*', 'run a script', noop, async (args) => {
@@ -254,7 +243,7 @@ await yargs(ctx.args)
             consola.info('Installing dependencies');
             const shell = commands.install.concat(ctx.pm, {});
             await exec(shell, { cwd: ctx.root });
-            process.exit(0);
+            return;
         }
         const inputs = ctx.args;
         const pkg: PackageJson = await readPackage({ cwd: ctx.root });
@@ -272,6 +261,5 @@ await yargs(ctx.args)
             });
             await exec(shell, { cwd: ctx.root });
         }
-        process.exit(0);
     })
     .parse();

@@ -7,7 +7,7 @@ import { error, exec, getContext, noop, normalizePackageVersion } from './util';
 
 const ctx = await getContext(process.cwd());
 
-await yargs(ctx.args)
+yargs(ctx.args)
     .scriptName('fnpx')
     .completion()
     .recommendCommands()
