@@ -284,7 +284,7 @@ yargs(ctx.args)
         },
     )
     .command(
-        'update [packages..]',
+        ['update [packages..]', 'up'],
         'update packages',
         (yargs) =>
             yargs
