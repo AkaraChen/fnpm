@@ -262,4 +262,25 @@ yargs(ctx.args)
             await exec(shell, { cwd: ctx.root });
         }
     })
+    .command(
+        'use <pattern>',
+        'use a different package manager',
+        (yargs) => {
+            return yargs.positional('pattern', {
+                type: 'string',
+                description: 'Pattern to match package manager',
+                demandOption: true,
+            });
+        },
+        async (args) => {
+            const { pattern } = args;
+            if (pattern === 'latest') {
+                const shell = ['corepack', 'use', `${ctx.pm}@latest`];
+                await exec(shell, { cwd: ctx.root });
+                return;
+            }
+            const shell = ['corepack', 'use', pattern];
+            await exec(shell, { cwd: ctx.root });
+        },
+    )
     .parse();
