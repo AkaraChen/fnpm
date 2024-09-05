@@ -24,7 +24,7 @@ yargs(ctx.args)
     .alias('help', 'h')
     .usage('Usage: $0 <command> [options]')
     .command(
-        ['add <packages..>', 'a', 'install', 'i'],
+        ['add [packages..]', 'a', 'install', 'i'],
         'add packages',
         (yargs) =>
             yargs
