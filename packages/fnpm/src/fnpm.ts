@@ -332,4 +332,8 @@ yargs(ctx.args)
             await exec(command, { cwd: ctx.root });
         },
     )
+    .command('publish', 'publish package', async () => {
+        const command = ['npm', 'publish'];
+        await exec(command, { cwd: ctx.root });
+    })
     .parse();
