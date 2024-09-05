@@ -283,4 +283,53 @@ yargs(ctx.args)
             await exec(shell, { cwd: ctx.root });
         },
     )
+    .command(
+        'update [packages..]',
+        'update packages',
+        (yargs) =>
+            yargs
+                .positional('packages', {
+                    type: 'string',
+                    array: true,
+                    description: 'Packages to update',
+                })
+                .option('save', {
+                    alias: ['d'],
+                    type: 'boolean',
+                    description: 'Save to dependencies',
+                    default: true,
+                })
+                .option('save-dev', {
+                    alias: ['D'],
+                    type: 'boolean',
+                    description: 'Save as devDependencies',
+                })
+                .option('save-exact', {
+                    alias: ['E', 'exact'],
+                    type: 'boolean',
+                    description: 'Save exact version',
+                })
+                .option('fixed', {
+                    alias: ['F'],
+                    type: 'boolean',
+                    description: 'Use fixed version',
+                })
+                .option('global', {
+                    alias: ['G', 'g'],
+                    type: 'boolean',
+                    description: 'Update packages globally',
+                }),
+        async (args) => {
+            const { packages, saveDev, saveExact, fixed, save } = args;
+            const options: AddOptions = {
+                packages: packages!,
+                save,
+                saveDev,
+                exact: saveExact,
+                fixed,
+            };
+            const command = commands.update.concat(ctx.pm, options);
+            await exec(command, { cwd: ctx.root });
+        },
+    )
     .parse();
