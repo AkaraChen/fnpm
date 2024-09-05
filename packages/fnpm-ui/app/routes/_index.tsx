@@ -165,7 +165,7 @@ const CardItem: FC<CardItemProps> = (props) => {
     const { icon: Icon, title, description } = props;
     return (
         <Box>
-            <Flex gap={8} pt={10}>
+            <Flex gap={8} pt={10} justify={'start'}>
                 <Box flex={1}>
                     <Icon color='black' style={{ opacity: '60%' }} />
                 </Box>
