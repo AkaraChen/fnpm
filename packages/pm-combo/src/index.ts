@@ -10,4 +10,5 @@ export type {
     TestOptions,
     CreateOptions,
     UpdateOptions,
+    WhyOptions,
 } from './commands';

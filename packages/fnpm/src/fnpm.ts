@@ -336,4 +336,19 @@ yargs(ctx.args)
         const command = ['npm', 'publish'];
         await exec(command, { cwd: ctx.root });
     })
+    .command(
+        ['why <query>', 'explain'],
+        'explain why a package is installed',
+        (yargs) =>
+            yargs.positional('query', {
+                type: 'string',
+                description: 'Package to explain',
+                demandOption: true,
+            }),
+        async (args) => {
+            const { query } = args;
+            const command = commands.why.concat(ctx.pm, { query });
+            await exec(command, { cwd: ctx.root });
+        },
+    )
     .parse();
