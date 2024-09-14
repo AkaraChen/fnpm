@@ -8,4 +8,7 @@ export default defineConfig({
         target: 'esnext',
         minify: true,
     },
+    ssr: {
+        noExternal: true,
+    },
 });
