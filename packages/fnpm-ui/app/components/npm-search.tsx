@@ -1,4 +1,5 @@
 import {
+    Anchor,
     Badge,
     Checkbox,
     Flex,
@@ -21,12 +22,6 @@ import { useInView } from 'react-intersection-observer';
 import type { LoaderData as NpmSearchResp } from '~/routes/npm-search';
 import { ResultPage } from './result';
 
-interface NpmSearchProps {
-    search: string;
-    toggles: string[];
-    onToggle: (name: string, checked: boolean) => void;
-}
-
 interface NpmSearchItemProps {
     name: string;
     version: string;
@@ -40,9 +35,17 @@ const NpmSearchItem: FC<NpmSearchItemProps> = (props) => {
     return (
         <Paper withBorder p={12}>
             <Flex align={'center'}>
-                <Stack>
+                <Stack w={'100%'}>
                     <Text size='sm' fw={500}>
-                        {name}
+                        <Anchor
+                            href={`https://npm.im/${name}`}
+                            underline='hover'
+                            c={'dark'}
+                            target='_blank'
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {name}
+                        </Anchor>
                         <Text span c={'gray'} size='xs' ml={4}>
                             {version}
                         </Text>
@@ -62,6 +65,12 @@ const NpmSearchItem: FC<NpmSearchItemProps> = (props) => {
         </Paper>
     );
 };
+
+interface NpmSearchProps {
+    search: string;
+    toggles: string[];
+    onToggle: (name: string, checked: boolean) => void;
+}
 
 export const NpmSearch: FC<NpmSearchProps> = (props) => {
     const { search, onToggle, toggles } = props;
