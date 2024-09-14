@@ -9,6 +9,9 @@
         "start": "remix-serve ./build/server/index.js",
         "typecheck": "tsc"
     },
+    "dependencies": {
+        "@remix-run/serve": "^2.12.0"
+    },
     "devDependencies": {
         "@dagrejs/dagre": "^1.1.4",
         "@fontsource-variable/inter": "^5.1.0",
@@ -22,7 +25,6 @@
         "@remix-run/dev": "^2.12.0",
         "@remix-run/node": "^2.12.0",
         "@remix-run/react": "^2.12.0",
-        "@remix-run/serve": "^2.12.0",
         "@tabler/icons-react": "^3.16.0",
         "@tanstack/react-query": "^5.56.2",
         "@types/react": "^18.3.5",
