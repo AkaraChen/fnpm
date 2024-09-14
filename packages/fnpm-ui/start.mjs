@@ -24,7 +24,7 @@ export const start = async (port, root) => {
                 FNPM_ROOT: root,
             },
             cwd: dirname(fileURLToPath(import.meta.url)),
-            stdio: ['ignore', 'inherit', 'ignore'],
+            stdio: ['ignore', 'inherit', 'inherit'],
         },
     });
 };
