@@ -41,9 +41,9 @@ import { root } from '~/server/config.server';
 export async function loader(args: LoaderFunctionArgs) {
     const context = await resolveContext(root);
     const pm = context.pm;
-    const project = context.projects.find(
-        (p) => p.manifest.name === args.params.name,
-    )!;
+    const project =
+        context.projects.find((p) => p.manifest.name === args.params.name) ||
+        context.rootProject!;
     return {
         project,
         pm,
