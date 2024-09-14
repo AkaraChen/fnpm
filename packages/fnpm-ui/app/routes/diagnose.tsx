@@ -10,10 +10,12 @@ import {
     Text,
 } from '@mantine/core';
 import { useLoaderData } from '@remix-run/react';
+import { IconCircleCheck, IconCircleDashedCheck } from '@tabler/icons-react';
 import { group } from 'radash';
 import type { FC } from 'react';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
+import { ResultPage } from '~/components/result';
 import { useQueryParams } from '~/hooks/qps';
 import { transformAnsi } from '~/lib/term';
 import { root } from '~/server/config.server';
@@ -108,6 +110,11 @@ export default function Page() {
         'warning',
     );
     const grouped = group(data, (d) => d.level);
+    const filtered = Object.entries(grouped).filter(
+        ([currentLevel, diagnoses]) =>
+            diagnoses.length &&
+            levelMap[currentLevel as ScannerDiagnoseLevel] >= levelMap[level],
+    );
     return (
         <BasePage>
             <PageHeader title='Diagnose' />
@@ -123,17 +130,17 @@ export default function Page() {
                         setLevel(e.target.value as ScannerDiagnoseLevel);
                     }}
                 />
-                <ScrollArea
-                    h={'100%'}
-                    styles={{
-                        viewport: {
-                            height: '100%',
-                        },
-                    }}
-                >
-                    <Stack>
-                        {Object.entries(grouped).map(
-                            ([currentLevel, diagnoses]) => {
+                {filtered.length ? (
+                    <ScrollArea
+                        h={'100%'}
+                        styles={{
+                            viewport: {
+                                height: '100%',
+                            },
+                        }}
+                    >
+                        <Stack>
+                            {filtered.map(([currentLevel, diagnoses]) => {
                                 const show =
                                     diagnoses.length &&
                                     levelMap[
@@ -152,10 +159,23 @@ export default function Page() {
                                         />
                                     )
                                 );
-                            },
-                        )}
-                    </Stack>
-                </ScrollArea>
+                            })}
+                        </Stack>
+                    </ScrollArea>
+                ) : (
+                    <ResultPage
+                        icon={
+                            data.length > 0
+                                ? IconCircleDashedCheck
+                                : IconCircleCheck
+                        }
+                        title='No Issues Found'
+                        iconColor={data.length > 0 ? '#FF9800' : '#4CAF50'}
+                    >
+                        Congratulations! Your system is running smoothly without
+                        any detected problems.
+                    </ResultPage>
+                )}
             </Stack>
         </BasePage>
     );

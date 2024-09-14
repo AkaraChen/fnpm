@@ -9,7 +9,7 @@ import { type RunOptions, run } from './run';
 import { type TestOptions, test } from './test';
 import type { Command } from './type';
 import { type UpdateOptions, update } from './update';
-import { why, type WhyOptions } from './why';
+import { type WhyOptions, why } from './why';
 
 export const commands: {
     add: Command<AddOptions>;

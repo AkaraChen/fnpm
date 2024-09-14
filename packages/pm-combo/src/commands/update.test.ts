@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { update } from './update';
+import { describe, expect, it } from 'vitest';
 import type { AddOptions } from './add';
+import { update } from './update';
 
 describe('update command', () => {
     it('should generate correct arguments for update command', () => {
