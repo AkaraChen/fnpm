@@ -8,6 +8,7 @@ import {
     SimpleGrid,
     Stack,
     Text,
+    useMantineTheme,
 } from '@mantine/core';
 import { useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconCircleDashedCheck } from '@tabler/icons-react';
@@ -58,6 +59,7 @@ const DiagnoseGroup: FC<DiagnoseProps> = (props) => {
 
 const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
     const { title, scope, description, docs, workspace } = props;
+    const theme = useMantineTheme();
     return (
         <Paper p={12} withBorder>
             <Stack gap={12}>
@@ -77,7 +79,7 @@ const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
                     </Text>
                 </Flex>
                 <Text
-                    c={'#555'}
+                    c={theme.colors.gray[6]}
                     size='sm'
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
                     dangerouslySetInnerHTML={{
@@ -115,6 +117,7 @@ export default function Page() {
             diagnoses.length &&
             levelMap[currentLevel as ScannerDiagnoseLevel] >= levelMap[level],
     );
+    const theme = useMantineTheme();
     return (
         <BasePage>
             <PageHeader title='Diagnose' />
@@ -169,11 +172,20 @@ export default function Page() {
                                 ? IconCircleDashedCheck
                                 : IconCircleCheck
                         }
-                        title='No Issues Found'
-                        iconColor={data.length > 0 ? '#FF9800' : '#4CAF50'}
+                        title={
+                            data.length > 0
+                                ? 'Issues Found at higher level'
+                                : 'No Issues Found'
+                        }
+                        iconColor={
+                            data.length > 0
+                                ? theme.colors.blue[6]
+                                : theme.colors.green[6]
+                        }
                     >
-                        Congratulations! Your system is running smoothly without
-                        any detected problems.
+                        {data.length > 0
+                            ? 'You have some problems detected on higher level. Please set the level on the top to see them.'
+                            : 'Congratulations! Your system is running smoothly without any detected problems.'}
                     </ResultPage>
                 )}
             </Stack>

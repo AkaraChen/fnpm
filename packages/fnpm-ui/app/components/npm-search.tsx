@@ -7,12 +7,19 @@ import {
     SimpleGrid,
     Stack,
     Text,
+    useMantineTheme,
 } from '@mantine/core';
-import { IconX } from '@tabler/icons-react';
+import {
+    IconLoader,
+    IconMoodSmile,
+    IconPackageOff,
+    IconX,
+} from '@tabler/icons-react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import type { LoaderData as NpmSearchResp } from '~/routes/npm-search';
+import { ResultPage } from './result';
 
 interface NpmSearchProps {
     search: string;
@@ -82,6 +89,8 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
             }
         },
     });
+    const list = query.data?.pages.flatMap((page) => page.objects) ?? [];
+    const theme = useMantineTheme();
     return (
         <Stack h={'100%'} style={{ overflow: 'hidden' }}>
             {Boolean(toggles.length) && (
@@ -105,10 +114,10 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                     ))}
                 </Flex>
             )}
-            <ScrollArea>
-                <SimpleGrid cols={3}>
-                    {query.data?.pages.map((page) => {
-                        return page.objects.map((pkg) => {
+            {list.length ? (
+                <ScrollArea>
+                    <SimpleGrid cols={3}>
+                        {list.map((pkg) => {
                             const checked = props.toggles.includes(
                                 pkg.package.name,
                             );
@@ -124,11 +133,41 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                                     }}
                                 />
                             );
-                        });
-                    })}
-                    <div ref={ref} />
-                </SimpleGrid>
-            </ScrollArea>
+                        })}
+                        <div ref={ref} />
+                    </SimpleGrid>
+                </ScrollArea>
+            ) : (
+                <ResultPage
+                    icon={
+                        query.isLoading
+                            ? IconLoader
+                            : search
+                              ? IconPackageOff
+                              : IconMoodSmile
+                    }
+                    iconColor={
+                        query.isLoading
+                            ? theme.colors.blue[6]
+                            : search
+                              ? theme.colors.orange[6]
+                              : theme.colors.blue[6]
+                    }
+                    title={
+                        query.isLoading
+                            ? 'Loading'
+                            : search
+                              ? 'No Results'
+                              : 'Search for packages'
+                    }
+                >
+                    {query.isLoading
+                        ? 'Loading packages...'
+                        : search
+                          ? 'No packages found with provided search query'
+                          : 'Type package name in search field to start searching'}
+                </ResultPage>
+            )}
         </Stack>
     );
 };

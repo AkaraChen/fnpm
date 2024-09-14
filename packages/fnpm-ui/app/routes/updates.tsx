@@ -10,12 +10,13 @@ import {
     SimpleGrid,
     Text,
     rem,
+    useMantineTheme,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import type { Project } from '@pnpm/types';
 import type { SerializeFrom } from '@remix-run/node';
 import { Await, defer, useLoaderData } from '@remix-run/react';
-import { IconUpload } from '@tabler/icons-react';
+import { IconCircleCheck, IconUpload } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { group, shake } from 'radash';
 import {
@@ -29,6 +30,7 @@ import {
 } from 'react';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
+import { ResultPage } from '~/components/result';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import {
@@ -213,6 +215,7 @@ export default function Page() {
             );
         });
     };
+    const theme = useMantineTheme();
 
     return (
         <BasePage>
@@ -221,6 +224,9 @@ export default function Page() {
                 <Suspense>
                     <Await resolve={data.updates}>
                         {(updates) => {
+                            const hasUpdate = Object.values(updates).some(
+                                (v) => v.length,
+                            );
                             return (
                                 <PageContext.Provider
                                     value={{
@@ -233,28 +239,43 @@ export default function Page() {
                                         pm: data.pm,
                                     }}
                                 >
-                                    <ScrollArea
-                                        h={'100%'}
-                                        style={{
-                                            height: '100%',
-                                        }}
-                                        styles={{
-                                            viewport: {
+                                    {hasUpdate ? (
+                                        <ScrollArea
+                                            h={'100%'}
+                                            style={{
                                                 height: '100%',
-                                            },
-                                        }}
-                                    >
-                                        <SimpleGrid cols={3}>
-                                            <GroupByWorkspace />
-                                        </SimpleGrid>
-                                        <Box
-                                            pos={'absolute'}
-                                            right={24}
-                                            bottom={24}
+                                            }}
+                                            styles={{
+                                                viewport: {
+                                                    height: '100%',
+                                                },
+                                            }}
                                         >
-                                            <UpdateButton />
-                                        </Box>
-                                    </ScrollArea>
+                                            <SimpleGrid cols={3}>
+                                                <GroupByWorkspace />
+                                            </SimpleGrid>
+                                            <Box
+                                                pos={'absolute'}
+                                                right={24}
+                                                bottom={24}
+                                            >
+                                                <UpdateButton />
+                                            </Box>
+                                        </ScrollArea>
+                                    ) : (
+                                        <ResultPage
+                                            icon={IconCircleCheck}
+                                            title='Fresh out of updates'
+                                            iconColor={
+                                                hasUpdate
+                                                    ? theme.colors.blue[6]
+                                                    : theme.colors.green[6]
+                                            }
+                                        >
+                                            There are no updates available for
+                                            your packages.
+                                        </ResultPage>
+                                    )}
                                 </PageContext.Provider>
                             );
                         }}
