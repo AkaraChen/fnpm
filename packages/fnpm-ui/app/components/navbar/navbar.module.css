@@ -1,39 +1,50 @@
 .navbar {
-  border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    border-right: rem(1px) solid
+        light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .header {
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    border-bottom: rem(1px) solid
+        light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .link {
-  display: block;
-  text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
-  border-radius: var(--mantine-radius-sm);
+    display: block;
+    text-decoration: none;
+    color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-1));
+    border-radius: var(--mantine-radius-sm);
 
-  @mixin hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-    color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+    @mixin hover {
+        background-color: light-dark(
+            var(--mantine-color-gray-0),
+            var(--mantine-color-dark-6)
+        );
+        color: light-dark(
+            var(--mantine-color-black),
+            var(--mantine-color-white)
+        );
 
-    .linkIcon {
-      color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+        .linkIcon {
+            color: light-dark(
+                var(--mantine-color-black),
+                var(--mantine-color-white)
+            );
+        }
     }
-  }
 
-  &[aria-current="page"] {
-    &,
-    &:hover {
-      background-color: var(--mantine-color-blue-light);
-      color: var(--mantine-color-blue-light-color);
+    &[aria-current="page"] {
+        &,
+        &:hover {
+            background-color: var(--mantine-color-blue-light);
+            color: var(--mantine-color-blue-light-color);
 
-      .linkIcon {
-        color: var(--mantine-color-blue-light-color);
-      }
+            .linkIcon {
+                color: var(--mantine-color-blue-light-color);
+            }
+        }
     }
-  }
 }
 
 .linkIcon {
-  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+    color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
 }
