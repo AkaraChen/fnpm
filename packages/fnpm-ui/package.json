@@ -40,7 +40,7 @@
         "open": "^10.1.0",
         "parse-package-name": "^1.0.0",
         "pm-combo": "workspace:*",
-        "postcss": "^8.4.45",
+        "postcss": "^8.4.47",
         "postcss-preset-mantine": "^1.17.0",
         "postcss-simple-vars": "^7.0.1",
         "query-registry": "^3.0.1",
