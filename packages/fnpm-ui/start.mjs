@@ -19,7 +19,7 @@ export const start = async (port, root) => {
     await x('npm', ['run', 'start'], {
         nodeOptions: {
             env: {
-                NODE_ENV: 'development',
+                NODE_ENV: 'production',
                 PORT: String(port),
                 FNPM_ROOT: root,
             },
