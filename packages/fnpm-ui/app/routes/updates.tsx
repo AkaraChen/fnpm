@@ -140,7 +140,11 @@ const GroupByWorkspace: FC = () => {
 
 const UpdateButton: FC = () => {
     const { selected, pm, projects } = useContext(PageContext);
-    const run = useRun();
+    const run = useRun({
+        onSuccess() {
+            window.location.reload();
+        },
+    });
     const groupByWorkspace = group(selected, (upd) => upd.workspace);
     const start = () => {
         const queue: RunElement[] = Object.entries(groupByWorkspace).map(
