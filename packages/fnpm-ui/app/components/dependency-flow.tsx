@@ -11,7 +11,7 @@ import {
     useNodesState,
     useReactFlow,
 } from '@xyflow/react';
-import { type FC, useMemo } from 'react';
+import { type CSSProperties, type FC, useMemo } from 'react';
 import '@xyflow/react/dist/style.css';
 import Dagre from '@dagrejs/dagre';
 import { Card, Text } from '@mantine/core';
@@ -24,6 +24,7 @@ import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
 interface DependencyFlowProps {
     projects: Array<SerializeFrom<Project>>;
     rootProject?: SerializeFrom<Project>;
+    style?: CSSProperties;
 }
 
 function intersection<T>(a: Set<T>, b: Set<T>): Set<T> {
@@ -138,7 +139,7 @@ const CustomNode: FC<NodeProps<Node<{ workspace: string }>>> = ({ data }) => {
 };
 
 const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
-    const { projects, rootProject } = props;
+    const { projects, rootProject, style } = props;
     const { fitView } = useReactFlow();
     const initial = useMemo(
         () => getNodesAndEdges(projects, rootProject),
@@ -161,7 +162,7 @@ const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
 
     return (
         <ReactFlow
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', ...style }}
             nodes={nodes}
             nodeTypes={{ custom: CustomNode }}
             edges={edges}

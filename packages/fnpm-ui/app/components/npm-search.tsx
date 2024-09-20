@@ -17,6 +17,7 @@ import {
     IconX,
 } from '@tabler/icons-react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { concatNpmUrl } from 'fnpm-toolkit';
 import type { FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import type { LoaderData as NpmSearchResp } from '~/routes/npm-search';
@@ -38,7 +39,7 @@ const NpmSearchItem: FC<NpmSearchItemProps> = (props) => {
                 <Stack w={'100%'}>
                     <Text size='sm' fw={500}>
                         <Anchor
-                            href={`https://npm.im/${name}`}
+                            href={concatNpmUrl(name)}
                             underline='hover'
                             c={'dark'}
                             target='_blank'

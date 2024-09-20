@@ -2,7 +2,23 @@
     "$schema": "https://unpkg.com/knip@5/schema.json",
     "workspaces": {
         "packages/fnpm": {
-            "entry": ["src/{fnpm,fnpx}.ts"]
+            "entry": ["src/{fnpm,fnpx}.ts!"]
+        },
+        "packages/fnpm-doctor": {
+            "entry": ["src/index.ts!"]
+        },
+        "packages/fnpm-toolkit": {
+            "entry": ["src/index.ts!"]
+        },
+        "packages/fnpm-ui": {
+            "entry": [
+                "app/root.tsx!",
+                "app/entry.{client,server}.{ts,tsx}!",
+                "app/routes/**/*.{ts,tsx}!"
+            ]
+        },
+        "packages/pm-combo": {
+            "entry": ["src/index.ts!"]
         }
     },
     "ignoreDependencies": ["tslib"]

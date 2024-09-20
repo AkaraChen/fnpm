@@ -1,4 +1,5 @@
 import {
+    Anchor,
     Badge,
     Box,
     Button,
@@ -25,7 +26,7 @@ import {
     IconZoomExclamation,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { compartUpdate, getDeps } from 'fnpm-toolkit';
+import { compartUpdate, concatNpmUrl, getDeps } from 'fnpm-toolkit';
 import { type FC, type ReactNode, Suspense } from 'react';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
@@ -33,11 +34,12 @@ import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { AllClear } from '~/components/result';
+import { SemverRange } from '~/components/semver-range';
 import { root } from '~/server/config.server';
-import { resolveContext, scan, update } from '../server/fnpm.server';
+import { resolveContext, scan, update } from '~/server/fnpm.server';
 
 export const meta: MetaFunction = () => {
-    return [{ title: 'fnpm UI' }];
+    return [{ title: 'Dashboard' }];
 };
 
 interface InfoCardProps {
@@ -52,7 +54,7 @@ const InfoCard: FC<InfoCardProps> = (props) => {
     const { icon: Icon, title, value, href, graph } = props;
     return (
         <Card padding='lg' radius='md' withBorder>
-            <Group mb='xs' gap={8}>
+            <Group mb='xs' gap={8} style={{ userSelect: 'none' }}>
                 <Icon size={24} />
                 <Text fw={500} size={'lg'}>
                     {title}
@@ -191,7 +193,13 @@ const TotalWorkspace: FC<TotalWorkspaceProps> = (props) => {
             value={projects.length}
             href='/graph'
             graph={
-                <DependencyFlow projects={projects} rootProject={rootProject} />
+                <Anchor component={Link} to={'/packages'} w={'100%'} h={'100%'}>
+                    <DependencyFlow
+                        projects={projects}
+                        rootProject={rootProject}
+                        style={{ pointerEvents: 'none' }}
+                    />
+                </Anchor>
             }
         />
     );
@@ -210,19 +218,25 @@ const TotalDeps: FC<TotalDepsProps> = (props) => {
             value={depsGraph.reduce((acc, curr) => acc + curr.count, 0)}
             href='/packages'
             graph={
-                <ResponsiveContainer width={'100%'} height={'100%'}>
-                    <PieChart>
-                        <Pie
-                            data={depsGraph}
-                            dataKey={'count'}
-                            nameKey={'name'}
-                            labelLine={false}
-                            label={getFormattedLabel}
-                            fill='#82ca9d'
-                            isAnimationActive={false}
-                        />
-                    </PieChart>
-                </ResponsiveContainer>
+                <Box w={'100%'} h={'100%'} component={Link} to={'/packages'}>
+                    <ResponsiveContainer
+                        width={'100%'}
+                        height={'100%'}
+                        style={{ pointerEvents: 'none' }}
+                    >
+                        <PieChart>
+                            <Pie
+                                data={depsGraph}
+                                dataKey={'count'}
+                                nameKey={'name'}
+                                labelLine={false}
+                                label={getFormattedLabel}
+                                fill='#82ca9d'
+                                isAnimationActive={false}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </Box>
             }
         />
     );
@@ -281,7 +295,7 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
 };
 
 interface DependencyUpdateItemProps {
-    update: SerializeFrom<LoaderData['updates']>[0];
+    update: SerializeFrom<LoaderData['updates']>[number];
 }
 
 const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
@@ -292,7 +306,14 @@ const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
             icon={IconPackageExport}
             title={
                 <Flex align={'center'}>
-                    <Text>{update.name}</Text>
+                    <Anchor
+                        href={concatNpmUrl(update.name)}
+                        target='_blank'
+                        underline='hover'
+                        c={'dark'}
+                    >
+                        {update.name}
+                    </Anchor>
                     <Badge
                         ml={'auto'}
                         color={
@@ -309,10 +330,11 @@ const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
             }
             description={
                 <Stack mt={4} gap={8}>
-                    <Badge variant='light'>
-                        {update.current} {' > '}
-                        {update.latest}
-                    </Badge>
+                    <SemverRange
+                        name={update.name}
+                        current={update.current}
+                        to={update.latest}
+                    />
                     <Text size='sm' c={'dark'}>
                         {update.workspace.join(', ')}
                     </Text>

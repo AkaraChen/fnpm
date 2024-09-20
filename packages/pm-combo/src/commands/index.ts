@@ -11,7 +11,7 @@ import type { Command } from './type';
 import { type UpdateOptions, update } from './update';
 import { type WhyOptions, why } from './why';
 
-export const commands: {
+export interface Commands {
     add: Command<AddOptions>;
     dlx: Command<DlxOptions>;
     remove: Command<RemoveOptions>;
@@ -23,7 +23,9 @@ export const commands: {
     create: Command<CreateOptions>;
     update: Command<UpdateOptions>;
     why: Command<WhyOptions>;
-} = {
+}
+
+export const commands: Commands = {
     add,
     dlx,
     remove,

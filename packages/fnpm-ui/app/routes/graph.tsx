@@ -1,4 +1,5 @@
 import { Box } from '@mantine/core';
+import type { MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
@@ -13,6 +14,15 @@ export async function loader() {
         rootProject,
     };
 }
+
+export const meta: MetaFunction = () => {
+    return [
+        {
+            title: 'Graph',
+            description: 'Graph of dependencies',
+        },
+    ];
+};
 
 export default function Page() {
     const data = useLoaderData<typeof loader>();

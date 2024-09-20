@@ -216,7 +216,11 @@ yargs(ctx.args)
     })
     .command('doctor', 'diagnose common issues', async () => {
         const result = await doctor.scan(ctx.root);
-        result.diagnoses.forEach(doctor.writeToConsole);
+        if (result.diagnoses.length === 0) {
+            consola.success('No issues found');
+        } else {
+            result.diagnoses.forEach(doctor.writeToConsole);
+        }
     })
     .command(
         'ui',

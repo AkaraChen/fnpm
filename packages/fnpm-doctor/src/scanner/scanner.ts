@@ -1,11 +1,10 @@
+import fs, { promises as fsp } from 'node:fs';
+import { resolveContext } from '@/context';
+import type * as mt from '@akrc/monorepo-tools';
 import type { Effect } from 'effect';
+import path from 'pathe';
 
 export type Scanner = (ctx: ScannerContext) => Effect.Effect<void>;
-
-import fs, { promises as fsp } from 'node:fs';
-import type * as mt from '@akrc/monorepo-tools';
-import path from 'pathe';
-import { resolveContext } from '../context';
 
 export type ScannerDiagnoseLevel = 'error' | 'warning' | 'info';
 

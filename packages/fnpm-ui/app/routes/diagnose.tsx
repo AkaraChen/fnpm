@@ -10,7 +10,7 @@ import {
     Text,
     useMantineTheme,
 } from '@mantine/core';
-import { useLoaderData } from '@remix-run/react';
+import { type MetaFunction, useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconCircleDashedCheck } from '@tabler/icons-react';
 import { group } from 'radash';
 import type { FC } from 'react';
@@ -29,6 +29,10 @@ import {
 export async function loader() {
     return await scan(root).then((result) => result.diagnoses);
 }
+
+export const meta: MetaFunction = () => {
+    return [{ title: 'Diagnose', description: 'Diagnose your system' }];
+};
 
 const levelMap: Record<ScannerDiagnoseLevel, number> = {
     info: 0,

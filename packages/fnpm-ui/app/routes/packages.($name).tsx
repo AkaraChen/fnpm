@@ -25,6 +25,7 @@ import {
 } from '@tabler/icons-react';
 import { resolveContext } from 'fnpm-doctor';
 import {
+    concatNpmUrl,
     getBin,
     getDep,
     getRepository,
@@ -133,7 +134,7 @@ const PublishField: FC = () => {
                     label='npm'
                     content={
                         <Anchor
-                            href={new URL(json.name!, 'https://npm.im').href}
+                            href={concatNpmUrl(json.name!, json.version)}
                             target='_blank'
                             size='sm'
                         >
@@ -261,10 +262,7 @@ const DepsMenu: FC<DepsMenuProps> = (props) => {
                     <Menu.Label>Package</Menu.Label>
                     <Menu.Item
                         leftSection={<DepsMenuItemIcon icon={IconBrandNpm} />}
-                        onClick={() => {
-                            const url = new URL(name, 'https://npm.im');
-                            window.open(url);
-                        }}
+                        onClick={() => window.open(concatNpmUrl(name, version))}
                     >
                         npm
                     </Menu.Item>

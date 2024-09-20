@@ -1,5 +1,4 @@
 import {
-    Badge,
     Box,
     Button,
     Card,
@@ -14,7 +13,7 @@ import {
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import type { Project } from '@pnpm/types';
-import type { SerializeFrom } from '@remix-run/node';
+import type { MetaFunction, SerializeFrom } from '@remix-run/node';
 import { Await, defer, useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconUpload } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
@@ -31,6 +30,7 @@ import {
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { ResultPage } from '~/components/result';
+import { SemverRange } from '~/components/semver-range';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import {
@@ -60,6 +60,15 @@ export async function loader() {
         pm,
     });
 }
+
+export const meta: MetaFunction = () => {
+    return [
+        {
+            title: 'Updates',
+            description: 'Update packages',
+        },
+    ];
+};
 
 type PageContext = {
     selected: UpdateManifestWithWorkspace[];
@@ -116,10 +125,11 @@ const UpdateGroup: FC<UpdateGroupProps> = (props) => {
                             />
                             <Text>{update.name}</Text>
                             <Box ml={'auto'}>
-                                <Badge variant='light'>
-                                    {update.current} {' > '}
-                                    {update.latest}
-                                </Badge>
+                                <SemverRange
+                                    name={update.name}
+                                    current={update.current}
+                                    to={update.latest}
+                                />
                             </Box>
                         </Flex>
                         <Divider />

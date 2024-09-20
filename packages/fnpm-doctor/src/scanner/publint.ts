@@ -1,3 +1,4 @@
+import { ReadPackage } from '@/lib/pkg';
 import type { ProjectManifest } from '@pnpm/types';
 import { sentenceCase } from 'change-case';
 import { Console, Effect } from 'effect';
@@ -8,7 +9,6 @@ import {
 } from 'publint';
 import { formatMessage } from 'publint/utils';
 import { match } from 'ts-pattern';
-import { ReadPackage } from '../lib/pkg';
 import type { Scanner, ScannerDiagnoseLevel } from './scanner';
 
 function RunPublint(options: PublintOptions) {

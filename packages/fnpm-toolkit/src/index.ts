@@ -157,3 +157,15 @@ export function compartUpdate(older: string, newer: string): SemverType | null {
         return 'patch';
     return null;
 }
+
+export function simplifySemver(input: string): string {
+    return semver.coerce(input)?.version ?? input;
+}
+
+export function concatNpmUrl(pkg: string, version?: string): string {
+    if (!version) return new URL(pkg, 'https://npm.im').href;
+    return new URL(
+        `/package/${pkg}/v/${simplifySemver(version)}`,
+        'https://www.npmjs.com',
+    ).href;
+}

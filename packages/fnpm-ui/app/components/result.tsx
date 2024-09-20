@@ -25,7 +25,7 @@ export const AllClear: FC<PropsWithChildren> = (props) => {
     return <Result icon={IconMoodSmile}>{children}</Result>;
 };
 
-export interface ResultPageProps extends PropsWithChildren {
+interface ResultPageProps extends PropsWithChildren {
     icon: TablerIcon;
     title: string;
     iconColor: string;

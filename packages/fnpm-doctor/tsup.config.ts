@@ -6,8 +6,4 @@ export default defineConfig([
         format: ['cjs', 'esm'],
         dts: true,
     },
-    {
-        entry: ['./src/cli.ts'],
-        format: ['esm'],
-    },
 ]);

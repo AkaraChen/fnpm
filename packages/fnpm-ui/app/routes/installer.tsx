@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import { defer } from '@remix-run/node';
+import { type MetaFunction, defer } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
@@ -12,6 +12,15 @@ export async function loader() {
         context,
     });
 }
+
+export const meta: MetaFunction = () => {
+    return [
+        {
+            title: 'Installer',
+            description: 'Install packages',
+        },
+    ];
+};
 
 export default function Installer() {
     return (
