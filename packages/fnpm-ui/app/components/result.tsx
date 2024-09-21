@@ -1,6 +1,6 @@
 import { Flex, Stack, Text } from '@mantine/core';
 import { IconMoodSmile, type TablerIcon } from '@tabler/icons-react';
-import type { FC, PropsWithChildren } from 'react';
+import type { CSSProperties, FC, PropsWithChildren } from 'react';
 
 interface ResultProps extends PropsWithChildren {
     icon: TablerIcon;
@@ -29,13 +29,14 @@ interface ResultPageProps extends PropsWithChildren {
     icon: TablerIcon;
     title: string;
     iconColor: string;
+    iconStyle?: CSSProperties;
 }
 
 export const ResultPage: FC<ResultPageProps> = (props) => {
-    const { icon: Icon, title, children, iconColor } = props;
+    const { icon: Icon, title, children, iconColor, iconStyle } = props;
     return (
         <Stack h={'100%'} align={'center'} pt={'20vh'}>
-            <Icon size={72} color={iconColor} />
+            <Icon size={72} color={iconColor} style={iconStyle} />
             <Text size={'32px'} fw={900}>
                 {title}
             </Text>

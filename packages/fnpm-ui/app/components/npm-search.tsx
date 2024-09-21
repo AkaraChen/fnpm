@@ -163,6 +163,11 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                               ? theme.colors.orange[6]
                               : theme.colors.blue[6]
                     }
+                    iconStyle={
+                        query.isLoading
+                            ? { animation: 'spin 1s linear infinite' }
+                            : undefined
+                    }
                     title={
                         query.isLoading
                             ? 'Loading'

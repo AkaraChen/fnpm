@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import '~/lib/date';
 import { ModalsProvider } from '@mantine/modals';
+import './global.css';
 
 const theme = createTheme({
     fontFamily: 'Inter, sans-serif',
