@@ -1,6 +1,6 @@
 {
     "name": "fnpm-doctor",
-    "version": "1.11.5",
+    "version": "1.11.6",
     "scripts": {
         "build": "tsup",
         "dev": "tsup --watch"
