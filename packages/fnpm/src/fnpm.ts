@@ -28,8 +28,6 @@ yargs(ctx.args)
         'add packages',
         (yargs) =>
             yargs
-                .help()
-                .alias('help', 'h')
                 .positional('packages', {
                     type: 'string',
                     array: true,
@@ -109,7 +107,6 @@ yargs(ctx.args)
     .command(
         'dlx',
         'run a command',
-        (yargs) => yargs.help().alias('help', 'h'),
         async () => {
             const [pkg, ...rest] = ctx.args.slice(1);
             if (!pkg) {
@@ -128,8 +125,6 @@ yargs(ctx.args)
         'remove packages',
         (yargs) =>
             yargs
-                .help()
-                .alias('help', 'h')
                 .positional('packages', {
                     type: 'string',
                     array: true,
@@ -254,10 +249,7 @@ yargs(ctx.args)
         const scripts = pkg.scripts || {};
         const script = inputs[0];
         if (script && scripts[script]) {
-            const shell = commands.run.concat(ctx.pm, {
-                script: script,
-                args: inputs.slice(1),
-            });
+            const shell = ['node', '--run', ...inputs];
             await exec(shell, { cwd: ctx.root });
         } else {
             const shell = commands.exec.concat(ctx.pm, {
