@@ -24,10 +24,13 @@
         "type-fest": "^4.26.1"
     },
     "dependencies": {
+        "@types/git-url-parse": "^9.0.3",
         "consola": "^3.2.3",
         "fnpm-doctor": "workspace:*",
         "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
+        "git-url-parse": "^15.0.0",
+        "open": "^10.1.0",
         "pkg-dir": "^8.0.0",
         "pm-combo": "workspace:*",
         "read-pkg": "^9.0.1",

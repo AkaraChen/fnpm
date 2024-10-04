@@ -4,6 +4,8 @@ import consola from 'consola';
 import * as doctor from 'fnpm-doctor';
 import { start } from 'fnpm-ui';
 import { getPort } from 'get-port-please';
+import gitUrlParse from 'git-url-parse';
+import open from 'open';
 import { commands } from 'pm-combo';
 import type { AddOptions, RemoveOptions } from 'pm-combo';
 import { readPackage } from 'read-pkg';
@@ -104,22 +106,18 @@ yargs(ctx.args)
             await exec(command, { cwd: ctx.root });
         },
     )
-    .command(
-        'dlx',
-        'run a command',
-        async () => {
-            const [pkg, ...rest] = ctx.args.slice(1);
-            if (!pkg) {
-                error('No package specified');
-            }
-            const command = commands.dlx.concat(ctx.pm, {
-                package: normalizePackageVersion(pkg!),
-                args: rest,
-            });
-            consola.info(`Running ${command}`);
-            await exec(command);
-        },
-    )
+    .command('dlx', 'run a command', async () => {
+        const [pkg, ...rest] = ctx.args.slice(1);
+        if (!pkg) {
+            error('No package specified');
+        }
+        const command = commands.dlx.concat(ctx.pm, {
+            package: normalizePackageVersion(pkg!),
+            args: rest,
+        });
+        consola.info(`Running ${command}`);
+        await exec(command);
+    })
     .command(
         ['remove <packages..>', 'rm', 'uninstall', 'un'],
         'remove packages',
@@ -332,6 +330,43 @@ yargs(ctx.args)
         const command = ['npm', 'publish'];
         await exec(command, { cwd: ctx.root });
     })
+    .command(
+        ['view [platform]', 'v'],
+        'View in other platform',
+        (yargs) => {
+            return yargs.positional('platform', {
+                choices: ['repo', 'npm'],
+                default: 'npm',
+            });
+        },
+        async (yargs) => {
+            const { platform } = yargs;
+            const pkgJson = await readPackage({ cwd: ctx.root });
+            switch (platform) {
+                case 'repo': {
+                    if (pkgJson.repository?.type !== 'git') {
+                        error(
+                            `The package's repository is hosted on ${pkgJson.repository?.type} which is not supported yet.`,
+                        );
+                    }
+                    const url = gitUrlParse(pkg.repository.url).toString(
+                        'https',
+                    );
+                    open(url);
+                    break;
+                }
+                case 'npm': {
+                    open(new URL(pkgJson.name, 'https://npm.im').href);
+                    break;
+                }
+                default: {
+                    error(
+                        `The requested platform ${platform} is not supported`,
+                    );
+                }
+            }
+        },
+    )
     .command(
         ['why <query>', 'explain'],
         'explain why a package is installed',
