@@ -21,7 +21,7 @@ interface NavItem {
 const data: NavItem[] = [
     { link: '/', label: 'Dashboard', icon: IconDashboard },
     { link: '/graph', label: 'Graph', icon: IconMap },
-    { link: '/packages', label: 'Package', icon: IconPackage },
+    { link: '/packages', label: 'Shared', icon: IconPackage },
     { link: '/installer', label: 'Installer', icon: IconDownload },
     { link: '/diagnose', label: 'Diagnoses', icon: IconZoomExclamation },
     { link: '/updates', label: 'Updates', icon: IconUpload },

@@ -39,5 +39,13 @@
     "formatter": {
         "indentWidth": 4,
         "indentStyle": "space"
-    }
+    },
+    "overrides": [
+        {
+            "include": ["./packages/fnpm-dev/src/components/ui"],
+            "linter": {
+                "enabled": false
+            }
+        }
+    ]
 }

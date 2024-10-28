@@ -180,7 +180,7 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                         ? 'Loading packages...'
                         : search
                           ? 'No packages found with provided search query'
-                          : 'Type package name in search field to start searching'}
+                          : 'Type package [name] in search field to start searching'}
                 </ResultPage>
             )}
         </Stack>

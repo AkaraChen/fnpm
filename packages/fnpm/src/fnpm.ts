@@ -169,7 +169,7 @@ yargs(ctx.args)
         async () => {
             const [name, ...argv] = ctx.args.slice(1);
             if (!name) {
-                error('No package name specified');
+                error('No package [name] specified');
             }
             const shell = commands.create.concat(ctx.pm, {
                 name: normalizePackageVersion(name!),
@@ -373,7 +373,7 @@ yargs(ctx.args)
         (yargs) =>
             yargs.positional('query', {
                 type: 'string',
-                description: 'Package to explain',
+                description: 'Shared to explain',
                 demandOption: true,
             }),
         async (args) => {
