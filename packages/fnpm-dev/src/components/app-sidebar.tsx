@@ -4,6 +4,7 @@ import {
     Command,
     ExternalLink,
     Home,
+    type LucideIcon,
     MessageCircleQuestion,
     Search,
     Settings2,
@@ -13,7 +14,10 @@ import type * as React from 'react';
 import { NavFavorites } from '@/components/nav-favorites';
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
-import { NavWorkspaces } from '@/components/nav-workspaces';
+import {
+    type IWorkspaceMenuItem,
+    NavWorkspaces,
+} from '@/components/nav-workspaces';
 import { TeamSwitcher } from '@/components/team-switcher';
 import {
     Sidebar,
@@ -21,12 +25,7 @@ import {
     SidebarHeader,
     SidebarRail,
 } from '@/components/ui/sidebar';
-import type { ReactNode } from 'react';
-
-interface IWorkspaceMenuItem {
-    name: string;
-    icon: ReactNode;
-}
+import { usePathname } from 'next/navigation';
 
 // This is sample data.
 const data = {
@@ -34,24 +33,6 @@ const data = {
         name: 'fnpm.dev',
         logo: Command,
     },
-    navMain: [
-        {
-            title: 'Search',
-            url: '#',
-            icon: Search,
-        },
-        {
-            title: 'Home',
-            url: '#',
-            icon: Home,
-            isActive: true,
-        },
-        {
-            title: 'View on npm',
-            url: '#',
-            icon: ExternalLink,
-        },
-    ],
     navSecondary: [
         {
             title: 'Settings',
@@ -87,13 +68,41 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
     workspaces?: IWorkspaceMenuItem[];
 }
 
+interface NavMainItem {
+    title: string;
+    url: string;
+    icon: LucideIcon;
+    isActive?: boolean;
+}
+
 export function AppSidebar(props: AppSidebarProps) {
     const { workspaces, ...rest } = props;
+    const pathname = usePathname();
+    const navMain: Array<NavMainItem> = [
+        {
+            title: 'Search',
+            url: '#',
+            icon: Search,
+            isActive: false,
+        },
+        {
+            title: 'Home',
+            url: '/',
+            icon: Home,
+            isActive: pathname === '/',
+        },
+        {
+            title: 'View on npm',
+            url: '#',
+            icon: ExternalLink,
+            isActive: false,
+        },
+    ];
     return (
         <Sidebar className='border-r-0' {...rest}>
             <SidebarHeader>
                 <TeamSwitcher team={data.team} />
-                <NavMain items={data.navMain} />
+                <NavMain items={navMain} />
             </SidebarHeader>
             <SidebarContent>
                 <NavFavorites favorites={data.favorites.slice(0, 3)} />

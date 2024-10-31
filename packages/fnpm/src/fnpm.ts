@@ -245,9 +245,9 @@ yargs(ctx.args)
         const inputs = ctx.args;
         const pkg: PackageJson = await readPackage({ cwd: ctx.root });
         const scripts = pkg.scripts || {};
-        const script = inputs[0];
+        const [script, ...otherArgs] = inputs;
         if (script && scripts[script]) {
-            const shell = ['node', '--run', ...inputs];
+            const shell = ['node', '--run', script, ...otherArgs];
             await exec(shell, { cwd: ctx.root });
         } else {
             const shell = commands.exec.concat(ctx.pm, {

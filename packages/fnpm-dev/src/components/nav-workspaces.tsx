@@ -7,15 +7,20 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
+
+export interface IWorkspaceMenuItem {
+    name: string;
+    icon: ReactNode;
+    href?: string;
+    active?: boolean;
+}
 
 export function NavWorkspaces({
     workspaces,
 }: {
-    workspaces: {
-        name: string;
-        icon: ReactNode;
-    }[];
+    workspaces: IWorkspaceMenuItem[];
 }) {
     return (
         <SidebarGroup>
@@ -25,11 +30,14 @@ export function NavWorkspaces({
                     {workspaces.map((workspace) => (
                         <Collapsible key={workspace.name}>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
-                                    <a>
+                                <SidebarMenuButton
+                                    isActive={workspace.active}
+                                    asChild
+                                >
+                                    <Link href={workspace.href || '/'}>
                                         {workspace.icon}
                                         <span>{workspace.name}</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </Collapsible>

@@ -41,3 +41,6 @@ export const detectLangByFilename = (filename: string) => {
             return 'plaintext';
     }
 };
+
+export const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));

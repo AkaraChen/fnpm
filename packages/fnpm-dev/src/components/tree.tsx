@@ -6,7 +6,7 @@ import { type NodeRendererProps, Tree } from 'react-arborist';
 import 'file-icons-js/css/style.css';
 import {
     Dialog,
-    DialogContent,
+    DialogContent, DialogOverlay,
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';

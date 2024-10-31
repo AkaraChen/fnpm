@@ -12,8 +12,9 @@ export default async function Page(props: {
     params: Promise<Params>;
     searchParams: Promise<SearchParams>;
 }) {
-    const { nameOrScope: scope, name } = await props.params;
-    const nameWithScope = `${decodeURIComponent(scope)}/${name}`;
     const { version, tab } = await props.searchParams;
+    const { nameOrScope, name } = await props.params;
+    const nameWithScope = `${decodeURIComponent(nameOrScope)}/${name}`;
+
     return <Package name={nameWithScope} version={version} tab={tab} />;
 }

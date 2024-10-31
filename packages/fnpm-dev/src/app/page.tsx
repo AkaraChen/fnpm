@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { Nunito } from 'next/font/google';
+import { redirect } from 'next/navigation';
 
 const nunito = Nunito({
     weight: ['700'],
@@ -49,7 +50,18 @@ export default function Page() {
                     </div>
                 </header>
                 <div className='flex flex-1 flex-col gap-4 px-4 py-10'>
-                    <div className='mx-auto h-full w-full max-w-3xl rounded-xl flex flex-col items-center'>
+                    <form
+                        className='mx-auto h-full w-full max-w-3xl rounded-xl flex flex-col items-center'
+                        action={async (formData) => {
+                            'use server';
+                            const keyword = formData.get('keyword');
+                            if (!keyword) {
+                                throw new Error('Keyword is required');
+                            }
+                            const url = `/search?keyword=${encodeURIComponent(keyword as string)}`;
+                            redirect(url);
+                        }}
+                    >
                         <h2
                             className={cn(
                                 'text-4xl font-semibold text-foreground mt-[20vh]',
@@ -59,10 +71,13 @@ export default function Page() {
                             Welcome to fnpm
                         </h2>
                         <div className='flex w-full max-w-lg items-center space-x-2 mt-8'>
-                            <Input placeholder='Search keywords...' />
+                            <Input
+                                placeholder='Search keywords...'
+                                name={'keyword'}
+                            />
                             <Button type='submit'>Search</Button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </SidebarInset>
         </SidebarProvider>
