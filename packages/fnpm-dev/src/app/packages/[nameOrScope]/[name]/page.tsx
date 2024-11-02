@@ -8,8 +8,6 @@ interface Params {
     name: string;
 }
 
-export const dynamic = 'force-static';
-
 export default async function Page(props: {
     params: Promise<Params>;
     searchParams: Promise<SearchParams>;
