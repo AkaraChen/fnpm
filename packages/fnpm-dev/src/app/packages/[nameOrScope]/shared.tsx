@@ -180,7 +180,7 @@ export async function Package(props: PackageProps) {
                             ))
                             .with(Tab.Dependencies, () => (
                                 <Card title={'Dependencies'}>
-                                    <Dependency />
+                                    <Dependency name={name} />
                                 </Card>
                             ))
                             .otherwise(() => (
