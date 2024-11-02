@@ -17,8 +17,8 @@ export async function loader() {
 export const meta: MetaFunction = () => {
     return [
         {
-            title: 'Package',
-            description: 'Package details',
+            title: 'Shared',
+            description: 'Shared details',
         },
     ];
 };
@@ -28,7 +28,7 @@ export default function Page() {
     const navigate = useNavigate();
     return (
         <BasePage>
-            <PageHeader title='Package' />
+            <PageHeader title='Shared' />
             <ProjectSelector
                 promise={data.context}
                 onChange={(value) => {

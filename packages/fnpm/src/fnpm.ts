@@ -169,7 +169,7 @@ yargs(ctx.args)
         async () => {
             const [name, ...argv] = ctx.args.slice(1);
             if (!name) {
-                error('No package name specified');
+                error('No package [name] specified');
             }
             const shell = commands.create.concat(ctx.pm, {
                 name: normalizePackageVersion(name!),
@@ -245,9 +245,9 @@ yargs(ctx.args)
         const inputs = ctx.args;
         const pkg: PackageJson = await readPackage({ cwd: ctx.root });
         const scripts = pkg.scripts || {};
-        const script = inputs[0];
+        const [script, ...otherArgs] = inputs;
         if (script && scripts[script]) {
-            const shell = ['node', '--run', ...inputs];
+            const shell = ['node', '--run', script, ...otherArgs];
             await exec(shell, { cwd: ctx.root });
         } else {
             const shell = commands.exec.concat(ctx.pm, {
@@ -373,7 +373,7 @@ yargs(ctx.args)
         (yargs) =>
             yargs.positional('query', {
                 type: 'string',
-                description: 'Package to explain',
+                description: 'Shared to explain',
                 demandOption: true,
             }),
         async (args) => {
