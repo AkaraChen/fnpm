@@ -4,7 +4,6 @@ import {
     Command,
     ExternalLink,
     Home,
-    type LucideIcon,
     MessageCircleQuestion,
     Search,
     Settings2,
@@ -12,7 +11,7 @@ import {
 import type * as React from 'react';
 
 import { NavFavorites } from '@/components/nav-favorites';
-import { NavMain } from '@/components/nav-main';
+import { NavMain, type NavMainItem } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
 import {
     type IWorkspaceMenuItem,
@@ -36,12 +35,12 @@ const data = {
     navSecondary: [
         {
             title: 'Settings',
-            url: '#',
+            url: '/settings',
             icon: Settings2,
         },
         {
             title: 'Help',
-            url: '#',
+            url: '/help',
             icon: MessageCircleQuestion,
         },
     ],
@@ -68,20 +67,12 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
     workspaces?: IWorkspaceMenuItem[];
 }
 
-interface NavMainItem {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
-}
-
 export function AppSidebar(props: AppSidebarProps) {
     const { workspaces, ...rest } = props;
     const pathname = usePathname();
     const navMain: Array<NavMainItem> = [
         {
             title: 'Search',
-            url: '#',
             icon: Search,
             isActive: false,
         },
@@ -93,8 +84,18 @@ export function AppSidebar(props: AppSidebarProps) {
         },
         {
             title: 'View on npm',
-            url: '#',
             icon: ExternalLink,
+            onClick() {
+                if (pathname === '/') {
+                    window.open('https://npmjs.com');
+                }
+                if (pathname.startsWith('/packages/')) {
+                    const idx =
+                        pathname.indexOf('/packages/') + '/packages/'.length;
+                    const packageName = pathname.slice(idx);
+                    window.open(`https://npmjs.com/package/${packageName}`);
+                }
+            },
             isActive: false,
         },
     ];
@@ -105,7 +106,9 @@ export function AppSidebar(props: AppSidebarProps) {
                 <NavMain items={navMain} />
             </SidebarHeader>
             <SidebarContent>
-                <NavFavorites favorites={data.favorites.slice(0, 3)} />
+                {false && (
+                    <NavFavorites favorites={data.favorites.slice(0, 3)} />
+                )}
                 {workspaces && <NavWorkspaces workspaces={workspaces} />}
                 <NavSecondary items={data.navSecondary} className='mt-auto' />
             </SidebarContent>

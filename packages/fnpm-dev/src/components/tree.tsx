@@ -6,7 +6,7 @@ import { type NodeRendererProps, Tree } from 'react-arborist';
 import 'file-icons-js/css/style.css';
 import {
     Dialog,
-    DialogContent, DialogOverlay,
+    DialogContent,
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
@@ -46,6 +46,11 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                 onClick={() => {
                     node.toggle();
                 }}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        node.toggle();
+                    }
+                }}
                 className={
                     'flex items-center text-sm hover:text-blue-500 h-6 cursor-pointer'
                 }
@@ -82,6 +87,11 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                         }
                         onClick={() => {
                             setOpen(true);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setOpen(true);
+                            }
                         }}
                     >
                         {props.node.data.name}

@@ -1,3 +1,3 @@
-import {Loading} from "./shared";
+import { Loading } from './shared';
 
 export default Loading;

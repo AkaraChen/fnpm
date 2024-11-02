@@ -197,8 +197,10 @@ export async function Package(props: PackageProps) {
 }
 
 export const Loading: FC = () => {
-    return <div className="flex flex-1 flex-col gap-4 px-4 py-10 mt-14">
-        <div className="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50"></div>
-        <div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50"></div>
-    </div>
-}
+    return (
+        <div className='flex flex-1 flex-col gap-4 px-4 py-10 mt-14'>
+            <div className='mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50' />
+            <div className='mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50' />
+        </div>
+    );
+};
