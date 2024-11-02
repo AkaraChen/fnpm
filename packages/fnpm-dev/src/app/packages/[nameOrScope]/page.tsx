@@ -4,6 +4,8 @@ import {
     type SearchParams,
 } from '@/app/packages/[nameOrScope]/shared';
 
+export const dynamic = 'force-static';
+
 export default async function Page(props: {
     params: Promise<Params>;
     searchParams: Promise<SearchParams>;
