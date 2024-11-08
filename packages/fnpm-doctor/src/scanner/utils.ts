@@ -1,5 +1,6 @@
 import pc from 'picocolors';
 import type { Formatter } from 'picocolors/types';
+import terminalLink from 'terminal-link';
 import { match } from 'ts-pattern';
 import type { ScannerDiagnose } from './scanner';
 
@@ -28,6 +29,10 @@ export function writeToConsole(diagnose: ScannerDiagnose): void {
         pc.bold(level),
         pc.bold(diagnose.title),
     );
-    method(diagnose.description);
+    method(
+        diagnose.description,
+        ' '.repeat(1),
+        diagnose.docs ? terminalLink('Document', diagnose.docs.toString()) : '',
+    );
     console.log();
 }
