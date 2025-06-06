@@ -77,10 +77,9 @@ export function AppSidebar(props: AppSidebarProps) {
                 if (pathname === '/') {
                     window.open('https://npmjs.com');
                 } else if (pathname === '/search') {
-                    const keyword =
-                        new URLSearchParams(window.location.search).get(
-                            'keyword',
-                        );
+                    const keyword = new URLSearchParams(
+                        window.location.search,
+                    ).get('keyword');
                     if (!keyword) {
                         return;
                     }

@@ -179,16 +179,19 @@ export async function Package(props: PackageProps) {
                                 </Card>
                             ))
                             .with(Tab.Dependencies, () => (
-                                <Card title={'Dependencies'}>
-                                    <Dependency name={name} />
-                                </Card>
+                                <Dependency
+                                    name={name}
+                                    metadata={metadata}
+                                    version={current}
+                                />
                             ))
-                            .otherwise(() => (
+                            .with(null, () => (
                                 <Manifest
                                     metadata={metadata}
                                     version={current}
                                 />
-                            ))}
+                            ))
+                            .exhaustive()}
                     </div>
                 </div>
             </div>
