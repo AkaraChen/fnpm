@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { parseTarGzip } from 'nanotar';
 
 export type Folder = {
@@ -22,7 +21,7 @@ export async function tarToTree(arrayBuffer: ArrayBuffer) {
     const items = await parseTarGzip(arrayBuffer);
     const tree: Folder = { name: '/', nodes: [] };
     for (const item of items) {
-        const pathParts = item.name.split(path.posix.sep);
+        const pathParts = item.name.split('/');
         let currentFolder = tree;
         for (const part of pathParts.slice(0, -1)) {
             let folder = currentFolder.nodes.find((node) => node.name === part);

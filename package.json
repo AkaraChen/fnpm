@@ -15,32 +15,32 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@9.10.0",
+    "packageManager": "pnpm@10.11.1",
     "devDependencies": {
-        "@akrc/tsconfig": "^1.1.0",
-        "@biomejs/biome": "^1.9.2",
-        "@types/node": "^22.5.5",
-        "bumpp": "^9.5.2",
-        "knip": "^5.30.2",
+        "@akrc/tsconfig": "^2.0.0",
+        "@biomejs/biome": "^1.9.4",
+        "@types/node": "^22.15.30",
+        "bumpp": "^10.1.1",
+        "knip": "^5.60.2",
         "madge": "^8.0.0",
-        "tslib": "^2.7.0",
-        "tsup": "^8.3.0",
-        "turbo": "^2.1.2",
-        "typescript": "^5.6.2",
-        "vitest": "^2.1.1"
+        "tslib": "^2.8.1",
+        "tsup": "^8.5.0",
+        "turbo": "^2.5.4",
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.2"
     },
     "pnpm": {
         "patchedDependencies": {
             "parse-package-name@1.0.0": "patches/parse-package-name@1.0.0.patch"
         },
         "overrides": {
-            "is-arguments": "npm:@nolyfill/is-arguments@^1.0.29",
+            "is-arguments": "npm:@nolyfill/is-arguments@^1.0.44",
             "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39",
-            "is-generator-function": "npm:@nolyfill/is-generator-function@^1.0.29",
-            "is-typed-array": "npm:@nolyfill/is-typed-array@^1.0.29",
-            "isarray": "npm:@nolyfill/isarray@^1.0.29",
-            "side-channel": "npm:@nolyfill/side-channel@^1.0.29",
-            "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.29"
+            "is-generator-function": "npm:@nolyfill/is-generator-function@^1.0.44",
+            "is-typed-array": "npm:@nolyfill/is-typed-array@^1.0.44",
+            "isarray": "npm:@nolyfill/isarray@^1.0.44",
+            "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
+            "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.44"
         }
     }
 }

@@ -54,7 +54,7 @@ export default function Layout(props: PropsWithChildren) {
                         spaceMono.className,
                     )}
                 >
-                    <div className='mx-auto h-full w-full max-w-screen-lg rounded-xl grid grid-cols-2 gap-4'>
+                    <div className='mx-auto h-full w-full max-w-screen-lg grid grid-cols-2 gap-4'>
                         {children}
                     </div>
                 </div>

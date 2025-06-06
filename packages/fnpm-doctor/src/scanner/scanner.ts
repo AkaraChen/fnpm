@@ -37,8 +37,11 @@ export class ScannerContextImpl implements ScannerContext {
     projects!: Awaited<ReturnType<typeof mt.scanProjects>>;
     root!: string;
     isMonoRepo!: boolean;
+    cwd: string;
 
-    constructor(public cwd: string) {}
+    constructor(cwd: string) {
+        this.cwd = cwd;
+    }
 
     async init(): Promise<void> {
         const rawContext = await resolveContext(this.cwd);

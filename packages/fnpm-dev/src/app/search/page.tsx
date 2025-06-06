@@ -9,8 +9,7 @@ import Link from 'next/link';
 interface SearchParams {
     keyword: string;
 }
-new TextEncoder();
-new TextDecoder();
+
 export default async function Page(props: {
     searchParams: Promise<SearchParams>;
 }) {
@@ -46,7 +45,7 @@ export default async function Page(props: {
                         </p>
                         <div className={'flex gap-2 flex-wrap h-5'}>
                             {item.package.keywords?.slice(0, 3).map((label) => (
-                                <Badge key={label} variant={'outline'}>
+                                <Badge key={label} variant={'outline'} className='m-0'>
                                     {label}
                                 </Badge>
                             ))}
