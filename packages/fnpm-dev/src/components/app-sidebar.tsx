@@ -102,7 +102,7 @@ export function AppSidebar(props: AppSidebarProps) {
                 <NavMain items={navMain} />
             </SidebarHeader>
             <SidebarContent>
-                {true && (
+                {false && (
                     <NavFavorites favorites={data.favorites.slice(0, 3)} />
                 )}
                 {workspaces && <NavWorkspaces workspaces={workspaces} />}
