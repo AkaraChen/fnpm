@@ -38,7 +38,7 @@ export default function Layout(props: PropsWithChildren) {
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <BreadcrumbPage className='line-clamp-1'>
-                                        Home
+                                        Search
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>

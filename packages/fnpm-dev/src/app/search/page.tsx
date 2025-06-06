@@ -45,7 +45,11 @@ export default async function Page(props: {
                         </p>
                         <div className={'flex gap-2 flex-wrap h-5'}>
                             {item.package.keywords?.slice(0, 3).map((label) => (
-                                <Badge key={label} variant={'outline'} className='m-0'>
+                                <Badge
+                                    key={label}
+                                    variant={'outline'}
+                                    className='m-0'
+                                >
                                     {label}
                                 </Badge>
                             ))}

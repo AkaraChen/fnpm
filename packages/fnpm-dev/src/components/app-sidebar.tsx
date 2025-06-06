@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    Command,
-    ExternalLink,
-    Home,
-    MessageCircleQuestion,
-    Search,
-    Settings2,
-} from 'lucide-react';
+import { Command, ExternalLink, Home, Search, Settings2 } from 'lucide-react';
 import type * as React from 'react';
 
 import { NavFavorites } from '@/components/nav-favorites';
@@ -37,11 +30,6 @@ const data = {
             title: 'Settings',
             url: '/settings',
             icon: Settings2,
-        },
-        {
-            title: 'Help',
-            url: '/help',
-            icon: MessageCircleQuestion,
         },
     ],
     favorites: [
@@ -88,8 +76,16 @@ export function AppSidebar(props: AppSidebarProps) {
             onClick() {
                 if (pathname === '/') {
                     window.open('https://npmjs.com');
-                }
-                if (pathname.startsWith('/packages/')) {
+                } else if (pathname === '/search') {
+                    const keyword =
+                        new URLSearchParams(window.location.search).get(
+                            'keyword',
+                        );
+                    if (!keyword) {
+                        return;
+                    }
+                    window.open(`https://npmjs.com/search?q=${keyword}`);
+                } else if (pathname.startsWith('/packages/')) {
                     const idx =
                         pathname.indexOf('/packages/') + '/packages/'.length;
                     const packageName = pathname.slice(idx);
@@ -106,7 +102,7 @@ export function AppSidebar(props: AppSidebarProps) {
                 <NavMain items={navMain} />
             </SidebarHeader>
             <SidebarContent>
-                {false && (
+                {true && (
                     <NavFavorites favorites={data.favorites.slice(0, 3)} />
                 )}
                 {workspaces && <NavWorkspaces workspaces={workspaces} />}
