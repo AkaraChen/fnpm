@@ -7,6 +7,7 @@ import type { schema } from '@akrc/npm-registry-client';
 import hostedGitInfo from 'hosted-git-info';
 import { LucideBug, LucideGitBranch, LucideLink } from 'lucide-react';
 import type { FC } from 'react';
+import 'github-markdown-css/github-markdown.css';
 
 interface ReadmeProps {
     name: string;
@@ -23,9 +24,7 @@ const Readme: FC<ReadmeProps> = async (props) => {
     const rendered = await processor.process(content);
     return (
         <article
-            className={
-                'prose prose-sm max-w-none prose-code:text-sm prose-a:text-blue-500 hover:prose-a:underline prose-pre:p-4 prose-code:before:hidden prose-code:after:hidden'
-            }
+            className={'markdown-body'}
             // biome-ignore lint: it's ok
             dangerouslySetInnerHTML={{
                 __html: rendered.toString(),
