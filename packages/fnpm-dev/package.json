@@ -24,6 +24,7 @@
         "@tanstack/react-query": "^5.56.2",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
+        "cmdk": "^1.1.1",
         "file-icons-js": "^1.1.0",
         "fnpm-toolkit": "^1.11.7",
         "github-markdown-css": "^5.8.1",

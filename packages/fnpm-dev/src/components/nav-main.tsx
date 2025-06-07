@@ -45,6 +45,11 @@ export function NavMain({
                                 onClick={() => {
                                     item.onClick?.();
                                 }}
+                                onKeyUp={(e) => {
+                                    if (e.key === 'Enter') {
+                                        item.onClick?.();
+                                    }
+                                }}
                                 className={cn('cursor-pointer', item.className)}
                             >
                                 <item.icon />
