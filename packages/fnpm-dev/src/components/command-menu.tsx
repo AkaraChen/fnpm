@@ -1,9 +1,11 @@
 'use client';
 
+import { viewOnNpmjs } from '@/lib/npmjs';
 import { wrapFetch } from '@/lib/utils';
 import npmjs from '@akrc/npm-registry-client';
 import { useQuery } from '@tanstack/react-query';
 import { CommandLoading } from 'cmdk';
+import { ExternalLink, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -92,10 +94,18 @@ export const CommandMenu = ({ open, onOpenChange }: CommandMenuProps) => {
                 <CommandGroup heading='Settings'>
                     <Link href='/settings'>
                         <CommandItem>
-                            {/* <Settings /> */}
+                            <Settings />
                             <span>Settings</span>
                         </CommandItem>
                     </Link>
+                    <CommandItem
+                        onClick={() => {
+                            viewOnNpmjs(window.location.pathname);
+                        }}
+                    >
+                        <ExternalLink />
+                        <span>View on npm</span>
+                    </CommandItem>
                 </CommandGroup>
             </CommandList>
         </CommandDialog>

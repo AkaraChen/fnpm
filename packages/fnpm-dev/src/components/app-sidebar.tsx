@@ -93,7 +93,7 @@ export function AppSidebar(props: AppSidebarProps) {
     ];
     const [open, setOpen] = useState(false);
     return (
-        <Sidebar className='border-r-0' {...rest}>
+        <Sidebar className='border-r-0' variant='inset' {...rest}>
             <SidebarHeader>
                 <TeamSwitcher team={data.team} />
                 <NavMain items={navMain} />
