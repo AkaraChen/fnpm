@@ -1,17 +1,11 @@
 'use client';
 
 import {
-    Calculator,
-    Calendar,
-    CreditCard,
     ExternalLink,
     Home,
     LucideCommand,
     Search,
-    Settings,
     Settings2,
-    Smile,
-    User,
 } from 'lucide-react';
 import type * as React from 'react';
 
@@ -24,16 +18,6 @@ import {
 } from '@/components/nav-workspaces';
 import { TeamSwitcher } from '@/components/team-switcher';
 import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-} from '@/components/ui/command';
-import {
     Sidebar,
     SidebarContent,
     SidebarHeader,
@@ -42,7 +26,7 @@ import {
 import { viewOnNpmjs } from '@/lib/npmjs';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { DialogTitle } from './ui/dialog';
+import { CommandMenu } from './command-menu';
 
 // This is sample data.
 const data = {
@@ -119,45 +103,7 @@ export function AppSidebar(props: AppSidebarProps) {
                     <NavFavorites favorites={data.favorites.slice(0, 3)} />
                 )}
                 {workspaces && <NavWorkspaces workspaces={workspaces} />}
-                <CommandDialog open={open} onOpenChange={setOpen}>
-                    <DialogTitle className='sr-only'>Search</DialogTitle>
-                    <CommandInput placeholder='Type a command or search...' />
-                    <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading='Suggestions'>
-                            <CommandItem>
-                                <Calendar />
-                                <span>Calendar</span>
-                            </CommandItem>
-                            <CommandItem>
-                                <Smile />
-                                <span>Search Emoji</span>
-                            </CommandItem>
-                            <CommandItem>
-                                <Calculator />
-                                <span>Calculator</span>
-                            </CommandItem>
-                        </CommandGroup>
-                        <CommandSeparator />
-                        <CommandGroup heading='Settings'>
-                            <CommandItem>
-                                <User />
-                                <span>Profile</span>
-                                <CommandShortcut>⌘P</CommandShortcut>
-                            </CommandItem>
-                            <CommandItem>
-                                <CreditCard />
-                                <span>Billing</span>
-                                <CommandShortcut>⌘B</CommandShortcut>
-                            </CommandItem>
-                            <CommandItem>
-                                <Settings />
-                                <span>Settings</span>
-                                <CommandShortcut>⌘S</CommandShortcut>
-                            </CommandItem>
-                        </CommandGroup>
-                    </CommandList>
-                </CommandDialog>
+                <CommandMenu open={open} onOpenChange={setOpen} />
                 <NavSecondary items={data.navSecondary} className='mt-auto' />
             </SidebarContent>
             <SidebarRail />
