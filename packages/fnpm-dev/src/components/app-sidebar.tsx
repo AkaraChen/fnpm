@@ -18,6 +18,7 @@ import {
     SidebarRail,
 } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
+import { viewOnNpmjs } from '@/lib/npmjs';
 
 // This is sample data.
 const data = {
@@ -74,22 +75,7 @@ export function AppSidebar(props: AppSidebarProps) {
             title: 'View on npm',
             icon: ExternalLink,
             onClick() {
-                if (pathname === '/') {
-                    window.open('https://npmjs.com');
-                } else if (pathname === '/search') {
-                    const keyword = new URLSearchParams(
-                        window.location.search,
-                    ).get('keyword');
-                    if (!keyword) {
-                        return;
-                    }
-                    window.open(`https://npmjs.com/search?q=${keyword}`);
-                } else if (pathname.startsWith('/packages/')) {
-                    const idx =
-                        pathname.indexOf('/packages/') + '/packages/'.length;
-                    const packageName = pathname.slice(idx);
-                    window.open(`https://npmjs.com/package/${packageName}`);
-                }
+                viewOnNpmjs(pathname);
             },
             isActive: false,
         },
