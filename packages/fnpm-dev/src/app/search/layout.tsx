@@ -50,7 +50,7 @@ export default function Layout(props: PropsWithChildren) {
                 </header>
                 <div
                     className={cn(
-                        'flex flex-1 flex-col gap-4 px-4 py-10',
+                        'flex flex-1 flex-col gap-4 px-4 py-6',
                         spaceMono.className,
                     )}
                 >

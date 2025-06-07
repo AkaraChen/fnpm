@@ -1,21 +1,19 @@
-import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Settings,
-    Smile,
-    User,
-} from 'lucide-react';
+'use client';
+
+import { wrapFetch } from '@/lib/utils';
+import npmjs from '@akrc/npm-registry-client';
+import { useQuery } from '@tanstack/react-query';
+import { CommandLoading } from 'cmdk';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
     CommandDialog,
-    CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
 } from './ui/command';
 import { DialogTitle } from './ui/dialog';
 
@@ -26,46 +24,78 @@ export interface CommandMenuProps {
 
 export const CommandMenu = ({ open, onOpenChange }: CommandMenuProps) => {
     const [openState, setOpenState] = useState(false);
+    const [keyword, setKeyword] = useState('');
+    const query = useQuery({
+        queryKey: ['search', keyword],
+        queryFn: () => {
+            return wrapFetch(
+                npmjs.GET('/-/v1/search', {
+                    params: {
+                        query: {
+                            text: keyword,
+                        },
+                    },
+                }),
+            );
+        },
+        enabled: keyword.length > 1,
+    });
+    const navigate = useRouter();
+    const submit = (name: string) => {
+        if (!name) {
+            return;
+        }
+        setOpenState(false);
+        setKeyword('');
+        const url = new URL(window.location.href);
+        url.pathname = '/search';
+        url.searchParams.set('keyword', name);
+        navigate.push(url.toString());
+    };
     return (
         <CommandDialog
             open={open ?? openState}
             onOpenChange={onOpenChange ?? setOpenState}
+            shouldFilter={false}
         >
             <DialogTitle className='sr-only'>Search</DialogTitle>
-            <CommandInput placeholder='Type a command or search...' />
+            <CommandInput
+                placeholder='Type a command or search...'
+                value={keyword}
+                onValueChange={setKeyword}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        submit(keyword);
+                    }
+                }}
+            />
             <CommandList>
-                <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup heading='Suggestions'>
-                    <CommandItem>
-                        <Calendar />
-                        <span>Calendar</span>
-                    </CommandItem>
-                    <CommandItem>
-                        <Smile />
-                        <span>Search Emoji</span>
-                    </CommandItem>
-                    <CommandItem>
-                        <Calculator />
-                        <span>Calculator</span>
-                    </CommandItem>
-                </CommandGroup>
-                <CommandSeparator />
+                {/* <CommandEmpty>No results found.</CommandEmpty> */}
+                {query.isLoading && <CommandLoading />}
+                {query.data && (
+                    <>
+                        <CommandGroup heading='Suggestions'>
+                            {query.data.objects.slice(0, 10).map((item) => (
+                                <Link
+                                    key={item.package.name}
+                                    href={`/packages/${item.package.name}`}
+                                >
+                                    <CommandItem>
+                                        <span>{item.package.name}</span>
+                                    </CommandItem>
+                                </Link>
+                            ))}
+                        </CommandGroup>
+                        <CommandSeparator />
+                    </>
+                )}
                 <CommandGroup heading='Settings'>
-                    <CommandItem>
-                        <User />
-                        <span>Profile</span>
-                        <CommandShortcut>⌘P</CommandShortcut>
-                    </CommandItem>
-                    <CommandItem>
-                        <CreditCard />
-                        <span>Billing</span>
-                        <CommandShortcut>⌘B</CommandShortcut>
-                    </CommandItem>
-                    <CommandItem>
-                        <Settings />
-                        <span>Settings</span>
-                        <CommandShortcut>⌘S</CommandShortcut>
-                    </CommandItem>
+                    <Link href='/settings'>
+                        <CommandItem>
+                            {/* <Settings /> */}
+                            <span>Settings</span>
+                        </CommandItem>
+                    </Link>
                 </CommandGroup>
             </CommandList>
         </CommandDialog>
