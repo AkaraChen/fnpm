@@ -8,6 +8,7 @@ import hostedGitInfo from 'hosted-git-info';
 import { LucideBug, LucideGitBranch, LucideLink } from 'lucide-react';
 import type { FC } from 'react';
 import 'github-markdown-css/github-markdown.css';
+import { CopyCommand } from './manifest.client';
 
 interface ReadmeProps {
     name: string;
@@ -44,13 +45,14 @@ export const Manifest: FC<ManifestProps> = (props) => {
         <div className={'space-y-4'}>
             <Card title={'Manifest'} className={'space-y-3'}>
                 <p className={'text-sm'}>{metadata!.description}</p>
-                <div className={'flex gap-2'}>
+                <div className={'flex gap-2 flex-wrap'}>
                     {metadata.keywords?.map((keyword) => (
                         <Badge key={keyword} variant={'outline'}>
                             {keyword}
                         </Badge>
                     ))}
                 </div>
+                <CopyCommand name={metadata.name} />
                 <div className={'flex gap-2'}>
                     {metadata.repository && (
                         <IconButton

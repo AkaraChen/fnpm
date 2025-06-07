@@ -27,7 +27,7 @@ import { Space_Mono } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import { match } from 'ts-pattern';
+import { P, match } from 'ts-pattern';
 import type { PackageJson } from 'type-fest';
 
 interface TagsProps {
@@ -188,7 +188,7 @@ export async function Package(props: PackageProps) {
                         </div>
 
                         {match(tab)
-                            .with(Tab.Manifest, () => (
+                            .with(P.union(Tab.Manifest, null), () => (
                                 <Manifest
                                     metadata={metadata}
                                     version={current}
@@ -205,12 +205,6 @@ export async function Package(props: PackageProps) {
                             .with(Tab.Dependencies, () => (
                                 <Dependency
                                     name={name}
-                                    metadata={metadata}
-                                    version={current}
-                                />
-                            ))
-                            .with(null, () => (
-                                <Manifest
                                     metadata={metadata}
                                     version={current}
                                 />
