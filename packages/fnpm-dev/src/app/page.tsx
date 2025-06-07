@@ -15,13 +15,7 @@ import {
     SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
-import { Nunito } from 'next/font/google';
 import { redirect } from 'next/navigation';
-
-const nunito = Nunito({
-    weight: ['700'],
-    subsets: ['latin'],
-});
 
 export default function Page() {
     return (
@@ -65,10 +59,9 @@ export default function Page() {
                         <h2
                             className={cn(
                                 'text-4xl font-semibold text-foreground mt-[20vh]',
-                                nunito.className,
                             )}
                         >
-                            Welcome to fnpm
+                            What do you want to build?
                         </h2>
                         <div className='flex w-full max-w-lg items-center space-x-2 mt-8'>
                             <Input

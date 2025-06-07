@@ -215,6 +215,9 @@ importers:
       react-syntax-highlighter:
         specifier: ^15.6.1
         version: 15.6.1(react@19.0.0-rc-69d4b800-20241021)
+      react-twc:
+        specifier: ^1.4.2
+        version: 1.4.2(@types/react@18.3.12)(react@19.0.0-rc-69d4b800-20241021)
       rehype-document:
         specifier: ^7.0.3
         version: 7.0.3
@@ -5669,6 +5672,9 @@ packages:
     peerDependencies:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
+
+  react-twc@1.4.2:
+    resolution: {integrity: sha512-ix8Z1dNacL29Vri3rWsQqRYMQXWCNzbI1qhz0yyvcbO057HZwz3rXZDQ7TcOE1hQ7EHornX3ka2reO27RmXiYA==}
 
   react-window@1.8.10:
     resolution: {integrity: sha512-Y0Cx+dnU6NLa5/EvoHukUD0BklJ8qITCtVEPY1C/nL8wwoZ0b5aEw8Ff1dOVHw7fCzMt55XfJDd8S8W8LCaUCg==}
@@ -12393,6 +12399,14 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  react-twc@1.4.2(@types/react@18.3.12)(react@19.0.0-rc-69d4b800-20241021):
+    dependencies:
+      '@radix-ui/react-slot': 1.2.3(@types/react@18.3.12)(react@19.0.0-rc-69d4b800-20241021)
+      clsx: 2.1.1
+    transitivePeerDependencies:
+      - '@types/react'
+      - react
 
   react-window@1.8.10(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021):
     dependencies:

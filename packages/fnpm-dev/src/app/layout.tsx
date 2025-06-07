@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from '@/app/providers';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'fnpm.dev',
     description: 'A better npmjs.com.',
 };
 
-const inter = Inter({
-    weight: ['400', '600'],
-    subsets: ['latin'],
+const geistVF = localFont({
+    src: './fonts/GeistVF.woff',
 });
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang='en'>
-            <body className={inter.className}>
+            <body className={cn(geistVF.className)}>
                 <Providers>{children}</Providers>
             </body>
         </html>
