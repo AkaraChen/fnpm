@@ -21,7 +21,7 @@ import {
     SiReact,
     SiTypescript,
 } from '@icons-pack/react-simple-icons';
-import { hasBin, hasReact, hasTypes } from 'fnpm-toolkit';
+import { getTypesPackage, hasBin, hasReact, hasTypes } from 'fnpm-toolkit';
 import humanFormat from 'human-format';
 import { Space_Mono } from 'next/font/google';
 import Image from 'next/image';
@@ -60,7 +60,7 @@ export const Tags: FC<TagsProps> = async (props) => {
                 npmjs.GET('/{packageName}', {
                     params: {
                         path: {
-                            packageName: `@types/${name}`,
+                            packageName: getTypesPackage(name),
                         },
                     },
                 }),

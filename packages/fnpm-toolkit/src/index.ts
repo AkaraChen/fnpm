@@ -169,3 +169,23 @@ export function concatNpmUrl(pkg: string, version?: string): string {
         'https://www.npmjs.com',
     ).href;
 }
+
+export interface PackageName {
+    scope?: string;
+    name: string;
+}
+
+export function parsePackageName(input: string): PackageName {
+    if (input.includes('@')) {
+        const [scope, name] = input.slice(1).split('/');
+        if (!scope || !name) throw new Error('Invalid package name');
+        return { scope, name };
+    }
+    return { name: input };
+}
+
+export function getTypesPackage(input: string): string {
+    const { scope, name } = parsePackageName(input);
+    if (scope) return `@types/${scope}__${name}`;
+    return `@types/${name}`;
+}

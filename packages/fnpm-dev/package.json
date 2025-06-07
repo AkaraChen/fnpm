@@ -26,7 +26,7 @@
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
         "file-icons-js": "^1.1.0",
-        "fnpm-toolkit": "^1.11.7",
+        "fnpm-toolkit": "workspace:*",
         "github-markdown-css": "^5.8.1",
         "hosted-git-info": "^8.0.0",
         "human-format": "^1.2.0",
