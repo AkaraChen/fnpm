@@ -1,12 +1,14 @@
 'use client';
 
 import type { LucideIcon } from 'lucide-react';
+import Link from 'next/link';
 
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 export interface NavMainItem {
     title: string;
@@ -14,6 +16,7 @@ export interface NavMainItem {
     icon: LucideIcon;
     isActive?: boolean;
     onClick?: () => void;
+    className?: string;
 }
 
 export function NavMain({
@@ -26,15 +29,28 @@ export function NavMain({
             {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={item.isActive}>
-                        <a
-                            href={item.url}
-                            onClick={() => {
-                                item.onClick?.();
-                            }}
-                        >
-                            <item.icon />
-                            <span>{item.title}</span>
-                        </a>
+                        {item.url ? (
+                            <Link
+                                href={item.url}
+                                onClick={() => {
+                                    item.onClick?.();
+                                }}
+                                className={cn('cursor-pointer', item.className)}
+                            >
+                                <item.icon />
+                                <span>{item.title}</span>
+                            </Link>
+                        ) : (
+                            <div
+                                onClick={() => {
+                                    item.onClick?.();
+                                }}
+                                className={cn('cursor-pointer', item.className)}
+                            >
+                                <item.icon />
+                                <span>{item.title}</span>
+                            </div>
+                        )}
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             ))}
