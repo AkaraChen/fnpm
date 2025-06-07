@@ -1,6 +1,7 @@
 import { Code } from '@/app/packages/[nameOrScope]/tabs/code';
 import { Dependency } from '@/app/packages/[nameOrScope]/tabs/deps';
 import { Manifest } from '@/app/packages/[nameOrScope]/tabs/manifest';
+import dt from '@/assets/dt.svg';
 import { Card } from '@/components/card';
 import { NavActions } from '@/components/nav-actions';
 import {
@@ -23,6 +24,8 @@ import {
 import { hasBin, hasReact, hasTypes } from 'fnpm-toolkit';
 import humanFormat from 'human-format';
 import { Space_Mono } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
 import type { FC } from 'react';
 import { match } from 'ts-pattern';
 import type { PackageJson } from 'type-fest';
@@ -49,13 +52,34 @@ export const Tags: FC<TagsProps> = async (props) => {
         version,
         path: 'package.json',
     }).then((res) => res.json());
+    const haveDts = hasTypes(pkg);
+    let haveDt = false;
+    if (!haveDts) {
+        try {
+            await wrapFetch(
+                npmjs.GET('/{packageName}', {
+                    params: {
+                        path: {
+                            packageName: `@types/${name}`,
+                        },
+                    },
+                }),
+            );
+            haveDt = true;
+        } catch {}
+    }
     return (
         <div className={'flex gap-2'}>
             {hasBin(pkg) && <SiGnometerminal color={'#241F31'} size={18} />}
-            {hasTypes(pkg) ? (
+            {haveDts ? (
                 <SiTypescript color={'#3178C6'} size={18} />
             ) : (
                 <SiJavascript color={'#F7DF1E'} size={18} />
+            )}
+            {haveDt && (
+                <Link href={`/packages/@types/${name}`}>
+                    <Image src={dt} alt='dt' className='size-[18px]' />
+                </Link>
             )}
             {hasReact(pkg) && <SiReact color={'#61DAFB'} size={18} />}
         </div>
