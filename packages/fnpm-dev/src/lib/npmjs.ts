@@ -1,3 +1,6 @@
+import { npmjs as client } from '@akrc/npm-registry-client';
+import ky from 'ky';
+
 export function viewOnNpmjs(pathname: string) {
     if (pathname === '/') {
         window.open('https://npmjs.com');
@@ -15,3 +18,9 @@ export function viewOnNpmjs(pathname: string) {
         window.open(`https://npmjs.com/package/${packageName}`, '_blank');
     }
 }
+
+export const npmjs = client.with({
+    fetch: ky.create({
+        throwHttpErrors: true,
+    }),
+});

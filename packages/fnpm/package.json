@@ -18,24 +18,24 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "@akrc/monorepo-tools": "^3.0.1",
+        "@akrc/monorepo-tools": "^4.0.1",
         "@types/yargs": "^17.0.33",
         "parse-package-name": "^1.0.0",
-        "type-fest": "^4.26.1"
+        "type-fest": "^4.41.0"
     },
     "dependencies": {
-        "@types/git-url-parse": "^9.0.3",
-        "consola": "^3.2.3",
+        "@types/git-url-parse": "^16.0.2",
+        "consola": "^3.4.2",
         "fnpm-doctor": "workspace:*",
         "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
-        "git-url-parse": "^15.0.0",
-        "open": "^10.1.0",
-        "pkg-dir": "^8.0.0",
+        "git-url-parse": "^16.1.0",
+        "open": "^10.1.2",
+        "pkg-dir": "^9.0.0",
         "pm-combo": "workspace:*",
         "read-pkg": "^9.0.1",
-        "tinyexec": "^0.3.0",
-        "yargs": "^17.7.2"
+        "tinyexec": "^1.0.1",
+        "yargs": "^18.0.0"
     },
     "bin": {
         "fnpm": "./dist/fnpm.js",

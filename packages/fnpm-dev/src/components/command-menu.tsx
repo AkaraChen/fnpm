@@ -1,8 +1,6 @@
 'use client';
 
-import { viewOnNpmjs } from '@/lib/npmjs';
-import { wrapFetch } from '@/lib/utils';
-import npmjs from '@akrc/npm-registry-client';
+import { npmjs, viewOnNpmjs } from '@/lib/npmjs';
 import { useQuery } from '@tanstack/react-query';
 import { CommandLoading } from 'cmdk';
 import { ExternalLink, Settings } from 'lucide-react';
@@ -29,16 +27,15 @@ export const CommandMenu = ({ open, onOpenChange }: CommandMenuProps) => {
     const [keyword, setKeyword] = useState('');
     const query = useQuery({
         queryKey: ['search', keyword],
-        queryFn: () => {
-            return wrapFetch(
-                npmjs.GET('/-/v1/search', {
-                    params: {
-                        query: {
-                            text: keyword,
-                        },
+        queryFn: async () => {
+            const r = await npmjs.GET('/-/v1/search', {
+                params: {
+                    query: {
+                        text: keyword,
                     },
-                }),
-            );
+                },
+            });
+            return r.data!;
         },
         enabled: keyword.length > 1,
     });

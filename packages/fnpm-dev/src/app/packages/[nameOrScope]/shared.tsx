@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { npmjs } from '@/lib/npmjs';
 import { fetchFromJsdelivr } from '@/lib/request';
-import { cn, wrapFetch } from '@/lib/utils';
-import { npmjs } from '@akrc/npm-registry-client';
+import { cn } from '@/lib/utils';
 import {
     SiGnometerminal,
     SiJavascript,
@@ -56,15 +56,13 @@ export const Tags: FC<TagsProps> = async (props) => {
     let haveDt = false;
     if (!haveDts) {
         try {
-            await wrapFetch(
-                npmjs.GET('/{packageName}', {
-                    params: {
-                        path: {
-                            packageName: getTypesPackage(name),
-                        },
+            await npmjs.GET('/{packageName}', {
+                params: {
+                    path: {
+                        packageName: getTypesPackage(name),
                     },
-                }),
-            );
+                },
+            });
             haveDt = true;
         } catch {}
     }
@@ -105,32 +103,31 @@ export enum Tab {
 
 export async function Package(props: PackageProps) {
     const { name, version, tab = Tab.Manifest } = props;
-    const metadata = await wrapFetch(
-        npmjs.GET('/{packageName}', {
+    const metadata = await npmjs
+        .GET('/{packageName}', {
             params: {
                 path: {
                     packageName: name,
                 },
             },
-        }),
-    );
+        })
+        .then((r) => r.data!);
     const latest = metadata['dist-tags'].latest;
     const current = version ?? latest;
     const releaseAt = new Date(metadata.time[current]);
-    const downloadCounts = await wrapFetch(
-        npmjs
-            .with({
-                baseUrl: 'https://api.npmjs.org/',
-            })
-            .GET('/downloads/range/{period}/{packageName}', {
-                params: {
-                    path: {
-                        period: 'last-week',
-                        packageName: name,
-                    },
+    const downloadCounts = await npmjs
+        .with({
+            baseUrl: 'https://api.npmjs.org/',
+        })
+        .GET('/downloads/range/{period}/{packageName}', {
+            params: {
+                path: {
+                    period: 'last-week',
+                    packageName: name,
                 },
-            }),
-    );
+            },
+        })
+        .then((r) => r.data!);
     const lastweekDownloads = downloadCounts.downloads.reduce(
         (acc, curr) => acc + curr.downloads,
         0,

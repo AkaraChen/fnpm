@@ -14,23 +14,23 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "@pnpm/types": "^12.2.0",
-        "module-replacements": "^2.5.0"
+        "@pnpm/types": "^1000.6.0",
+        "module-replacements": "^2.8.0"
     },
     "dependencies": {
-        "@akrc/monorepo-tools": "^3.0.1",
+        "@akrc/monorepo-tools": "^4.0.1",
         "change-case": "^5.4.4",
-        "effect": "^3.8.3",
+        "effect": "^3.16.4",
         "fnpm-toolkit": "workspace:*",
-        "npm-check-updates": "^17.1.2",
-        "pathe": "^1.1.2",
-        "picocolors": "^1.1.0",
-        "pkg-dir": "^8.0.0",
-        "publint": "^0.2.11",
+        "npm-check-updates": "^18.0.1",
+        "pathe": "^2.0.3",
+        "picocolors": "^1.1.1",
+        "pkg-dir": "^9.0.0",
+        "publint": "^0.3.12",
         "read-pkg": "^9.0.1",
-        "terminal-link": "^3.0.0",
+        "terminal-link": "^4.0.0",
         "try-files": "^1.1.0",
-        "ts-pattern": "^5.3.1"
+        "ts-pattern": "^5.7.1"
     },
     "type": "module",
     "main": "./dist/index.cjs",

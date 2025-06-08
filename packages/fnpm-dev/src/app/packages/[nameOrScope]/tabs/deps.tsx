@@ -1,6 +1,5 @@
 import { Card } from '@/components/card';
 import { Link } from '@/components/link';
-import { wrapFetch } from '@/lib/utils';
 import type { schema } from '@akrc/npm-registry-client';
 import { npmjs } from '@akrc/npm-registry-client';
 import type { FC } from 'react';
@@ -13,16 +12,16 @@ export type DependencyProps = {
 
 export const Dependency: FC<DependencyProps> = async (props) => {
     const { metadata, version } = props;
-    const pkg = await wrapFetch(
-        npmjs.GET('/{packageName}/{version}', {
+    const pkg = await npmjs
+        .GET('/{packageName}/{version}', {
             params: {
                 path: {
                     packageName: metadata.name,
                     version,
                 },
             },
-        }),
-    );
+        })
+        .then((r) => r.data!);
     return (
         <div className={'space-y-4'}>
             <Card title={'Dependencies'}>

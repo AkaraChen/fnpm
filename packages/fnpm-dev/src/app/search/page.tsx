@@ -1,8 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { sha256 } from '@/lib/crypto';
-import { wrapFetch } from '@/lib/utils';
-import { npmjs } from '@akrc/npm-registry-client';
+import { npmjs } from '@/lib/npmjs';
 import invariant from 'invariant';
 import Link from 'next/link';
 import { SearchBar } from './bar';
@@ -16,15 +15,16 @@ export default async function Page(props: {
 }) {
     const { keyword } = await props.searchParams;
     invariant(keyword, 'Keyword is required');
-    const result = await wrapFetch(
-        npmjs.GET('/-/v1/search', {
+    const result = await npmjs
+        .GET('/-/v1/search', {
             params: {
                 query: {
                     text: keyword,
                 },
             },
-        }),
-    );
+        })
+        .then((r) => r.data!);
+
     return (
         <div className='flex flex-col gap-4 max-w-screen-lg mx-auto'>
             <SearchBar />

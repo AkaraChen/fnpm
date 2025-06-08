@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from '@/app/providers';
-import localFont from 'next/font/local';
 import { cn } from '@/lib/utils';
+import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
     title: 'fnpm.dev',
