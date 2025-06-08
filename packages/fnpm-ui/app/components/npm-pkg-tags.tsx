@@ -14,7 +14,7 @@ import { usePackument } from '~/requests/npm';
 
 interface NpmPkgTagsProps {
     name: string;
-    version: string;
+    version?: string;
 }
 
 const iconProps: Partial<ComponentProps<IconType>> = {
@@ -36,7 +36,7 @@ export const NpmPkgTags: FC<NpmPkgTagsProps> = (props) => {
     const query = usePackument(name);
     const manifest = useMemo(() => {
         if (!query.data?.versions) return null;
-        return query.data.versions[version];
+        return query.data.versions[version ?? 'latest'];
     }, [query.data?.versions, version]);
     if (!manifest) {
         return <Skeleton w={48} h={20} />;

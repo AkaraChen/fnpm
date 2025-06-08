@@ -16,9 +16,6 @@ export const NpmPkgInfo: FC<NpmPkgInfoProps> = (props) => {
     const packument = usePackument(name);
     const versions = sortSemver(Object.keys(packument.data?.versions || {}));
     const version = props.version || sortSemver(versions)[0];
-    if (!version) {
-        throw new Error(`No version found for ${name}`);
-    }
     return (
         <Stack gap={3}>
             <Flex align={'center'}>
