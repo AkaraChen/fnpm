@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Skeleton } from '@/components/ui/skeleton';
 import { npmjs } from '@/lib/npmjs';
 import { fetchFromJsdelivr } from '@/lib/request';
 import { cn } from '@/lib/utils';
@@ -217,8 +218,8 @@ export async function Package(props: PackageProps) {
 export const Loading: FC = () => {
     return (
         <div className='flex flex-1 flex-col gap-4 px-4 py-6 mt-14'>
-            <div className='mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50' />
-            <div className='mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50' />
+            <Skeleton className='mx-auto h-24 w-full max-w-3xl' />
+            <Skeleton className='mx-auto h-full w-full max-w-3xl' />
         </div>
     );
 };
