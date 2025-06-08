@@ -142,7 +142,8 @@ export const FileTree: FC<FileTreeProps> = (props) => {
             }
             return [treeNode];
         }
-        return fileTree.flatMap(traverse);
+        // Sort the top-level nodes before traversing
+        return fileTree.sort(sortNode).flatMap(traverse);
     }, [fileTree]);
     return (
         <Tree data={renderTree} width={'100%'} openByDefault={false}>
