@@ -28,11 +28,7 @@ describe('config', () => {
 
             const result = config.concat('pnpm', options);
 
-            expect(result).toEqual([
-                'pnpm',
-                'config',
-                'list',
-            ]);
+            expect(result).toEqual(['pnpm', 'config', 'list']);
         });
 
         it('should generate correct list command for yarn', () => {
@@ -43,11 +39,7 @@ describe('config', () => {
 
             const result = config.concat('yarn', options);
 
-            expect(result).toEqual([
-                'yarn',
-                'config',
-                '--global',
-            ]);
+            expect(result).toEqual(['yarn', 'config', '--global']);
         });
     });
 
@@ -60,11 +52,7 @@ describe('config', () => {
 
             const result = config.concat('npm', options);
 
-            expect(result).toEqual([
-                'npm',
-                'get',
-                'registry',
-            ]);
+            expect(result).toEqual(['npm', 'get', 'registry']);
         });
 
         it('should generate correct get command for yarn-classic', () => {
@@ -75,11 +63,7 @@ describe('config', () => {
 
             const result = config.concat('yarn-classic', options);
 
-            expect(result).toEqual([
-                'yarn-classic',
-                'get',
-                'registry',
-            ]);
+            expect(result).toEqual(['yarn-classic', 'get', 'registry']);
         });
     });
 
@@ -149,12 +133,7 @@ describe('config', () => {
 
             const result = config.concat('npm', options);
 
-            expect(result).toEqual([
-                'npm',
-                'config',
-                'delete',
-                'registry',
-            ]);
+            expect(result).toEqual(['npm', 'config', 'delete', 'registry']);
         });
 
         it('should generate correct delete command for yarn', () => {

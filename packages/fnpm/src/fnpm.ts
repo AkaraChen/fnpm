@@ -7,7 +7,7 @@ import { getPort } from 'get-port-please';
 import gitUrlParse from 'git-url-parse';
 import open from 'open';
 import { commands } from 'pm-combo';
-import type { AddOptions, RemoveOptions } from 'pm-combo';
+import type { AddOptions, ConfigOptions, RemoveOptions } from 'pm-combo';
 import { readPackage } from 'read-pkg';
 import type { PackageJson } from 'type-fest';
 import yargs from 'yargs';
@@ -379,6 +379,43 @@ yargs(ctx.args)
         async (args) => {
             const { query } = args;
             const command = commands.why.concat(ctx.pm, { query });
+            await exec(command, { cwd: ctx.root });
+        },
+    )
+    .command(
+        ['config [args..]', 'c'],
+        'Manage the npm configuration files',
+        (yargs) =>
+            yargs
+                .positional('args', {
+                    type: 'string',
+                    array: true,
+                    description: `eg. list, get <key>, set <key> <value>, delete <key>`,
+                    demandOption: false,
+                })
+                .option('global', {
+                    alias: ['G', 'g'],
+                    type: 'boolean',
+                    description: 'Update packages globally',
+                })
+                .option('json', {
+                    alias: ['j'],
+                    type: 'boolean',
+                    description: 'Output json',
+                }),
+        async (args) => {
+            const { global, json } = args;
+            const [verb = "list", key, value] = args.args || [];
+            if (!['list', 'get', 'set', 'delete'].includes(verb)) {
+                error(`Invalid verb ${verb}`);
+            }
+            const command = commands.config.concat(ctx.pm, {
+                verb: verb as ConfigOptions['verb'],
+                global,
+                json,
+                key: key!,
+                value: value!,
+            });
             await exec(command, { cwd: ctx.root });
         },
     )
