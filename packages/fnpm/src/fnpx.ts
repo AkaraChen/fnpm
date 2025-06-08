@@ -3,9 +3,14 @@
 import yargs from 'yargs';
 import pkg from '../package.json';
 import { Dlx } from './commands';
-import { getContext } from './util';
+import { type Context, getContext } from './util';
 
-const ctx = await getContext(process.cwd());
+const _ctx = await getContext(process.cwd());
+globalThis.ctx = _ctx;
+
+declare global {
+    var ctx: Context;
+}
 
 class Fnpx extends Dlx {
     override command = '*';
