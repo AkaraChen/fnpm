@@ -3,9 +3,9 @@
 import { Tab } from '@/app/packages/[nameOrScope]/shared';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { LucideBook, LucideFolderCode, LucidePackage } from 'lucide-react';
 import { useParams, useSearchParams } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
+import { IconBook, IconCode, IconPackage } from '@tabler/icons-react';
 
 export default function Layout(props: PropsWithChildren) {
     const params = useParams();
@@ -20,19 +20,19 @@ export default function Layout(props: PropsWithChildren) {
                 workspaces={[
                     {
                         name: 'Manifest',
-                        icon: <LucideBook />,
+                        icon: <IconBook />,
                         href: `/packages/${name}`,
                         active: tab === Tab.Manifest,
                     },
                     {
                         name: 'Code',
-                        icon: <LucideFolderCode />,
+                        icon: <IconCode />,
                         href: `/packages/${name}?tab=${Tab.Code}`,
                         active: tab === Tab.Code,
                     },
                     {
                         name: 'Dependencies',
-                        icon: <LucidePackage />,
+                        icon: <IconPackage />,
                         href: `/packages/${name}?tab=${Tab.Dependencies}`,
                         active: tab === Tab.Dependencies,
                     },
