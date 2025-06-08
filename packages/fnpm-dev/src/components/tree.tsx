@@ -53,14 +53,14 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                     }
                 }}
                 className={
-                    'flex items-center text-sm hover:text-blue-500 h-6 cursor-pointer border-b border-border'
+                    'flex items-center hover:text-blue-500 h-6 cursor-pointer border-b border-border px-4'
                 }
                 style={{
                     marginLeft: `${indent}rem`,
                 }}
             >
                 <IconFolder size={16} />
-                <span className={'ml-3'}>{props.node.data.name}</span>
+                <span className={'ml-2'}>{props.node.data.name}</span>
             </div>
         );
     }
@@ -68,7 +68,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
     return (
         <div
             className={cn(
-                'flex items-center h-6 text-sm border-b border-border',
+                'flex items-center h-6 border-b border-border px-4',
                 style,
             )}
         >
@@ -89,7 +89,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                 <DialogTrigger>
                     <div
                         className={
-                            'ml-2 opacity-75 hover:text-blue-500 hover:opacity-100'
+                            'ml-1 opacity-75 hover:text-blue-500 hover:opacity-100'
                         }
                         onClick={() => {
                             setOpen(true);
