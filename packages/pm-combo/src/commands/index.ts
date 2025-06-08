@@ -1,4 +1,5 @@
 import { type AddOptions, add } from './add';
+import { type ConfigOptions, config } from './config';
 import { type CreateOptions, create } from './create';
 import { type DlxOptions, dlx } from './dlx';
 import { type ExecOptions, exec } from './exec';
@@ -13,6 +14,7 @@ import { type WhyOptions, why } from './why';
 
 export interface Commands {
     add: Command<AddOptions>;
+    config: Command<ConfigOptions>;
     dlx: Command<DlxOptions>;
     remove: Command<RemoveOptions>;
     init: Command<InitOptions>;
@@ -27,6 +29,7 @@ export interface Commands {
 
 export const commands: Commands = {
     add,
+    config,
     dlx,
     remove,
     init,

@@ -5,5 +5,5 @@
         "declaration": true,
         "isolatedDeclarations": true
     },
-    "include": ["${configDir}/src"]
+    "include": ["${configDir}/src", "./reset.d.ts"]
 }
