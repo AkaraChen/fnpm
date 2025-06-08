@@ -14,7 +14,8 @@
             "entry": [
                 "app/root.tsx!",
                 "app/entry.{client,server}.{ts,tsx}!",
-                "app/routes/**/*.{ts,tsx}!"
+                "app/routes/**/*.{ts,tsx}!",
+                "**/*.config.{ts}!"
             ]
         },
         "packages/pm-combo": {
