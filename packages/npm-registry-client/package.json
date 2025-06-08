@@ -13,12 +13,14 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "bunchee": "5.5.1",
+        "bunchee": "6.5.2",
         "openapi-fetch": "^0.14.0",
         "openapi-typescript": "^7.8.0"
     },
     "type": "module",
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {
