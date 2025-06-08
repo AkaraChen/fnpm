@@ -27,9 +27,13 @@ export function error(message: string) {
     process.exit(1);
 }
 
-export async function getContext(
-    cwd: string,
-): Promise<{ root: string; pm: PM; args: string[] }> {
+export interface Context {
+    root: string;
+    pm: PM;
+    args: string[];
+}
+
+export async function getContext(cwd: string): Promise<Context> {
     const ctx = await resolveContext(cwd);
     const hasWFlag = process.argv[2] === '-w';
     if (hasWFlag) {

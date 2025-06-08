@@ -12,9 +12,20 @@ import { readPackage } from 'read-pkg';
 import type { PackageJson } from 'type-fest';
 import yargs from 'yargs';
 import pkg from '../package.json';
-import { error, exec, getContext, noop, normalizePackageVersion } from './util';
+import {
+    type Context,
+    error,
+    exec,
+    getContext,
+    noop,
+    normalizePackageVersion,
+} from './util';
 
 const ctx = await getContext(process.cwd());
+declare global {
+    var ctx: Context;
+}
+globalThis.ctx = ctx;
 
 yargs(ctx.args)
     .scriptName('fnpm')
@@ -440,11 +451,16 @@ yargs(ctx.args)
                       ? 'get'
                       : ['set', 's'].includes(verb)
                         ? 'set'
-                        : ['delete', 'd', 'rm', 'del', 'remove', 'unset'].includes(
-                              verb,
-                          )
-                            ? 'delete'
-                            : verb as ConfigOptions['verb'],
+                        : [
+                                'delete',
+                                'd',
+                                'rm',
+                                'del',
+                                'remove',
+                                'unset',
+                            ].includes(verb)
+                          ? 'delete'
+                          : (verb as ConfigOptions['verb']),
                 global,
                 json,
                 key: key!,
