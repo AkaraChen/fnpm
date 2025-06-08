@@ -10,7 +10,7 @@ export const Card: FC<CardProps> = (props) => {
     return (
         <div
             className={cn(
-                'p-4 bg-background rounded-md border border-zinc-200',
+                'p-4 bg-background rounded border border-zinc-200',
                 className,
             )}
             {...rest}
