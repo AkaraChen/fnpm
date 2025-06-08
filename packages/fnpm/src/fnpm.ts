@@ -383,14 +383,30 @@ yargs(ctx.args)
         },
     )
     .command(
-        ['config [args..]', 'c'],
+        ['config [verb] [key] [value]', 'c'],
         'Manage the npm configuration files',
         (yargs) =>
             yargs
-                .positional('args', {
+                .positional('verb', {
                     type: 'string',
-                    array: true,
-                    description: `eg. list, get <key>, set <key> <value>, delete <key>`,
+                    description: 'Verb to use',
+                    demandOption: false,
+                    default: 'list',
+                    choices: [
+                        ['list', 'ls'],
+                        ['get', 'g'],
+                        ['set', 's'],
+                        ['delete', 'd', 'rm', 'del', 'remove', 'unset'],
+                    ].flat(),
+                })
+                .positional('key', {
+                    type: 'string',
+                    description: 'Key to get or set',
+                    demandOption: false,
+                })
+                .positional('value', {
+                    type: 'string',
+                    description: 'Value to set',
                     demandOption: false,
                 })
                 .option('global', {
@@ -404,13 +420,31 @@ yargs(ctx.args)
                     description: 'Output json',
                 }),
         async (args) => {
-            const { global, json } = args;
-            const [verb = "list", key, value] = args.args || [];
-            if (!['list', 'get', 'set', 'delete'].includes(verb)) {
+            const { global, json, verb, key, value } = args;
+            if (
+                ![
+                    ['list', 'ls'],
+                    ['get', 'g'],
+                    ['set', 's'],
+                    ['delete', 'd', 'rm', 'del', 'remove', 'unset'],
+                ]
+                    .flat()
+                    .includes(verb)
+            ) {
                 error(`Invalid verb ${verb}`);
             }
             const command = commands.config.concat(ctx.pm, {
-                verb: verb as ConfigOptions['verb'],
+                verb: ['list', 'ls'].includes(verb)
+                    ? 'list'
+                    : ['get', 'g'].includes(verb)
+                      ? 'get'
+                      : ['set', 's'].includes(verb)
+                        ? 'set'
+                        : ['delete', 'd', 'rm', 'del', 'remove', 'unset'].includes(
+                              verb,
+                          )
+                            ? 'delete'
+                            : verb as ConfigOptions['verb'],
                 global,
                 json,
                 key: key!,
