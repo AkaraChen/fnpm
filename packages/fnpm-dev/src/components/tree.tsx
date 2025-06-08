@@ -152,9 +152,9 @@ export const FileTree: FC<FileTreeProps> = (props) => {
         return fileTree.sort(sortNode).flatMap(traverse);
     }, [fileTree]);
     return (
-        <Tree 
-            data={renderTree} 
-            width={'100%'} 
+        <Tree
+            data={renderTree}
+            width={'100%'}
             indent={24}
             rowHeight={40}
             openByDefault={false}

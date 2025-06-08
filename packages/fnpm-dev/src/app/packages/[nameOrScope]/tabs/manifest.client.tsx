@@ -1,9 +1,12 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { urlToAbsolute } from '@/lib/url';
 import IconTerminal from '@tabler/icons-react/dist/esm/icons/IconTerminal';
 import { devDepsMatchers } from 'fnpm-toolkit';
 import { useClipboard } from 'foxact/use-clipboard';
+import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import { toast } from 'sonner';
 
@@ -32,5 +35,28 @@ export const CopyCommand: FC<CopyCommandProps> = (props) => {
             <IconTerminal />
             {command}
         </Button>
+    );
+};
+
+interface TagBadgeProps {
+    tag: string;
+}
+
+export const TagBadge: FC<TagBadgeProps> = (props) => {
+    const { tag } = props;
+    const router = useRouter();
+    return (
+        <Badge
+            key={tag}
+            variant={'outline'}
+            className={'cursor-pointer'}
+            onClick={() => {
+                const url = new URL('/search', window.location.origin);
+                url.searchParams.set('keyword', tag);
+                router.push(urlToAbsolute(url));
+            }}
+        >
+            {tag}
+        </Badge>
     );
 };

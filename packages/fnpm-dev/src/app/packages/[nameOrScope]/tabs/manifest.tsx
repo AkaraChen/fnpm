@@ -1,6 +1,5 @@
 import { IconButton } from '@/app/packages/[nameOrScope]/tabs/component';
 import { Card } from '@/components/card';
-import { Badge } from '@/components/ui/badge';
 import { processor } from '@/lib/markdown';
 import { fetchFromJsdelivr } from '@/lib/request';
 import type { schema } from '@akrc/npm-registry-client';
@@ -10,7 +9,7 @@ import 'github-markdown-css/github-markdown.css';
 import IconBug from '@tabler/icons-react/dist/esm/icons/IconBug';
 import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
 import IconGitBranch from '@tabler/icons-react/dist/esm/icons/IconGitBranch';
-import { CopyCommand } from './manifest.client';
+import { CopyCommand, TagBadge } from './manifest.client';
 
 interface ReadmeProps {
     name: string;
@@ -49,9 +48,7 @@ export const Manifest: FC<ManifestProps> = (props) => {
                 <p className={'text-sm'}>{metadata!.description}</p>
                 <div className={'flex gap-2 flex-wrap'}>
                     {metadata.keywords?.map((keyword) => (
-                        <Badge key={keyword} variant={'outline'}>
-                            {keyword}
-                        </Badge>
+                        <TagBadge key={keyword} tag={keyword} />
                     ))}
                 </div>
                 <CopyCommand name={metadata.name} />
