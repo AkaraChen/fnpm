@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
-import { commands } from 'pm-combo';
 import yargs from 'yargs';
 import pkg from '../package.json';
-import { error, exec, getContext, noop, normalizePackageVersion } from './util';
+import { Dlx } from './commands';
+import { getContext } from './util';
 
 const ctx = await getContext(process.cwd());
+
+class Fnpx extends Dlx {
+    override command = '*';
+}
 
 yargs(ctx.args)
     .scriptName('fnpx')
@@ -15,20 +19,7 @@ yargs(ctx.args)
     .alias('version', 'v')
     .help()
     .alias('help', 'h')
-    .command('*', 'download and exec', noop, async (argv) => {
-        if (!argv._.length) {
-            error('No command specified');
-        }
-        const [command, ...rest] = ctx.args;
-        if (!command) {
-            error('No command specified');
-        }
-        const shell = commands.dlx.concat(ctx.pm, {
-            package: normalizePackageVersion(command!),
-            args: rest,
-        });
-        await exec(shell);
-    })
+    .command(new Fnpx())
     .help()
     .alias('help', 'h')
     .usage('Usage: $0 <command> [options]')
