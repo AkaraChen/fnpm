@@ -3,7 +3,7 @@ import type { EmptyObject } from 'type-fest';
 import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
 import { error, exec } from '../util';
 
-interface ConfigCommandOptions extends Options {
+export interface ConfigCommandOptions extends Options {
     verb: string;
     key?: string;
     value?: string;

@@ -52,5 +52,3 @@ export function normalizePackageVersion(input: string) {
     const parsed = parsePackageName(input);
     return `${parsed.name}@${parsed.version}`;
 }
-
-export function noop() {}

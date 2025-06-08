@@ -2,7 +2,7 @@ import type { Command } from './type';
 
 type Verb = 'list' | 'get' | 'set' | 'delete';
 
-export interface ConfigOptionsBase {
+interface ConfigOptionsBase {
     verb: Verb;
     global?: boolean;
     json?: boolean;
@@ -36,7 +36,7 @@ export const config: Command<ConfigOptions> = {
                         pm,
                         'config',
                         'list',
-                        global && '--global',
+                        ...(global ? ['--global'] : ['--location', 'project']),
                         json && '--json',
                     ].filter(Boolean);
                 }
@@ -52,7 +52,13 @@ export const config: Command<ConfigOptions> = {
             }
             case 'delete': {
                 if (['npm', 'pnpm'].includes(pm)) {
-                    return [pm, 'config', 'delete', options.key];
+                    return [
+                        pm,
+                        'config',
+                        'delete',
+                        options.key,
+                        ...(global ? ['--global'] : ['--location', 'project']),
+                    ];
                 }
                 return [
                     'yarn',
@@ -64,7 +70,14 @@ export const config: Command<ConfigOptions> = {
             }
             case 'set': {
                 if (['npm', 'pnpm'].includes(pm)) {
-                    return [pm, 'config', 'set', options.key, options.value];
+                    return [
+                        pm,
+                        'config',
+                        'set',
+                        options.key,
+                        options.value,
+                        ...(global ? ['--global'] : ['--location', 'project']),
+                    ];
                 }
                 return [
                     'yarn',

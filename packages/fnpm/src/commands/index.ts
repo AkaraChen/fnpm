@@ -8,6 +8,7 @@ import Dlx from './dlx';
 import Doctor from './doctor';
 import Init from './init';
 import Publish from './publish';
+import Registry from './registry';
 import Remove from './remove';
 import Test from './test';
 import UI from './ui';
@@ -16,22 +17,7 @@ import Use from './use';
 import View from './view';
 import Why from './why';
 
-export { default as Add } from './add';
-export { default as CI } from './ci';
-export { default as Config } from './config';
-export { default as Create } from './create';
-export { default as Default } from './default';
 export { default as Dlx } from './dlx';
-export { default as Doctor } from './doctor';
-export { default as Init } from './init';
-export { default as Publish } from './publish';
-export { default as Remove } from './remove';
-export { default as Test } from './test';
-export { default as UI } from './ui';
-export { default as Update } from './update';
-export { default as Use } from './use';
-export { default as View } from './view';
-export { default as Why } from './why';
 
 export function mount(argv: Argv) {
     return argv
@@ -50,5 +36,6 @@ export function mount(argv: Argv) {
         .command(new Publish())
         .command(new View())
         .command(new Why())
-        .command(new Config());
+        .command(new Config())
+        .command(new Registry());
 }
