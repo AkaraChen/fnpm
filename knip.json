@@ -23,5 +23,5 @@
         }
     },
     "ignore": ["**/use-mobile.tsx", "**/*.generated.ts", "**/ui/**"],
-    "ignoreDependencies": ["tslib"]
+    "ignoreDependencies": ["tslib", "tailwindcss-animate"]
 }
