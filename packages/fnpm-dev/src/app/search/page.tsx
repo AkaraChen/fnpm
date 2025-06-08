@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { sha256 } from '@/lib/crypto';
 import { npmjs } from '@/lib/npmjs';
-import invariant from 'invariant';
+import invariant from 'tiny-invariant';
 import Link from 'next/link';
 import { SearchBar } from './bar';
 

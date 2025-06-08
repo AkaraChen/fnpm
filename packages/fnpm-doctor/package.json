@@ -14,7 +14,7 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "@pnpm/types": "^1000.6.0",
+        "@pnpm/types": "12.2.0",
         "module-replacements": "^2.8.0"
     },
     "dependencies": {

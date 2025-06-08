@@ -12,6 +12,9 @@ overrides:
   isarray: npm:@nolyfill/isarray@^1.0.44
   side-channel: npm:@nolyfill/side-channel@^1.0.44
   which-typed-array: npm:@nolyfill/which-typed-array@^1.0.44
+  array-flatten: npm:@nolyfill/array-flatten@^1
+  safe-buffer: npm:@nolyfill/safe-buffer@^1
+  safer-buffer: npm:@nolyfill/safer-buffer@^1
 
 patchedDependencies:
   parse-package-name@1.0.0:
@@ -176,9 +179,6 @@ importers:
       human-format:
         specifier: ^1.2.1
         version: 1.2.1
-      invariant:
-        specifier: ^2.2.4
-        version: 2.2.4
       ky:
         specifier: ^1.8.1
         version: 1.8.1
@@ -211,7 +211,7 @@ importers:
         version: 19.0.0-rc-69d4b800-20241021
       react-arborist:
         specifier: ^3.4.3
-        version: 3.4.3(@types/node@20.19.0)(@types/react@18.3.23)(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)
+        version: 3.4.3(@types/node@22.15.30)(@types/react@18.3.23)(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)
       react-dom:
         specifier: 19.0.0-rc-69d4b800-20241021
         version: 19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021)
@@ -251,6 +251,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.1.8)
+      tiny-invariant:
+        specifier: ^1.3.3
+        version: 1.3.3
       ts-pattern:
         specifier: ^5.7.1
         version: 5.7.1
@@ -270,9 +273,6 @@ importers:
       '@types/invariant':
         specifier: ^2.2.37
         version: 2.2.37
-      '@types/node':
-        specifier: ^20.19.0
-        version: 20.19.0
       '@types/react':
         specifier: ^18.3.23
         version: 18.3.23
@@ -297,9 +297,6 @@ importers:
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
 
   packages/fnpm-doctor:
     dependencies:
@@ -344,8 +341,8 @@ importers:
         version: 5.7.1
     devDependencies:
       '@pnpm/types':
-        specifier: ^1000.6.0
-        version: 1000.6.0
+        specifier: 12.2.0
+        version: 12.2.0
       module-replacements:
         specifier: ^2.8.0
         version: 2.8.0
@@ -500,21 +497,15 @@ importers:
 
   packages/npm-registry-client:
     devDependencies:
-      '@akrc/tsconfig':
-        specifier: 1.1.0
-        version: 1.1.0
       bunchee:
         specifier: 5.5.1
-        version: 5.5.1(typescript@5.6.3)
+        version: 5.5.1(typescript@5.8.3)
       openapi-fetch:
         specifier: ^0.14.0
         version: 0.14.0
       openapi-typescript:
         specifier: ^7.8.0
-        version: 7.8.0(typescript@5.6.3)
-      typescript:
-        specifier: 5.6.3
-        version: 5.6.3
+        version: 7.8.0(typescript@5.8.3)
 
   packages/pm-combo:
     dependencies:
@@ -529,9 +520,6 @@ packages:
 
   '@akrc/npm-registry-client@1.0.2':
     resolution: {integrity: sha512-o02buWirpQxSCwhlWxZOU69NgkrULmkdj7XsQlJ02A+kZ8yHEvaX/0IM/zUP/FjlYN8SnEsO2Htyot33jD/hLg==}
-
-  '@akrc/tsconfig@1.1.0':
-    resolution: {integrity: sha512-756Vb1z2K9u+y95Mv0ywXI1+T+M78HCysZl8pd8HkmJqjZVMc+uhd8rLo8wTGCcJH+Yjaad1ssinDYmmWEYd1A==}
 
   '@akrc/tsconfig@2.0.0':
     resolution: {integrity: sha512-mxU+OWKI/oAQIoQlwZUSpbbdTJoADtF+EnTP0omx/L8ovuOau2lV+vByj4zyQW9xLA1c/pbRPs0Gd34XT4nViw==}
@@ -1472,6 +1460,10 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
+  '@nolyfill/array-flatten@1.0.44':
+    resolution: {integrity: sha512-qMQC1j9WeqYYNoCWwre5w5LnMRD5oBxuN1lEImVY4JvK/YNkIlfqhbV9OV5r4mZwkPwMdArqG+fQl+6RVuEJgQ==}
+    engines: {node: '>=12.4.0'}
+
   '@nolyfill/is-arguments@1.0.44':
     resolution: {integrity: sha512-I/knhoEt8pfYZj20gOmlFSNtRdDvmtJPPeS9MaDvBeRlJEd+vNBAqeVswo48Hp4uF1Fqit5HO78cgpcrqZiw0A==}
     engines: {node: '>=12.4.0'}
@@ -1490,6 +1482,14 @@ packages:
 
   '@nolyfill/isarray@1.0.44':
     resolution: {integrity: sha512-NTSBKMkzaaVG3lVR5/lMTnW2y26XRQAgkdHMNaBviexwHgmtPsONFJ/HhQDak16BOrpYLasGMKGsgk3oKez57g==}
+    engines: {node: '>=12.4.0'}
+
+  '@nolyfill/safe-buffer@1.0.44':
+    resolution: {integrity: sha512-SqlKXtlhNTDMeZKey9jnnuPhi8YTl1lJuEcY9zbm5i4Pqe79UJJ8IJ9oiD6DhgI8KjYc+HtLzpQJNRdNYqb/hw==}
+    engines: {node: '>=12.4.0'}
+
+  '@nolyfill/safer-buffer@1.0.44':
+    resolution: {integrity: sha512-Ouw1fMwjAy1V4MpnDASfu1DCPgkP0nNFteiiWbFoEGSqa7Vnmkb6if2c522N2WcMk+RuaaabQbC1F1D4/kTXcg==}
     engines: {node: '>=12.4.0'}
 
   '@nolyfill/shared@1.0.44':
@@ -1587,10 +1587,6 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
-
-  '@pnpm/types@1000.6.0':
-    resolution: {integrity: sha512-6PsMNe98VKPGcg6LnXSW/LE3YfJ77nj+bPKiRjYRWAQLZ+xXjEQRaR0dAuyjCmchlv4wR/hpnMVRS21/fCod5w==}
-    engines: {node: '>=18.12'}
 
   '@pnpm/types@12.2.0':
     resolution: {integrity: sha512-5RtwWhX39j89/Tmyv2QSlpiNjErA357T/8r1Dkg+2lD3P7RuS7Xi2tChvmOC3VlezEFNcWnEGCOeKoGRkDuqFA==}
@@ -2581,9 +2577,6 @@ packages:
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
 
-  '@types/node@20.19.0':
-    resolution: {integrity: sha512-hfrc+1tud1xcdVTABC2JiomZJEklMcXYNTVtZLAeqTVWD+qL5jkHKT+1lOtqDdGxt+mB53DTtiz673vfjU8D1Q==}
-
   '@types/node@22.15.30':
     resolution: {integrity: sha512-6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA==}
 
@@ -2805,9 +2798,6 @@ packages:
   aria-hidden@1.2.4:
     resolution: {integrity: sha512-y+CcFFwelSXpLZk/7fMB2mUbGtX9lKycf1MWJ7CaTIERyitVlyQx6C+sxcROU2BAJ24OiZyK+8wj2i8AlBoS3A==}
     engines: {node: '>=10'}
-
-  array-flatten@1.1.1:
-    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
 
   array-union@2.1.0:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
@@ -4002,9 +3992,6 @@ packages:
   internmap@2.0.3:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
-
-  invariant@2.2.4:
-    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
 
   ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
@@ -5708,15 +5695,6 @@ packages:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
     engines: {node: '>=6'}
 
-  safe-buffer@5.1.2:
-    resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
-
-  safe-buffer@5.2.1:
-    resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
-
-  safer-buffer@2.1.2:
-    resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-
   sanitize-html@2.17.0:
     resolution: {integrity: sha512-dLAADUSS8rBwhaevT12yCezvioCA+bmUTPH/u57xKPT8d++voeYE6HeluA/bPbQ15TwDBG2ii+QZIEmYx8VdxA==}
 
@@ -6177,11 +6155,6 @@ packages:
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
-
-  typescript@5.6.3:
-    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
 
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
@@ -6660,8 +6633,6 @@ snapshots:
   '@akrc/npm-registry-client@1.0.2':
     dependencies:
       openapi-fetch: 0.13.0
-
-  '@akrc/tsconfig@1.1.0': {}
 
   '@akrc/tsconfig@2.0.0': {}
 
@@ -7418,6 +7389,8 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
+  '@nolyfill/array-flatten@1.0.44': {}
+
   '@nolyfill/is-arguments@1.0.44': {}
 
   '@nolyfill/is-core-module@1.0.39': {}
@@ -7429,6 +7402,10 @@ snapshots:
       '@nolyfill/which-typed-array': 1.0.44
 
   '@nolyfill/isarray@1.0.44': {}
+
+  '@nolyfill/safe-buffer@1.0.44': {}
+
+  '@nolyfill/safer-buffer@1.0.44': {}
 
   '@nolyfill/shared@1.0.44': {}
 
@@ -7514,8 +7491,6 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
-
-  '@pnpm/types@1000.6.0': {}
 
   '@pnpm/types@12.2.0': {}
 
@@ -8533,10 +8508,6 @@ snapshots:
 
   '@types/ms@0.7.34': {}
 
-  '@types/node@20.19.0':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@22.15.30':
     dependencies:
       undici-types: 6.21.0
@@ -8822,8 +8793,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  array-flatten@1.1.1: {}
-
   array-union@2.1.0: {}
 
   assertion-error@2.0.1: {}
@@ -8850,7 +8819,7 @@ snapshots:
 
   basic-auth@2.0.1:
     dependencies:
-      safe-buffer: 5.1.2
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
 
   binary-extensions@2.3.0: {}
 
@@ -8931,7 +8900,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  bunchee@5.5.1(typescript@5.6.3):
+  bunchee@5.5.1(typescript@5.8.3):
     dependencies:
       '@rollup/plugin-commonjs': 28.0.3(rollup@4.41.1)
       '@rollup/plugin-json': 6.1.0(rollup@4.41.1)
@@ -8947,12 +8916,12 @@ snapshots:
       ora: 8.2.0
       pretty-bytes: 5.6.0
       rollup: 4.41.1
-      rollup-plugin-dts: 6.2.1(rollup@4.41.1)(typescript@5.6.3)
+      rollup-plugin-dts: 6.2.1(rollup@4.41.1)(typescript@5.8.3)
       rollup-plugin-swc3: 0.11.2(@swc/core@1.11.31(@swc/helpers@0.5.13))(rollup@4.41.1)
       rollup-preserve-directives: 1.1.3(rollup@4.41.1)
       tslib: 2.8.1
     optionalDependencies:
-      typescript: 5.6.3
+      typescript: 5.8.3
 
   bundle-name@4.1.0:
     dependencies:
@@ -9171,7 +9140,7 @@ snapshots:
       compressible: 2.0.18
       debug: 2.6.9
       on-headers: 1.0.2
-      safe-buffer: 5.1.2
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color
@@ -9186,7 +9155,7 @@ snapshots:
 
   content-disposition@0.5.4:
     dependencies:
-      safe-buffer: 5.2.1
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
 
   content-type@1.0.5: {}
 
@@ -9683,7 +9652,7 @@ snapshots:
   express@4.21.0:
     dependencies:
       accepts: 1.3.8
-      array-flatten: 1.1.1
+      array-flatten: '@nolyfill/array-flatten@1.0.44'
       body-parser: 1.20.3
       content-disposition: 0.5.4
       content-type: 1.0.5
@@ -9705,7 +9674,7 @@ snapshots:
       proxy-addr: 2.0.7
       qs: 6.13.0
       range-parser: 1.2.1
-      safe-buffer: 5.2.1
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
       send: 0.19.0
       serve-static: 1.16.2
       setprototypeof: 1.2.0
@@ -10136,7 +10105,7 @@ snapshots:
 
   iconv-lite@0.4.24:
     dependencies:
-      safer-buffer: 2.1.2
+      safer-buffer: '@nolyfill/safer-buffer@1.0.44'
 
   icss-utils@5.1.0(postcss@8.5.4):
     dependencies:
@@ -10166,10 +10135,6 @@ snapshots:
   inline-style-parser@0.1.1: {}
 
   internmap@2.0.3: {}
-
-  invariant@2.2.4:
-    dependencies:
-      loose-envify: 1.4.0
 
   ipaddr.js@1.9.1: {}
 
@@ -11391,14 +11356,14 @@ snapshots:
 
   openapi-typescript-helpers@0.0.15: {}
 
-  openapi-typescript@7.8.0(typescript@5.6.3):
+  openapi-typescript@7.8.0(typescript@5.8.3):
     dependencies:
       '@redocly/openapi-core': 1.34.3(supports-color@10.0.0)
       ansi-colors: 4.1.3
       change-case: 5.4.4
       parse-json: 8.3.0
       supports-color: 10.0.0
-      typescript: 5.6.3
+      typescript: 5.8.3
       yargs-parser: 21.1.1
 
   ora@5.4.1:
@@ -11820,10 +11785,10 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-arborist@3.4.3(@types/node@20.19.0)(@types/react@18.3.23)(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021):
+  react-arborist@3.4.3(@types/node@22.15.30)(@types/react@18.3.23)(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021):
     dependencies:
       react: 19.0.0-rc-69d4b800-20241021
-      react-dnd: 14.0.5(@types/node@20.19.0)(@types/react@18.3.23)(react@19.0.0-rc-69d4b800-20241021)
+      react-dnd: 14.0.5(@types/node@22.15.30)(@types/react@18.3.23)(react@19.0.0-rc-69d4b800-20241021)
       react-dnd-html5-backend: 14.1.0
       react-dom: 19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021)
       react-window: 1.8.11(react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021))(react@19.0.0-rc-69d4b800-20241021)
@@ -11838,7 +11803,7 @@ snapshots:
     dependencies:
       dnd-core: 14.0.1
 
-  react-dnd@14.0.5(@types/node@20.19.0)(@types/react@18.3.23)(react@19.0.0-rc-69d4b800-20241021):
+  react-dnd@14.0.5(@types/node@22.15.30)(@types/react@18.3.23)(react@19.0.0-rc-69d4b800-20241021):
     dependencies:
       '@react-dnd/invariant': 2.0.0
       '@react-dnd/shallowequal': 2.0.0
@@ -11847,7 +11812,7 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.0.0-rc-69d4b800-20241021
     optionalDependencies:
-      '@types/node': 20.19.0
+      '@types/node': 22.15.30
       '@types/react': 18.3.23
 
   react-dom@19.0.0-rc-69d4b800-20241021(react@19.0.0-rc-69d4b800-20241021):
@@ -12026,7 +11991,7 @@ snapshots:
       inherits: 2.0.4
       isarray: '@nolyfill/isarray@1.0.44'
       process-nextick-args: 2.0.1
-      safe-buffer: 5.1.2
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
       string_decoder: 1.1.1
       util-deprecate: 1.0.2
 
@@ -12226,11 +12191,11 @@ snapshots:
 
   reusify@1.0.4: {}
 
-  rollup-plugin-dts@6.2.1(rollup@4.41.1)(typescript@5.6.3):
+  rollup-plugin-dts@6.2.1(rollup@4.41.1)(typescript@5.8.3):
     dependencies:
       magic-string: 0.30.17
       rollup: 4.41.1
-      typescript: 5.6.3
+      typescript: 5.8.3
     optionalDependencies:
       '@babel/code-frame': 7.27.1
 
@@ -12283,12 +12248,6 @@ snapshots:
   sade@1.8.1:
     dependencies:
       mri: 1.2.0
-
-  safe-buffer@5.1.2: {}
-
-  safe-buffer@5.2.1: {}
-
-  safer-buffer@2.1.2: {}
 
   sanitize-html@2.17.0:
     dependencies:
@@ -12489,11 +12448,11 @@ snapshots:
 
   string_decoder@1.1.1:
     dependencies:
-      safe-buffer: 5.1.2
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
 
   string_decoder@1.3.0:
     dependencies:
-      safe-buffer: 5.2.1
+      safe-buffer: '@nolyfill/safe-buffer@1.0.44'
 
   stringify-entities@4.0.4:
     dependencies:
@@ -12761,8 +12720,6 @@ snapshots:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
-
-  typescript@5.6.3: {}
 
   typescript@5.8.3: {}
 

@@ -13,11 +13,9 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@akrc/tsconfig": "1.1.0",
         "bunchee": "5.5.1",
         "openapi-fetch": "^0.14.0",
-        "openapi-typescript": "^7.8.0",
-        "typescript": "5.6.3"
+        "openapi-typescript": "^7.8.0"
     },
     "type": "module",
     "files": ["dist"],
