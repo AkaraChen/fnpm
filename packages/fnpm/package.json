@@ -9,7 +9,9 @@
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsup --watch"
     },
-    "keywords": ["fnpm"],
+    "keywords": [
+        "fnpm"
+    ],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -24,14 +26,13 @@
         "type-fest": "^4.41.0"
     },
     "dependencies": {
-        "@types/git-url-parse": "^16.0.2",
         "consola": "^3.4.2",
         "fnpm-doctor": "workspace:*",
         "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
         "git-url-parse": "^16.1.0",
         "open": "^10.1.2",
-        "pkg-dir": "^9.0.0",
+        "package-directory": "^8.1.0",
         "pm-combo": "workspace:*",
         "read-pkg": "^9.0.1",
         "tinyexec": "^1.0.1",
@@ -41,5 +42,7 @@
         "fnpm": "./dist/fnpm.js",
         "fnpx": "./dist/fnpx.js"
     },
-    "files": ["dist"]
+    "files": [
+        "dist"
+    ]
 }

@@ -2,7 +2,7 @@ import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { resolveContext } from 'fnpm-doctor';
 import { parse as parsePackageName } from 'parse-package-name';
-import { packageDirectory } from 'pkg-dir';
+import { packageDirectory } from 'package-directory';
 import { x } from 'tinyexec';
 import { hideBin } from 'yargs/helpers';
 

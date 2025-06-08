@@ -64,9 +64,6 @@ importers:
 
   packages/fnpm:
     dependencies:
-      '@types/git-url-parse':
-        specifier: ^16.0.2
-        version: 16.0.2
       consola:
         specifier: ^3.4.2
         version: 3.4.2
@@ -85,9 +82,9 @@ importers:
       open:
         specifier: ^10.1.2
         version: 10.1.2
-      pkg-dir:
-        specifier: ^9.0.0
-        version: 9.0.0
+      package-directory:
+        specifier: ^8.1.0
+        version: 8.1.0
       pm-combo:
         specifier: workspace:*
         version: link:../pm-combo
@@ -318,15 +315,15 @@ importers:
       npm-check-updates:
         specifier: ^18.0.1
         version: 18.0.1
+      package-directory:
+        specifier: ^8.1.0
+        version: 8.1.0
       pathe:
         specifier: ^2.0.3
         version: 2.0.3
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
-      pkg-dir:
-        specifier: ^9.0.0
-        version: 9.0.0
       publint:
         specifier: ^0.3.12
         version: 0.3.12
@@ -2669,10 +2666,6 @@ packages:
 
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
-
-  '@types/git-url-parse@16.0.2':
-    resolution: {integrity: sha512-STa+QaJtPbqwtioDIncRyft1xXrsTIYW0KkS6RS6l++NiDaQxqgsIkNp2Jf9nJ1KnCGPOvWaR1iO+B7LkM8+ew==}
-    deprecated: This is a stub types definition. git-url-parse provides its own type definitions, so you do not need this installed.
 
   '@types/hast@2.3.10':
     resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
@@ -5117,6 +5110,10 @@ packages:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
 
+  package-directory@8.1.0:
+    resolution: {integrity: sha512-qHKRW0pw3lYdZMQVkjDBqh8HlamH/LCww2PH7OWEp4Qrt3SFeYMNpnJrQzlSnGrDD5zGR51XqBh7FnNCdVNEHA==}
+    engines: {node: '>=18'}
+
   package-json-from-dist@1.0.0:
     resolution: {integrity: sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==}
 
@@ -5233,11 +5230,6 @@ packages:
   pirates@4.0.7:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
-
-  pkg-dir@9.0.0:
-    resolution: {integrity: sha512-BMmxOuokumBehLGYwCKMBJxpAGSBbvGTtDn1yUV9UpCAvC4F7UWHoPTGSDGPV8eQPkYq/G8b0g1W5vIc5K/EhA==}
-    engines: {node: '>=18'}
-    deprecated: Renamed to `package-directory`.
 
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
@@ -8717,10 +8709,6 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
-  '@types/git-url-parse@16.0.2':
-    dependencies:
-      git-url-parse: 16.1.0
-
   '@types/hast@2.3.10':
     dependencies:
       '@types/unist': 2.0.11
@@ -11689,6 +11677,10 @@ snapshots:
     dependencies:
       aggregate-error: 3.1.0
 
+  package-directory@8.1.0:
+    dependencies:
+      find-up-simple: 1.0.0
+
   package-json-from-dist@1.0.0: {}
 
   package-manager-detector@1.3.0: {}
@@ -11801,10 +11793,6 @@ snapshots:
   pidtree@0.6.0: {}
 
   pirates@4.0.7: {}
-
-  pkg-dir@9.0.0:
-    dependencies:
-      find-up-simple: 1.0.0
 
   pkg-types@1.3.1:
     dependencies:

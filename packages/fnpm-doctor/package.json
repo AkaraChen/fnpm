@@ -5,7 +5,9 @@
         "build": "tsup",
         "dev": "tsup --watch"
     },
-    "keywords": ["doctor"],
+    "keywords": [
+        "doctor"
+    ],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -23,9 +25,9 @@
         "effect": "^3.16.4",
         "fnpm-toolkit": "workspace:*",
         "npm-check-updates": "^18.0.1",
+        "package-directory": "^8.1.0",
         "pathe": "^2.0.3",
         "picocolors": "^1.1.1",
-        "pkg-dir": "^9.0.0",
         "publint": "^0.3.12",
         "read-pkg": "^9.0.1",
         "terminal-link": "^4.0.0",
@@ -43,5 +45,7 @@
     "publishConfig": {
         "access": "public"
     },
-    "files": ["dist"]
+    "files": [
+        "dist"
+    ]
 }

@@ -3,7 +3,7 @@ import type { UnknownException } from 'effect/Cause';
 import {
     type Options as PackageDirectoryOptions,
     packageDirectory,
-} from 'pkg-dir';
+} from 'package-directory';
 import {
     type PackageJson,
     type Options as ReadPackageOptions,
