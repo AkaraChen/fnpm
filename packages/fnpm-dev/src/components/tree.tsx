@@ -53,13 +53,13 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                     }
                 }}
                 className={
-                    'flex items-center hover:text-blue-500 h-6 cursor-pointer border-b border-border px-4'
+                    'flex items-center hover:text-blue-500 h-10 cursor-pointer border-b border-border px-4 w-full'
                 }
                 style={{
                     marginLeft: `${indent}rem`,
                 }}
             >
-                <IconFolder size={16} />
+                <IconFolder size={18} />
                 <span className={'ml-2'}>{props.node.data.name}</span>
             </div>
         );
@@ -68,7 +68,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
     return (
         <div
             className={cn(
-                'flex items-center h-6 border-b border-border px-4',
+                'flex items-center h-10 border-b border-border px-4 w-full',
                 style,
             )}
         >
@@ -152,7 +152,14 @@ export const FileTree: FC<FileTreeProps> = (props) => {
         return fileTree.sort(sortNode).flatMap(traverse);
     }, [fileTree]);
     return (
-        <Tree data={renderTree} width={'100%'} openByDefault={false}>
+        <Tree 
+            data={renderTree} 
+            width={'100%'} 
+            indent={24}
+            rowHeight={40}
+            openByDefault={false}
+            className={cn('font-mono text-sm', props.className)}
+        >
             {FileTreeNode}
         </Tree>
     );
