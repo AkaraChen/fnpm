@@ -11,6 +11,17 @@ interface ConfigCommandOptions extends Options {
     json: boolean;
 }
 
+const verbsMap: Record<
+    ConfigOptions['verb'],
+    [ConfigOptions['verb'], ...string[]]
+> = {
+    list: ['list', 'ls'],
+    get: ['get', 'g'],
+    set: ['set', 's'],
+    delete: ['delete', 'd', 'rm', 'del', 'remove', 'unset'],
+};
+const verbs = Object.values(verbsMap).flat();
+
 class Config<U extends ConfigCommandOptions>
     implements CommandModule<EmptyObject, U>
 {
@@ -23,12 +34,7 @@ class Config<U extends ConfigCommandOptions>
                 description: 'Verb to use',
                 demandOption: false,
                 default: 'list',
-                choices: [
-                    ['list', 'ls'],
-                    ['get', 'g'],
-                    ['set', 's'],
-                    ['delete', 'd', 'rm', 'del', 'remove', 'unset'],
-                ].flat(),
+                choices: verbs,
             })
             .positional('key', {
                 type: 'string',
@@ -54,30 +60,13 @@ class Config<U extends ConfigCommandOptions>
 
     public async handler(args: ArgumentsCamelCase<U>) {
         const { global, json, verb, key, value } = args;
-        if (
-            ![
-                ['list', 'ls'],
-                ['get', 'g'],
-                ['set', 's'],
-                ['delete', 'd', 'rm', 'del', 'remove', 'unset'],
-            ]
-                .flat()
-                .includes(verb)
-        ) {
+        if (!verbs.includes(verb)) {
             error(`Invalid verb ${verb}`);
         }
         const command = commands.config.concat(globalThis.ctx.pm, {
-            verb: ['list', 'ls'].includes(verb)
-                ? 'list'
-                : ['get', 'g'].includes(verb)
-                  ? 'get'
-                  : ['set', 's'].includes(verb)
-                    ? 'set'
-                    : ['delete', 'd', 'rm', 'del', 'remove', 'unset'].includes(
-                            verb,
-                        )
-                      ? 'delete'
-                      : (verb as ConfigOptions['verb']),
+            verb: Object.entries(verbsMap).find(([_k, v]) =>
+                v.includes(verb),
+            )![0] as ConfigOptions['verb'],
             global,
             json,
             key: key!,
