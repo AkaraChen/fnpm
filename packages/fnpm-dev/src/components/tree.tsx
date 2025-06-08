@@ -145,7 +145,7 @@ export const FileTree: FC<FileTreeProps> = (props) => {
         return fileTree.flatMap(traverse);
     }, [fileTree]);
     return (
-        <Tree data={renderTree} width={'100%'}>
+        <Tree data={renderTree} width={'100%'} openByDefault={false}>
             {FileTreeNode}
         </Tree>
     );
