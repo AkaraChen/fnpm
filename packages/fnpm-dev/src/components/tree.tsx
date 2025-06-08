@@ -158,7 +158,7 @@ export const FileTree: FC<FileTreeProps> = (props) => {
             indent={24}
             rowHeight={40}
             openByDefault={false}
-            className={cn('font-mono text-sm', props.className)}
+            className={cn('font-mono text-sm select-none', props.className)}
         >
             {FileTreeNode}
         </Tree>
