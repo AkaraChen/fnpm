@@ -7,7 +7,7 @@
         "dev": "bunchee --watch",
         "build": "bunchee --minify",
         "typecheck": "tsc --noEmit",
-        "openapi": "openapi-typescript ./src/openapi.yaml -o ./src/schema.ts"
+        "openapi": "openapi-typescript ./src/openapi.yaml -o ./src/schema.generated.ts"
     },
     "keywords": [],
     "author": "",

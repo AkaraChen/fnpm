@@ -45,7 +45,7 @@ export interface Params {
     name?: string;
 }
 
-export const Tags: FC<TagsProps> = async (props) => {
+const Tags: FC<TagsProps> = async (props) => {
     const { name, version } = props;
     const pkg: PackageJson = await fetchFromJsdelivr({
         name,
@@ -84,7 +84,7 @@ export const Tags: FC<TagsProps> = async (props) => {
     );
 };
 
-export interface PackageProps {
+interface PackageProps {
     name: string;
     version: string | null;
     tab: Tab | null;

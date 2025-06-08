@@ -16,7 +16,7 @@ import { getClassWithColor } from 'file-icons-js';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
-export interface FileTreeProps {
+interface FileTreeProps {
     fileTree: Node[];
 }
 

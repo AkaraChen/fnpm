@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 import { useState } from 'react';
 
-export interface SearchBarProps {
+interface SearchBarProps {
     className?: string;
 }
 

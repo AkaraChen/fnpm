@@ -17,7 +17,7 @@ import {
 } from './ui/command';
 import { DialogTitle } from './ui/dialog';
 
-export interface CommandMenuProps {
+interface CommandMenuProps {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }

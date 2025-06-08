@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import type { ComponentProps, FC } from 'react';
 
-export interface CardProps extends ComponentProps<'div'> {
+interface CardProps extends ComponentProps<'div'> {
     title?: string;
 }
 

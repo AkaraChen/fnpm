@@ -4,7 +4,7 @@ import { FileTree } from '@/components/tree';
 import type { Node } from '@/lib/tar';
 import type { FC } from 'react';
 
-export interface CodeClientProps {
+interface CodeClientProps {
     tree: Node[];
 }
 

@@ -21,5 +21,6 @@
             "entry": ["src/index.ts!"]
         }
     },
+    "ignore": ["**/use-mobile.tsx", "**/*.generated.ts", "**/ui/**"],
     "ignoreDependencies": ["tslib"]
 }

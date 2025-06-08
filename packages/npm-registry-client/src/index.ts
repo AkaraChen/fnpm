@@ -1,5 +1,5 @@
 import createClient, { type Client, type ClientOptions } from 'openapi-fetch';
-import type { components, paths } from './schema';
+import type { components, paths } from './schema.generated';
 
 export interface NpmjsClient extends Client<paths> {
     with(options: ClientOptions): NpmjsClient;

@@ -3,7 +3,7 @@ import { type Folder, tarToTree } from '@/lib/tar';
 import type { schema } from '@akrc/npm-registry-client';
 import type { FC } from 'react';
 
-export type CodeProps = {
+type CodeProps = {
     version: string;
     metadata: schema['PackageMetadata'];
 };

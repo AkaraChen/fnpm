@@ -60,7 +60,7 @@ const data = {
     ],
 };
 
-export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
     workspaces?: IWorkspaceMenuItem[];
 }
 

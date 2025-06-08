@@ -4,7 +4,7 @@ import type { schema } from '@akrc/npm-registry-client';
 import { npmjs } from '@akrc/npm-registry-client';
 import type { FC } from 'react';
 
-export type DependencyProps = {
+type DependencyProps = {
     name: string;
     metadata: schema['PackageMetadata'];
     version: string;

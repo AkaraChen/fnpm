@@ -10,7 +10,6 @@ export type File = {
     content: string;
 };
 
-export const isFile = (node: Node): node is File => 'content' in node;
 export const isFolder = (node: Node): node is Folder => 'nodes' in node;
 
 export type Node = Folder | File;

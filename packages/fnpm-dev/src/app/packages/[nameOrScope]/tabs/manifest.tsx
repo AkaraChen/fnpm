@@ -34,7 +34,7 @@ const Readme: FC<ReadmeProps> = async (props) => {
     );
 };
 
-export interface ManifestProps {
+interface ManifestProps {
     metadata: schema['PackageMetadata'];
     version: string | null;
 }

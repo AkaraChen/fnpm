@@ -7,7 +7,7 @@ import { LucideTerminal } from 'lucide-react';
 import type { FC } from 'react';
 import { toast } from 'sonner';
 
-export interface CopyCommandProps {
+interface CopyCommandProps {
     name: string;
 }
 

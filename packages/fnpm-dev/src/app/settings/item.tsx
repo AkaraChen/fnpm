@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
 
-export interface ItemProps extends ComponentProps<'div'> {
+interface ItemProps extends ComponentProps<'div'> {
     title: string;
     description?: string;
     vertical?: boolean;
