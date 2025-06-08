@@ -1,5 +1,7 @@
+import { Tab as PackagePageTab } from '@/app/packages/[nameOrScope]/shared';
 import { npmjs as client } from '@akrc/npm-registry-client';
 import ky from 'ky';
+import { match } from 'ts-pattern';
 
 export function viewOnNpmjs(pathname: string) {
     if (pathname === '/') {
@@ -11,11 +13,25 @@ export function viewOnNpmjs(pathname: string) {
         if (!keyword) {
             return;
         }
-        window.open(`https://npmjs.com/search?q=${keyword}`, '_blank');
+        const url = new URL('https://npmjs.com/search');
+        url.searchParams.set('q', keyword);
+        window.open(url, '_blank');
     } else if (pathname.startsWith('/packages/')) {
+        const tab = new URLSearchParams(window.location.search).get('tab');
         const idx = pathname.indexOf('/packages/') + '/packages/'.length;
         const packageName = pathname.slice(idx);
-        window.open(`https://npmjs.com/package/${packageName}`, '_blank');
+        const url = new URL(`package/${packageName}`, 'https://npmjs.com');
+        if (tab) {
+            match(tab)
+                .with(PackagePageTab.Code, () => {
+                    url.searchParams.set('activeTab', 'code');
+                })
+                .with(PackagePageTab.Dependencies, () => {
+                    url.searchParams.set('activeTab', 'dependencies');
+                })
+                .otherwise(() => {});
+        }
+        window.open(url, '_blank');
     }
 }
 
