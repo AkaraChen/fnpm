@@ -26,13 +26,13 @@
     "dependencies": {
         "@types/git-url-parse": "^16.0.2",
         "consola": "^3.4.2",
-        "fnpm-doctor": "1.11.8",
-        "fnpm-ui": "1.11.8",
+        "fnpm-doctor": "workspace:*",
+        "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
         "git-url-parse": "^16.1.0",
         "open": "^10.1.2",
         "pkg-dir": "^9.0.0",
-        "pm-combo": "1.11.8",
+        "pm-combo": "workspace:*",
         "read-pkg": "^9.0.1",
         "tinyexec": "^1.0.1",
         "yargs": "^18.0.0"
