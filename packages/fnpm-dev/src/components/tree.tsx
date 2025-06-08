@@ -18,6 +18,7 @@ import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 interface FileTreeProps {
     fileTree: Node[];
+    className?: string;
 }
 
 type TreeNode = {
@@ -52,7 +53,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                     }
                 }}
                 className={
-                    'flex items-center text-sm hover:text-blue-500 h-6 cursor-pointer'
+                    'flex items-center text-sm hover:text-blue-500 h-6 cursor-pointer border-b border-border'
                 }
                 style={{
                     marginLeft: `${indent}rem`,
@@ -65,7 +66,12 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
     }
     const [open, setOpen] = useState(false);
     return (
-        <div className={'flex items-center h-6 text-sm'}>
+        <div
+            className={cn(
+                'flex items-center h-6 text-sm border-b border-border',
+                style,
+            )}
+        >
             <div
                 className={'flex w-5 cursor-pointer'}
                 style={{

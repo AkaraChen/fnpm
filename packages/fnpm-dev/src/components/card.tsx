@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps, FC, ReactNode } from 'react';
 
-interface CardProps extends ComponentProps<'div'> {
-    title?: string;
+interface CardProps extends Omit<ComponentProps<'div'>, 'title'> {
+    title?: ReactNode;
 }
 
 export const Card: FC<CardProps> = (props) => {

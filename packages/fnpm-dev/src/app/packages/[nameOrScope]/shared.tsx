@@ -2,7 +2,6 @@ import { Code } from '@/app/packages/[nameOrScope]/tabs/code';
 import { Dependency } from '@/app/packages/[nameOrScope]/tabs/deps';
 import { Manifest } from '@/app/packages/[nameOrScope]/tabs/manifest';
 import dt from '@/assets/dt.svg';
-import { Card } from '@/components/card';
 import { NavActions } from '@/components/nav-actions';
 import {
     Breadcrumb,
@@ -193,12 +192,7 @@ export async function Package(props: PackageProps) {
                                 />
                             ))
                             .with(Tab.Code, () => (
-                                <Card title={'code'}>
-                                    <Code
-                                        metadata={metadata}
-                                        version={current}
-                                    />
-                                </Card>
+                                <Code metadata={metadata} version={current} />
                             ))
                             .with(Tab.Dependencies, () => (
                                 <Dependency

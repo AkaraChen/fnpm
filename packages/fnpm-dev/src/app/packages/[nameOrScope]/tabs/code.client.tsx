@@ -6,9 +6,10 @@ import type { FC } from 'react';
 
 interface CodeClientProps {
     tree: Node[];
+    className?: string;
 }
 
 export const CodeClient: FC<CodeClientProps> = (props) => {
-    const { tree } = props;
-    return <FileTree fileTree={tree} />;
+    const { tree, className } = props;
+    return <FileTree fileTree={tree} className={className} />;
 };
