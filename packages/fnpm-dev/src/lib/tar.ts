@@ -32,7 +32,7 @@ export async function tarToTree(arrayBuffer: ArrayBuffer) {
             currentFolder = folder as Folder;
         }
         const file = {
-            name: pathParts[pathParts.length - 1],
+            name: pathParts[pathParts.length - 1]!,
             content: decoder.decode(item.data),
         };
         currentFolder.nodes.push(file);

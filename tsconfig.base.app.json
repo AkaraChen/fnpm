@@ -1,0 +1,4 @@
+{
+    "extends": "@akrc/tsconfig/react.json",
+    "include": ["${configDir}/src"]
+}

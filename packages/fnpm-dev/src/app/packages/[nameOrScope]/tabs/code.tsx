@@ -10,7 +10,7 @@ export type CodeProps = {
 
 export const Code: FC<CodeProps> = async (props) => {
     const { version, metadata } = props;
-    const archive = await fetch(metadata.versions[version].dist.tarball).then(
+    const archive = await fetch(metadata.versions[version]!.dist.tarball).then(
         (res) => res.arrayBuffer(),
     );
     const tree = await tarToTree(archive);

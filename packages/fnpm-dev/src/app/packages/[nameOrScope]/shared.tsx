@@ -114,7 +114,7 @@ export async function Package(props: PackageProps) {
         .then((r) => r.data!);
     const latest = metadata['dist-tags'].latest;
     const current = version ?? latest;
-    const releaseAt = new Date(metadata.time[current]);
+    const releaseAt = new Date(metadata.time[current] as string);
     const downloadCounts = await npmjs
         .with({
             baseUrl: 'https://api.npmjs.org/',
