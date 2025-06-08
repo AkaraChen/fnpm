@@ -44,6 +44,7 @@ export const commands: Commands = {
 
 export type {
     AddOptions,
+    ConfigOptions,
     DlxOptions,
     RemoveOptions,
     InitOptions,
