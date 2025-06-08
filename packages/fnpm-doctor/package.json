@@ -5,9 +5,7 @@
         "build": "tsup",
         "dev": "tsup --watch"
     },
-    "keywords": [
-        "doctor"
-    ],
+    "keywords": ["doctor"],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -45,7 +43,5 @@
     "publishConfig": {
         "access": "public"
     },
-    "files": [
-        "dist"
-    ]
+    "files": ["dist"]
 }

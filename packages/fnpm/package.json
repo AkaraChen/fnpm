@@ -9,9 +9,7 @@
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsup --watch"
     },
-    "keywords": [
-        "fnpm"
-    ],
+    "keywords": ["fnpm"],
     "author": "AkaraChen",
     "homepage": "https://github.com/akarachen/fnpm",
     "repository": {
@@ -42,7 +40,5 @@
         "fnpm": "./dist/fnpm.js",
         "fnpx": "./dist/fnpx.js"
     },
-    "files": [
-        "dist"
-    ]
+    "files": ["dist"]
 }
