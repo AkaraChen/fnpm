@@ -9,11 +9,12 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
+import type { TablerIcon } from '@tabler/icons-react';
 
 export interface NavMainItem {
     title: string;
     url?: string;
-    icon: LucideIcon;
+    icon: LucideIcon | TablerIcon;
     isActive?: boolean;
     onClick?: () => void;
     className?: string;

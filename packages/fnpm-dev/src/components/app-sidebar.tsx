@@ -1,12 +1,5 @@
 'use client';
 
-import {
-    ExternalLink,
-    Home,
-    LucideCommand,
-    Search,
-    Settings2,
-} from 'lucide-react';
 import type * as React from 'react';
 
 import { NavFavorites } from '@/components/nav-favorites';
@@ -24,6 +17,11 @@ import {
     SidebarRail,
 } from '@/components/ui/sidebar';
 import { viewOnNpmjs } from '@/lib/npmjs';
+import IconCommand from '@tabler/icons-react/dist/esm/icons/IconCommand';
+import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
+import IconHome2 from '@tabler/icons-react/dist/esm/icons/IconHome2';
+import IconSearch from '@tabler/icons-react/dist/esm/icons/IconSearch';
+import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { CommandMenu } from './command-menu';
@@ -32,13 +30,13 @@ import { CommandMenu } from './command-menu';
 const data = {
     team: {
         name: 'fnpm.dev',
-        logo: LucideCommand,
+        logo: IconCommand,
     },
     navSecondary: [
         {
             title: 'Settings',
             url: '/settings',
-            icon: Settings2,
+            icon: IconSettings,
         },
     ],
     favorites: [
@@ -70,7 +68,7 @@ export function AppSidebar(props: AppSidebarProps) {
     const navMain: Array<NavMainItem> = [
         {
             title: 'Search',
-            icon: Search,
+            icon: IconSearch,
             isActive: false,
             onClick() {
                 setOpen(true);
@@ -79,12 +77,12 @@ export function AppSidebar(props: AppSidebarProps) {
         {
             title: 'Home',
             url: '/',
-            icon: Home,
+            icon: IconHome2,
             isActive: pathname === '/',
         },
         {
             title: 'View on npm',
-            icon: ExternalLink,
+            icon: IconExternalLink,
             onClick() {
                 viewOnNpmjs(pathname);
             },

@@ -9,6 +9,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import type { TablerIcon } from '@tabler/icons-react';
 import Link from 'next/link';
 
 export function NavSecondary({
@@ -18,7 +19,7 @@ export function NavSecondary({
     items: {
         title: string;
         url: string;
-        icon: LucideIcon;
+        icon: LucideIcon | TablerIcon;
         badge?: React.ReactNode;
     }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {

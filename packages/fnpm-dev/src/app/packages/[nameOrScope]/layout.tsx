@@ -3,9 +3,11 @@
 import { Tab } from '@/app/packages/[nameOrScope]/shared';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import IconBook from '@tabler/icons-react/dist/esm/icons/IconBook';
+import IconCode from '@tabler/icons-react/dist/esm/icons/IconCode';
+import IconPackage from '@tabler/icons-react/dist/esm/icons/IconPackage';
 import { useParams, useSearchParams } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
-import { IconBook, IconCode, IconPackage } from '@tabler/icons-react';
 
 export default function Layout(props: PropsWithChildren) {
     const params = useParams();

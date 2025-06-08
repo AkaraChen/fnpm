@@ -5,9 +5,11 @@ import { processor } from '@/lib/markdown';
 import { fetchFromJsdelivr } from '@/lib/request';
 import type { schema } from '@akrc/npm-registry-client';
 import hostedGitInfo from 'hosted-git-info';
-import { LucideBug, LucideGitBranch, LucideLink } from 'lucide-react';
 import type { FC } from 'react';
 import 'github-markdown-css/github-markdown.css';
+import IconBug from '@tabler/icons-react/dist/esm/icons/IconBug';
+import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
+import IconGitBranch from '@tabler/icons-react/dist/esm/icons/IconGitBranch';
 import { CopyCommand } from './manifest.client';
 
 interface ReadmeProps {
@@ -56,7 +58,7 @@ export const Manifest: FC<ManifestProps> = (props) => {
                 <div className={'flex gap-2'}>
                     {metadata.repository && (
                         <IconButton
-                            icon={LucideGitBranch}
+                            icon={IconGitBranch}
                             link={hostedGitInfo
                                 .fromUrl(metadata.repository.url)
                                 ?.browse()}
@@ -64,12 +66,12 @@ export const Manifest: FC<ManifestProps> = (props) => {
                     )}
                     {metadata.homepage && (
                         <IconButton
-                            icon={LucideLink}
+                            icon={IconExternalLink}
                             link={metadata.homepage}
                         />
                     )}
                     {metadata.bugs && (
-                        <IconButton icon={LucideBug} link={metadata.bugs.url} />
+                        <IconButton icon={IconBug} link={metadata.bugs.url} />
                     )}
                 </div>
             </Card>

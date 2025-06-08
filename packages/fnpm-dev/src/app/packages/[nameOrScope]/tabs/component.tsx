@@ -1,8 +1,9 @@
+import type { TablerIcon } from '@tabler/icons-react';
 import type { LucideIcon } from 'lucide-react';
 import type { FC } from 'react';
 
 interface IconButtonProps {
-    icon: LucideIcon;
+    icon: LucideIcon | TablerIcon;
     link?: string;
 }
 

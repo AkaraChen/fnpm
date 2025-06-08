@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import IconTerminal from '@tabler/icons-react/dist/esm/icons/IconTerminal';
 import { devDepsMatchers } from 'fnpm-toolkit';
 import { useClipboard } from 'foxact/use-clipboard';
-import { LucideTerminal } from 'lucide-react';
 import type { FC } from 'react';
 import { toast } from 'sonner';
 
@@ -29,7 +29,7 @@ export const CopyCommand: FC<CopyCommandProps> = (props) => {
                 copy(command).then(() => toast.success('Copied to clipboard'));
             }}
         >
-            <LucideTerminal />
+            <IconTerminal />
             {command}
         </Button>
     );

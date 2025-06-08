@@ -1,22 +1,5 @@
 'use client';
 
-import {
-    ArrowDown,
-    ArrowUp,
-    Bell,
-    Copy,
-    CornerUpLeft,
-    CornerUpRight,
-    FileText,
-    GalleryVerticalEnd,
-    LineChart,
-    Link,
-    MoreHorizontal,
-    Settings2,
-    Star,
-    Trash,
-    Trash2,
-} from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -34,66 +17,75 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import IconArrowDown from '@tabler/icons-react/dist/esm/icons/IconArrowDown';
+import IconArrowUp from '@tabler/icons-react/dist/esm/icons/IconArrowUp';
+import IconBell from '@tabler/icons-react/dist/esm/icons/IconBell';
+import IconChartAreaLine from '@tabler/icons-react/dist/esm/icons/IconChartAreaLine';
+import IconCopy from '@tabler/icons-react/dist/esm/icons/IconCopy';
+import IconCornerUpLeft from '@tabler/icons-react/dist/esm/icons/IconCornerUpLeft';
+import IconCornerUpRight from '@tabler/icons-react/dist/esm/icons/IconCornerUpRight';
+import IconDots from '@tabler/icons-react/dist/esm/icons/IconDots';
+import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
+import IconFileText from '@tabler/icons-react/dist/esm/icons/IconFileText';
+import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
+import IconStar from '@tabler/icons-react/dist/esm/icons/IconStar';
+import IconTrash from '@tabler/icons-react/dist/esm/icons/IconTrash';
 
 const data = [
     [
         {
             label: 'Customize Page',
-            icon: Settings2,
+            icon: IconSettings,
         },
         {
             label: 'Turn into wiki',
-            icon: FileText,
+            icon: IconFileText,
         },
     ],
     [
         {
             label: 'Copy Link',
-            icon: Link,
+            icon: IconExternalLink,
         },
         {
             label: 'Duplicate',
-            icon: Copy,
+            icon: IconCopy,
         },
         {
             label: 'Move to',
-            icon: CornerUpRight,
+            icon: IconCornerUpRight,
         },
         {
             label: 'Move to Trash',
-            icon: Trash2,
+            icon: IconTrash,
         },
     ],
     [
         {
             label: 'Undo',
-            icon: CornerUpLeft,
+            icon: IconCornerUpLeft,
         },
         {
             label: 'View analytics',
-            icon: LineChart,
-        },
-        {
-            label: 'Version History',
-            icon: GalleryVerticalEnd,
+            icon: IconChartAreaLine,
         },
         {
             label: 'Show delete pages',
-            icon: Trash,
+            icon: IconTrash,
         },
         {
             label: 'Notifications',
-            icon: Bell,
+            icon: IconBell,
         },
     ],
     [
         {
             label: 'Import',
-            icon: ArrowUp,
+            icon: IconArrowUp,
         },
         {
             label: 'Export',
-            icon: ArrowDown,
+            icon: IconArrowDown,
         },
     ],
 ];
@@ -104,7 +96,7 @@ export function NavActions() {
     return (
         <div className='flex items-center gap-2 text-sm'>
             <Button variant='ghost' size='icon' className='h-7 w-7'>
-                <Star />
+                <IconStar />
             </Button>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
@@ -113,7 +105,7 @@ export function NavActions() {
                         size='icon'
                         className='h-7 w-7 data-[state=open]:bg-accent'
                     >
-                        <MoreHorizontal />
+                        <IconDots />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent

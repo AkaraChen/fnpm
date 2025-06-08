@@ -1,5 +1,4 @@
 import { type File, type Folder, type Node, isFolder } from '@/lib/tar';
-import { LucideFolder } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { type FC, useMemo, useState } from 'react';
 import { type NodeRendererProps, Tree } from 'react-arborist';
@@ -11,6 +10,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { cn, detectLangByFilename } from '@/lib/utils';
+import IconFolder from '@tabler/icons-react/dist/esm/icons/IconFolder';
 // @ts-ignore
 import { getClassWithColor } from 'file-icons-js';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -58,7 +58,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                     marginLeft: `${indent}rem`,
                 }}
             >
-                <LucideFolder size={16} />
+                <IconFolder size={16} />
                 <span className={'ml-3'}>{props.node.data.name}</span>
             </div>
         );
