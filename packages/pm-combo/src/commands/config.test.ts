@@ -3,7 +3,7 @@ import { type ConfigOptions, config } from './config';
 
 describe('config', () => {
     describe('list command', () => {
-        it('should generate correct list command for npm', () => {
+        it('should generate correct list command for npm with global flag', () => {
             const options: ConfigOptions = {
                 verb: 'list',
                 global: true,
@@ -21,14 +21,49 @@ describe('config', () => {
             ]);
         });
 
-        it('should generate correct list command for pnpm', () => {
+        it('should generate correct list command for npm with project location', () => {
+            const options: ConfigOptions = {
+                verb: 'list',
+                json: true,
+            };
+
+            const result = config.concat('npm', options);
+
+            expect(result).toEqual([
+                'npm',
+                'config',
+                'list',
+                '--location',
+                'project',
+                '--json',
+            ]);
+        });
+
+        it('should generate correct list command for pnpm with global flag', () => {
+            const options: ConfigOptions = {
+                verb: 'list',
+                global: true,
+            };
+
+            const result = config.concat('pnpm', options);
+
+            expect(result).toEqual(['pnpm', 'config', 'list', '--global']);
+        });
+
+        it('should generate correct list command for pnpm with project location', () => {
             const options: ConfigOptions = {
                 verb: 'list',
             };
 
             const result = config.concat('pnpm', options);
 
-            expect(result).toEqual(['pnpm', 'config', 'list']);
+            expect(result).toEqual([
+                'pnpm',
+                'config',
+                'list',
+                '--location',
+                'project',
+            ]);
         });
 
         it('should generate correct list command for yarn', () => {
@@ -68,7 +103,27 @@ describe('config', () => {
     });
 
     describe('set command', () => {
-        it('should generate correct set command for npm', () => {
+        it('should generate correct set command for npm with global flag', () => {
+            const options: ConfigOptions = {
+                verb: 'set',
+                key: 'registry',
+                value: 'https://registry.npmjs.org/',
+                global: true,
+            };
+
+            const result = config.concat('npm', options);
+
+            expect(result).toEqual([
+                'npm',
+                'config',
+                'set',
+                'registry',
+                'https://registry.npmjs.org/',
+                '--global',
+            ]);
+        });
+
+        it('should generate correct set command for npm with project location', () => {
             const options: ConfigOptions = {
                 verb: 'set',
                 key: 'registry',
@@ -83,10 +138,32 @@ describe('config', () => {
                 'set',
                 'registry',
                 'https://registry.npmjs.org/',
+                '--location',
+                'project',
             ]);
         });
 
-        it('should generate correct set command for pnpm', () => {
+        it('should generate correct set command for pnpm with global flag', () => {
+            const options: ConfigOptions = {
+                verb: 'set',
+                key: 'registry',
+                value: 'https://registry.npmjs.org/',
+                global: true,
+            };
+
+            const result = config.concat('pnpm', options);
+
+            expect(result).toEqual([
+                'pnpm',
+                'config',
+                'set',
+                'registry',
+                'https://registry.npmjs.org/',
+                '--global',
+            ]);
+        });
+
+        it('should generate correct set command for pnpm with project location', () => {
             const options: ConfigOptions = {
                 verb: 'set',
                 key: 'registry',
@@ -101,6 +178,8 @@ describe('config', () => {
                 'set',
                 'registry',
                 'https://registry.npmjs.org/',
+                '--location',
+                'project',
             ]);
         });
 
@@ -125,7 +204,25 @@ describe('config', () => {
     });
 
     describe('delete command', () => {
-        it('should generate correct delete command for npm', () => {
+        it('should generate correct delete command for npm with global flag', () => {
+            const options: ConfigOptions = {
+                verb: 'delete',
+                key: 'registry',
+                global: true,
+            };
+
+            const result = config.concat('npm', options);
+
+            expect(result).toEqual([
+                'npm',
+                'config',
+                'delete',
+                'registry',
+                '--global',
+            ]);
+        });
+
+        it('should generate correct delete command for npm with project location', () => {
             const options: ConfigOptions = {
                 verb: 'delete',
                 key: 'registry',
@@ -133,7 +230,50 @@ describe('config', () => {
 
             const result = config.concat('npm', options);
 
-            expect(result).toEqual(['npm', 'config', 'delete', 'registry']);
+            expect(result).toEqual([
+                'npm',
+                'config',
+                'delete',
+                'registry',
+                '--location',
+                'project',
+            ]);
+        });
+
+        it('should generate correct delete command for pnpm with global flag', () => {
+            const options: ConfigOptions = {
+                verb: 'delete',
+                key: 'registry',
+                global: true,
+            };
+
+            const result = config.concat('pnpm', options);
+
+            expect(result).toEqual([
+                'pnpm',
+                'config',
+                'delete',
+                'registry',
+                '--global',
+            ]);
+        });
+
+        it('should generate correct delete command for pnpm with project location', () => {
+            const options: ConfigOptions = {
+                verb: 'delete',
+                key: 'registry',
+            };
+
+            const result = config.concat('pnpm', options);
+
+            expect(result).toEqual([
+                'pnpm',
+                'config',
+                'delete',
+                'registry',
+                '--location',
+                'project',
+            ]);
         });
 
         it('should generate correct delete command for yarn', () => {
