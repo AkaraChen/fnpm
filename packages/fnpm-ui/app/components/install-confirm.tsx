@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Modal, NativeSelect, Stack } from '@mantine/core';
-import { devDepsMatchers, parseImportSpecifier } from 'fnpm-toolkit';
+import parser from 'fnpm-parse';
+import { devDepsMatchers } from 'fnpm-toolkit';
 import { type FC, useMemo, useState } from 'react';
 import { NpmPkgInfo } from './npm-pkg-info';
 
@@ -34,7 +35,7 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
         const dev: InstallConfirmItem[] = [];
         const prod: InstallConfirmItem[] = [];
         for (const pkg of packages) {
-            const { name, version } = parseImportSpecifier(pkg);
+            const { name, version } = parser.parse(pkg);
             const item: InstallConfirmItem = {
                 name,
                 version: version === 'latest' ? undefined : version,

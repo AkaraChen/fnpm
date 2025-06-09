@@ -1,4 +1,4 @@
-import { parseImportSpecifier } from 'fnpm-toolkit';
+import parser from 'fnpm-parse';
 import type { Command } from './type';
 
 export interface DlxOptions {
@@ -11,7 +11,7 @@ export const dlx: Command<DlxOptions> = {
         const { package: pkg, args = [] } = options;
         switch (pm) {
             case 'npm': {
-                const parsed = parseImportSpecifier(pkg);
+                const parsed = parser.parse(pkg);
                 return ['npx', '-p', pkg, '-y', '-c', parsed.name, ...args];
             }
             case 'yarn': {

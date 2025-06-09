@@ -1,7 +1,7 @@
 import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { resolveContext } from 'fnpm-context';
-import { parseImportSpecifier } from 'fnpm-toolkit';
+import parser from 'fnpm-parse';
 import { packageDirectory } from 'package-directory';
 import { x } from 'tinyexec';
 import { hideBin } from 'yargs/helpers';
@@ -49,6 +49,6 @@ export async function getContext(cwd: string): Promise<Context> {
 }
 
 export function normalizePackageVersion(input: string) {
-    const parsed = parseImportSpecifier(input);
+    const parsed = parser.parse(input);
     return `${parsed.name}@${parsed.version}`;
 }
