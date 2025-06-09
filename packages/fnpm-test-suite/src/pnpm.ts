@@ -2,12 +2,8 @@ import * as yaml from '@akrc/yaml';
 import { FileSystem, Path } from '@effect/platform';
 import defu from 'defu';
 import { Effect } from 'effect';
+import type { PnpmWorkspaceSpecification as Spec } from '../generated/pnpm-workspace-spec';
 import { YamlParse } from './utils';
-
-// TODO: full typing for pnpm-workspace.yaml
-interface PnpmWorkspaceYaml {
-    packages: string[];
-}
 
 export function ReadPnpmWorkspaceYaml(dir: string) {
     return Effect.gen(function* () {
@@ -16,12 +12,12 @@ export function ReadPnpmWorkspaceYaml(dir: string) {
         const content = yield* fs.readFileString(
             path.join(dir, 'pnpm-workspace.yaml'),
         );
-        const yaml = yield* YamlParse<PnpmWorkspaceYaml>(content);
+        const yaml = yield* YamlParse<Spec>(content);
         return yaml;
     });
 }
 
-export function WritePnpmWorkspaceYaml(dir: string, input: PnpmWorkspaceYaml) {
+export function WritePnpmWorkspaceYaml(dir: string, input: Spec) {
     return Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
@@ -32,14 +28,14 @@ export function WritePnpmWorkspaceYaml(dir: string, input: PnpmWorkspaceYaml) {
     });
 }
 
-export function UpdatePnpmWorkspaceYaml(dir: string, input: PnpmWorkspaceYaml) {
+export function UpdatePnpmWorkspaceYaml(dir: string, input: Spec) {
     return Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const content = yield* fs.readFileString(
             path.join(dir, 'pnpm-workspace.yaml'),
         );
-        const parsed = yield* YamlParse<PnpmWorkspaceYaml>(content);
+        const parsed = yield* YamlParse<Spec>(content);
         const merged = defu(parsed, input);
         yield* WritePnpmWorkspaceYaml(dir, merged);
     });
