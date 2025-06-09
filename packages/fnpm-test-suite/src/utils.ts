@@ -1,7 +1,7 @@
 import * as yaml from '@akrc/yaml';
 import { Effect } from 'effect';
 
-class ParseError extends Error {
+export class ParseError extends Error {
     override name = 'ParseError';
     __tag = 'ParseError';
     constructor(error: unknown) {
