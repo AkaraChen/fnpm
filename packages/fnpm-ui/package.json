@@ -60,11 +60,7 @@
     "engines": {
         "node": ">=20.0.0"
     },
-    "files": [
-        "build",
-        "start.d.ts",
-        "start.mjs"
-    ],
+    "files": ["build", "start.d.ts", "start.mjs"],
     "exports": {
         ".": {
             "types": "./start.d.ts",
