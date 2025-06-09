@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { ParseError } from './errors';
 import Parser from './parser';
 import type { IParseResult } from './types';
 
@@ -182,12 +183,7 @@ describe('Parser', () => {
 
     it('should handle malformed scope like @/package (current parser might fail or produce unexpected)', () => {
         // Based on current parser logic, this will likely result in empty name/fullName
-        assertParseResult('@/my-package', {
-            name: '',
-            fullName: '',
-            scope: undefined, // or 'my-package' depending on strictness
-            path: undefined,
-        });
+        expect(() => parser.parse('@/my-package')).toThrowError(ParseError);
     });
 
     it('should handle specifier with trailing @', () => {

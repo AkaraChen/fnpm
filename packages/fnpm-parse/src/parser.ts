@@ -1,3 +1,4 @@
+import { ParseError } from './errors';
 import { AtSign, Lexer, Segment, Slash, type Token } from './lexer';
 import { type IParseResult, type IParseResultBase, ParseResult } from './types';
 
@@ -17,7 +18,7 @@ enum ParserFsmState {
 class Parser {
     private tokens: Token[] = [];
     private currentIndex = 0;
-    private baseResult: IParseResultBase = { name: '' };
+    private result: IParseResultBase = { name: '' };
     private state: ParserFsmState = ParserFsmState.START;
     private pathBuffer: string[] = [];
 
@@ -36,17 +37,17 @@ class Parser {
     public parse(str: string): IParseResult {
         this.tokens = new Lexer(str).lex();
         this.currentIndex = 0;
-        this.baseResult = { name: '' }; // Reset for multiple calls on same instance
+        this.result = { name: '' }; // Reset for multiple calls on same instance
         this.state = ParserFsmState.START;
         this.pathBuffer = [];
 
         if (this.tokens.length === 0 && str.length > 0) {
             // Input string was not empty, but lexer produced no tokens (e.g. string of only invalid chars for lexer)
             // Or handle this as an error state in the FSM if preferred.
-            return new ParseResult(this.baseResult);
+            return new ParseResult(this.result);
         }
         if (this.tokens.length === 0 && str.length === 0) {
-            return new ParseResult(this.baseResult); // Empty input string
+            return new ParseResult(this.result); // Empty input string
         }
 
         while (
@@ -77,7 +78,7 @@ class Parser {
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_SCOPE_SEGMENT;
                     } else if (token instanceof Segment) {
-                        this.baseResult.name = token.value;
+                        this.result.name = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.NAME_FOUND;
                     } else {
@@ -87,7 +88,7 @@ class Parser {
 
                 case ParserFsmState.EXPECT_SCOPE_SEGMENT:
                     if (token instanceof Segment) {
-                        this.baseResult.scope = token.value;
+                        this.result.scope = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_SLASH_AFTER_SCOPE;
                     } else {
@@ -102,15 +103,15 @@ class Parser {
                             ParserFsmState.EXPECT_NAME_SEGMENT_FOR_SCOPE;
                     } else {
                         // Not a slash, so what was parsed as scope is actually the name.
-                        this.baseResult.name = this.baseResult.scope!;
-                        this.baseResult.scope = undefined;
+                        this.result.name = this.result.scope!;
+                        this.result.scope = undefined;
                         this.state = ParserFsmState.NAME_FOUND; // Re-evaluate current token in NAME_FOUND
                     }
                     break;
 
                 case ParserFsmState.EXPECT_NAME_SEGMENT_FOR_SCOPE:
                     if (token instanceof Segment) {
-                        this.baseResult.name = token.value;
+                        this.result.name = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.NAME_FOUND;
                     } else {
@@ -124,7 +125,7 @@ class Parser {
                         this.state = ParserFsmState.EXPECT_VERSION_SEGMENT;
                     } else if (token instanceof Slash) {
                         this.consumeToken(); // Consume the leading slash of the path
-                        this.baseResult.path = ''; // Initialize path
+                        this.result.path = ''; // Initialize path
                         this.state = ParserFsmState.PATH_PARSING;
                     } else {
                         this.state = ParserFsmState.ERROR;
@@ -133,7 +134,7 @@ class Parser {
 
                 case ParserFsmState.EXPECT_VERSION_SEGMENT:
                     if (token instanceof Segment) {
-                        this.baseResult.version = token.value;
+                        this.result.version = token.value;
                         this.consumeToken();
                         this.state =
                             ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION;
@@ -147,7 +148,7 @@ class Parser {
                 case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION:
                     if (token instanceof Slash) {
                         this.consumeToken(); // Consume the leading slash of the path
-                        this.baseResult.path = ''; // Initialize path
+                        this.result.path = ''; // Initialize path
                         this.state = ParserFsmState.PATH_PARSING;
                     } else {
                         this.state = ParserFsmState.ERROR;
@@ -175,21 +176,21 @@ class Parser {
         if (this.pathBuffer.length > 0) {
             // If path was initialized to "" (because a slash was seen), append the buffer.
             // Otherwise, if no slash was seen before (e.g. direct error or unexpected end), set it directly.
-            if (this.baseResult.path === '') {
-                this.baseResult.path += this.pathBuffer.join('');
+            if (this.result.path === '') {
+                this.result.path += this.pathBuffer.join('');
             } else {
                 // This case should ideally not be hit if path parsing is only entered after a slash.
                 // However, to be safe, if path wasn't initialized, set it.
-                this.baseResult.path = this.pathBuffer.join('');
+                this.result.path = this.pathBuffer.join('');
             }
         }
 
         // If parsing ended in error and no name was found, it's a critical failure.
-        if (this.state === ParserFsmState.ERROR && !this.baseResult.name) {
-            return new ParseResult({ name: '' }); // Return minimal valid ParseResult
+        if (this.state === ParserFsmState.ERROR && !this.result.name) {
+            throw new ParseError('Failed to parse package name');
         }
 
-        return new ParseResult(this.baseResult);
+        return new ParseResult(this.result);
     }
 }
 
