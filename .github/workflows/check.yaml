@@ -67,9 +67,7 @@ jobs:
         run: |
           corepack enable
           corepack install npm@10.7.0 -g
-          npm -v
           corepack install yarn@4.9.2 -g
-          yarn -v
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
