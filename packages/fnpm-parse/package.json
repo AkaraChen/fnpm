@@ -1,0 +1,34 @@
+{
+    "name": "fnpm-parse",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/es/index.js",
+    "scripts": {
+        "test": "vitest run",
+        "build": "bunchee",
+        "dev": "bunchee --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.1",
+    "type": "module",
+    "devDependencies": {
+        "bunchee": "6.5.2"
+    },
+    "files": ["dist"],
+    "module": "./dist/es/index.js",
+    "types": "./dist/es/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/es/index.d.ts",
+                "default": "./dist/es/index.js"
+            },
+            "require": {
+                "types": "./dist/cjs/index.d.cts",
+                "default": "./dist/cjs/index.cjs"
+            }
+        }
+    }
+}
