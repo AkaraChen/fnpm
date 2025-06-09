@@ -123,7 +123,8 @@ class Parser {
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_VERSION_SEGMENT;
                     } else if (token instanceof Slash) {
-                        this.consumeToken();
+                        this.consumeToken(); // Consume the leading slash of the path
+                        this.baseResult.path = ''; // Initialize path
                         this.state = ParserFsmState.PATH_PARSING;
                     } else {
                         this.state = ParserFsmState.ERROR;
@@ -145,7 +146,8 @@ class Parser {
 
                 case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION:
                     if (token instanceof Slash) {
-                        this.consumeToken();
+                        this.consumeToken(); // Consume the leading slash of the path
+                        this.baseResult.path = ''; // Initialize path
                         this.state = ParserFsmState.PATH_PARSING;
                     } else {
                         this.state = ParserFsmState.ERROR;
@@ -171,7 +173,15 @@ class Parser {
         }
 
         if (this.pathBuffer.length > 0) {
-            this.baseResult.path = this.pathBuffer.join('');
+            // If path was initialized to "" (because a slash was seen), append the buffer.
+            // Otherwise, if no slash was seen before (e.g. direct error or unexpected end), set it directly.
+            if (this.baseResult.path === '') {
+                this.baseResult.path += this.pathBuffer.join('');
+            } else {
+                // This case should ideally not be hit if path parsing is only entered after a slash.
+                // However, to be safe, if path wasn't initialized, set it.
+                this.baseResult.path = this.pathBuffer.join('');
+            }
         }
 
         // If parsing ended in error and no name was found, it's a critical failure.

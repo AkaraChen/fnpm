@@ -50,15 +50,22 @@ export class ParseResult implements IParseResult {
                 ? this.path
                 : this.path.substring(lastSlashIndex + 1);
 
-        if (!fileName) {
+        if (!fileName || fileName.startsWith('.')) {
+            // No filename or it's a hidden file (e.g., .eslintrc, .gitconfig)
             return undefined;
         }
 
         const lastDotIndex = fileName.lastIndexOf('.');
 
-        // Ensure dot is present, not the first character (hidden file), and not the last character.
+        // Ensure dot is present, not the first character of the filename segment itself (already handled by startsWith('.')),
+        // and not the last character.
         if (lastDotIndex > 0 && lastDotIndex < fileName.length - 1) {
-            return fileName.substring(lastDotIndex + 1);
+            const potentialExtension = fileName.substring(lastDotIndex + 1);
+            // Check if the potential extension is purely numeric
+            if (/^\d+$/.test(potentialExtension)) {
+                return undefined; // Path segment like /1.2.3 should not yield '3' as extension
+            }
+            return potentialExtension;
         }
         return undefined;
     }
