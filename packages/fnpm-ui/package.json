@@ -16,7 +16,7 @@
         "@dagrejs/dagre": "^1.1.4",
         "@fontsource-variable/inter": "^5.2.6",
         "@fontsource/space-mono": "^5.2.6",
-        "@icons-pack/react-simple-icons": "^13.0.0",
+        "@icons-pack/react-simple-icons": "^13.1.0",
         "@mantine/core": "^8.0.2",
         "@mantine/hooks": "^8.0.2",
         "@mantine/modals": "^8.0.2",
@@ -60,7 +60,11 @@
     "engines": {
         "node": ">=20.0.0"
     },
-    "files": ["build", "start.d.ts", "start.mjs"],
+    "files": [
+        "build",
+        "start.d.ts",
+        "start.mjs"
+    ],
     "exports": {
         ".": {
             "types": "./start.d.ts",
