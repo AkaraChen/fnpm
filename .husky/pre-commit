@@ -1,1 +1,1 @@
-pnpm -w check
+lint-staged
