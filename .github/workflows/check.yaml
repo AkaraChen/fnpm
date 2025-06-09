@@ -63,8 +63,11 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: Corepack enable
-        run: corepack enable
+      - name: Install package managers
+        run: |
+          corepack enable
+          corepack install npm@10.7.0
+          corepack install yarn@4.9.2
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
