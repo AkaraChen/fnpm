@@ -5,7 +5,7 @@
     "main": "./dist/es/index.js",
     "scripts": {
         "test": "vitest run",
-        "build": "bunchee",
+        "build": "bunchee --minify",
         "dev": "bunchee --watch"
     },
     "keywords": [],
