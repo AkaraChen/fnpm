@@ -129,6 +129,9 @@ importers:
         specifier: workspace:*
         version: link:../fnpm-utils
     devDependencies:
+      '@akrc/monorepo-tools':
+        specifier: ^4.0.1
+        version: 4.0.1
       '@pnpm/types':
         specifier: 12.2.0
         version: 12.2.0

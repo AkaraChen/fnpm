@@ -12,8 +12,8 @@ import {
 
 export function ReadPackage(
     options: ReadPackageOptions,
-): Effect.Effect<PackageJson, UnknownException, never> {
-    return Effect.tryPromise(() => readPackage(options));
+): Effect.Effect<PackageJson, never, never> {
+    return Effect.promise(() => readPackage(options));
 }
 
 export function PackageDirectory(
