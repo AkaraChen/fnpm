@@ -10,15 +10,13 @@
         ".react-router/types/**/*"
     ],
     "compilerOptions": {
-        "types": ["vite/client", "./.react-router/types/+server-build.d.ts"],
+        "types": ["vite/client"],
         "baseUrl": ".",
         "paths": {
             "~/*": ["./app/*"]
         },
 
         // Vite takes care of building everything, not tsc.
-        "noEmit": true,
-
-        "rootDirs": [".", "./.react-router/types"]
+        "noEmit": true
     }
 }
