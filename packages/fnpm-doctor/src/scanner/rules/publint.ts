@@ -9,14 +9,14 @@ import {
 } from 'publint';
 import { formatMessage } from 'publint/utils';
 import { match } from 'ts-pattern';
-import type { Scanner, ScannerDiagnoseLevel } from './scanner';
+import type { DiagnoseLevel, Rule } from '../rule';
 
 function RunPublint(options: PublintOptions) {
     return Effect.tryPromise(() => run(options));
 }
 
 function formatDiagnose(message: Message, manifest: ProjectManifest) {
-    const level: ScannerDiagnoseLevel = match(message.type)
+    const level: DiagnoseLevel = match(message.type)
         .with('suggestion', () => 'info' as const)
         .with('warning', () => 'warning' as const)
         .with('error', () => 'error' as const)
@@ -32,7 +32,7 @@ function formatDiagnose(message: Message, manifest: ProjectManifest) {
     };
 }
 
-export const publint: Scanner = (ctx) => {
+export const publint: Rule = (ctx) => {
     return Effect.gen(function* () {
         yield* Effect.forEach(ctx.projects, (project) => {
             return Effect.gen(function* () {

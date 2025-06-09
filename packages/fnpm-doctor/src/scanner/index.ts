@@ -1,31 +1,31 @@
 import { Effect } from 'effect';
-import { eslint } from './eslint';
-import { moduleReplacement } from './module-replacement';
-import { publint } from './publint';
+import { type Diagnose, type Rule, RuleContextImpl } from './rule';
 import {
-    type Scanner,
-    ScannerContextImpl,
-    type ScannerDiagnose,
-} from './scanner';
-import { versionMismatch } from './version-mismatch';
+    microUtilsReplacementRule,
+    nativeReplacementRule,
+    preferredReplacementRule,
+} from './rules/module-replacement';
+import { multipleEslintConfig } from './rules/multiple-eslint-config';
+import { publint } from './rules/publint';
+import { versionMismatch } from './rules/version-mismatch';
 
-const scanners: Scanner[] = [
-    eslint,
+const rules: Rule[] = [
+    multipleEslintConfig,
     versionMismatch,
     publint,
-    moduleReplacement,
+    nativeReplacementRule,
+    preferredReplacementRule,
+    microUtilsReplacementRule,
 ];
 
 export interface ScanResult {
-    diagnoses: ScannerDiagnose[];
+    diagnoses: Diagnose[];
 }
 
 export async function scan(searchDir: string): Promise<ScanResult> {
-    const context = new ScannerContextImpl(searchDir);
+    const context = new RuleContextImpl(searchDir);
     await context.init();
-    await Effect.runPromise(
-        Effect.forEach(scanners, (scanner) => scanner(context)),
-    );
+    await Effect.runPromise(Effect.forEach(rules, (rule) => rule(context)));
     return {
         diagnoses: context.diagnoses,
     };

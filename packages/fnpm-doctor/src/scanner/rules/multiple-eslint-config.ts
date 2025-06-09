@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import { tryFile } from 'try-files';
-import type { Scanner } from './scanner';
+import type { Rule } from '../rule';
 
 const eslintFiles = [
     '.eslintrc.js',
@@ -8,9 +8,15 @@ const eslintFiles = [
     '.eslintrc.yml',
     '.eslintrc.yaml',
     '.eslintrc',
+    'eslint.config.js',
+    'eslint.config.ts',
+    'eslint.config.mjs',
+    'eslint.config.mts',
+    'eslint.config.cjs',
+    'eslint.config.cts',
 ];
 
-export const eslint: Scanner = (ctx) => {
+export const multipleEslintConfig: Rule = (ctx) => {
     let hasEslintRc = false;
     return Effect.sync(() => {
         for (const project of ctx.projects) {

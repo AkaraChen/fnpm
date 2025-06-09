@@ -4,13 +4,13 @@ import type * as mt from '@akrc/monorepo-tools';
 import type { Effect } from 'effect';
 import path from 'pathe';
 
-export type Scanner = (ctx: ScannerContext) => Effect.Effect<void>;
+export type Rule = (ctx: RuleContext) => Effect.Effect<void>;
 
-export type ScannerDiagnoseLevel = 'error' | 'warning' | 'info';
+export type DiagnoseLevel = 'error' | 'warning' | 'info';
 
-export interface ScannerDiagnose {
+export interface Diagnose {
     id: string;
-    level: ScannerDiagnoseLevel;
+    level: DiagnoseLevel;
     title: string;
     description: string;
     docs?: URL;
@@ -18,11 +18,11 @@ export interface ScannerDiagnose {
     scope?: string;
 }
 
-interface ScannerContext {
+export interface RuleContext {
     cwd: string;
     root: string;
-    diagnoses: ScannerDiagnose[];
-    report(...diagnoses: ScannerDiagnose[]): void;
+    diagnoses: Diagnose[];
+    report(...diagnoses: Diagnose[]): void;
     pm: mt.PM;
     projects: Awaited<ReturnType<typeof mt.scanProjects>>;
     resolve(filePath: string): string;
@@ -31,8 +31,8 @@ interface ScannerContext {
     json<T>(jsonPath: string): Promise<T>;
 }
 
-export class ScannerContextImpl implements ScannerContext {
-    diagnoses: ScannerDiagnose[] = [];
+export class RuleContextImpl implements RuleContext {
+    diagnoses: Diagnose[] = [];
     pm!: mt.PM;
     projects!: Awaited<ReturnType<typeof mt.scanProjects>>;
     root!: string;
@@ -51,7 +51,7 @@ export class ScannerContextImpl implements ScannerContext {
         this.isMonoRepo = rawContext.isMonoRepo;
     }
 
-    report(diagnose: ScannerDiagnose): void {
+    report(diagnose: Diagnose): void {
         const existing = this.diagnoses.find((d) => d.id === diagnose.id);
         if (existing) {
             this.diagnoses[this.diagnoses.indexOf(existing)] = {
