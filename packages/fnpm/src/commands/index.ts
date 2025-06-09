@@ -10,6 +10,7 @@ import Init from './init';
 import Publish from './publish';
 import Registry from './registry';
 import Remove from './remove';
+import Scaffold from './scaffold';
 import Test from './test';
 import UI from './ui';
 import Update from './update';
@@ -37,5 +38,6 @@ export function mount(argv: Argv) {
         .command(new View())
         .command(new Why())
         .command(new Config())
-        .command(new Registry());
+        .command(new Registry())
+        .command(new Scaffold());
 }
