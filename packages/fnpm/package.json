@@ -18,7 +18,7 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "@akrc/monorepo-tools": "^4.0.1",
+        "@akrc/monorepo-tools": "^4.1.0",
         "@types/yargs": "^17.0.33",
         "type-fest": "^4.41.0"
     },

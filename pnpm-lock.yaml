@@ -109,8 +109,8 @@ importers:
         version: 18.0.0
     devDependencies:
       '@akrc/monorepo-tools':
-        specifier: ^4.0.1
-        version: 4.0.1
+        specifier: ^4.1.0
+        version: 4.1.0
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
@@ -128,8 +128,8 @@ importers:
         version: link:../fnpm-utils
     devDependencies:
       '@akrc/monorepo-tools':
-        specifier: ^4.0.1
-        version: 4.0.1
+        specifier: ^4.1.0
+        version: 4.1.0
       '@pnpm/types':
         specifier: 12.2.0
         version: 12.2.0
@@ -355,8 +355,8 @@ importers:
         version: 5.7.1
     devDependencies:
       '@akrc/monorepo-tools':
-        specifier: ^4.0.1
-        version: 4.0.1
+        specifier: ^4.1.0
+        version: 4.1.0
       '@effect/platform':
         specifier: ^0.84.9
         version: 0.84.9(effect@3.16.4)
@@ -385,8 +385,8 @@ importers:
   packages/fnpm-test-suite:
     dependencies:
       '@akrc/monorepo-tools':
-        specifier: ^4.0.1
-        version: 4.0.1
+        specifier: ^4.1.0
+        version: 4.1.0
       '@akrc/yaml':
         specifier: ^4.2.0
         version: 4.2.0
@@ -604,8 +604,8 @@ importers:
   packages/fnpm-utils:
     dependencies:
       '@akrc/monorepo-tools':
-        specifier: ^4.0.1
-        version: 4.0.1
+        specifier: ^4.1.0
+        version: 4.1.0
       effect:
         specifier: ^3.16.4
         version: 3.16.4
@@ -647,8 +647,8 @@ importers:
 
 packages:
 
-  '@akrc/monorepo-tools@4.0.1':
-    resolution: {integrity: sha512-B8uNfdTmYV2F+RFWyAZS/iQIwVuUWMkqSvQaK/zG9THmSb6lOCvN2QcTNTVf5nTLUpTlA2BzBd+sYmSIF5/f3Q==}
+  '@akrc/monorepo-tools@4.1.0':
+    resolution: {integrity: sha512-+TKv/JQHFE8m3gqTPC1F31Lu8fvD5m/VYE7Ds8D8brRZDZ0O4MVL7/iYIVvV/bNjKIFowRY6O3rcYHXWIbJLOw==}
 
   '@akrc/tsconfig@2.0.0':
     resolution: {integrity: sha512-mxU+OWKI/oAQIoQlwZUSpbbdTJoADtF+EnTP0omx/L8ovuOau2lV+vByj4zyQW9xLA1c/pbRPs0Gd34XT4nViw==}
@@ -7364,7 +7364,7 @@ packages:
 
 snapshots:
 
-  '@akrc/monorepo-tools@4.0.1': {}
+  '@akrc/monorepo-tools@4.1.0': {}
 
   '@akrc/tsconfig@2.0.0': {}
 
