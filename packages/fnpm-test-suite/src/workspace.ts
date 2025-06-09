@@ -33,7 +33,11 @@ export function MakeWorkspace(
         }
         const [cmd, ...args] = commands.install.concat(pm, {});
         const process = yield* exec.start(
-            pipe(Command.make(cmd!, ...args), Command.workingDirectory(dir)),
+            pipe(
+                Command.make(cmd!, ...args),
+                Command.workingDirectory(dir),
+                Command.runInShell(true),
+            ),
         );
         const code = yield* process.exitCode;
         if (code !== ExitCode(0)) {
