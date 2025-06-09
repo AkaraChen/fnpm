@@ -13,7 +13,7 @@ export interface IParseResult {
     extension?: string;
 }
 
-interface IParseResultBase {
+export interface IParseResultBase {
     scope?: string;
     name: string;
     version?: string;
@@ -34,10 +34,32 @@ export class ParseResult implements IParseResult {
     }
 
     get fullName(): string {
-        return `@${this.scope}/${this.name}`;
+        if (this.scope) {
+            return `@${this.scope}/${this.name}`;
+        }
+        return this.name;
     }
 
     get extension(): string | undefined {
-        return this.path.split('.').pop();
+        if (!this.path) {
+            return undefined;
+        }
+        const lastSlashIndex = this.path.lastIndexOf('/');
+        const fileName =
+            lastSlashIndex === -1
+                ? this.path
+                : this.path.substring(lastSlashIndex + 1);
+
+        if (!fileName) {
+            return undefined;
+        }
+
+        const lastDotIndex = fileName.lastIndexOf('.');
+
+        // Ensure dot is present, not the first character (hidden file), and not the last character.
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        }
+        return undefined;
     }
 }

@@ -1,5 +1,5 @@
 import { AtSign, Lexer, Segment, Slash, type Token } from './lexer';
-import type { IParseResult } from './types';
+import { type IParseResult, type IParseResultBase, ParseResult } from './types';
 
 enum ParserFsmState {
     START = 0,
@@ -17,14 +17,7 @@ enum ParserFsmState {
 class Parser {
     private tokens: Token[] = [];
     private currentIndex = 0;
-    private result: IParseResult = {
-        name: '',
-        fullName: '',
-        scope: undefined,
-        version: undefined,
-        path: undefined,
-        extension: undefined,
-    };
+    private baseResult: IParseResultBase = { name: '' };
     private state: ParserFsmState = ParserFsmState.START;
     private pathBuffer: string[] = [];
 
@@ -40,31 +33,20 @@ class Parser {
         return token;
     }
 
-    private getExtension(filePath: string | undefined): string | undefined {
-        if (!filePath) return undefined;
-        const lastSlash = filePath.lastIndexOf('/');
-        const fileName =
-            lastSlash === -1 ? filePath : filePath.substring(lastSlash + 1);
-        if (fileName) {
-            const lastDot = fileName.lastIndexOf('.');
-            if (lastDot > 0 && lastDot < fileName.length - 1) {
-                // dot not first char, and has chars after
-                return fileName.substring(lastDot + 1);
-            }
-        }
-        return undefined;
-    }
-
     public parse(str: string): IParseResult {
         this.tokens = new Lexer(str).lex();
         this.currentIndex = 0;
-        this.result = { name: '', fullName: '' }; // Reset for multiple calls on same instance
+        this.baseResult = { name: '' }; // Reset for multiple calls on same instance
         this.state = ParserFsmState.START;
         this.pathBuffer = [];
 
-        if (this.tokens.length === 0) {
-            // If input string was also empty, this is fine. Otherwise, it's an unparseable string.
-            return this.result;
+        if (this.tokens.length === 0 && str.length > 0) {
+            // Input string was not empty, but lexer produced no tokens (e.g. string of only invalid chars for lexer)
+            // Or handle this as an error state in the FSM if preferred.
+            return new ParseResult(this.baseResult);
+        }
+        if (this.tokens.length === 0 && str.length === 0) {
+            return new ParseResult(this.baseResult); // Empty input string
         }
 
         while (
@@ -76,13 +58,13 @@ class Parser {
             if (!token) {
                 // No more tokens
                 switch (this.state) {
-                    case ParserFsmState.START: // Empty string or string that lexed to nothing
+                    case ParserFsmState.START:
                     case ParserFsmState.NAME_FOUND:
                     case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION:
-                    case ParserFsmState.PATH_PARSING: // Path parsing naturally ends when tokens run out
+                    case ParserFsmState.PATH_PARSING:
                         this.state = ParserFsmState.END;
                         break;
-                    default: // Premature end of input for the current state
+                    default:
                         this.state = ParserFsmState.ERROR;
                         break;
                 }
@@ -95,95 +77,82 @@ class Parser {
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_SCOPE_SEGMENT;
                     } else if (token instanceof Segment) {
-                        this.result.name = token.value;
-                        this.result.fullName = token.value;
+                        this.baseResult.name = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.NAME_FOUND;
                     } else {
-                        // e.g. starts with / or other unexpected token
                         this.state = ParserFsmState.ERROR;
                     }
                     break;
 
-                case ParserFsmState.EXPECT_SCOPE_SEGMENT: // After @
+                case ParserFsmState.EXPECT_SCOPE_SEGMENT:
                     if (token instanceof Segment) {
-                        this.result.scope = token.value;
+                        this.baseResult.scope = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_SLASH_AFTER_SCOPE;
                     } else {
-                        // @ not followed by segment (e.g. @/ or @@ or @ at end)
-                        this.state = ParserFsmState.ERROR; // Invalid scope formation
+                        this.state = ParserFsmState.ERROR;
                     }
                     break;
 
-                case ParserFsmState.EXPECT_SLASH_AFTER_SCOPE: // After @scope_val
+                case ParserFsmState.EXPECT_SLASH_AFTER_SCOPE:
                     if (token instanceof Slash) {
                         this.consumeToken();
                         this.state =
                             ParserFsmState.EXPECT_NAME_SEGMENT_FOR_SCOPE;
                     } else {
-                        // @scope_val not followed by /. Treat scope_val as name.
-                        this.result.name = this.result.scope!;
-                        this.result.fullName = this.result.name;
-                        this.result.scope = undefined;
-                        // Current token is not consumed, will be re-evaluated by NAME_FOUND state.
-                        this.state = ParserFsmState.NAME_FOUND;
+                        // Not a slash, so what was parsed as scope is actually the name.
+                        this.baseResult.name = this.baseResult.scope!;
+                        this.baseResult.scope = undefined;
+                        this.state = ParserFsmState.NAME_FOUND; // Re-evaluate current token in NAME_FOUND
                     }
                     break;
 
-                case ParserFsmState.EXPECT_NAME_SEGMENT_FOR_SCOPE: // After @scope_val/
+                case ParserFsmState.EXPECT_NAME_SEGMENT_FOR_SCOPE:
                     if (token instanceof Segment) {
-                        this.result.name = token.value;
-                        // Scope must be defined here if we reached this state through valid transitions
-                        this.result.fullName = `@${this.result.scope}/${this.result.name}`;
+                        this.baseResult.name = token.value;
                         this.consumeToken();
                         this.state = ParserFsmState.NAME_FOUND;
                     } else {
-                        // @scope_val/ not followed by name segment
-                        this.state = ParserFsmState.ERROR; // Invalid name for scope
-                    }
-                    break;
-
-                case ParserFsmState.NAME_FOUND: // Name is parsed. Expect @, /, or end.
-                    if (token instanceof AtSign) {
-                        this.consumeToken();
-                        this.state = ParserFsmState.EXPECT_VERSION_SEGMENT;
-                    } else if (token instanceof Slash) {
-                        this.consumeToken(); // Consume the leading slash of the path
-                        this.state = ParserFsmState.PATH_PARSING;
-                    } else {
-                        // Unexpected token
                         this.state = ParserFsmState.ERROR;
                     }
                     break;
 
-                case ParserFsmState.EXPECT_VERSION_SEGMENT: // After ...name@
+                case ParserFsmState.NAME_FOUND:
+                    if (token instanceof AtSign) {
+                        this.consumeToken();
+                        this.state = ParserFsmState.EXPECT_VERSION_SEGMENT;
+                    } else if (token instanceof Slash) {
+                        this.consumeToken();
+                        this.state = ParserFsmState.PATH_PARSING;
+                    } else {
+                        this.state = ParserFsmState.ERROR;
+                    }
+                    break;
+
+                case ParserFsmState.EXPECT_VERSION_SEGMENT:
                     if (token instanceof Segment) {
-                        this.result.version = token.value;
+                        this.baseResult.version = token.value;
                         this.consumeToken();
                         this.state =
                             ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION;
                     } else {
-                        // ...name@ not followed by version segment (e.g. ...name@/path)
-                        // The @ was not a version delimiter. Re-evaluate current token for path.
+                        // Not a segment after @, so @ was not for version. Re-evaluate for path.
                         this.state =
                             ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION;
                     }
                     break;
 
-                case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION: // After ...name[@version]
+                case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION:
                     if (token instanceof Slash) {
-                        this.consumeToken(); // Consume the leading slash of the path
+                        this.consumeToken();
                         this.state = ParserFsmState.PATH_PARSING;
                     } else {
-                        // No slash, so no path.
-                        this.state = ParserFsmState.ERROR; // Unexpected token if not end
+                        this.state = ParserFsmState.ERROR;
                     }
                     break;
 
-                case ParserFsmState.PATH_PARSING: // Consuming path tokens
-                    // The first slash into path mode is already consumed.
-                    // Path can contain segments, slashes, and even @ (though unusual for @)
+                case ParserFsmState.PATH_PARSING:
                     if (
                         token instanceof Segment ||
                         token instanceof Slash ||
@@ -191,34 +160,26 @@ class Parser {
                     ) {
                         this.pathBuffer.push(token.value);
                         this.consumeToken();
-                        // Stay in PATH_PARSING until all tokens are consumed
                     } else {
-                        this.state = ParserFsmState.ERROR; // Should not happen with current lexer
+                        this.state = ParserFsmState.ERROR;
                     }
                     break;
 
                 default:
-                    this.state = ParserFsmState.ERROR; // Should not happen
+                    this.state = ParserFsmState.ERROR;
             }
         }
 
-        // Post-processing and finalization
         if (this.pathBuffer.length > 0) {
-            this.result.path = this.pathBuffer.join('');
-            this.result.extension = this.getExtension(this.result.path);
+            this.baseResult.path = this.pathBuffer.join('');
         }
 
-        if (this.state === ParserFsmState.ERROR && !this.result.name) {
-            // If a fundamental error occurred (e.g., couldn't parse name), return minimal result.
-            return { name: '', fullName: '' };
+        // If parsing ended in error and no name was found, it's a critical failure.
+        if (this.state === ParserFsmState.ERROR && !this.baseResult.name) {
+            return new ParseResult({ name: '' }); // Return minimal valid ParseResult
         }
 
-        // Ensure fullName is set if only name was parsed
-        if (this.result.name && !this.result.fullName) {
-            this.result.fullName = this.result.name;
-        }
-
-        return this.result;
+        return new ParseResult(this.baseResult);
     }
 }
 
