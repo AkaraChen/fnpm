@@ -23,6 +23,7 @@
     },
     "type": "module",
     "devDependencies": {
+        "@effect/platform-node": "^0.85.11",
         "bunchee": "6.5.2",
         "json-schema-to-typescript": "^15.0.4",
         "type-fest": "^4.41.0"
