@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { sha256 } from '@/lib/crypto';
-import { npmjs } from '@/lib/npmjs';
+import { npmjsRegistry } from '@/lib/npmjs';
 import Link from 'next/link';
 import invariant from 'tiny-invariant';
 import { SearchBar } from './bar';
@@ -15,7 +15,7 @@ export default async function Page(props: {
 }) {
     const { keyword } = await props.searchParams;
     invariant(keyword, 'Keyword is required');
-    const result = await npmjs
+    const result = await npmjsRegistry
         .GET('/-/v1/search', {
             params: {
                 query: {

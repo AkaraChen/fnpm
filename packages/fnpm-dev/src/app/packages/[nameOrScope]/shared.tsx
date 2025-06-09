@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { npmjs } from '@/lib/npmjs';
+import { npmjsApi, npmjsRegistry } from '@/lib/npmjs';
 import { fetchFromJsdelivr } from '@/lib/request';
 import { cn } from '@/lib/utils';
 import {
@@ -56,7 +56,7 @@ const Tags: FC<TagsProps> = async (props) => {
     let haveDt = false;
     if (!haveDts) {
         try {
-            await npmjs.GET('/{packageName}', {
+            await npmjsRegistry.GET('/{packageName}', {
                 params: {
                     path: {
                         packageName: getTypesPackage(name),
@@ -103,7 +103,7 @@ export enum Tab {
 
 export async function Package(props: PackageProps) {
     const { name, version, tab = Tab.Manifest } = props;
-    const metadata = await npmjs
+    const metadata = await npmjsRegistry
         .GET('/{packageName}', {
             params: {
                 path: {
@@ -115,10 +115,7 @@ export async function Package(props: PackageProps) {
     const latest = metadata['dist-tags'].latest;
     const current = version ?? latest;
     const releaseAt = new Date(metadata.time[current] as string);
-    const downloadCounts = await npmjs
-        .with({
-            baseUrl: 'https://api.npmjs.org/',
-        })
+    const downloadCounts = await npmjsApi
         .GET('/downloads/range/{period}/{packageName}', {
             params: {
                 path: {

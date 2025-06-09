@@ -35,7 +35,13 @@ export function viewOnNpmjs(pathname: string) {
     }
 }
 
-export const npmjs = client.with({
+export const npmjsRegistry = client.with({
+    fetch: ky.create({
+        throwHttpErrors: true,
+    }),
+});
+
+export const npmjsApi = client.api.with({
     fetch: ky.create({
         throwHttpErrors: true,
     }),

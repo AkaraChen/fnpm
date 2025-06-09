@@ -1,6 +1,6 @@
 'use client';
 
-import { npmjs, viewOnNpmjs } from '@/lib/npmjs';
+import { npmjsRegistry, viewOnNpmjs } from '@/lib/npmjs';
 import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
 import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
 import { useQuery } from '@tanstack/react-query';
@@ -29,7 +29,7 @@ export const CommandMenu = ({ open, onOpenChange }: CommandMenuProps) => {
     const query = useQuery({
         queryKey: ['search', keyword],
         queryFn: async () => {
-            const r = await npmjs.GET('/-/v1/search', {
+            const r = await npmjsRegistry.GET('/-/v1/search', {
                 params: {
                     query: {
                         text: keyword,
