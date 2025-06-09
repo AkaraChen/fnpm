@@ -64,5 +64,8 @@
                 "default": "./dist/cjs/registry.cjs"
             }
         }
+    },
+    "dependencies": {
+        "defu": "^6.1.4"
     }
 }
