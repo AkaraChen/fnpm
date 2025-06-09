@@ -33,6 +33,36 @@
                 "types": "./dist/cjs/index.d.cts",
                 "default": "./dist/cjs/index.cjs"
             }
+        },
+        "./api": {
+            "import": {
+                "types": "./dist/es/api.d.ts",
+                "default": "./dist/es/api.js"
+            },
+            "require": {
+                "types": "./dist/cjs/api.d.cts",
+                "default": "./dist/cjs/api.cjs"
+            }
+        },
+        "./client": {
+            "import": {
+                "types": "./dist/es/client.d.ts",
+                "default": "./dist/es/client.js"
+            },
+            "require": {
+                "types": "./dist/cjs/client.d.cts",
+                "default": "./dist/cjs/client.cjs"
+            }
+        },
+        "./registry": {
+            "import": {
+                "types": "./dist/es/registry.d.ts",
+                "default": "./dist/es/registry.js"
+            },
+            "require": {
+                "types": "./dist/cjs/registry.d.cts",
+                "default": "./dist/cjs/registry.cjs"
+            }
         }
     }
 }

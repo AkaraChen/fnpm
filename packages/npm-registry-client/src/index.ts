@@ -1,3 +1,5 @@
+import type { components as apiComponents } from '../generated/api.generated';
+import type { components as registryComponents } from '../generated/registry.generated';
 import { api } from './api';
 import { registry } from './registry';
 
@@ -11,3 +13,6 @@ export const npmjs: NpmjsClient = {
 };
 
 export default npmjs;
+
+// for backward compatibility
+export type schema = apiComponents['schemas'] & registryComponents['schemas'];
