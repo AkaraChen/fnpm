@@ -54,6 +54,7 @@ export function WritePackageJson(dir: string, pkg: PackageJson) {
 export function UpdatePackageJson(dir: string, pkg: PackageJson) {
     return Effect.gen(function* () {
         const json = yield* ReadPackageJson(dir);
-        yield* WritePackageJson(dir, defu(json, pkg));
+        const merged = defu(pkg, json);
+        yield* WritePackageJson(dir, merged);
     });
 }

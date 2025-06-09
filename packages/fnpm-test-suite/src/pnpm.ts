@@ -36,7 +36,7 @@ export function UpdatePnpmWorkspaceYaml(dir: string, input: Spec) {
             path.join(dir, 'pnpm-workspace.yaml'),
         );
         const parsed = yield* YamlParse<Spec>(content);
-        const merged = defu(parsed, input);
+        const merged = defu(input, parsed);
         yield* WritePnpmWorkspaceYaml(dir, merged);
     });
 }
