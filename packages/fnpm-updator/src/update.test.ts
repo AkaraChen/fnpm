@@ -5,7 +5,6 @@ import { resolveContext } from 'fnpm-context';
 import { MakePackage } from 'fnpm-test-suite';
 import { describe, expect, it } from 'vitest';
 import { Update } from './update';
-import { ResolveContext } from './utils';
 
 describe('update', () => {
     it('should update', async () => {
@@ -43,7 +42,10 @@ describe('update', () => {
             yield* MakePackage(dir, {
                 packageManager: 'pnpm',
             });
-            const context = yield* ResolveContext(dir);
+            const context = yield* Effect.tryPromise({
+                try: () => resolveContext(dir),
+                catch: () => Effect.die('Failed to resolve context'),
+            });
             expect(context.rootProject?.manifest.packageManager).toBe('pnpm');
             const manifests = yield* Update(context);
             expect(manifests['']).toHaveLength(0);

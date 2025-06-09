@@ -14,7 +14,6 @@
     "license": "ISC",
     "packageManager": "pnpm@10.12.1",
     "dependencies": {
-        "@akrc/monorepo-tools": "^4.1.0",
         "@akrc/yaml": "^4.2.0",
         "@effect/platform": "^0.84.9",
         "defu": "^6.1.4",
@@ -23,10 +22,12 @@
     },
     "type": "module",
     "devDependencies": {
+        "@akrc/monorepo-tools": "^4.1.0",
         "@effect/platform-node": "^0.85.11",
         "bunchee": "6.5.2",
         "json-schema-to-typescript": "^15.0.4",
-        "type-fest": "^4.41.0"
+        "type-fest": "^4.41.0",
+        "pm-combo": "workspace:*"
     },
     "files": ["dist"],
     "module": "./dist/es/index.js",

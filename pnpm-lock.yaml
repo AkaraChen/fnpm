@@ -326,18 +326,12 @@ importers:
       fnpm-context:
         specifier: workspace:*
         version: link:../fnpm-context
-      fnpm-test-suite:
-        specifier: workspace:*
-        version: link:../fnpm-test-suite
       fnpm-toolkit:
         specifier: workspace:*
         version: link:../fnpm-toolkit
       fnpm-utils:
         specifier: workspace:*
         version: link:../fnpm-utils
-      pathe:
-        specifier: ^2.0.3
-        version: 2.0.3
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
@@ -369,6 +363,9 @@ importers:
       effect:
         specifier: ^3.16.4
         version: 3.16.4
+      fnpm-test-suite:
+        specifier: workspace:*
+        version: link:../fnpm-test-suite
       module-replacements:
         specifier: ^2.8.0
         version: 2.8.0
@@ -384,9 +381,6 @@ importers:
 
   packages/fnpm-test-suite:
     dependencies:
-      '@akrc/monorepo-tools':
-        specifier: ^4.1.0
-        version: 4.1.0
       '@akrc/yaml':
         specifier: ^4.2.0
         version: 4.2.0
@@ -403,6 +397,9 @@ importers:
         specifier: ^5.1.5
         version: 5.1.5
     devDependencies:
+      '@akrc/monorepo-tools':
+        specifier: ^4.1.0
+        version: 4.1.0
       '@effect/platform-node':
         specifier: ^0.85.11
         version: 0.85.11(@effect/cluster@0.38.11(@effect/platform@0.84.9(effect@3.16.4))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.10(@effect/experimental@0.48.10(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.9(@effect/platform@0.84.9(effect@3.16.4))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.9(effect@3.16.4))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.10(@effect/experimental@0.48.10(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.9(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
@@ -412,6 +409,9 @@ importers:
       json-schema-to-typescript:
         specifier: ^15.0.4
         version: 15.0.4
+      pm-combo:
+        specifier: workspace:*
+        version: link:../pm-combo
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0

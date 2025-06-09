@@ -33,6 +33,11 @@
             "entry": ["src/*.ts!"]
         }
     },
-    "ignore": ["**/use-mobile.tsx", "**/*.generated.ts", "**/ui/**"],
+    "ignore": [
+        "**/use-mobile.tsx",
+        "**/*.generated.ts",
+        "**/ui/**",
+        "**/generated/**"
+    ],
     "ignoreDependencies": ["tslib", "tailwindcss-animate"]
 }

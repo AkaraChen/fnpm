@@ -1,12 +1,13 @@
-import { FileSystem } from '@effect/platform';
+import * as mt from '@akrc/monorepo-tools';
+import { FileSystem, Path } from '@effect/platform';
 import { NodeContext } from '@effect/platform-node';
 import { Effect, pipe } from 'effect';
 import { describe, expect, it } from 'vitest';
-import { ReadPackageJson } from './pkg';
+import { MakePackage, ReadPackageJson } from './pkg';
 import { ReadPnpmWorkspaceYaml } from './pnpm';
 import { MakeWorkspace } from './workspace';
 
-describe('workspace utils', () => {
+describe('workspace', () => {
     it('should create a pnpm workspace', async () => {
         const program = Effect.gen(function* () {
             const fs = yield* FileSystem.FileSystem;
@@ -14,6 +15,9 @@ describe('workspace utils', () => {
             const selectors = ['packages/*', 'tools/*'];
 
             yield* MakeWorkspace('pnpm', dir, selectors);
+
+            const isRoot = yield* Effect.promise(() => mt.isRoot(dir));
+            expect(isRoot).toBe(true);
 
             const pkgJson = yield* ReadPackageJson(dir);
             expect(pkgJson.name).toBe('workspace'); // Default name from MakeWorkspace
@@ -26,13 +30,17 @@ describe('workspace utils', () => {
         );
     });
 
-    it('should create an npm workspace', async () => {
+    it('should create an npm/yarn workspace', async () => {
         const program = Effect.gen(function* () {
             const fs = yield* FileSystem.FileSystem;
             const dir = yield* fs.makeTempDirectoryScoped();
             const selectors = ['apps/*', 'shared/*'];
 
+            // due to npm and yarn have same behavior, we only test npm
             yield* MakeWorkspace('npm', dir, selectors);
+
+            const isRoot = yield* Effect.promise(() => mt.isRoot(dir));
+            expect(isRoot).toBe(true);
 
             const pkgJson = yield* ReadPackageJson(dir);
             expect(pkgJson.name).toBe('workspace');
@@ -43,17 +51,52 @@ describe('workspace utils', () => {
         );
     });
 
-    it('should create a yarn workspace', async () => {
+    it('should create a package in pnpm workspace', async () => {
         const program = Effect.gen(function* () {
             const fs = yield* FileSystem.FileSystem;
+            const path = yield* Path.Path;
             const dir = yield* fs.makeTempDirectoryScoped();
-            const selectors = ['modules/*', 'examples/*'];
+            const selectors = ['pkg-1'];
 
-            yield* MakeWorkspace('yarn', dir, selectors);
+            yield* MakeWorkspace('pnpm', dir, selectors);
 
-            const pkgJson = yield* ReadPackageJson(dir);
-            expect(pkgJson.name).toBe('workspace');
-            expect(pkgJson.workspaces).toEqual(selectors);
+            const subPkgPath = path.join(dir, 'pkg-1');
+            yield* fs.makeDirectory(subPkgPath);
+            yield* MakePackage(subPkgPath, {
+                name: 'test',
+                version: '1.0.0',
+            });
+
+            const isInWorkspace = yield* Effect.promise(() =>
+                mt.isInMonorepo(dir, subPkgPath),
+            );
+            expect(isInWorkspace).toBe(true);
+        });
+        await Effect.runPromise(
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+        );
+    });
+
+    it('should create a package in npm/yarn workspace', async () => {
+        const program = Effect.gen(function* () {
+            const fs = yield* FileSystem.FileSystem;
+            const path = yield* Path.Path;
+            const dir = yield* fs.makeTempDirectoryScoped();
+            const selectors = ['pkg-1'];
+
+            yield* MakeWorkspace('npm', dir, selectors);
+
+            const subPkgPath = path.join(dir, 'pkg-1');
+            yield* fs.makeDirectory(subPkgPath);
+            yield* MakePackage(subPkgPath, {
+                name: 'test',
+                version: '1.0.0',
+            });
+
+            const isInWorkspace = yield* Effect.promise(() =>
+                mt.isInMonorepo(dir, subPkgPath),
+            );
+            expect(isInWorkspace).toBe(true);
         });
         await Effect.runPromise(
             pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),

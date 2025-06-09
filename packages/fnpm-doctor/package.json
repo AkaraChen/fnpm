@@ -19,16 +19,15 @@
         "@effect/platform-node": "^0.85.11",
         "@pnpm/types": "12.2.0",
         "effect": "^3.16.4",
+        "fnpm-test-suite": "workspace:*",
         "module-replacements": "^2.8.0",
         "type-fest": "^4.41.0"
     },
     "dependencies": {
         "change-case": "^5.4.4",
         "fnpm-context": "workspace:*",
-        "fnpm-test-suite": "workspace:*",
         "fnpm-toolkit": "workspace:*",
         "fnpm-utils": "workspace:*",
-        "pathe": "^2.0.3",
         "picocolors": "^1.1.1",
         "publint": "^0.3.12",
         "terminal-link": "^4.0.0",
