@@ -18,7 +18,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+    "packageManager": "pnpm@10.12.1",
     "devDependencies": {
         "@akrc/tsconfig": "^2.0.0",
         "@biomejs/biome": "^1.9.4",
@@ -30,11 +30,12 @@
         "lint-staged": "^16.1.0",
         "madge": "^8.0.0",
         "syncpack": "13.0.4",
+        "taze": "^19.1.0",
         "tslib": "^2.8.1",
         "tsup": "^8.5.0",
         "turbo": "^2.5.4",
         "typescript": "^5.8.3",
-        "vitest": "^3.2.2"
+        "vitest": "^3.2.3"
     },
     "pnpm": {
         "overrides": {

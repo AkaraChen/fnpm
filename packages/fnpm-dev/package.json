@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@akrc/npm-registry-client": "workspace:*",
-        "@icons-pack/react-simple-icons": "^13.0.0",
+        "@icons-pack/react-simple-icons": "^13.1.0",
         "@radix-ui/react-avatar": "^1.1.10",
         "@radix-ui/react-collapsible": "^1.1.11",
         "@radix-ui/react-dialog": "^1.1.14",
@@ -27,7 +27,7 @@
         "cmdk": "^1.1.1",
         "file-icons-js": "^1.1.0",
         "fnpm-toolkit": "workspace:*",
-        "foxact": "^0.2.45",
+        "foxact": "^0.2.46",
         "github-markdown-css": "^5.8.1",
         "hosted-git-info": "^8.1.0",
         "human-format": "^1.2.1",

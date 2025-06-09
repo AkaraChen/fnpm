@@ -24,10 +24,10 @@
     },
     "dependencies": {
         "consola": "^3.4.2",
-        "fnpm-doctor": "workspace:*",
-        "fnpm-ui": "workspace:*",
         "fnpm-context": "workspace:*",
+        "fnpm-doctor": "workspace:*",
         "fnpm-parse": "workspace:*",
+        "fnpm-ui": "workspace:*",
         "get-port-please": "^3.1.2",
         "git-url-parse": "^16.1.0",
         "open": "^10.1.2",
