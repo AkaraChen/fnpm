@@ -7,10 +7,10 @@ import {
     TextInput,
     rem,
 } from '@mantine/core';
-import { useLoaderData } from '@remix-run/react';
 import { IconDownload, IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
+import { useLoaderData } from 'react-router';
 import { InstallConfirm } from '~/components/install-confirm';
 import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';

@@ -1,9 +1,9 @@
 import { Button, Flex, Stack, TextInput, rem } from '@mantine/core';
-import type { LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 import { IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { InstallConfirm } from '~/components/install-confirm';
 import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';

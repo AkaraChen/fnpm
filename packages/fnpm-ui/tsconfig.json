@@ -6,16 +6,19 @@
         "**/.server/**/*.ts",
         "**/.server/**/*.tsx",
         "**/.client/**/*.ts",
-        "**/.client/**/*.tsx"
+        "**/.client/**/*.tsx",
+        ".react-router/types/**/*"
     ],
     "compilerOptions": {
-        "types": ["@remix-run/node", "vite/client"],
+        "types": ["vite/client", "./.react-router/types/+server-build.d.ts"],
         "baseUrl": ".",
         "paths": {
             "~/*": ["./app/*"]
         },
 
         // Vite takes care of building everything, not tsc.
-        "noEmit": true
+        "noEmit": true,
+
+        "rootDirs": [".", "./.react-router/types"]
     }
 }

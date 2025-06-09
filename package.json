@@ -48,6 +48,9 @@
             "safer-buffer": "npm:@nolyfill/safer-buffer@^1.0.44",
             "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
             "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.44"
+        },
+        "patchedDependencies": {
+            "@xyflow/react": "patches/@xyflow__react.patch"
         }
     },
     "lint-staged": {

@@ -1,4 +1,3 @@
-import type { Project } from '@pnpm/types';
 import {
     type Edge,
     Handle,
@@ -15,15 +14,17 @@ import { type CSSProperties, type FC, useMemo } from 'react';
 import '@xyflow/react/dist/style.css';
 import Dagre from '@dagrejs/dagre';
 import { Card, Text } from '@mantine/core';
-import type { SerializeFrom } from '@remix-run/node';
-import { useNavigate } from '@remix-run/react';
 import { getDeps } from 'fnpm-toolkit';
+import { useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';
 import { useDeepCompareEffectNoCheck } from 'use-deep-compare-effect';
+import type { Project } from '~/server/fnpm.server';
 
-interface DependencyFlowProps {
-    projects: Array<SerializeFrom<Project>>;
-    rootProject?: SerializeFrom<Project>;
+export type Manifest = Project['manifest'];
+
+export interface DependencyFlowProps {
+    projects: Array<Manifest>;
+    rootProject?: Manifest;
     style?: CSSProperties;
 }
 
@@ -70,27 +71,25 @@ const getLayoutedElements = (
 };
 
 const getNodesAndEdges = (
-    projects: Array<SerializeFrom<Project>>,
-    rootProject?: SerializeFrom<Project>,
+    projects: Array<Manifest>,
+    rootProject?: Manifest,
 ) => {
     const nodes = projects.map((project) => ({
         type: 'custom',
-        id: project.manifest.name!,
+        id: project.name!,
         position: { x: 0, y: 0 },
         data: {
-            workspace: project.manifest.name!,
+            workspace: project.name!,
         },
     })) as Node[];
-    const names = new Set(projects.map((p) => p.manifest.name!));
+    const names = new Set(projects.map((p) => p.name!));
     const edges = projects.reduce((prev, curr) => {
-        const deps: Set<string> = new Set(
-            getDeps(curr.manifest as PackageJson),
-        );
+        const deps: Set<string> = new Set(getDeps(curr as PackageJson));
         const localDeps = [...intersection(names, deps)];
         for (const localDep of localDeps) {
             prev.push({
-                id: `${curr.manifest.name!}-${localDep}`,
-                source: curr.manifest.name!,
+                id: `${curr.name!}-${localDep}`,
+                source: curr.name!,
                 target: localDep,
                 animated: true,
             });
@@ -100,13 +99,13 @@ const getNodesAndEdges = (
 
     if (rootProject) {
         for (const project of projects) {
-            if (project.manifest.name === rootProject.manifest.name) {
+            if (project.name === rootProject.name) {
                 continue;
             }
             edges.push({
-                id: `${rootProject.manifest.name!}-${project.manifest.name!}`,
-                source: rootProject.manifest.name!,
-                target: project.manifest.name!,
+                id: `${rootProject.name!}-${project.name!}`,
+                source: rootProject.name!,
+                target: project.name!,
                 animated: true,
             });
         }

@@ -10,11 +10,11 @@ import {
     Text,
     useMantineTheme,
 } from '@mantine/core';
-import { type MetaFunction, useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconCircleDashedCheck } from '@tabler/icons-react';
 import type { Diagnose, DiagnoseLevel } from 'fnpm-doctor';
 import { group } from 'radash';
 import type { FC } from 'react';
+import { type MetaFunction, useLoaderData } from 'react-router';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { ResultPage } from '~/components/result';

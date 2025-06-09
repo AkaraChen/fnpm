@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
-import type { MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { MetaFunction } from 'react-router';
+import { useLoaderData } from 'react-router';
 import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
@@ -30,7 +30,10 @@ export default function Page() {
         <BasePage>
             <PageHeader title='Graph' />
             <Box w={'calc(100vw-300px)'} h={'100%'}>
-                <DependencyFlow {...data} />
+                <DependencyFlow
+                    projects={data.projects.map((p) => p.manifest)}
+                    rootProject={data.rootProject?.manifest}
+                />
             </Box>
         </BasePage>
     );

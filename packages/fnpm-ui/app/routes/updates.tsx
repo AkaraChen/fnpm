@@ -13,8 +13,6 @@ import {
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import type { Project } from '@pnpm/types';
-import type { MetaFunction, SerializeFrom } from '@remix-run/node';
-import { Await, defer, useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconUpload } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { group, shake } from 'radash';
@@ -27,6 +25,8 @@ import {
     useContext,
     useState,
 } from 'react';
+import type { MetaFunction } from 'react-router';
+import { Await, useLoaderData } from 'react-router';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { ResultPage } from '~/components/result';
@@ -54,11 +54,11 @@ export async function loader() {
         );
     });
     const { projects, pm } = ctx;
-    return defer({
+    return {
         updates,
         projects,
         pm,
-    });
+    };
 }
 
 export const meta: MetaFunction = () => {
@@ -76,8 +76,8 @@ type PageContext = {
     updates: Record<string, UpdateManifestWithWorkspace[]>;
     check: (...manifest: UpdateManifestWithWorkspace[]) => void;
     unCheck: (...manifest: UpdateManifestWithWorkspace[]) => void;
-    projects: SerializeFrom<Project[]>;
-    pm: Awaited<ReturnType<typeof loader>>['data']['pm'];
+    projects: Project[];
+    pm: Awaited<ReturnType<typeof loader>>['pm'];
 };
 
 const PageContext = createContext<PageContext>({} as PageContext);
@@ -249,7 +249,8 @@ export default function Page() {
                                         updates,
                                         check,
                                         unCheck,
-                                        projects: data.projects,
+                                        projects:
+                                            data.projects as unknown as Project[],
                                         pm: data.pm,
                                     }}
                                 >

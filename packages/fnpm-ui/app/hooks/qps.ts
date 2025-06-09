@@ -1,4 +1,4 @@
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 
 export const useQueryParams = <T extends string>(
     key: string,

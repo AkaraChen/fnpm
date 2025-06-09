@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from '@remix-run/node';
 import { searchPackages } from 'query-registry';
+import type { LoaderFunctionArgs } from 'react-router';
 
 export async function loader(args: LoaderFunctionArgs) {
     const params = new URL(args.request.url).searchParams;

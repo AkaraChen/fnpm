@@ -13,8 +13,7 @@ import {
     Stack,
     Text,
 } from '@mantine/core';
-import type { MetaFunction, SerializeFrom } from '@remix-run/node';
-import { Await, Link, defer, useLoaderData } from '@remix-run/react';
+import type { Project } from '@pnpm/types';
 import {
     IconAlertCircle,
     IconBiohazard,
@@ -28,6 +27,8 @@ import {
 } from '@tabler/icons-react';
 import { compartUpdate, concatNpmUrl, getDeps } from 'fnpm-toolkit';
 import { type FC, type ReactNode, Suspense } from 'react';
+import type { MetaFunction } from 'react-router';
+import { Await, Link, useLoaderData } from 'react-router';
 import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import type { PackageJson } from 'type-fest';
 import { DependencyFlow } from '~/components/dependency-flow';
@@ -117,16 +118,16 @@ export async function loader() {
             );
             return deduped;
         });
-    return defer({
+    return {
         projects: context.projects,
         depsGraph,
         diagnoses,
         updates,
         rootProject: context.rootProject,
-    });
+    };
 }
 
-type LoaderData = Awaited<ReturnType<typeof loader>>['data'];
+type LoaderData = Awaited<ReturnType<typeof loader>>;
 
 const RADIAN = Math.PI / 180;
 const getFormattedLabel = (e: any) => {
@@ -180,8 +181,8 @@ const CardItem: FC<CardItemProps> = (props) => {
 };
 
 interface TotalWorkspaceProps {
-    projects: SerializeFrom<LoaderData['projects']>;
-    rootProject?: SerializeFrom<LoaderData['rootProject']>;
+    projects: LoaderData['projects'];
+    rootProject?: LoaderData['rootProject'];
 }
 
 const TotalWorkspace: FC<TotalWorkspaceProps> = (props) => {
@@ -195,8 +196,8 @@ const TotalWorkspace: FC<TotalWorkspaceProps> = (props) => {
             graph={
                 <Anchor component={Link} to={'/packages'} w={'100%'} h={'100%'}>
                     <DependencyFlow
-                        projects={projects}
-                        rootProject={rootProject}
+                        projects={projects.map((p) => p.manifest)}
+                        rootProject={rootProject?.manifest}
                         style={{ pointerEvents: 'none' }}
                     />
                 </Anchor>
@@ -206,7 +207,7 @@ const TotalWorkspace: FC<TotalWorkspaceProps> = (props) => {
 };
 
 interface TotalDepsProps {
-    depsGraph: SerializeFrom<LoaderData['depsGraph']>;
+    depsGraph: LoaderData['depsGraph'];
 }
 
 const TotalDeps: FC<TotalDepsProps> = (props) => {
@@ -243,7 +244,7 @@ const TotalDeps: FC<TotalDepsProps> = (props) => {
 };
 
 interface DependencyUpdatesProps {
-    updates: Promise<SerializeFrom<LoaderData['updates']>>;
+    updates: LoaderData['updates'];
 }
 
 const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
@@ -295,7 +296,7 @@ const DependencyUpdates: FC<DependencyUpdatesProps> = (props) => {
 };
 
 interface DependencyUpdateItemProps {
-    update: SerializeFrom<LoaderData['updates']>[number];
+    update: Awaited<LoaderData['updates']>[number];
 }
 
 const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
@@ -345,7 +346,7 @@ const DependencyUpdateItem: FC<DependencyUpdateItemProps> = (props) => {
 };
 
 interface DiagnosticIssuesProps {
-    diagnoses: SerializeFrom<LoaderData['diagnoses']>;
+    diagnoses: Awaited<LoaderData['diagnoses']>;
 }
 
 const DiagnosticIssues: FC<DiagnosticIssuesProps> = (props) => {
@@ -412,8 +413,8 @@ export default function Index() {
             <Grid>
                 <Grid.Col span={3}>
                     <TotalWorkspace
-                        projects={projects}
-                        rootProject={rootProject}
+                        projects={projects as unknown as Project[]}
+                        rootProject={rootProject as unknown as Project}
                     />
                 </Grid.Col>
                 <Grid.Col span={3}>

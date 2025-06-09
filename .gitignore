@@ -131,6 +131,7 @@ dist
 
 # remix
 build
+**/.react-router
 
 # turbo
 .turbo

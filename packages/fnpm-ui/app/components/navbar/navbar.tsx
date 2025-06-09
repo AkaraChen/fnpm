@@ -1,5 +1,4 @@
 import { Box, Code, Flex, Group, Stack, Text, rem } from '@mantine/core';
-import { NavLink } from '@remix-run/react';
 import {
     IconDashboard,
     IconDownload,
@@ -10,6 +9,7 @@ import {
     type TablerIcon,
 } from '@tabler/icons-react';
 import pkg from 'package.json';
+import { NavLink } from 'react-router';
 import classes from './navbar.module.css';
 
 interface NavItem {

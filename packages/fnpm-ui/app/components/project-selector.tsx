@@ -1,11 +1,10 @@
 import { NativeSelect, Skeleton } from '@mantine/core';
-import type { SerializeFrom } from '@remix-run/node';
-import { Await, useParams } from '@remix-run/react';
 import type { RawContext } from 'fnpm-context';
 import { type FC, Suspense } from 'react';
+import { Await, useParams } from 'react-router';
 
 export interface ProjectSelector {
-    promise: Promise<SerializeFrom<RawContext>>;
+    promise: Promise<RawContext>;
     onChange: (project: string) => void;
 }
 

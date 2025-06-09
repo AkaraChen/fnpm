@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
-import { type MetaFunction, defer } from '@remix-run/node';
-import { Outlet } from '@remix-run/react';
+import type { MetaFunction } from 'react-router';
+import { Outlet } from 'react-router';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { root } from '~/server/config.server';
@@ -8,9 +8,9 @@ import { resolveContext } from '~/server/fnpm.server';
 
 export async function loader() {
     const context = resolveContext(root);
-    return defer({
+    return {
         context,
-    });
+    };
 }
 
 export const meta: MetaFunction = () => {

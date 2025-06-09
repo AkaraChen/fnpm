@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from '@remix-run/node';
+import type { ActionFunctionArgs } from 'react-router';
 import { eventStream } from 'remix-utils/sse/server';
 import { x } from 'tinyexec';
 

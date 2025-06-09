@@ -13,8 +13,6 @@ import {
     Text,
     rem,
 } from '@mantine/core';
-import type { LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
-import { useLoaderData, useNavigate } from '@remix-run/react';
 import {
     IconAdjustments,
     IconArrowsLeftRight,
@@ -35,9 +33,12 @@ import {
 } from 'fnpm-toolkit';
 import { commands } from 'pm-combo';
 import { type FC, type ReactNode, createContext, useContext } from 'react';
+import type { LoaderFunctionArgs } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';
 import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
+import type { Project } from '~/server/fnpm.server';
 
 export async function loader(args: LoaderFunctionArgs) {
     const context = await resolveContext(root);
@@ -51,7 +52,7 @@ export async function loader(args: LoaderFunctionArgs) {
     };
 }
 
-type PageContext = SerializeFrom<Awaited<ReturnType<typeof loader>>>;
+type PageContext = Awaited<ReturnType<typeof loader>>;
 
 interface CardItemProps {
     label: string;
@@ -379,7 +380,12 @@ export default function Page() {
     const data = useLoaderData<typeof loader>();
     const navigate = useNavigate();
     return (
-        <PageContext.Provider value={data}>
+        <PageContext.Provider
+            value={{
+                project: data.project as unknown as Project,
+                pm: data.pm,
+            }}
+        >
             <Grid
                 h={'100%'}
                 w={'100%'}
