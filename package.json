@@ -12,7 +12,8 @@
         "knip": "knip --strict --exclude unlisted",
         "circular": "madge --circular --extensions ts ./packages",
         "syncpack": "syncpack",
-        "prepare": "husky"
+        "prepare": "husky",
+        "start": "node ./packages/fnpm/dist/fnpm.js"
     },
     "keywords": [],
     "author": "",
