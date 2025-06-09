@@ -7,6 +7,7 @@
         "dev": "bunchee --watch",
         "build": "bunchee --minify",
         "typecheck": "tsc --noEmit",
+        "test": "vitest run",
         "openapi": "npm run openapi:registry && npm run openapi:api",
         "openapi:registry": "openapi-typescript ./openapi/registry.yaml -o ./generated/registry.generated.ts",
         "openapi:api": "openapi-typescript ./openapi/api.yaml -o ./generated/api.generated.ts"
