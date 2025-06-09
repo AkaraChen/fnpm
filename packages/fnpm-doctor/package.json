@@ -3,8 +3,7 @@
     "version": "1.12.2",
     "scripts": {
         "build": "tsup",
-        "dev": "tsup --watch",
-        "test": "vitest run"
+        "dev": "tsup --watch"
     },
     "keywords": ["doctor"],
     "author": "AkaraChen",

@@ -5,8 +5,7 @@
     "type": "module",
     "scripts": {
         "build": "tsup",
-        "dev": "tsup --watch",
-        "test": "vitest run"
+        "dev": "tsup --watch"
     },
     "keywords": [],
     "author": "",

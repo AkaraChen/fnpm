@@ -7,7 +7,7 @@
         "check": "biome check . --write",
         "build": "turbo build",
         "dev": "turbo dev",
-        "test": "turbo test",
+        "test": "vitest run",
         "release": "bumpp -r && pnpm -r publish",
         "knip": "knip --strict --exclude unlisted",
         "circular": "madge --circular --extensions ts ./packages",

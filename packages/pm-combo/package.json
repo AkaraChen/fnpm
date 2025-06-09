@@ -4,7 +4,6 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "test": "vitest run",
         "build": "tsup",
         "dev": "tsup --watch"
     },
