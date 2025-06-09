@@ -1,3 +1,4 @@
+import * as yaml from '@akrc/yaml';
 import { FileSystem, Path } from '@effect/platform';
 import defu from 'defu';
 import { Effect } from 'effect';
@@ -20,13 +21,13 @@ export function ReadPnpmWorkspaceYaml(dir: string) {
     });
 }
 
-export function WritePnpmWorkspaceYaml(dir: string, yaml: PnpmWorkspaceYaml) {
+export function WritePnpmWorkspaceYaml(dir: string, input: PnpmWorkspaceYaml) {
     return Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         yield* fs.writeFileString(
             path.join(dir, 'pnpm-workspace.yaml'),
-            yaml.packages.join('\n'),
+            yaml.dump(input),
         );
     });
 }

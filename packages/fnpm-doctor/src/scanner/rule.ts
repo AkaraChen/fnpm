@@ -1,8 +1,6 @@
-import fs, { promises as fsp } from 'node:fs';
 import type * as mt from '@akrc/monorepo-tools';
 import type { Effect } from 'effect';
 import { resolveContext } from 'fnpm-context';
-import path from 'pathe';
 
 export type Rule = (ctx: RuleContext) => Effect.Effect<void>;
 
@@ -25,10 +23,6 @@ export interface RuleContext {
     report(...diagnoses: Diagnose[]): void;
     pm: mt.PM;
     projects: Awaited<ReturnType<typeof mt.scanProjects>>;
-    resolve(filePath: string): string;
-    exists(filePath: string): boolean;
-    file(filePath: string): Promise<string>;
-    json<T>(jsonPath: string): Promise<T>;
 }
 
 export class RuleContextImpl implements RuleContext {
@@ -64,17 +58,5 @@ export class RuleContextImpl implements RuleContext {
         } else {
             this.diagnoses.push(diagnose);
         }
-    }
-    resolve(filePath: string): string {
-        return path.resolve(this.root, filePath);
-    }
-    exists(filePath: string): boolean {
-        return fs.existsSync(filePath);
-    }
-    async file(filePath: string): Promise<string> {
-        return fsp.readFile(filePath, 'utf-8');
-    }
-    async json<T>(jsonPath: string): Promise<T> {
-        return JSON.parse(await this.file(jsonPath)) as T;
     }
 }

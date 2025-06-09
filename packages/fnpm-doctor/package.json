@@ -3,7 +3,8 @@
     "version": "1.12.2",
     "scripts": {
         "build": "tsup",
-        "dev": "tsup --watch"
+        "dev": "tsup --watch",
+        "test": "vitest run"
     },
     "keywords": ["doctor"],
     "author": "AkaraChen",
@@ -15,14 +16,17 @@
     "license": "ISC",
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.0.1",
+        "@effect/platform": "^0.84.9",
+        "@effect/platform-node": "^0.85.11",
         "@pnpm/types": "12.2.0",
+        "effect": "^3.16.4",
         "module-replacements": "^2.8.0",
         "type-fest": "^4.41.0"
     },
     "dependencies": {
         "change-case": "^5.4.4",
-        "effect": "^3.16.4",
         "fnpm-context": "workspace:*",
+        "fnpm-test-suite": "workspace:*",
         "fnpm-toolkit": "workspace:*",
         "fnpm-utils": "workspace:*",
         "pathe": "^2.0.3",
