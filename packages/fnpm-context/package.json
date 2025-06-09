@@ -30,26 +30,6 @@
                 "types": "./dist/cjs/index.d.cts",
                 "default": "./dist/cjs/index.cjs"
             }
-        },
-        "./lib/mt": {
-            "import": {
-                "types": "./dist/es/lib/mt.d.ts",
-                "default": "./dist/es/lib/mt.js"
-            },
-            "require": {
-                "types": "./dist/cjs/lib/mt.d.cts",
-                "default": "./dist/cjs/lib/mt.cjs"
-            }
-        },
-        "./lib/pkg": {
-            "import": {
-                "types": "./dist/es/lib/pkg.d.ts",
-                "default": "./dist/es/lib/pkg.js"
-            },
-            "require": {
-                "types": "./dist/cjs/lib/pkg.d.cts",
-                "default": "./dist/cjs/lib/pkg.cjs"
-            }
         }
     },
     "dependencies": {
