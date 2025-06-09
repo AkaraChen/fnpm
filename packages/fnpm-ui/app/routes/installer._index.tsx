@@ -109,7 +109,7 @@ export default function Page() {
                     onOpenChange={setOpen}
                 />
             </Flex>
-            <Flex mb={10} gap={20}>
+            <Flex mb={10} gap={20} wrap={'wrap'}>
                 {data.projects.map((project) => {
                     const isSelected = selectedProjects.includes(
                         project.manifest.name!,
