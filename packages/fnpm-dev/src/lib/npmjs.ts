@@ -35,5 +35,8 @@ export function viewOnNpmjs(pathname: string) {
     }
 }
 
-export const npmjsRegistry = client.use(throwOnHttpError);
-export const npmjsApi = client.api.use(throwOnHttpError);
+export const npmjsRegistry = client;
+npmjsRegistry.use(throwOnHttpError);
+
+export const npmjsApi = client.api;
+npmjsApi.use(throwOnHttpError);
