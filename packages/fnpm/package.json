@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "build": "tsup",
-        "link:fnpm": "pnpm link --global --dir .",
+        "link:fnpm": "pnpm link . -g",
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsup --watch"
     },
