@@ -1,0 +1,40 @@
+{
+    "name": "fnpm-test-suite",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/es/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "bunchee",
+        "dev": "bunchee --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.1",
+    "dependencies": {
+        "@effect/platform": "^0.84.9",
+        "effect": "^3.16.4",
+        "nanoid": "^5.1.5"
+    },
+    "type": "module",
+    "devDependencies": {
+        "bunchee": "6.5.2",
+        "type-fest": "^4.41.0"
+    },
+    "files": ["dist"],
+    "module": "./dist/es/index.js",
+    "types": "./dist/es/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/es/index.d.ts",
+                "default": "./dist/es/index.js"
+            },
+            "require": {
+                "types": "./dist/cjs/index.d.cts",
+                "default": "./dist/cjs/index.cjs"
+            }
+        }
+    }
+}
