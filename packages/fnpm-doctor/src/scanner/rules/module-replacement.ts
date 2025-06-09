@@ -1,14 +1,14 @@
 import { Effect } from 'effect';
 import { getDeps } from 'fnpm-toolkit';
-import {
-    type DocumentedModuleReplacement,
-    type ModuleReplacement,
-    type NativeModuleReplacement,
-    type SimpleModuleReplacement,
-    microUtilsReplacements,
-    nativeReplacements,
-    preferredReplacements,
+import type {
+    DocumentedModuleReplacement,
+    ModuleReplacement,
+    NativeModuleReplacement,
+    SimpleModuleReplacement,
 } from 'module-replacements';
+import microUtilsReplacements from 'module-replacements/manifests/micro-utilities.json';
+import nativeReplacements from 'module-replacements/manifests/native.json';
+import preferredReplacements from 'module-replacements/manifests/preferred.json';
 import type { RuleContext } from '../rule';
 
 import type { Project } from '@pnpm/types';
