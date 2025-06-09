@@ -37,9 +37,6 @@
         "vitest": "^3.2.2"
     },
     "pnpm": {
-        "patchedDependencies": {
-            "parse-package-name@1.0.0": "patches/parse-package-name@1.0.0.patch"
-        },
         "overrides": {
             "array-flatten": "npm:@nolyfill/array-flatten@^1.0.44",
             "is-arguments": "npm:@nolyfill/is-arguments@^1.0.44",

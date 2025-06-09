@@ -20,7 +20,6 @@
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.0.1",
         "@types/yargs": "^17.0.33",
-        "parse-package-name": "^1.0.0",
         "type-fest": "^4.41.0"
     },
     "dependencies": {
@@ -28,6 +27,7 @@
         "fnpm-doctor": "workspace:*",
         "fnpm-ui": "workspace:*",
         "fnpm-context": "workspace:*",
+        "fnpm-toolkit": "workspace:*",
         "get-port-please": "^3.1.2",
         "git-url-parse": "^16.1.0",
         "open": "^10.1.2",

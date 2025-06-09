@@ -16,11 +16,6 @@ overrides:
   side-channel: npm:@nolyfill/side-channel@^1.0.44
   which-typed-array: npm:@nolyfill/which-typed-array@^1.0.44
 
-patchedDependencies:
-  parse-package-name@1.0.0:
-    hash: 1097c17451a3aad9bd51b96fc52e39e9267d2de838374d18dbd1cb88ea030b8f
-    path: patches/parse-package-name@1.0.0.patch
-
 importers:
 
   .:
@@ -82,6 +77,9 @@ importers:
       fnpm-doctor:
         specifier: workspace:*
         version: link:../fnpm-doctor
+      fnpm-toolkit:
+        specifier: workspace:*
+        version: link:../fnpm-toolkit
       fnpm-ui:
         specifier: workspace:*
         version: link:../fnpm-ui
@@ -116,9 +114,6 @@ importers:
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
-      parse-package-name:
-        specifier: ^1.0.0
-        version: 1.0.0(patch_hash=1097c17451a3aad9bd51b96fc52e39e9267d2de838374d18dbd1cb88ea030b8f)
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0
@@ -496,9 +491,6 @@ importers:
       open:
         specifier: ^10.1.2
         version: 10.1.2
-      parse-package-name:
-        specifier: ^1.0.0
-        version: 1.0.0(patch_hash=1097c17451a3aad9bd51b96fc52e39e9267d2de838374d18dbd1cb88ea030b8f)
       pm-combo:
         specifier: workspace:*
         version: link:../pm-combo
@@ -615,10 +607,10 @@ importers:
         version: 7.8.0(typescript@5.8.3)
 
   packages/pm-combo:
-    dependencies:
-      parse-package-name:
-        specifier: ^1.0.0
-        version: 1.0.0(patch_hash=1097c17451a3aad9bd51b96fc52e39e9267d2de838374d18dbd1cb88ea030b8f)
+    devDependencies:
+      fnpm-toolkit:
+        specifier: workspace:*
+        version: link:../fnpm-toolkit
 
 packages:
 
@@ -5432,9 +5424,6 @@ packages:
   parse-ms@2.1.0:
     resolution: {integrity: sha512-kHt7kzLoS9VBZfUsiKjv43mr91ea+U05EyKkEtqp7vNbHxmaVuEqN7XxeEVnGrMtYOAxGrDElSi96K7EgO1zCA==}
     engines: {node: '>=6'}
-
-  parse-package-name@1.0.0:
-    resolution: {integrity: sha512-kBeTUtcj+SkyfaW4+KBe0HtsloBJ/mKTPoxpVdA57GZiPerREsUWJOhVj9anXweFiJkm5y8FG1sxFZkZ0SN6wg==}
 
   parse-path@7.0.0:
     resolution: {integrity: sha512-Euf9GG8WT9CdqwuWJGdf3RkUcTBArppHABkO7Lm8IzRQp0e2r/kkFnmhu4TSK30Wcu5rVAZLmfPKSBBi9tWFog==}
@@ -12251,8 +12240,6 @@ snapshots:
       type-fest: 4.41.0
 
   parse-ms@2.1.0: {}
-
-  parse-package-name@1.0.0(patch_hash=1097c17451a3aad9bd51b96fc52e39e9267d2de838374d18dbd1cb88ea030b8f): {}
 
   parse-path@7.0.0:
     dependencies:

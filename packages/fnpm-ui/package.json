@@ -41,7 +41,6 @@
         "fnpm-utils": "workspace:*",
         "isbot": "^5.1.28",
         "open": "^10.1.2",
-        "parse-package-name": "^1.0.0",
         "pm-combo": "workspace:*",
         "postcss": "^8.5.4",
         "postcss-preset-mantine": "^1.17.0",

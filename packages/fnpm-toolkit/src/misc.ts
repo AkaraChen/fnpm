@@ -27,3 +27,25 @@ export function getTypesPackage(input: string): string {
     if (scope) return `@types/${scope}__${name}`;
     return `@types/${name}`;
 }
+
+// copy from parse-package-name
+const RE_SCOPED = /^(@[^\/]+\/[^@\/]+)(?:@([^\/]+))?(\/.*)?$/;
+const RE_NON_SCOPED = /^([^@\/]+)(?:@([^\/]+))?(\/.*)?$/;
+
+interface ImportSpecifier {
+    name: string;
+    version: string;
+    path: string;
+}
+
+export function parseImportSpecifier(input: string): ImportSpecifier {
+    const parsed = RE_SCOPED.exec(input) || RE_NON_SCOPED.exec(input);
+    if (!parsed) {
+        throw new Error(`[parse-package-name] invalid package name: ${input}`);
+    }
+    return {
+        name: parsed[1] || '',
+        version: parsed[2] || 'latest',
+        path: parsed[3] || '',
+    };
+}
