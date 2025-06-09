@@ -80,9 +80,6 @@ importers:
       fnpm-parse:
         specifier: workspace:*
         version: link:../fnpm-parse
-      fnpm-toolkit:
-        specifier: workspace:*
-        version: link:../fnpm-toolkit
       fnpm-ui:
         specifier: workspace:*
         version: link:../fnpm-ui
@@ -208,9 +205,6 @@ importers:
       human-format:
         specifier: ^1.2.1
         version: 1.2.1
-      ky:
-        specifier: ^1.8.1
-        version: 1.8.1
       lucide-react:
         specifier: ^0.513.0
         version: 0.513.0(react@19.1.0)
@@ -4605,10 +4599,6 @@ packages:
     peerDependencies:
       '@types/node': '>=18'
       typescript: '>=5.0.4'
-
-  ky@1.8.1:
-    resolution: {integrity: sha512-7Bp3TpsE+L+TARSnnDpk3xg8Idi8RwSLdj6CMbNWoOARIrGrbuLGusV0dYwbZOm4bB3jHNxSw8Wk/ByDqJEnDw==}
-    engines: {node: '>=18'}
 
   levenshtein-edit-distance@3.0.1:
     resolution: {integrity: sha512-/qMCkZbrAF7jZP/voqlkfNrBtEn0TMdhCK7OEBh/zb39t/c3wCnTjwU1ZvrMfQ3OxB8sBQXIpWRMM6FiQJVG3g==}
@@ -11024,8 +11014,6 @@ snapshots:
       typescript: 5.8.3
       zod: 3.25.56
       zod-validation-error: 3.4.1(zod@3.25.56)
-
-  ky@1.8.1: {}
 
   levenshtein-edit-distance@3.0.1: {}
 

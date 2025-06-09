@@ -31,7 +31,6 @@
         "github-markdown-css": "^5.8.1",
         "hosted-git-info": "^8.1.0",
         "human-format": "^1.2.1",
-        "ky": "^1.8.1",
         "lucide-react": "^0.513.0",
         "nanoid": "^5.1.5",
         "nanotar": "^0.2.0",

@@ -1,6 +1,6 @@
 import { Tab as PackagePageTab } from '@/app/packages/[nameOrScope]/shared';
 import { npmjs as client } from '@akrc/npm-registry-client';
-import ky from 'ky';
+import { throwOnHttpError } from '@akrc/npm-registry-client/middleware';
 import { match } from 'ts-pattern';
 
 export function viewOnNpmjs(pathname: string) {
@@ -35,14 +35,5 @@ export function viewOnNpmjs(pathname: string) {
     }
 }
 
-export const npmjsRegistry = client.with({
-    fetch: ky.create({
-        throwHttpErrors: true,
-    }),
-});
-
-export const npmjsApi = client.api.with({
-    fetch: ky.create({
-        throwHttpErrors: true,
-    }),
-});
+export const npmjsRegistry = client.use(throwOnHttpError);
+export const npmjsApi = client.api.use(throwOnHttpError);

@@ -1,5 +1,10 @@
 {
     "$schema": "https://unpkg.com/knip@5/schema.json",
+    "entry": [
+        "index.{js,ts,tsx}",
+        "src/index.{js,ts,tsx}",
+        "*.config.{js,ts,tsx}"
+    ],
     "workspaces": {
         "packages/fnpm": {
             "entry": ["src/{fnpm,fnpx}.ts!"]
@@ -18,20 +23,14 @@
             "entry": [
                 "app/root.tsx!",
                 "app/entry.{client,server}.{ts,tsx}!",
-                "app/routes/**/*.{ts,tsx}!",
-                "**/*.config.{ts}!"
+                "app/routes/**/*.{ts,tsx}!"
             ]
         },
         "packages/pm-combo": {
             "entry": ["src/index.ts!"]
         },
         "packages/npm-registry-client": {
-            "entry": [
-                "src/index.ts!",
-                "src/api.ts!",
-                "src/client.ts!",
-                "src/registry.ts!"
-            ]
+            "entry": ["src/*.ts!"]
         }
     },
     "ignore": ["**/use-mobile.tsx", "**/*.generated.ts", "**/ui/**"],

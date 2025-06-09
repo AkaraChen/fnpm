@@ -64,6 +64,16 @@
                 "types": "./dist/cjs/registry.d.cts",
                 "default": "./dist/cjs/registry.cjs"
             }
+        },
+        "./middleware": {
+            "import": {
+                "types": "./dist/es/middleware.d.ts",
+                "default": "./dist/es/middleware.js"
+            },
+            "require": {
+                "types": "./dist/cjs/middleware.d.cts",
+                "default": "./dist/cjs/middleware.cjs"
+            }
         }
     },
     "dependencies": {
