@@ -5,7 +5,14 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-    plugins: [remix(), tsconfigPaths()],
+    plugins: [
+        remix({
+            future: {
+                v3_fetcherPersist: true,
+            },
+        }),
+        tsconfigPaths(),
+    ],
     build: {
         target: 'esnext',
         minify: isProduction,
