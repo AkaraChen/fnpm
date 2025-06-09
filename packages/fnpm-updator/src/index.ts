@@ -1,9 +1,9 @@
 import { Effect } from 'effect';
+import type { RawContext } from 'fnpm-context';
 import { getDep } from 'fnpm-toolkit';
+import { ReadPackage } from 'fnpm-utils';
 import { type RunOptions, run } from 'npm-check-updates';
 import path from 'pathe';
-import type { RawContext } from './context';
-import { ReadPackage } from './lib/pkg';
 
 function resolveWorkspace(ctx: RawContext, filePath: string) {
     const dir = path.dirname(filePath);

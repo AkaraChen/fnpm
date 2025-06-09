@@ -1,0 +1,42 @@
+{
+    "name": "fnpm-updator",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/es/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "bunchee",
+        "dev": "bunchee --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.1",
+    "type": "module",
+    "devDependencies": {
+        "bunchee": "6.5.2"
+    },
+    "files": ["dist"],
+    "module": "./dist/es/index.js",
+    "types": "./dist/es/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/es/index.d.ts",
+                "default": "./dist/es/index.js"
+            },
+            "require": {
+                "types": "./dist/cjs/index.d.cts",
+                "default": "./dist/cjs/index.cjs"
+            }
+        }
+    },
+    "dependencies": {
+        "npm-check-updates": "^18.0.1",
+        "fnpm-context": "workspace:*",
+        "fnpm-toolkit": "workspace:*",
+        "fnpm-utils": "workspace:*",
+        "pathe": "^2.0.3",
+        "effect": "^3.16.4"
+    }
+}

@@ -1,7 +1,7 @@
 import { NativeSelect, Skeleton } from '@mantine/core';
 import type { SerializeFrom } from '@remix-run/node';
 import { Await, useParams } from '@remix-run/react';
-import type { RawContext } from 'fnpm-doctor';
+import type { RawContext } from 'fnpm-context';
 import { type FC, Suspense } from 'react';
 
 export interface ProjectSelector {

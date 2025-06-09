@@ -14,20 +14,20 @@
     },
     "license": "ISC",
     "devDependencies": {
+        "@akrc/monorepo-tools": "^4.0.1",
         "@pnpm/types": "12.2.0",
-        "module-replacements": "^2.8.0"
+        "module-replacements": "^2.8.0",
+        "type-fest": "^4.41.0"
     },
     "dependencies": {
-        "@akrc/monorepo-tools": "^4.0.1",
         "change-case": "^5.4.4",
         "effect": "^3.16.4",
+        "fnpm-context": "workspace:*",
         "fnpm-toolkit": "workspace:*",
-        "npm-check-updates": "^18.0.1",
-        "package-directory": "^8.1.0",
+        "fnpm-utils": "workspace:*",
         "pathe": "^2.0.3",
         "picocolors": "^1.1.1",
         "publint": "^0.3.12",
-        "read-pkg": "^9.0.1",
         "terminal-link": "^4.0.0",
         "try-files": "^1.1.0",
         "ts-pattern": "^5.7.1"

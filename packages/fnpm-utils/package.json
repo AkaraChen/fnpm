@@ -1,0 +1,60 @@
+{
+    "name": "fnpm-utils",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "dev": "tsdown --watch",
+        "build": "tsdown"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.12.1",
+    "type": "module",
+    "devDependencies": {
+        "@pnpm/types": "12.2.0",
+        "package-directory": "^8.1.0",
+        "read-pkg": "^9.0.1",
+        "tsdown": "0.12.7"
+    },
+    "files": ["dist"],
+    "dependencies": {
+        "@akrc/monorepo-tools": "^4.0.1",
+        "effect": "^3.16.4"
+    },
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
+        },
+        "./mt": {
+            "import": {
+                "types": "./dist/mt.d.ts",
+                "default": "./dist/mt.js"
+            },
+            "require": {
+                "types": "./dist/mt.d.cts",
+                "default": "./dist/mt.cjs"
+            }
+        },
+        "./pkg": {
+            "import": {
+                "types": "./dist/pkg.d.ts",
+                "default": "./dist/pkg.js"
+            },
+            "require": {
+                "types": "./dist/pkg.d.cts",
+                "default": "./dist/pkg.cjs"
+            }
+        }
+    }
+}

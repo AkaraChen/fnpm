@@ -1,7 +1,7 @@
-import { ReadPackage } from '@/lib/pkg';
 import type { ProjectManifest } from '@pnpm/types';
 import { sentenceCase } from 'change-case';
 import { Console, Effect } from 'effect';
+import { ReadPackage } from 'fnpm-utils';
 import {
     type Message,
     type Options as PublintOptions,

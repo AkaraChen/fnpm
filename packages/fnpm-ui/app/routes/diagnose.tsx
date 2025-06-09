@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { type MetaFunction, useLoaderData } from '@remix-run/react';
 import { IconCircleCheck, IconCircleDashedCheck } from '@tabler/icons-react';
+import type { Diagnose, DiagnoseLevel } from 'fnpm-doctor';
 import { group } from 'radash';
 import type { FC } from 'react';
 import { BasePage } from '~/components/page';
@@ -20,11 +21,7 @@ import { ResultPage } from '~/components/result';
 import { useQueryParams } from '~/hooks/qps';
 import { transformAnsi } from '~/lib/term';
 import { root } from '~/server/config.server';
-import {
-    type ScannerDiagnose,
-    type ScannerDiagnoseLevel,
-    scan,
-} from '~/server/fnpm.server';
+import { scan } from '~/server/fnpm.server';
 
 export async function loader() {
     return await scan(root).then((result) => result.diagnoses);
@@ -34,15 +31,15 @@ export const meta: MetaFunction = () => {
     return [{ title: 'Diagnose', description: 'Diagnose your system' }];
 };
 
-const levelMap: Record<ScannerDiagnoseLevel, number> = {
+const levelMap: Record<DiagnoseLevel, number> = {
     info: 0,
     warning: 1,
     error: 2,
 };
 
 interface DiagnoseProps {
-    level: ScannerDiagnoseLevel;
-    diagnoses: Array<ScannerDiagnose>;
+    level: DiagnoseLevel;
+    diagnoses: Array<Diagnose>;
 }
 
 const DiagnoseGroup: FC<DiagnoseProps> = (props) => {
@@ -61,7 +58,7 @@ const DiagnoseGroup: FC<DiagnoseProps> = (props) => {
     );
 };
 
-const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
+const DiagnoseCard: FC<Diagnose> = (props) => {
     const { title, scope, description, docs, workspace } = props;
     const theme = useMantineTheme();
     return (
@@ -111,15 +108,12 @@ const DiagnoseCard: FC<ScannerDiagnose> = (props) => {
 
 export default function Page() {
     const data = useLoaderData<typeof loader>();
-    const [level, setLevel] = useQueryParams<ScannerDiagnoseLevel>(
-        'level',
-        'warning',
-    );
+    const [level, setLevel] = useQueryParams<DiagnoseLevel>('level', 'warning');
     const grouped = group(data, (d) => d.level);
     const filtered = Object.entries(grouped).filter(
         ([currentLevel, diagnoses]) =>
             diagnoses.length &&
-            levelMap[currentLevel as ScannerDiagnoseLevel] >= levelMap[level],
+            levelMap[currentLevel as DiagnoseLevel] >= levelMap[level],
     );
     const theme = useMantineTheme();
     return (
@@ -129,12 +123,10 @@ export default function Page() {
                 <NativeSelect
                     label='level'
                     w={120}
-                    data={
-                        ['error', 'warning', 'info'] as ScannerDiagnoseLevel[]
-                    }
+                    data={['error', 'warning', 'info'] as DiagnoseLevel[]}
                     value={level}
                     onChange={(e) => {
-                        setLevel(e.target.value as ScannerDiagnoseLevel);
+                        setLevel(e.target.value as DiagnoseLevel);
                     }}
                 />
                 {filtered.length ? (
@@ -150,19 +142,16 @@ export default function Page() {
                             {filtered.map(([currentLevel, diagnoses]) => {
                                 const show =
                                     diagnoses.length &&
-                                    levelMap[
-                                        currentLevel as ScannerDiagnoseLevel
-                                    ] >= levelMap[level];
+                                    levelMap[currentLevel as DiagnoseLevel] >=
+                                        levelMap[level];
                                 return (
                                     show && (
                                         <DiagnoseGroup
                                             key={currentLevel}
                                             level={
-                                                currentLevel as ScannerDiagnoseLevel
+                                                currentLevel as DiagnoseLevel
                                             }
-                                            diagnoses={
-                                                diagnoses as ScannerDiagnose[]
-                                            }
+                                            diagnoses={diagnoses as Diagnose[]}
                                         />
                                     )
                                 );

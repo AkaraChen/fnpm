@@ -5,8 +5,13 @@ import type {
     ProjectRootDirRealPath,
 } from '@pnpm/types';
 import { Effect, Option } from 'effect';
-import { DetectPMByLock, FindUpRoot, ScanProjects } from './lib/mt';
-import { PackageDirectory, ReadPackage } from './lib/pkg';
+import {
+    DetectPMByLock,
+    FindUpRoot,
+    PackageDirectory,
+    ReadPackage,
+    ScanProjects,
+} from 'fnpm-utils';
 
 export interface RawContext {
     root: string;

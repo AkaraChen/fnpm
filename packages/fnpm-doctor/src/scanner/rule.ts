@@ -1,7 +1,7 @@
 import fs, { promises as fsp } from 'node:fs';
-import { resolveContext } from '@/context';
 import type * as mt from '@akrc/monorepo-tools';
 import type { Effect } from 'effect';
+import { resolveContext } from 'fnpm-context';
 import path from 'pathe';
 
 export type Rule = (ctx: RuleContext) => Effect.Effect<void>;

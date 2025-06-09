@@ -23,7 +23,7 @@ import {
     IconTrash,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { resolveContext } from 'fnpm-doctor';
+import { resolveContext } from 'fnpm-context';
 import {
     concatNpmUrl,
     getBin,

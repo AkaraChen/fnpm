@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 import { traverseDepsField } from 'fnpm-toolkit';
-import type { PackageJson } from 'read-pkg';
+import type { PackageJson } from 'type-fest';
 import type { Rule } from '../rule';
 
 interface VersionMap {

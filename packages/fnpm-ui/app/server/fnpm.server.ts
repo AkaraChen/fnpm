@@ -1,8 +1,3 @@
-export {
-    resolveContext,
-    scan,
-    update,
-    type ScannerDiagnoseLevel,
-    type ScannerDiagnose,
-    type UpdateManifest,
-} from 'fnpm-doctor';
+export { resolveContext } from 'fnpm-context';
+export { scan } from 'fnpm-doctor';
+export { update, type UpdateManifest } from 'fnpm-updator';

@@ -5,7 +5,11 @@
             "entry": ["src/{fnpm,fnpx}.ts!"]
         },
         "packages/fnpm-doctor": {
-            "entry": ["src/index.ts!"]
+            "entry": [
+                "src/index.ts!",
+                "src/scanner/index.ts!",
+                "src/scanner/rule.ts!"
+            ]
         },
         "packages/fnpm-toolkit": {
             "entry": ["src/index.ts!"]
@@ -20,6 +24,14 @@
         },
         "packages/pm-combo": {
             "entry": ["src/index.ts!"]
+        },
+        "packages/npm-registry-client": {
+            "entry": [
+                "src/index.ts!",
+                "src/api.ts!",
+                "src/client.ts!",
+                "src/registry.ts!"
+            ]
         }
     },
     "ignore": ["**/use-mobile.tsx", "**/*.generated.ts", "**/ui/**"],

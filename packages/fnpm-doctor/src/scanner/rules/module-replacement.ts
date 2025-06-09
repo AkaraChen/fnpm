@@ -12,7 +12,7 @@ import preferredReplacements from 'module-replacements/manifests/preferred.json'
 import type { RuleContext } from '../rule';
 
 import type { Project } from '@pnpm/types';
-import type { PackageJson } from 'read-pkg';
+import type { PackageJson } from 'type-fest';
 import type { Rule } from '../rule';
 
 function createRule<T extends ModuleReplacement>(
