@@ -12,7 +12,7 @@ export const dlx: Command<DlxOptions> = {
         switch (pm) {
             case 'npm': {
                 const parsed = parser.parse(pkg);
-                return ['npx', '-p', pkg, '-y', '-c', parsed.name, ...args];
+                return ['npx', '-p', pkg, '-y', '-c', parsed.fullName, ...args];
             }
             case 'yarn': {
                 return ['yarn', 'dlx', pkg, ...args];

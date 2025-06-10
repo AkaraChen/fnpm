@@ -35,7 +35,7 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
         const dev: InstallConfirmItem[] = [];
         const prod: InstallConfirmItem[] = [];
         for (const pkg of packages) {
-            const { name, version = 'latest' } = parser.parse(pkg);
+            const { fullName: name, version = 'latest' } = parser.parse(pkg);
             const item: InstallConfirmItem = {
                 name,
                 version: version === 'latest' ? undefined : version,
