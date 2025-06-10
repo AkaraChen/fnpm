@@ -2,6 +2,7 @@
     "name": "fnpm-test-suite",
     "version": "1.13.0",
     "description": "",
+    "private": true,
     "main": "./dist/es/index.js",
     "scripts": {
         "build": "bunchee",
