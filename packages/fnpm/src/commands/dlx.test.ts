@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
-import { ctx, factory } from '../../tests/utils';
+import { factory } from '../../tests/utils';
 import Dlx from './dlx';
 
 // Mock the util module
@@ -16,28 +16,32 @@ vi.mock(import('../util'), async (importOriginal) => {
 
 describe('Dlx Command', () => {
     it('should handle dlx command with package name', async () => {
-        const cmd = factory.create(Dlx);
-
-        // Set ctx args for this test
-        ctx.args = ['dlx', 'create-react-app'];
+        const cmd = factory.create(Dlx, {
+            args: ['dlx', 'create-react-app'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         await yargs(['dlx', 'create-react-app']).command(cmd).parse();
 
-        // Verify that args are parsed correctly
-        expect(ctx.args).toEqual(['dlx', 'create-react-app']);
+        expect((await import('../util')).exec).toHaveBeenCalledWith([
+            'pnpx',
+            'create-react-app',
+        ]);
     });
 
     it('should handle dlx command with package name and additional args', async () => {
-        const cmd = factory.create(Dlx);
-
-        // Set ctx args for this test
-        ctx.args = [
-            'dlx',
-            'create-react-app',
-            'my-app',
-            '--template',
-            'typescript',
-        ];
+        const cmd = factory.create(Dlx, {
+            args: [
+                'dlx',
+                'create-react-app',
+                'my-app',
+                '--template',
+                'typescript',
+            ],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         await yargs([
             'dlx',
@@ -49,9 +53,8 @@ describe('Dlx Command', () => {
             .command(cmd)
             .parse();
 
-        // Verify that args are parsed correctly
-        expect(ctx.args).toEqual([
-            'dlx',
+        expect((await import('../util')).exec).toHaveBeenCalledWith([
+            'pnpx',
             'create-react-app',
             'my-app',
             '--template',
@@ -60,29 +63,29 @@ describe('Dlx Command', () => {
     });
 
     it('should throw error when no package is specified', async () => {
-        const cmd = factory.create(Dlx);
-
-        // Import the actual util module to get access to the mocked functions
-        const util = await import('../util');
-
-        // Set ctx args for this test
-        ctx.args = ['dlx'];
+        const cmd = factory.create(Dlx, {
+            args: ['dlx'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         await yargs(['dlx']).command(cmd).parse();
 
-        // Verify that error was called with the correct message
-        expect(util.error).toHaveBeenCalledWith('No package specified');
+        expect((await import('../util')).error).toHaveBeenCalledWith(
+            'No package specified',
+        );
     });
 
     it('should handle direct command without dlx prefix', async () => {
-        const cmd = factory.create(Dlx);
+        const cmd = factory.create(Dlx, {
+            args: ['create-react-app'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
         cmd.command = '*';
 
         // Create a mock handler to test argument parsing
         cmd.handler = vi.fn();
-
-        // Set ctx args for this test
-        ctx.args = ['create-react-app'];
 
         await yargs(['create-react-app']).command(cmd).parse();
         expect(cmd.handler).toHaveBeenCalled();
