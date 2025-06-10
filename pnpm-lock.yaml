@@ -122,9 +122,18 @@ importers:
       '@akrc/monorepo-tools':
         specifier: ^4.1.0
         version: 4.1.0
+      '@effect/platform':
+        specifier: ^0.84.9
+        version: 0.84.9(effect@3.16.5)
+      '@effect/platform-node':
+        specifier: ^0.85.11
+        version: 0.85.11(@effect/cluster@0.38.11(@effect/platform@0.84.9(effect@3.16.5))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(@effect/sql@0.37.10(@effect/experimental@0.48.10(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(@effect/workflow@0.1.9(@effect/platform@0.84.9(effect@3.16.5))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(effect@3.16.5))(effect@3.16.5))(@effect/platform@0.84.9(effect@3.16.5))(@effect/rpc@0.61.10(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(@effect/sql@0.37.10(@effect/experimental@0.48.10(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(@effect/platform@0.84.9(effect@3.16.5))(effect@3.16.5))(effect@3.16.5)
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
+      effect:
+        specifier: ^3.16.5
+        version: 3.16.5
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0

@@ -76,7 +76,15 @@ export async function resolveContext(cwd: string): Promise<RawContext> {
     const program = pipe(
         ResolveMonorepoContext(cwd),
         Effect.orElse(() => ResolveSingleRepoContext(cwd)),
-        Effect.catchAll((e) => Effect.die(`Failed to resolve context: ${e}`)),
+        Effect.catchAll(() =>
+            Effect.succeed({
+                root: cwd,
+                pm: 'pnpm',
+                projects: [],
+                rootProject: undefined,
+                isMonoRepo: false,
+            } as RawContext),
+        ),
     );
     return await Effect.runPromise(program);
 }
