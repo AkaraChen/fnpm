@@ -4,7 +4,7 @@ import type { EmptyObject } from 'type-fest';
 import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
 import { exec } from '../util';
 
-interface AddCommandOptions extends Options {
+export interface AddCommandOptions extends Options {
     packages: string[];
     saveDev: boolean;
     saveExact: boolean;
