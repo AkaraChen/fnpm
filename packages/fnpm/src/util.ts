@@ -50,5 +50,5 @@ export async function getContext(cwd: string): Promise<Context> {
 
 export function normalizePackageVersion(input: string) {
     const parsed = parser.parse(input);
-    return `${parsed.name}@${parsed.version || 'latest'}`;
+    return `${parsed.fullName}@${parsed.version || 'latest'}`;
 }
