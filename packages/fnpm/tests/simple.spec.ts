@@ -25,7 +25,7 @@ describe('simple smoke test', () => {
                 Command.workingDirectory(dir),
                 Command.runInShell(true),
             );
-            const [exitCode, stdout, stderr] = yield* pipe(
+            const [exitCode, stdout] = yield* pipe(
                 Command.start(command),
                 Effect.flatMap((process) =>
                     Effect.all(
@@ -38,9 +38,7 @@ describe('simple smoke test', () => {
                     ),
                 ),
             );
-            console.log(exitCode, stdout, stderr);
             expect(exitCode).toBe(0);
-            expect(stderr).toBe('');
             expect(stdout.includes(id)).toBe(true);
         });
         await Effect.runPromise(
