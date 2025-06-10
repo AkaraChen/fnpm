@@ -21,13 +21,13 @@ describe('Create Command', () => {
             pm: 'pnpm',
         });
 
-        cmd.handler = vi.fn((args) => {
-            expect(args._).toEqual(['create', 'my-app']);
-        });
-
         await yargs(['create', 'my-app']).command(cmd).parse();
 
-        expect(cmd.handler).toHaveBeenCalled();
+        expect((await import('../util')).exec).toHaveBeenCalledWith([
+            'pnpm',
+            'create',
+            'my-app',
+        ]);
     });
 
     it('should handle create command with package name and additional args', async () => {
@@ -57,12 +57,8 @@ describe('Create Command', () => {
             pm: 'pnpm',
         });
 
-        cmd.handler = vi.fn((args) => {
-            expect(args._).toEqual(['create']);
-        });
-
         await yargs(['create']).command(cmd).parse();
 
-        expect(cmd.handler).toHaveBeenCalled();
+        expect((await import('../util')).error).toHaveBeenCalled();
     });
 });
