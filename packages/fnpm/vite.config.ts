@@ -1,5 +1,3 @@
-import { defineConfig } from 'vitest/config';
+import vitest from 'configs/vitest';
 
-export default defineConfig({
-    test: {},
-});
+export default vitest;

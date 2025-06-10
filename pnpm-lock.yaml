@@ -40,12 +40,12 @@ importers:
       bumpp:
         specifier: ^10.1.1
         version: 10.1.1
+      configs:
+        specifier: workspace:*
+        version: link:packages/configs
       husky:
         specifier: 9.1.7
         version: 9.1.7
-      is-ci:
-        specifier: ^4.1.0
-        version: 4.1.0
       knip:
         specifier: ^5.60.2
         version: 5.60.2(@types/node@22.15.30)(typescript@5.8.3)
@@ -73,6 +73,19 @@ importers:
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
+      vitest:
+        specifier: ^3.2.3
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sugarss@4.0.1(postcss@8.5.4))(yaml@2.8.0)
+
+  packages/configs:
+    dependencies:
+      is-ci:
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      bunchee:
+        specifier: 6.5.2
+        version: 6.5.2(typescript@5.8.3)
       vitest:
         specifier: ^3.2.3
         version: 3.2.3(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(lightningcss@1.30.1)(sugarss@4.0.1(postcss@8.5.4))(yaml@2.8.0)
@@ -131,6 +144,9 @@ importers:
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
+      configs:
+        specifier: workspace:*
+        version: link:../configs
       effect:
         specifier: ^3.16.5
         version: 3.16.5
