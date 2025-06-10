@@ -4,10 +4,10 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "build": "tsup",
+        "build": "tsdown",
         "link:fnpm": "pnpm link . -g",
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
-        "dev": "tsup --watch"
+        "dev": "tsdown --watch"
     },
     "keywords": ["fnpm"],
     "author": "AkaraChen",

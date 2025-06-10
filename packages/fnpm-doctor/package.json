@@ -2,8 +2,8 @@
     "name": "fnpm-doctor",
     "version": "1.12.2",
     "scripts": {
-        "build": "tsup",
-        "dev": "tsup --watch"
+        "build": "tsdown",
+        "dev": "tsdown --watch"
     },
     "keywords": ["doctor"],
     "author": "AkaraChen",

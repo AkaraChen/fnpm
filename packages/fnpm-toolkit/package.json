@@ -4,8 +4,8 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "build": "tsup",
-        "dev": "tsup --watch"
+        "build": "tsdown",
+        "dev": "tsdown --watch"
     },
     "keywords": [],
     "author": "",

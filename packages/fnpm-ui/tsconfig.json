@@ -6,8 +6,7 @@
         "**/.server/**/*.ts",
         "**/.server/**/*.tsx",
         "**/.client/**/*.ts",
-        "**/.client/**/*.tsx",
-        ".react-router/types/**/*"
+        "**/.client/**/*.tsx"
     ],
     "compilerOptions": {
         "types": ["vite/client"],
