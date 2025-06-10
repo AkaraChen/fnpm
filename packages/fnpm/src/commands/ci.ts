@@ -6,7 +6,6 @@ import { exec } from '../util';
 class CI implements CommandModule {
     public command = 'ci';
     public describe = 'run continuous integration';
-    public builder = {};
 
     public async handler() {
         const command = commands.install.concat(globalThis.ctx.pm, {
