@@ -15,7 +15,11 @@ vi.mock(import('../util'), async (importOriginal) => {
 
 describe('Create Command', () => {
     it('should handle create command with package name', async () => {
-        const cmd = factory.create(Create);
+        const cmd = factory.create(Create, {
+            args: ['create', 'my-app'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         cmd.handler = vi.fn((args) => {
             expect(args._).toEqual(['create', 'my-app']);
@@ -27,7 +31,11 @@ describe('Create Command', () => {
     });
 
     it('should handle create command with package name and additional args', async () => {
-        const cmd = factory.create(Create);
+        const cmd = factory.create(Create, {
+            args: ['create', 'my-app', '--template', 'react'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         await yargs(['create', 'my-app', '--template', 'react'])
             .command(cmd)
@@ -43,7 +51,11 @@ describe('Create Command', () => {
     });
 
     it('should throw error when no package name is specified', async () => {
-        const cmd = factory.create(Create);
+        const cmd = factory.create(Create, {
+            args: ['create'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
 
         cmd.handler = vi.fn((args) => {
             expect(args._).toEqual(['create']);

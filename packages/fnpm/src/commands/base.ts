@@ -57,8 +57,9 @@ export class CommandFactory {
     }
     create<T extends BaseCommandOptions>(
         Command: new (ctx: Context) => BaseCommand<T>,
+        ctx: Context = this.ctx,
     ) {
-        const original = new Command(this.ctx);
+        const original = new Command(ctx);
         const command: Partial<CommandModule> = {
             ...original,
         };
