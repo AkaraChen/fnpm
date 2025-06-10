@@ -1,6 +1,10 @@
 import isCi from 'is-ci';
 import { defineConfig } from 'vitest/config';
 
+if (isCi) {
+    console.info('ci detected, scale up test timeout to 500000ms');
+}
+
 export default defineConfig({
     test: {
         projects: ['packages/*'],
