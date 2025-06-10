@@ -12,6 +12,16 @@ vi.mock('open', () => ({
     default: vi.fn(),
 }));
 
+vi.mock(import('../util'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        error: vi.fn(() => ({}) as never),
+        exec: vi.fn(),
+        normalizePackageVersion: (name: string) => name,
+    };
+});
+
 describe('View Command', () => {
     beforeEach(() => {
         // Reset mocks

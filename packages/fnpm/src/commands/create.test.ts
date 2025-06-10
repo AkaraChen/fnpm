@@ -1,18 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
 import { factory } from '../../tests/utils';
-import { exec } from '../util';
 import Create from './create';
 
-vi.mock(import('../util'), async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-        ...actual,
-        exec: vi.fn(),
-    };
-});
-
-// Mock the util module
 vi.mock(import('../util'), async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -43,7 +33,7 @@ describe('Create Command', () => {
             .command(cmd)
             .parse();
 
-        expect(exec).toHaveBeenCalledWith([
+        expect((await import('../util')).exec).toHaveBeenCalledWith([
             'pnpm',
             'create',
             'my-app',

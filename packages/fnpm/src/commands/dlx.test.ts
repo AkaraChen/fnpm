@@ -4,11 +4,15 @@ import { ctx, factory } from '../../tests/utils';
 import Dlx from './dlx';
 
 // Mock the util module
-vi.mock('../util', () => ({
-    error: vi.fn(),
-    exec: vi.fn(),
-    normalizePackageVersion: (name: string) => name,
-}));
+vi.mock(import('../util'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        error: vi.fn(() => ({}) as never),
+        exec: vi.fn(),
+        normalizePackageVersion: (name: string) => name,
+    };
+});
 
 describe('Dlx Command', () => {
     it('should handle dlx command with package name', async () => {
