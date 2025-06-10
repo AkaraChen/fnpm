@@ -25,25 +25,35 @@ class Remove<U extends RemoveCommandOptions>
                 demandOption: true,
                 description: 'Packages to remove',
             })
+            .option('save', {
+                alias: ['S'],
+                type: 'boolean',
+                description: 'Remove from dependencies',
+                conflicts: ['save-dev', 'save-peer', 'save-optional', 'global'],
+            })
             .option('save-dev', {
                 alias: ['D'],
                 type: 'boolean',
                 description: 'Remove from devDependencies',
+                conflicts: ['save', 'save-peer', 'save-optional', 'global'],
             })
             .option('save-peer', {
                 alias: ['P'],
                 type: 'boolean',
                 description: 'Remove from peerDependencies',
+                conflicts: ['save', 'save-dev', 'save-optional', 'global'],
             })
             .option('save-optional', {
                 alias: ['O'],
                 type: 'boolean',
                 description: 'Remove from optionalDependencies',
+                conflicts: ['save', 'save-dev', 'save-peer', 'global'],
             })
             .option('global', {
                 alias: ['G', 'g'],
                 type: 'boolean',
                 description: 'Remove packages globally',
+                conflicts: ['save', 'save-dev', 'save-peer', 'save-optional'],
             }) as Argv<U>;
     };
 
