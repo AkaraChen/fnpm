@@ -1,47 +1,21 @@
 {
     "name": "configs",
-    "version": "1.0.0",
-    "description": "",
-    "main": "./dist/es/index.js",
-    "scripts": {
-        "build": "bunchee",
-        "dev": "bunchee --watch"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "packageManager": "pnpm@10.12.1",
+    "private": true,
     "dependencies": {
         "is-ci": "^4.1.0"
     },
     "devDependencies": {
-        "vitest": "^3.2.3",
-        "bunchee": "6.5.2"
+        "vitest": "^3.2.3"
     },
     "type": "module",
-    "files": ["dist"],
-    "module": "./dist/es/index.js",
-    "types": "./dist/es/index.d.ts",
     "exports": {
         ".": {
-            "import": {
-                "types": "./dist/es/index.d.ts",
-                "default": "./dist/es/index.js"
-            },
-            "require": {
-                "types": "./dist/cjs/index.d.cts",
-                "default": "./dist/cjs/index.cjs"
-            }
+            "types": "./src/index.ts",
+            "default": "./src/index.ts"
         },
         "./vitest": {
-            "import": {
-                "types": "./dist/es/vitest.d.ts",
-                "default": "./dist/es/vitest.js"
-            },
-            "require": {
-                "types": "./dist/cjs/vitest.d.cts",
-                "default": "./dist/cjs/vitest.cjs"
-            }
+            "types": "./src/vitest.ts",
+            "default": "./src/vitest.ts"
         }
     }
 }
