@@ -33,6 +33,6 @@
     },
     "dependencies": {
         "effect": "^3.16.5",
-        "fnpm-utils": "workspace:*"
+        "fnpm-utils-node": "workspace:*"
     }
 }

@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 import type { Context, SafeContext } from 'fnpm-context';
 import { getDep } from 'fnpm-toolkit';
-import { ReadPackage } from 'fnpm-utils';
+import { ReadPackage } from 'fnpm-utils-node';
 import { type RunOptions, run } from 'npm-check-updates';
 import path from 'pathe';
 import type { UpdateManifest } from './types';

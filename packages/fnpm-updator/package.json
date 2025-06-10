@@ -37,7 +37,7 @@
     "dependencies": {
         "fnpm-context": "workspace:*",
         "fnpm-toolkit": "workspace:*",
-        "fnpm-utils": "workspace:*",
+        "fnpm-utils-node": "workspace:*",
         "npm-check-updates": "^18.0.1",
         "pathe": "^2.0.3"
     }

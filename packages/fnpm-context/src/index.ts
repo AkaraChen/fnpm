@@ -11,7 +11,7 @@ import {
     PackageDirectory,
     ReadPackage,
     ScanProjects,
-} from 'fnpm-utils';
+} from 'fnpm-utils-node';
 
 export type SafeContext = {
     root: string;

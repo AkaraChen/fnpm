@@ -27,7 +27,7 @@
         "change-case": "^5.4.4",
         "fnpm-context": "workspace:*",
         "fnpm-toolkit": "workspace:*",
-        "fnpm-utils": "workspace:*",
+        "fnpm-utils-node": "workspace:*",
         "picocolors": "^1.1.1",
         "publint": "^0.3.12",
         "terminal-link": "^4.0.0",
