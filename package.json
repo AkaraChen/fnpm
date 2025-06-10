@@ -1,7 +1,7 @@
 {
     "name": "fnpm-workspace",
     "private": true,
-    "version": "1.12.2",
+    "version": "1.13.0",
     "description": "",
     "scripts": {
         "check": "biome check . --write",
