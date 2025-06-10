@@ -32,56 +32,68 @@ class Add<U extends AddCommandOptions>
                 alias: ['d'],
                 type: 'boolean',
                 description: 'Save to dependencies',
-                default: true,
+                conflicts: [
+                    'save-dev',
+                    'save-exact',
+                    'save-peer',
+                    'save-optional',
+                ],
             })
             .option('save-dev', {
                 alias: ['D'],
                 type: 'boolean',
                 description: 'Save as devDependencies',
+                conflicts: ['save', 'save-exact', 'save-peer', 'save-optional'],
             })
             .option('save-exact', {
                 alias: ['E', 'exact'],
                 type: 'boolean',
                 description: 'Save exact version',
+                conflicts: ['save', 'save-dev', 'save-peer', 'save-optional'],
             })
             .option('save-peer', {
                 alias: ['P', 'peer'],
                 type: 'boolean',
                 description: 'Save as peerDependencies',
+                conflicts: ['save', 'save-dev', 'save-exact', 'save-optional'],
             })
             .option('save-optional', {
                 alias: ['O', 'optional'],
                 type: 'boolean',
                 description: 'Save as optionalDependencies',
+                conflicts: ['save', 'save-dev', 'save-exact', 'save-peer'],
             })
             .option('fixed', {
                 alias: ['F'],
                 type: 'boolean',
                 description: 'Use fixed version',
+                default: false,
             })
             .option('workspace', {
                 alias: ['W', 'w'],
                 type: 'boolean',
                 description: 'Add packages to workspace root',
+                default: false,
             })
             .option('global', {
                 alias: ['G', 'g'],
                 type: 'boolean',
                 description: 'Install packages globally',
+                default: false,
             }) as Argv<U>;
     };
 
     public async handler(args: ArgumentsCamelCase<U>) {
         const {
             packages,
-            saveDev,
-            saveExact,
-            savePeer,
-            saveOptional,
-            fixed,
-            workspace,
-            global,
-            save,
+            saveOptional = false,
+            saveExact = false,
+            saveDev = false,
+            savePeer = false,
+            fixed = false,
+            workspace = false,
+            global = false,
+            save = true,
         } = args;
         consola.info(`Installing packages with ${ctx.pm}`);
         const options: AddOptions = {
