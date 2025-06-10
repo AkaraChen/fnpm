@@ -1,10 +1,11 @@
 import consola from 'consola';
 import { type RemoveOptions, commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface RemoveCommandOptions extends Options {
+interface RemoveCommandOptions extends BaseCommandOptions {
     packages: string[];
     saveDev: boolean;
     savePeer: boolean;
@@ -12,9 +13,7 @@ interface RemoveCommandOptions extends Options {
     global: boolean;
 }
 
-class Remove<U extends RemoveCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Remove<U extends RemoveCommandOptions> extends BaseCommand<U> {
     public command = ['remove <packages..>', 'rm', 'uninstall', 'un'];
     public describe = 'remove packages';
     public builder = (args: Argv): Argv<U> => {
@@ -66,9 +65,9 @@ class Remove<U extends RemoveCommandOptions>
             saveOptional,
             global,
         };
-        const command = commands.remove.concat(globalThis.ctx.pm, options);
-        consola.info(`Removing packages with ${globalThis.ctx.pm}`);
-        await exec(command, { cwd: globalThis.ctx.root });
+        const command = commands.remove.concat(this.ctx.pm, options);
+        consola.info(`Removing packages with ${this.ctx.pm}`);
+        await exec(command, { cwd: this.ctx.root });
     }
 }
 

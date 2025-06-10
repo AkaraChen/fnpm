@@ -1,5 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
+import { ctx, factory } from '../../tests/utils';
 import View from './view';
 
 // Mock dependencies
@@ -11,31 +12,17 @@ vi.mock('open', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('../util', () => ({
-    error: vi.fn(),
-}));
-
 describe('View Command', () => {
-    // Store the original ctx before each test
-    const originalCtx = globalThis.ctx;
-
     beforeEach(() => {
         // Reset mocks
         vi.resetAllMocks();
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            root: '/test/root',
-        } as any;
-    });
-
-    afterEach(() => {
-        // Restore the original ctx after each test
-        globalThis.ctx = originalCtx;
+        // Set ctx properties for tests
+        ctx.root = '/test/root';
     });
 
     it('should open npm page by default', async () => {
-        const cmd = new View();
+        const cmd = factory.create(View);
         const readPkg = await import('read-pkg');
         const open = await import('open');
 
@@ -53,7 +40,7 @@ describe('View Command', () => {
     });
 
     it('should open npm page with npm platform', async () => {
-        const cmd = new View();
+        const cmd = factory.create(View);
         const readPkg = await import('read-pkg');
         const open = await import('open');
 
@@ -71,7 +58,7 @@ describe('View Command', () => {
     });
 
     it('should open repository page with repo platform', async () => {
-        const cmd = new View();
+        const cmd = factory.create(View);
         const readPkg = await import('read-pkg');
         const open = await import('open');
 
@@ -93,7 +80,7 @@ describe('View Command', () => {
     });
 
     it('should handle non-git repository error', async () => {
-        const cmd = new View();
+        const cmd = factory.create(View);
         const readPkg = await import('read-pkg');
         const util = await import('../util');
 
@@ -115,7 +102,7 @@ describe('View Command', () => {
     });
 
     it('should handle unsupported platform error', async () => {
-        const cmd = new View();
+        const cmd = factory.create(View);
         const util = await import('../util');
 
         // Override the handler to test unsupported platform

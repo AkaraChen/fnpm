@@ -1,16 +1,15 @@
 import consola from 'consola';
 import { commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface InitCommandOptions extends Options {
+interface InitCommandOptions extends BaseCommandOptions {
     y: boolean;
 }
 
-class Init<U extends InitCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Init<U extends InitCommandOptions> extends BaseCommand<U> {
     public command = 'init';
     public describe = 'initialize a new project';
     public builder = (args: Argv): Argv<U> => {
@@ -22,10 +21,10 @@ class Init<U extends InitCommandOptions>
 
     public async handler(args: ArgumentsCamelCase<U>) {
         const { y } = args;
-        const command = commands.init.concat(globalThis.ctx.pm, {
+        const command = commands.init.concat(this.ctx.pm, {
             interactively: !y,
         });
-        consola.info(`Initializing project with ${globalThis.ctx.pm}`);
+        consola.info(`Initializing project with ${this.ctx.pm}`);
         await exec(command);
     }
 }

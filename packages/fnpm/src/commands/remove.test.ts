@@ -1,20 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import yargs, { type ArgumentsCamelCase } from 'yargs';
+import yargs from 'yargs';
+import { factory } from '../../tests/utils';
 import Remove from './remove';
-
-type Args = ArgumentsCamelCase<{
-    packages: string[];
-    saveDev: boolean;
-    savePeer: boolean;
-    saveOptional: boolean;
-    global: boolean;
-    save: boolean;
-}>;
 
 describe('Remove Command', () => {
     it('should remove packages', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveDev).toBeFalsy();
@@ -26,8 +18,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle multiple packages', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo', 'bar', 'baz']);
             expect(options.save).toBeUndefined();
         };
@@ -35,8 +27,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle --save flag', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBe(true);
             expect(options.saveDev).toBeFalsy();
@@ -48,8 +40,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle -S alias for --save', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBe(true);
             expect(options.saveDev).toBeFalsy();
@@ -58,8 +50,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle --save-dev flag', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveDev).toBe(true);
@@ -68,8 +60,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle -D alias for --save-dev', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveDev).toBe(true);
@@ -78,8 +70,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle --save-peer flag', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.savePeer).toBe(true);
@@ -88,8 +80,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle -P alias for --save-peer', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.savePeer).toBe(true);
@@ -98,8 +90,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle --save-optional flag', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveOptional).toBe(true);
@@ -108,8 +100,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle -O alias for --save-optional', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveOptional).toBe(true);
@@ -118,8 +110,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle --global flag', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.global).toBe(true);
@@ -128,8 +120,8 @@ describe('Remove Command', () => {
     });
 
     it('should handle -G alias for --global', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.global).toBe(true);
@@ -138,24 +130,24 @@ describe('Remove Command', () => {
     });
 
     it('should handle rm alias', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
         };
         await yargs(['rm', 'foo']).command(cmd).parse();
     });
 
     it('should handle uninstall alias', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
         };
         await yargs(['uninstall', 'foo']).command(cmd).parse();
     });
 
     it('should handle un alias', async () => {
-        const cmd = new Remove();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Remove);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
         };
         await yargs(['un', 'foo']).command(cmd).parse();
@@ -163,8 +155,8 @@ describe('Remove Command', () => {
 
     it('should not handle combined flags', async () => {
         expect(() =>
-            yargs(['remove', 'pkg1', 'pkg2', '-D', '-G'])
-                .command(new Remove())
+            yargs(['remove', 'pkg1', 'pkg2', '-D', '--save-exact', '-G'])
+                .command(factory.create(Remove))
                 .parse(),
         ).toThrow();
     });
@@ -172,7 +164,7 @@ describe('Remove Command', () => {
     it('should not handle save with save-dev', async () => {
         expect(() =>
             yargs(['remove', 'pkg1', '--save', '--save-dev'])
-                .command(new Remove())
+                .command(factory.create(Remove))
                 .parse(),
         ).toThrow();
     });

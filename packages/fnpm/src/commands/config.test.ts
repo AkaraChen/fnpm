@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import yargs, { type ArgumentsCamelCase } from 'yargs';
+import { factory } from '../../tests/utils';
 import Config, { type ConfigCommandOptions } from './config';
 
 type Args = ArgumentsCamelCase<ConfigCommandOptions>;
 
 describe('Config Command', () => {
     it('should default to list verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('list');
             expect(options.key).toBeUndefined();
@@ -18,7 +19,7 @@ describe('Config Command', () => {
     });
 
     it('should handle list verb with --json', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('list');
             expect(options.json).toBe(true);
@@ -27,7 +28,7 @@ describe('Config Command', () => {
     });
 
     it('should handle ls alias for list verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('ls');
         };
@@ -35,7 +36,7 @@ describe('Config Command', () => {
     });
 
     it('should handle get <key> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('get');
             expect(options.key).toBe('foo');
@@ -47,7 +48,7 @@ describe('Config Command', () => {
     });
 
     it('should handle g alias for get <key> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('g');
             expect(options.key).toBe('foo');
@@ -56,7 +57,7 @@ describe('Config Command', () => {
     });
 
     it('should handle get <key> --global verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('get');
             expect(options.key).toBe('foo');
@@ -66,7 +67,7 @@ describe('Config Command', () => {
     });
 
     it('should handle get <key> -G alias for --global verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('get');
             expect(options.key).toBe('foo');
@@ -76,7 +77,7 @@ describe('Config Command', () => {
     });
 
     it('should handle set <key> <value> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('set');
             expect(options.key).toBe('foo');
@@ -88,7 +89,7 @@ describe('Config Command', () => {
     });
 
     it('should handle s alias for set <key> <value> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('s');
             expect(options.key).toBe('foo');
@@ -98,7 +99,7 @@ describe('Config Command', () => {
     });
 
     it('should handle delete <key> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('delete');
             expect(options.key).toBe('foo');
@@ -110,7 +111,7 @@ describe('Config Command', () => {
     });
 
     it('should handle rm alias for delete <key> verb', async () => {
-        const cmd = new Config();
+        const cmd = factory.create(Config);
         cmd.handler = async (options: Args) => {
             expect(options.verb).toBe('rm');
             expect(options.key).toBe('foo');

@@ -1,9 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import yargs, { type ArgumentsCamelCase } from 'yargs';
+import { describe, expect, it, vi } from 'vitest';
+import yargs from 'yargs';
+import { ctx, factory } from '../../tests/utils';
 import Dlx from './dlx';
-
-// Define a simple type for arguments
-type EmptyObject = Record<string, never>;
 
 // Mock the util module
 vi.mock('../util', () => ({
@@ -13,48 +11,29 @@ vi.mock('../util', () => ({
 }));
 
 describe('Dlx Command', () => {
-    // Store the original ctx before each test
-    const originalCtx = globalThis.ctx;
-
-    beforeEach(() => {
-        // Reset mocks
-        vi.resetAllMocks();
-    });
-
-    afterEach(() => {
-        // Restore the original ctx after each test
-        globalThis.ctx = originalCtx;
-    });
-
     it('should handle dlx command with package name', async () => {
-        const cmd = new Dlx();
+        const cmd = factory.create(Dlx);
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: ['dlx', 'create-react-app'],
-            pm: 'pnpm',
-        } as any;
+        // Set ctx args for this test
+        ctx.args = ['dlx', 'create-react-app'];
 
         await yargs(['dlx', 'create-react-app']).command(cmd).parse();
 
         // Verify that args are parsed correctly
-        expect(globalThis.ctx.args).toEqual(['dlx', 'create-react-app']);
+        expect(ctx.args).toEqual(['dlx', 'create-react-app']);
     });
 
     it('should handle dlx command with package name and additional args', async () => {
-        const cmd = new Dlx();
+        const cmd = factory.create(Dlx);
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: [
-                'dlx',
-                'create-react-app',
-                'my-app',
-                '--template',
-                'typescript',
-            ],
-            pm: 'pnpm',
-        } as any;
+        // Set ctx args for this test
+        ctx.args = [
+            'dlx',
+            'create-react-app',
+            'my-app',
+            '--template',
+            'typescript',
+        ];
 
         await yargs([
             'dlx',
@@ -67,7 +46,7 @@ describe('Dlx Command', () => {
             .parse();
 
         // Verify that args are parsed correctly
-        expect(globalThis.ctx.args).toEqual([
+        expect(ctx.args).toEqual([
             'dlx',
             'create-react-app',
             'my-app',
@@ -77,16 +56,13 @@ describe('Dlx Command', () => {
     });
 
     it('should throw error when no package is specified', async () => {
-        const cmd = new Dlx();
+        const cmd = factory.create(Dlx);
 
         // Import the actual util module to get access to the mocked functions
         const util = await import('../util');
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: ['dlx'],
-            pm: 'pnpm',
-        } as any;
+        // Set ctx args for this test
+        ctx.args = ['dlx'];
 
         await yargs(['dlx']).command(cmd).parse();
 
@@ -94,14 +70,17 @@ describe('Dlx Command', () => {
         expect(util.error).toHaveBeenCalledWith('No package specified');
     });
 
-    it('should handle when dlx is not the first argument', async () => {
-        const cmd = new Dlx();
+    it('should handle direct command without dlx prefix', async () => {
+        const cmd = factory.create(Dlx);
+        cmd.command = '*';
 
         // Create a mock handler to test argument parsing
-        cmd.handler = async (options: ArgumentsCamelCase<EmptyObject>) => {
-            expect(options._[0]).toEqual('create-react-app');
-        };
+        cmd.handler = vi.fn();
+
+        // Set ctx args for this test
+        ctx.args = ['create-react-app'];
 
         await yargs(['create-react-app']).command(cmd).parse();
+        expect(cmd.handler).toHaveBeenCalled();
     });
 });

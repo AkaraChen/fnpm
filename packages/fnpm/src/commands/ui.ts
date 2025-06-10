@@ -1,14 +1,15 @@
 import consola from 'consola';
 import { start } from 'fnpm-ui';
 import { getPort } from 'get-port-please';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface UICommandOptions extends Options {
+interface UICommandOptions extends BaseCommandOptions {
     port?: number;
 }
 
-class UI<U extends UICommandOptions> implements CommandModule<EmptyObject, U> {
+class UI<U extends UICommandOptions> extends BaseCommand<U> {
     public command = 'ui';
     public describe = 'open the package manager UI';
     public builder = (args: Argv): Argv<U> => {
@@ -26,7 +27,7 @@ class UI<U extends UICommandOptions> implements CommandModule<EmptyObject, U> {
                 port: 13131,
             }));
         consola.info(`Starting UI on http://localhost:${port}`);
-        await start(port, globalThis.ctx.root);
+        await start(port, this.ctx.root);
     }
 }
 

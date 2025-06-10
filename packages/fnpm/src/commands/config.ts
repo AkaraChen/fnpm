@@ -1,9 +1,10 @@
 import { type ConfigOptions, commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-export interface ConfigCommandOptions extends Options {
+export interface ConfigCommandOptions extends BaseCommandOptions {
     verb: string;
     key?: string;
     value?: string;
@@ -22,9 +23,7 @@ const verbsMap: Record<
 };
 const verbs = Object.values(verbsMap).flat();
 
-class Config<U extends ConfigCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Config<U extends ConfigCommandOptions> extends BaseCommand<U> {
     public command = ['config [verb] [key] [value]', 'c'];
     public describe = 'Manage the npm configuration files';
     public builder = (args: Argv): Argv<U> => {
@@ -63,7 +62,7 @@ class Config<U extends ConfigCommandOptions>
         if (!verbs.includes(verb)) {
             error(`Invalid verb ${verb}`);
         }
-        const command = commands.config.concat(globalThis.ctx.pm, {
+        const command = commands.config.concat(this.ctx.pm, {
             verb: Object.entries(verbsMap).find(([_k, v]) =>
                 v.includes(verb),
             )![0] as ConfigOptions['verb'],
@@ -72,7 +71,7 @@ class Config<U extends ConfigCommandOptions>
             key: key!,
             value: value!,
         });
-        await exec(command, { cwd: globalThis.ctx.root });
+        await exec(command, { cwd: this.ctx.root });
     }
 }
 

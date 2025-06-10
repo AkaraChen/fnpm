@@ -1,17 +1,16 @@
 import gitUrlParse from 'git-url-parse';
 import open from 'open';
 import { readPackage } from 'read-pkg';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface ViewCommandOptions extends Options {
+interface ViewCommandOptions extends BaseCommandOptions {
     platform: 'repo' | 'npm';
 }
 
-class View<U extends ViewCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class View<U extends ViewCommandOptions> extends BaseCommand<U> {
     public command = ['view [platform]', 'v'];
     public describe = 'View in other platform';
     public builder = (args: Argv): Argv<U> => {
@@ -23,7 +22,7 @@ class View<U extends ViewCommandOptions>
 
     public async handler(args: ArgumentsCamelCase<U>) {
         const { platform } = args;
-        const pkgJson = await readPackage({ cwd: globalThis.ctx.root });
+        const pkgJson = await readPackage({ cwd: this.ctx.root });
         switch (platform) {
             case 'repo': {
                 if (pkgJson.repository?.type !== 'git') {

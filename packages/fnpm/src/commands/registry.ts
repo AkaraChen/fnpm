@@ -1,14 +1,14 @@
 import { commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
-import type { ConfigCommandOptions } from './config';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface RegistryOptions extends Pick<ConfigCommandOptions, 'global'> {
+interface RegistryOptions extends BaseCommandOptions {
     registry: string;
 }
 
-class Registry implements CommandModule<EmptyObject, RegistryOptions> {
+class Registry extends BaseCommand<RegistryOptions> {
     public command = 'registry <registry>';
     public describe = 'Manage the npm registry';
     public builder = (args: Argv): Argv<RegistryOptions> => {
@@ -29,13 +29,13 @@ class Registry implements CommandModule<EmptyObject, RegistryOptions> {
         if (!URL.canParse(registry)) {
             error(`Invalid registry URL ${registry}`);
         }
-        const command = commands.config.concat(globalThis.ctx.pm, {
+        const command = commands.config.concat(this.ctx.pm, {
             verb: 'set',
             key: 'registry',
             value: registry!,
             global,
         }) as string[];
-        await exec(command, { cwd: globalThis.ctx.root });
+        await exec(command, { cwd: this.ctx.root });
     }
 }
 

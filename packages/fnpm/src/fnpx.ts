@@ -3,14 +3,11 @@
 import yargs from 'yargs';
 import pkg from '../package.json';
 import { Dlx } from './commands';
-import { type Context, getContext } from './util';
+import { CommandFactory } from './commands/base';
+import { getContext } from './util';
 
-const _ctx = await getContext(process.cwd());
-globalThis.ctx = _ctx;
-
-declare global {
-    var ctx: Context;
-}
+const ctx = await getContext(process.cwd());
+const factory = new CommandFactory(ctx);
 
 class Fnpx extends Dlx {
     override command = '*';
@@ -24,7 +21,7 @@ yargs(ctx.args)
     .alias('version', 'v')
     .help()
     .alias('help', 'h')
-    .command(new Fnpx())
+    .command(factory.create(Fnpx))
     .help()
     .alias('help', 'h')
     .usage('Usage: $0 <command> [options]')

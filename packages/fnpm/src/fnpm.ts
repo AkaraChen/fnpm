@@ -3,14 +3,9 @@
 import yargs from 'yargs';
 import pkg from '../package.json';
 import { mount } from './commands';
-import { type Context, getContext } from './util';
+import { getContext } from './util';
 
-const _ctx = await getContext(process.cwd());
-globalThis.ctx = _ctx;
-
-declare global {
-    var ctx: Context;
-}
+const ctx = await getContext(process.cwd());
 
 mount(
     yargs(ctx.args)
@@ -22,4 +17,5 @@ mount(
         .help()
         .alias('help', 'h')
         .usage('Usage: $0 <command> [options]'),
+    ctx,
 ).parse();

@@ -1,14 +1,13 @@
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface UseCommandOptions extends Options {
+interface UseCommandOptions extends BaseCommandOptions {
     pattern: string;
 }
 
-class Use<U extends UseCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Use<U extends UseCommandOptions> extends BaseCommand<U> {
     public command = 'use <pattern>';
     public describe = 'use a different package manager';
     public builder = (args: Argv): Argv<U> => {
@@ -22,12 +21,12 @@ class Use<U extends UseCommandOptions>
     public async handler(args: ArgumentsCamelCase<U>) {
         const { pattern } = args;
         if (pattern === 'latest') {
-            const shell = ['corepack', 'use', `${globalThis.ctx.pm}@latest`];
-            await exec(shell, { cwd: globalThis.ctx.root });
+            const shell = ['corepack', 'use', `${this.ctx.pm}@latest`];
+            await exec(shell, { cwd: this.ctx.root });
             return;
         }
         const shell = ['corepack', 'use', pattern];
-        await exec(shell, { cwd: globalThis.ctx.root });
+        await exec(shell, { cwd: this.ctx.root });
     }
 }
 

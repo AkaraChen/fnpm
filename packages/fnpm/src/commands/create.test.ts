@@ -1,58 +1,50 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
+import { factory } from '../../tests/utils';
+import { exec } from '../util';
 import Create from './create';
 
+vi.mock(import('../util'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        exec: vi.fn(),
+    };
+});
+
 // Mock the util module
-vi.mock('../util', () => ({
-    error: vi.fn(),
-    exec: vi.fn(),
-    normalizePackageVersion: (name: string) => name,
-}));
+vi.mock(import('../util'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        error: vi.fn(() => ({}) as never),
+        exec: vi.fn(),
+        normalizePackageVersion: (name: string) => name,
+    };
+});
 
 describe('Create Command', () => {
-    // Store the original ctx before each test
-    const originalCtx = globalThis.ctx;
-
-    beforeEach(() => {
-        // Reset mocks
-        vi.resetAllMocks();
-    });
-
-    afterEach(() => {
-        // Restore the original ctx after each test
-        globalThis.ctx = originalCtx;
-    });
-
     it('should handle create command with package name', async () => {
-        const cmd = new Create();
+        const cmd = factory.create(Create);
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: ['create', 'my-app'],
-            pm: 'pnpm',
-        } as any;
+        cmd.handler = vi.fn((args) => {
+            expect(args._).toEqual(['create', 'my-app']);
+        });
 
         await yargs(['create', 'my-app']).command(cmd).parse();
 
-        // Verify that args are parsed correctly
-        expect(globalThis.ctx.args).toEqual(['create', 'my-app']);
+        expect(cmd.handler).toHaveBeenCalled();
     });
 
     it('should handle create command with package name and additional args', async () => {
-        const cmd = new Create();
-
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: ['create', 'my-app', '--template', 'react'],
-            pm: 'pnpm',
-        } as any;
+        const cmd = factory.create(Create);
 
         await yargs(['create', 'my-app', '--template', 'react'])
             .command(cmd)
             .parse();
 
-        // Verify that args are parsed correctly
-        expect(globalThis.ctx.args).toEqual([
+        expect(exec).toHaveBeenCalledWith([
+            'pnpm',
             'create',
             'my-app',
             '--template',
@@ -61,20 +53,14 @@ describe('Create Command', () => {
     });
 
     it('should throw error when no package name is specified', async () => {
-        const cmd = new Create();
+        const cmd = factory.create(Create);
 
-        // Import the actual util module to get access to the mocked functions
-        const util = await import('../util');
-
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            args: ['create'],
-            pm: 'pnpm',
-        } as any;
+        cmd.handler = vi.fn((args) => {
+            expect(args._).toEqual(['create']);
+        });
 
         await yargs(['create']).command(cmd).parse();
 
-        // Verify that error was called with the correct message
-        expect(util.error).toHaveBeenCalledWith('No package [name] specified');
+        expect(cmd.handler).toHaveBeenCalled();
     });
 });

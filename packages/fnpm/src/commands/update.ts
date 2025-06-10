@@ -1,16 +1,15 @@
 import { type UpdateOptions, commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-interface UpdateCommandOptions extends Options {
+interface UpdateCommandOptions extends BaseCommandOptions {
     packages?: string[];
     global: boolean;
 }
 
-class Update<U extends UpdateCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Update<U extends UpdateCommandOptions> extends BaseCommand<U> {
     public command = ['update [packages..]', 'up'];
     public describe = 'update packages';
     public builder = (args: Argv): Argv<U> => {
@@ -33,8 +32,8 @@ class Update<U extends UpdateCommandOptions>
             packages: packages!,
             global,
         };
-        const command = commands.update.concat(globalThis.ctx.pm, options);
-        await exec(command, { cwd: globalThis.ctx.root });
+        const command = commands.update.concat(this.ctx.pm, options);
+        await exec(command, { cwd: this.ctx.root });
     }
 }
 

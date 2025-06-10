@@ -1,10 +1,11 @@
 import consola from 'consola';
 import { type AddOptions, commands } from 'pm-combo';
-import type { EmptyObject } from 'type-fest';
-import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
+import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
+import { BaseCommand } from './base';
+import type { BaseCommandOptions } from './base';
 
-export interface AddCommandOptions extends Options {
+export interface AddCommandOptions extends BaseCommandOptions {
     packages: string[];
     saveDev: boolean;
     saveExact: boolean;
@@ -16,9 +17,7 @@ export interface AddCommandOptions extends Options {
     save: boolean;
 }
 
-class Add<U extends AddCommandOptions>
-    implements CommandModule<EmptyObject, U>
-{
+class Add<U extends AddCommandOptions> extends BaseCommand<U> {
     public command = ['add [packages..]', 'a', 'install', 'i'];
     public describe = 'add packages';
     public builder = (args: Argv): Argv<U> => {
@@ -95,7 +94,7 @@ class Add<U extends AddCommandOptions>
             global = false,
             save = true,
         } = args;
-        consola.info(`Installing packages with ${ctx.pm}`);
+        consola.info(`Installing packages with ${this.ctx.pm}`);
         const options: AddOptions = {
             packages: packages!,
             save,
@@ -108,9 +107,9 @@ class Add<U extends AddCommandOptions>
             allowRoot: workspace,
         };
         const command = options.packages
-            ? commands.add.concat(globalThis.ctx.pm, options)
-            : commands.install.concat(globalThis.ctx.pm, options);
-        await exec(command, { cwd: globalThis.ctx.root });
+            ? commands.add.concat(this.ctx.pm, options)
+            : commands.install.concat(this.ctx.pm, options);
+        await exec(command, { cwd: this.ctx.root });
     }
 }
 

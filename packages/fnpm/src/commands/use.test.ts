@@ -1,34 +1,30 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
+import { ctx, factory } from '../../tests/utils';
 import Use from './use';
 
 // Mock the util module
-vi.mock('../util', () => ({
-    exec: vi.fn(),
-}));
+vi.mock(import('../util'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        exec: vi.fn(),
+    };
+});
 
 describe('Use Command', () => {
-    // Store the original ctx before each test
-    const originalCtx = globalThis.ctx;
-
+    // Set up test context
     beforeEach(() => {
         // Reset mocks
         vi.resetAllMocks();
 
-        // Mock globalThis.ctx
-        globalThis.ctx = {
-            pm: 'pnpm',
-            root: '/test/root',
-        } as any;
-    });
-
-    afterEach(() => {
-        // Restore the original ctx after each test
-        globalThis.ctx = originalCtx;
+        // Set ctx properties for tests
+        ctx.pm = 'pnpm';
+        ctx.root = '/test/root';
     });
 
     it('should handle use command with specific pattern', async () => {
-        const cmd = new Use();
+        const cmd = factory.create(Use);
         const util = await import('../util');
 
         await yargs(['use', 'npm@8']).command(cmd).parse();
@@ -40,7 +36,7 @@ describe('Use Command', () => {
     });
 
     it('should handle use command with latest pattern', async () => {
-        const cmd = new Use();
+        const cmd = factory.create(Use);
         const util = await import('../util');
 
         await yargs(['use', 'latest']).command(cmd).parse();
@@ -55,7 +51,7 @@ describe('Use Command', () => {
     });
 
     it('should require a pattern argument', async () => {
-        const cmd = new Use();
+        const cmd = factory.create(Use);
 
         // Create a mock handler to test argument parsing
         cmd.handler = vi.fn();

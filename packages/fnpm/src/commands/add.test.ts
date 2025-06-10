@@ -1,13 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import yargs, { type ArgumentsCamelCase } from 'yargs';
-import Add, { type AddCommandOptions } from './add';
-
-type Args = ArgumentsCamelCase<AddCommandOptions>;
+import yargs from 'yargs';
+import { factory } from '../../tests/utils';
+import Add from './add';
 
 describe('Add Command', () => {
     it('should install packages', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveDev).toBeFalsy();
@@ -22,8 +21,8 @@ describe('Add Command', () => {
     });
 
     it('should handle multiple packages', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo', 'bar', 'baz']);
             expect(options.save).toBeUndefined();
         };
@@ -31,8 +30,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --save-dev flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined(); // options.save defaults to true. yargs passes it as true even if saveDev is also true, if handler is called despite conflict.
             expect(options.saveDev).toBe(true);
@@ -41,8 +40,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -D alias for --save-dev', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveDev).toBe(true);
@@ -51,8 +50,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --save-exact flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveExact).toBe(true);
@@ -61,8 +60,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -E alias for --save-exact', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveExact).toBe(true);
@@ -71,8 +70,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --save-peer flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.savePeer).toBe(true);
@@ -81,8 +80,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -P alias for --save-peer', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.savePeer).toBe(true);
@@ -91,8 +90,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --save-optional flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveOptional).toBe(true);
@@ -101,8 +100,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -O alias for --save-optional', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.saveOptional).toBe(true);
@@ -111,8 +110,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --fixed flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.fixed).toBe(true);
@@ -121,8 +120,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -F alias for --fixed', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.fixed).toBe(true);
@@ -131,8 +130,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --workspace flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.workspace).toBe(true);
@@ -141,8 +140,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -W alias for --workspace', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.workspace).toBe(true);
@@ -151,8 +150,8 @@ describe('Add Command', () => {
     });
 
     it('should handle --global flag', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined(); // options.save defaults to true. yargs passes it as true even if global is also true, if handler is called despite conflict.
             expect(options.global).toBe(true);
@@ -161,8 +160,8 @@ describe('Add Command', () => {
     });
 
     it('should handle -G alias for --global', async () => {
-        const cmd = new Add();
-        cmd.handler = async (options: Args) => {
+        const cmd = factory.create(Add);
+        cmd.handler = async (options) => {
             expect(options.packages).toEqual(['foo']);
             expect(options.save).toBeUndefined();
             expect(options.global).toBe(true);
@@ -173,7 +172,7 @@ describe('Add Command', () => {
     it('should not handle combined flags', async () => {
         expect(() =>
             yargs(['add', 'pkg1', 'pkg2', '-D', '--save-exact', '-G'])
-                .command(new Add())
+                .command(factory.create(Add))
                 .parse(),
         ).toThrow();
     });

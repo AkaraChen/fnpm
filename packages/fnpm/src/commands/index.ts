@@ -1,8 +1,10 @@
 import type { Argv } from 'yargs';
+import type { Context } from '../util';
+import { CommandFactory } from './base';
+
 import Add from './add';
 import CI from './ci';
 import Config from './config';
-import Create from './create';
 import Default from './default';
 import Dlx from './dlx';
 import Doctor from './doctor';
@@ -20,24 +22,24 @@ import Why from './why';
 
 export { default as Dlx } from './dlx';
 
-export function mount(argv: Argv) {
+export function mount(argv: Argv, ctx: Context) {
+    const factory = new CommandFactory(ctx);
     return argv
-        .command(new Add())
-        .command(new Dlx())
-        .command(new Remove())
-        .command(new Create())
-        .command(new Init())
-        .command(new Test())
-        .command(new CI())
-        .command(new Doctor())
-        .command(new UI())
-        .command(new Default())
-        .command(new Use())
-        .command(new Update())
-        .command(new Publish())
-        .command(new View())
-        .command(new Why())
-        .command(new Config())
-        .command(new Registry())
-        .command(new Scaffold());
+        .command(factory.create(Add))
+        .command(factory.create(Dlx))
+        .command(factory.create(Remove))
+        .command(factory.create(Init))
+        .command(factory.create(Test))
+        .command(factory.create(CI))
+        .command(factory.create(Doctor))
+        .command(factory.create(UI))
+        .command(factory.create(Default))
+        .command(factory.create(Use))
+        .command(factory.create(Update))
+        .command(factory.create(Publish))
+        .command(factory.create(Why))
+        .command(factory.create(Config))
+        .command(factory.create(Registry))
+        .command(factory.create(Scaffold))
+        .command(factory.create(View));
 }
