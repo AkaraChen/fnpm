@@ -6,7 +6,6 @@ import { exec } from '../util';
 class Test implements CommandModule {
     public command = ['test', 't'];
     public describe = 'run tests';
-    public builder = {};
 
     public async handler() {
         const command = commands.test.concat(globalThis.ctx.pm, {
