@@ -23,6 +23,8 @@
         "@effect/platform-node": "^0.85.11",
         "@types/yargs": "^17.0.33",
         "effect": "^3.16.5",
+        "fnpm-test-suite": "workspace:*",
+        "nanoid": "^5.1.5",
         "type-fest": "^4.41.0"
     },
     "dependencies": {
@@ -35,6 +37,7 @@
         "git-url-parse": "^16.1.0",
         "open": "^10.1.2",
         "package-directory": "^8.1.0",
+        "picocolors": "^1.1.1",
         "pm-combo": "workspace:*",
         "read-pkg": "^9.0.1",
         "tinyexec": "^1.0.1",

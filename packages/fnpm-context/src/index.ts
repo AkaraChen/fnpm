@@ -13,13 +13,19 @@ import {
     ScanProjects,
 } from 'fnpm-utils';
 
-export interface RawContext {
-    root: string;
-    pm: mt.PM;
-    projects: Project[];
-    rootProject?: Project;
-    isMonoRepo: boolean;
-}
+export type Context =
+    | {
+          root: string;
+          pm: mt.PM;
+          projects: Project[];
+          rootProject?: Project;
+          isMonoRepo: boolean;
+      }
+    | {
+          root: string;
+          pm: mt.PM;
+          isMonoRepo: false;
+      };
 
 const prefferedPM = 'pnpm' as const;
 
@@ -39,7 +45,7 @@ function ResolveMonorepoContext(cwd: string) {
                 projects,
                 rootProject,
                 isMonoRepo: true,
-            } as RawContext;
+            } as Context;
         });
     });
 }
@@ -68,22 +74,20 @@ function ResolveSingleRepoContext(cwd: string) {
             projects,
             rootProject,
             isMonoRepo: false,
-        } as RawContext;
+        } as Context;
     });
 }
 
-export async function resolveContext(cwd: string): Promise<RawContext> {
+export async function resolveContext(cwd: string): Promise<Context> {
     const program = pipe(
         ResolveMonorepoContext(cwd),
         Effect.orElse(() => ResolveSingleRepoContext(cwd)),
         Effect.catchAll(() =>
             Effect.succeed({
                 root: cwd,
-                pm: 'pnpm',
-                projects: [],
-                rootProject: undefined,
+                pm: prefferedPM,
                 isMonoRepo: false,
-            } as RawContext),
+            } satisfies Context),
         ),
     );
     return await Effect.runPromise(program);

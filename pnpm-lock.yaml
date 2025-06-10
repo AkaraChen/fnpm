@@ -116,6 +116,9 @@ importers:
       package-directory:
         specifier: ^8.1.0
         version: 8.1.0
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
       pm-combo:
         specifier: workspace:*
         version: link:../pm-combo
@@ -144,6 +147,12 @@ importers:
       effect:
         specifier: ^3.16.5
         version: 3.16.5
+      fnpm-test-suite:
+        specifier: workspace:*
+        version: link:../fnpm-test-suite
+      nanoid:
+        specifier: ^5.1.5
+        version: 5.1.5
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0

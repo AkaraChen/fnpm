@@ -22,7 +22,7 @@ export function exec(shell: string[], opts: ExecOptions = {}) {
     });
 }
 
-export function error(message: string) {
+export function error(message: string): never {
     consola.error(message);
     process.exit(1);
 }
