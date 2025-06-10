@@ -1,5 +1,6 @@
 {
     "name": "fnpm-context",
+    "version": "1.13.1",
     "description": "",
     "main": "./dist/es/index.js",
     "scripts": {
