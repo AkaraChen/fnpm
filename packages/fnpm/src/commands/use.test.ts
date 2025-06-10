@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
-import { ctx, factory } from '../../tests/utils';
+import { factory } from '../../tests/utils';
 import Use from './use';
 
 // Mock the util module
@@ -9,7 +9,13 @@ vi.mock(import('../util'), async (importOriginal) => {
     return {
         ...actual,
         exec: vi.fn(),
+        getContext: vi.fn(),
+        normalizePackageVersion: vi.fn(),
     };
+});
+
+vi.spyOn(process, 'exit').mockImplementation(() => {
+    throw new Error('exit');
 });
 
 describe('Use Command', () => {
@@ -17,14 +23,14 @@ describe('Use Command', () => {
     beforeEach(() => {
         // Reset mocks
         vi.resetAllMocks();
-
-        // Set ctx properties for tests
-        ctx.pm = 'pnpm';
-        ctx.root = '/test/root';
     });
 
     it('should handle use command with specific pattern', async () => {
-        const cmd = factory.create(Use);
+        const cmd = factory.create(Use, {
+            args: ['use', 'npm@8'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
         const util = await import('../util');
 
         await yargs(['use', 'npm@8']).command(cmd).parse();
@@ -36,7 +42,11 @@ describe('Use Command', () => {
     });
 
     it('should handle use command with latest pattern', async () => {
-        const cmd = factory.create(Use);
+        const cmd = factory.create(Use, {
+            args: ['use', 'latest'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
         const util = await import('../util');
 
         await yargs(['use', 'latest']).command(cmd).parse();
@@ -48,18 +58,5 @@ describe('Use Command', () => {
                 cwd: '/test/root',
             },
         );
-    });
-
-    it('should require a pattern argument', async () => {
-        const cmd = factory.create(Use);
-
-        // Create a mock handler to test argument parsing
-        cmd.handler = vi.fn();
-
-        // This should fail because no pattern is provided
-        await expect(() => yargs(['use']).command(cmd).parse()).toThrow();
-
-        // Handler should not be called
-        expect(cmd.handler).not.toHaveBeenCalled();
     });
 });

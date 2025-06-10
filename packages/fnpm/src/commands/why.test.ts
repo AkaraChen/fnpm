@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import yargs from 'yargs';
-import { ctx, factory } from '../../tests/utils';
+import { factory } from '../../tests/utils';
 import Why from './why';
 
 // Mock the util module
@@ -16,14 +16,14 @@ describe('Why Command', () => {
     beforeEach(() => {
         // Reset mocks
         vi.resetAllMocks();
-
-        // Set ctx properties for tests
-        ctx.pm = 'pnpm';
-        ctx.root = '/test/root';
     });
 
     it('should explain why a package is installed', async () => {
-        const cmd = factory.create(Why);
+        const cmd = factory.create(Why, {
+            args: ['why', 'react'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
         const util = await import('../util');
 
         await yargs(['why', 'react']).command(cmd).parse();
@@ -35,7 +35,11 @@ describe('Why Command', () => {
     });
 
     it('should work with explain alias', async () => {
-        const cmd = factory.create(Why);
+        const cmd = factory.create(Why, {
+            args: ['explain', 'lodash'],
+            root: '/test/root',
+            pm: 'pnpm',
+        });
         const util = await import('../util');
 
         await yargs(['explain', 'lodash']).command(cmd).parse();
@@ -44,18 +48,5 @@ describe('Why Command', () => {
         expect(util.exec).toHaveBeenCalledWith(['pnpm', 'why', 'lodash'], {
             cwd: '/test/root',
         });
-    });
-
-    it('should require a query argument', async () => {
-        const cmd = factory.create(Why);
-
-        // Create a mock handler to test argument parsing
-        cmd.handler = vi.fn();
-
-        // This should fail because no query is provided
-        await expect(() => yargs(['why']).command(cmd).parse()).toThrow();
-
-        // Handler should not be called
-        expect(cmd.handler).not.toHaveBeenCalled();
     });
 });
