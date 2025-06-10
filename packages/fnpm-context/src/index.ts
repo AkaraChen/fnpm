@@ -13,14 +13,16 @@ import {
     ScanProjects,
 } from 'fnpm-utils';
 
+export type SafeContext = {
+    root: string;
+    pm: mt.PM;
+    projects: Project[];
+    rootProject?: Project;
+    isMonoRepo: boolean;
+};
+
 export type Context =
-    | {
-          root: string;
-          pm: mt.PM;
-          projects: Project[];
-          rootProject?: Project;
-          isMonoRepo: boolean;
-      }
+    | SafeContext
     | {
           root: string;
           pm: mt.PM;
@@ -91,4 +93,11 @@ export async function resolveContext(cwd: string): Promise<Context> {
         ),
     );
     return await Effect.runPromise(program);
+}
+
+export function safeContext(context: Context): SafeContext {
+    if (!('projects' in context)) {
+        throw new Error('Invalid context');
+    }
+    return context;
 }

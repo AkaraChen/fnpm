@@ -38,14 +38,15 @@ import { useLoaderData, useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';
 import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import type { Project } from '~/server/fnpm.server';
+import { type Project, safeContext } from '~/server/fnpm.server';
 
 export async function loader(args: LoaderFunctionArgs) {
     const context = await resolveContext(root);
-    const pm = context.pm;
+    const ctx = safeContext(context);
+    const pm = ctx.pm;
     const project =
-        context.projects.find((p) => p.manifest.name === args.params.name) ||
-        context.rootProject!;
+        ctx.projects.find((p) => p.manifest.name === args.params.name) ||
+        ctx.rootProject!;
     return {
         project,
         pm,

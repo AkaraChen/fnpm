@@ -5,10 +5,10 @@ import { DependencyFlow } from '~/components/dependency-flow';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { resolveContext, safeContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const { projects, rootProject } = await resolveContext(root);
+    const { projects, rootProject } = safeContext(await resolveContext(root));
     return {
         projects,
         rootProject,

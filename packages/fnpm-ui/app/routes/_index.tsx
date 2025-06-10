@@ -37,7 +37,12 @@ import { PageHeader } from '~/components/page-header';
 import { AllClear } from '~/components/result';
 import { SemverRange } from '~/components/semver-range';
 import { root } from '~/server/config.server';
-import { resolveContext, scan, update } from '~/server/fnpm.server';
+import {
+    resolveContext,
+    safeContext,
+    scan,
+    update,
+} from '~/server/fnpm.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'Dashboard' }];
@@ -80,7 +85,8 @@ const InfoCard: FC<InfoCardProps> = (props) => {
 
 export async function loader() {
     const context = await resolveContext(root);
-    const depsGraph = context.projects.map((project) => {
+    const ctx = safeContext(context);
+    const depsGraph = ctx.projects.map((project) => {
         const count = getDeps(project.manifest as PackageJson);
         return {
             name: project.manifest.name!,
@@ -119,11 +125,11 @@ export async function loader() {
             return deduped;
         });
     return {
-        projects: context.projects,
+        projects: ctx.projects,
         depsGraph,
         diagnoses,
         updates,
-        rootProject: context.rootProject,
+        rootProject: ctx.rootProject,
     };
 }
 

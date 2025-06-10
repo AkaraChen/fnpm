@@ -41,6 +41,9 @@ export class RuleContextImpl implements RuleContext {
         const rawContext = await resolveContext(this.cwd);
         this.root = rawContext.root;
         this.pm = rawContext.pm;
+        if (!('projects' in rawContext)) {
+            throw new Error('projects not found');
+        }
         this.projects = rawContext.projects;
         this.isMonoRepo = rawContext.isMonoRepo;
     }

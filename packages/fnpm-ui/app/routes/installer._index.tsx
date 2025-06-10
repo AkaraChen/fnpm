@@ -16,11 +16,11 @@ import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { resolveContext, safeContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const context = resolveContext(root);
-    return context;
+    const context = await resolveContext(root);
+    return safeContext(context);
 }
 
 export default function Page() {

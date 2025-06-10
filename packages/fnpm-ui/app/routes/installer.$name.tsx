@@ -9,17 +9,17 @@ import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { resolveContext, safeContext } from '~/server/fnpm.server';
 
 export async function loader(args: LoaderFunctionArgs) {
     const name = args.params.name;
     const context = await resolveContext(root);
-    const pm = context.pm;
-    const project = context.projects.find(
+    const ctx = safeContext(context);
+    const pm = ctx.pm;
+    const project = ctx.projects.find(
         (project) => project.manifest.name === name,
     );
-    const isRoot =
-        context.isMonoRepo && context.rootProject?.manifest.name === name;
+    const isRoot = ctx.isMonoRepo && ctx.rootProject?.manifest.name === name;
     return { pm, project, isRoot };
 }
 

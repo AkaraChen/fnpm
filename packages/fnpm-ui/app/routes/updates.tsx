@@ -33,6 +33,7 @@ import { ResultPage } from '~/components/result';
 import { SemverRange } from '~/components/semver-range';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
+import { safeContext } from '~/server/fnpm.server';
 import {
     type UpdateManifest,
     resolveContext,
@@ -44,7 +45,7 @@ interface UpdateManifestWithWorkspace extends UpdateManifest {
 }
 
 export async function loader() {
-    const ctx = await resolveContext(root);
+    const ctx = safeContext(await resolveContext(root));
     const updates = update(ctx).then((updates) => {
         return Object.fromEntries(
             Object.entries(updates).map(([workspace, updates]) => [

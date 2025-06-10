@@ -1,17 +1,17 @@
 import { Box } from '@mantine/core';
-import type { RawContext } from 'fnpm-context';
+import type { SafeContext } from 'fnpm-context';
 import type { MetaFunction } from 'react-router';
 import { Outlet, useLoaderData, useNavigate } from 'react-router';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { ProjectSelector } from '~/components/project-selector';
 import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { resolveContext, safeContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const context = resolveContext(root);
+    const context = await resolveContext(root);
     return {
-        context,
+        context: safeContext(context),
     };
 }
 
@@ -31,7 +31,7 @@ export default function Page() {
         <BasePage>
             <PageHeader title='Shared' />
             <ProjectSelector
-                promise={data.context as unknown as Promise<RawContext>}
+                promise={data.context as unknown as Promise<SafeContext>}
                 onChange={(value) => {
                     const url = `/packages/${encodeURIComponent(value)}`;
                     navigate(url);

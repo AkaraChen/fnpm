@@ -1,11 +1,11 @@
 import { Effect } from 'effect';
-import type { RawContext } from 'fnpm-context';
+import { type Context, safeContext } from 'fnpm-context';
 import type { UpdateManifest } from './types';
 import { Update } from './update';
 
 export async function update(
-    ctx: RawContext,
+    ctx: Context,
 ): Promise<Record<string, UpdateManifest[]>> {
-    return await Effect.runPromise(Update(ctx));
+    return await Effect.runPromise(Update(safeContext(ctx)));
 }
 export type { UpdateManifest };

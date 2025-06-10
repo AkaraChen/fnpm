@@ -1,17 +1,17 @@
 import { Effect } from 'effect';
-import type { RawContext } from 'fnpm-context';
+import type { Context, SafeContext } from 'fnpm-context';
 import { getDep } from 'fnpm-toolkit';
 import { ReadPackage } from 'fnpm-utils';
 import { type RunOptions, run } from 'npm-check-updates';
 import path from 'pathe';
 import type { UpdateManifest } from './types';
 
-function resolveWorkspace(ctx: RawContext, filePath: string) {
+function resolveWorkspace(ctx: Context, filePath: string) {
     const dir = path.dirname(filePath);
     return path.resolve(ctx.root, dir);
 }
 
-function ResolvePackage(ctx: RawContext, filePath: string) {
+function ResolvePackage(ctx: Context, filePath: string) {
     const dir = resolveWorkspace(ctx, filePath);
     return ReadPackage({ cwd: dir });
 }
@@ -41,7 +41,7 @@ function TransformInfo(updates: Record<string, string>, root: string) {
     });
 }
 
-export function Update(ctx: RawContext) {
+export function Update(ctx: SafeContext) {
     return Effect.gen(function* () {
         const updates = yield* Run({
             workspaces: ctx.isMonoRepo,
@@ -49,7 +49,9 @@ export function Update(ctx: RawContext) {
             install: 'never',
             silent: true,
         });
-        if (!updates) yield* Effect.fail(new Error('Invalid updates args'));
+        if (!updates) {
+            throw new Error('Invalid updates args');
+        }
         const result: Record<string, UpdateManifest[]> = {};
         if (ctx.isMonoRepo) {
             const info = updates as Record<string, Record<string, string>>;

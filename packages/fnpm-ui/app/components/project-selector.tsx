@@ -1,10 +1,10 @@
 import { NativeSelect, Skeleton } from '@mantine/core';
-import type { RawContext } from 'fnpm-context';
+import type { SafeContext } from 'fnpm-context';
 import { type FC, Suspense } from 'react';
 import { Await, useParams } from 'react-router';
 
 export interface ProjectSelector {
-    promise: Promise<RawContext>;
+    promise: Promise<SafeContext>;
     onChange: (project: string) => void;
 }
 
