@@ -13,18 +13,18 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.12.1",
+    "packageManager": "pnpm@10.15.0",
     "dependencies": {
         "@akrc/yaml": "^4.2.0",
-        "@effect/platform": "^0.84.9",
+        "@effect/platform": "^0.84.11",
         "defu": "^6.1.4",
-        "effect": "^3.16.5",
+        "effect": "^3.17.9",
         "nanoid": "^5.1.5"
     },
     "type": "module",
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.1.0",
-        "@effect/platform-node": "^0.85.11",
+        "@effect/platform-node": "^0.85.16",
         "bunchee": "6.5.2",
         "json-schema-to-typescript": "^15.0.4",
         "pm-combo": "workspace:*",

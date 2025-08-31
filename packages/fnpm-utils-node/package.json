@@ -9,7 +9,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.12.1",
+    "packageManager": "pnpm@10.15.0",
     "type": "module",
     "devDependencies": {
         "@pnpm/types": "12.2.0",
@@ -20,7 +20,7 @@
     "files": ["dist"],
     "dependencies": {
         "@akrc/monorepo-tools": "^4.1.0",
-        "effect": "^3.16.5"
+        "effect": "^3.17.9"
     },
     "main": "./dist/index.cjs",
     "module": "./dist/index.js",

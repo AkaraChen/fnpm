@@ -10,13 +10,13 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.12.1",
+    "packageManager": "pnpm@10.15.0",
     "type": "module",
     "devDependencies": {
-        "@effect/platform": "^0.84.9",
-        "@effect/platform-node": "^0.85.11",
+        "@effect/platform": "^0.84.11",
+        "@effect/platform-node": "^0.85.16",
         "bunchee": "6.5.2",
-        "effect": "^3.16.5",
+        "effect": "^3.17.9",
         "fnpm-test-suite": "workspace:*"
     },
     "files": ["dist"],
@@ -38,7 +38,7 @@
         "fnpm-context": "workspace:*",
         "fnpm-toolkit": "workspace:*",
         "fnpm-utils-node": "workspace:*",
-        "npm-check-updates": "^18.0.1",
+        "npm-check-updates": "^18.0.3",
         "pathe": "^2.0.3"
     },
     "publishConfig": {
