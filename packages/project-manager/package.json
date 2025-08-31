@@ -23,7 +23,7 @@
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.13",
-        "bunchee": "6.5.2",
+        "bunchee": "6.6.0",
         "drizzle-kit": "^0.31.4"
     },
     "files": [
