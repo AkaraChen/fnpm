@@ -87,7 +87,6 @@ export const useRun = (props: RunProps = {}) => {
                             <Text
                                 key={Math.random()}
                                 c={'white'}
-                                // biome-ignore lint/security/noDangerouslySetInnerHtml: santized, so is ok.
                                 dangerouslySetInnerHTML={{
                                     __html: transformAnsi(log),
                                 }}

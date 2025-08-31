@@ -8,7 +8,8 @@
         "build": "bunchee",
         "dev": "bunchee --watch",
         "gen": "npm run gen:pnpm-workspace-spec",
-        "gen:pnpm-workspace-spec": "sh ./scripts/gen-pnpm-workspace-spec.sh"
+        "gen:pnpm-workspace-spec": "sh ./scripts/gen-pnpm-workspace-spec.sh",
+        "lint": "eslint ."
     },
     "keywords": [],
     "author": "",

@@ -7,7 +7,8 @@
         "build": "bunchee --minify",
         "dev": "bunchee --watch",
         "db:generate": "drizzle-kit generate",
-        "db:migrate": "drizzle-kit migrate"
+        "db:migrate": "drizzle-kit migrate",
+        "lint": "eslint ."
     },
     "keywords": [],
     "author": "",

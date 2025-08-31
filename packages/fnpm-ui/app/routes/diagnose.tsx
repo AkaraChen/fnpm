@@ -82,7 +82,6 @@ const DiagnoseCard: FC<Diagnose> = (props) => {
                 <Text
                     c={theme.colors.gray[6]}
                     size='sm'
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
                     dangerouslySetInnerHTML={{
                         __html: transformAnsi(description),
                     }}
@@ -113,7 +112,7 @@ export default function Page() {
     const filtered = Object.entries(grouped).filter(
         ([currentLevel, diagnoses]) =>
             diagnoses.length &&
-            levelMap[currentLevel as DiagnoseLevel] >= levelMap[level],
+            levelMap[currentLevel as DiagnoseLevel] >= levelMap[level]
     );
     const theme = useMantineTheme();
     return (

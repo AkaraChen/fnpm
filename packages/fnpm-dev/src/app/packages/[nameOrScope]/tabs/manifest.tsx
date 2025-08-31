@@ -25,7 +25,6 @@ const Readme: FC<ReadmeProps> = async (props) => {
     return (
         <article
             className={'markdown-body !text-[15px]'}
-            // biome-ignore lint: it's ok
             dangerouslySetInnerHTML={{
                 __html: rendered.toString(),
             }}

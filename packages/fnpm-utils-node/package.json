@@ -4,7 +4,8 @@
     "description": "",
     "scripts": {
         "dev": "tsdown --watch",
-        "build": "tsdown"
+        "build": "tsdown",
+        "lint": "eslint ."
     },
     "keywords": [],
     "author": "",

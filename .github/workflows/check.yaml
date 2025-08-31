@@ -31,10 +31,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Biome linter and format check
-        # This command checks for lint and format issues without writing changes.
-        # It will fail if there are violations.
-        run: pnpm biome lint .
+      - name: Run ESLint check
+        run: pnpm exec eslint .
 
   test:
     needs: lint

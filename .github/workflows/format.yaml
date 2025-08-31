@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write # Required to push changes made by biome
+  contents: write
 
 jobs:
   format_and_commit:
@@ -35,9 +35,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Biome check (lint & format --write)
-        # pnpm check is configured as 'biome check . --write'
-        run: pnpm check
+      - name: Run Prettier and ESLint
+        run: pnpm check && pnpm format
 
       - name: Commit and push changes
         run: |

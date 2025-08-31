@@ -1,0 +1,19 @@
+# Ignore artifacts
+dist
+build
+.turbo
+coverage
+.next
+
+# Ignore dependencies
+node_modules
+
+# Ignore generated files
+packages/fnpm-test-suite/generated/
+packages/npm-registry-client/generated/
+
+# Ignore patches
+patches/
+
+# Lock file
+pnpm-lock.yaml
