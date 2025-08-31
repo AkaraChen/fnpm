@@ -11,12 +11,13 @@ export async function createProject(newProject: NewProject) {
 }
 
 export async function getProjectById(id: number) {
-    const result = await db.select().from(projects).where(eq(projects.id, id));
-    return result[0];
+    return await db.query.projects.findFirst({
+        where: eq(projects.id, id),
+    });
 }
 
 export async function findProjects() {
-    return db.select().from(projects);
+    return await db.query.projects.findMany();
 }
 
 export async function updateProject(
