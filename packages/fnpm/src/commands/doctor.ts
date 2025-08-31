@@ -1,8 +1,8 @@
 import consola from 'consola';
 import * as doctor from 'fnpm-doctor';
 import type { Argv } from 'yargs';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface DoctorCommandOptions extends BaseCommandOptions {}
 

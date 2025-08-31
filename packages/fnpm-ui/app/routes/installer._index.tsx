@@ -3,9 +3,9 @@ import {
     Button,
     Checkbox,
     Flex,
+    rem,
     Stack,
     TextInput,
-    rem,
 } from '@mantine/core';
 import { IconDownload, IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';

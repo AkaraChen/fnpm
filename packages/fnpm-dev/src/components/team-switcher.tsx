@@ -1,11 +1,11 @@
 'use client';
 
+import type * as React from 'react';
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import type * as React from 'react';
 
 export function TeamSwitcher({
     team,

@@ -1,7 +1,7 @@
-import { Tab as PackagePageTab } from '@/app/packages/[nameOrScope]/shared';
 import { npmjs as client } from '@akrc/npm-registry-client';
 import { throwOnHttpError } from '@akrc/npm-registry-client/middleware';
 import { match } from 'ts-pattern';
+import { Tab as PackagePageTab } from '@/app/packages/[nameOrScope]/shared';
 
 export function viewOnNpmjs(pathname: string) {
     if (pathname === '/') {

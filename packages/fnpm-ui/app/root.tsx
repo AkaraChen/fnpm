@@ -3,9 +3,9 @@ import '@mantine/core/styles.css';
 import {
     Box,
     ColorSchemeScript,
+    createTheme,
     Flex,
     MantineProvider,
-    createTheme,
 } from '@mantine/core';
 import { Navbar } from './components/navbar/navbar';
 import '@fontsource-variable/inter';

@@ -1,8 +1,8 @@
+import type { schema } from '@akrc/npm-registry-client';
+import type { FC } from 'react';
 import { CodeClient } from '@/app/packages/[nameOrScope]/tabs/code.client';
 import { Card } from '@/components/card';
 import { type Folder, tarToTree } from '@/lib/tar';
-import type { schema } from '@akrc/npm-registry-client';
-import type { FC } from 'react';
 
 type CodeProps = {
     version: string;

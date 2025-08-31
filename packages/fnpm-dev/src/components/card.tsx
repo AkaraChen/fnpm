@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import type { ComponentProps, FC, ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 interface CardProps extends Omit<ComponentProps<'div'>, 'title'> {
     title?: ReactNode;

@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { AppSidebar } from '@/components/app-sidebar';
 import { NavActions } from '@/components/nav-actions';
 import {
@@ -15,7 +16,6 @@ import {
     SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
-import { redirect } from 'next/navigation';
 
 export default function Page() {
     return (

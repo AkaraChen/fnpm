@@ -1,4 +1,4 @@
+export type { Project } from '@pnpm/types';
 export { resolveContext, safeContext } from 'fnpm-context';
 export { scan } from 'fnpm-doctor';
-export { update, type UpdateManifest } from 'fnpm-updator';
-export type { Project } from '@pnpm/types';
+export { type UpdateManifest, update } from 'fnpm-updator';

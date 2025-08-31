@@ -1,6 +1,6 @@
 import { consola } from 'consola';
 import * as tinyexec from 'tinyexec';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import { error, exec, normalizePackageVersion } from './util';
 
 // Mock tinyexec

@@ -1,8 +1,8 @@
 import { type ConfigOptions, commands } from 'pm-combo';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 export interface ConfigCommandOptions extends BaseCommandOptions {
     verb: string;

@@ -2,8 +2,8 @@ import consola from 'consola';
 import { commands } from 'pm-combo';
 import type { Argv } from 'yargs';
 import { exec } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface TestCommandOptions extends BaseCommandOptions {}
 

@@ -1,3 +1,5 @@
+import { Space_Mono } from 'next/font/google';
+import type { PropsWithChildren } from 'react';
 import { AppSidebar } from '@/components/app-sidebar';
 import { NavActions } from '@/components/nav-actions';
 import {
@@ -13,8 +15,6 @@ import {
     SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
-import { Space_Mono } from 'next/font/google';
-import type { PropsWithChildren } from 'react';
 
 const spaceMono = Space_Mono({
     weight: ['400'],

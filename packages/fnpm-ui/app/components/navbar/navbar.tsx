@@ -1,4 +1,4 @@
-import { Box, Code, Flex, Group, Stack, Text, rem } from '@mantine/core';
+import { Box, Code, Flex, Group, rem, Stack, Text } from '@mantine/core';
 import {
     IconDashboard,
     IconDownload,

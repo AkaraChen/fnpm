@@ -1,4 +1,4 @@
-import { searchPackages } from 'query-registry';
+import { npmjs } from '@akrc/npm-registry-client';
 import type { LoaderFunctionArgs } from 'react-router';
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -6,16 +6,20 @@ export async function loader(args: LoaderFunctionArgs) {
     const query = params.get('query');
     const page = params.get('page');
     const size = 50;
-    const from = page ? Number.parseInt(page) * size : 0;
-    const packages = await searchPackages({
-        text: query!,
-        size,
-        from,
+    const from = page ? Number.parseInt(page, 10) * size : 0;
+    const { data: packages } = await npmjs.GET('/-/v1/search', {
+        params: {
+            query: {
+                text: query!,
+                size,
+                from,
+            },
+        },
     });
     return {
         ...packages,
         query,
-        page: page ? Number.parseInt(page) : 0,
+        page: page ? Number.parseInt(page, 10) : 0,
         size,
     };
 }

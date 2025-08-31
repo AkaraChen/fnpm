@@ -2,8 +2,8 @@ import consola from 'consola';
 import { start } from 'fnpm-ui';
 import { getPort } from 'get-port-please';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface UICommandOptions extends BaseCommandOptions {
     port?: number;

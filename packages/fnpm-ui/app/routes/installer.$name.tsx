@@ -1,4 +1,4 @@
-import { Button, Flex, Stack, TextInput, rem } from '@mantine/core';
+import { Button, Flex, rem, Stack, TextInput } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { Suspense, useDeferredValue, useState } from 'react';

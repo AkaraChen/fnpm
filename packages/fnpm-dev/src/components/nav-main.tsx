@@ -1,15 +1,14 @@
 'use client';
 
+import type { TablerIcon } from '@tabler/icons-react';
 import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
-
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
-import type { TablerIcon } from '@tabler/icons-react';
 
 export interface NavMainItem {
     title: string;
@@ -20,11 +19,7 @@ export interface NavMainItem {
     className?: string;
 }
 
-export function NavMain({
-    items,
-}: {
-    items: NavMainItem[];
-}) {
+export function NavMain({ items }: { items: NavMainItem[] }) {
     return (
         <SidebarMenu>
             {items.map((item) => (
@@ -42,20 +37,16 @@ export function NavMain({
                                 <span>{item.title}</span>
                             </Link>
                         ) : (
-                            <div
+                            <button
+                                type='button'
                                 onClick={() => {
                                     item.onClick?.();
-                                }}
-                                onKeyUp={(e) => {
-                                    if (e.key === 'Enter') {
-                                        item.onClick?.();
-                                    }
                                 }}
                                 className={cn('cursor-pointer', item.className)}
                             >
                                 <item.icon />
                                 <span>{item.title}</span>
-                            </div>
+                            </button>
                         )}
                     </SidebarMenuButton>
                 </SidebarMenuItem>

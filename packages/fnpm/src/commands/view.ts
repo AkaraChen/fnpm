@@ -3,8 +3,8 @@ import open from 'open';
 import { readPackage } from 'read-pkg';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface ViewCommandOptions extends BaseCommandOptions {
     platform: 'repo' | 'npm';

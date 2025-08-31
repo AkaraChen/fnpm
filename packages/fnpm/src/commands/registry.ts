@@ -1,8 +1,8 @@
 import { commands } from 'pm-combo';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface RegistryOptions extends BaseCommandOptions {
     registry: string;

@@ -1,3 +1,17 @@
+import {
+    SiGnometerminal,
+    SiJavascript,
+    SiReact,
+    SiTypescript,
+} from '@icons-pack/react-simple-icons';
+import { getTypesPackage, hasBin, hasReact, hasTypes } from 'fnpm-toolkit';
+import humanFormat from 'human-format';
+import { Space_Mono } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { FC } from 'react';
+import { match, P } from 'ts-pattern';
+import type { PackageJson } from 'type-fest';
 import { Code } from '@/app/packages/[nameOrScope]/tabs/code';
 import { Dependency } from '@/app/packages/[nameOrScope]/tabs/deps';
 import { Manifest } from '@/app/packages/[nameOrScope]/tabs/manifest';
@@ -15,20 +29,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { npmjsApi, npmjsRegistry } from '@/lib/npmjs';
 import { fetchFromJsdelivr } from '@/lib/request';
 import { cn } from '@/lib/utils';
-import {
-    SiGnometerminal,
-    SiJavascript,
-    SiReact,
-    SiTypescript,
-} from '@icons-pack/react-simple-icons';
-import { getTypesPackage, hasBin, hasReact, hasTypes } from 'fnpm-toolkit';
-import humanFormat from 'human-format';
-import { Space_Mono } from 'next/font/google';
-import Image from 'next/image';
-import Link from 'next/link';
-import type { FC } from 'react';
-import { P, match } from 'ts-pattern';
-import type { PackageJson } from 'type-fest';
 
 interface TagsProps {
     name: string;

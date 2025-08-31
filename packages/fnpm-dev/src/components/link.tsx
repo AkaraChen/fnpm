@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils';
 import NextLink from 'next/link';
 import type { ComponentProps, FC } from 'react';
+import { cn } from '@/lib/utils';
 
 interface LinkProps extends ComponentProps<'a'> {
     href: string;

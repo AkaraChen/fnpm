@@ -5,8 +5,8 @@ import { readPackage } from 'read-pkg';
 import type { PackageJson } from 'type-fest';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface DefaultCommandOptions extends BaseCommandOptions {}
 

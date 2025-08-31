@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { Collapsible } from '@/components/ui/collapsible';
 import {
     SidebarGroup,
@@ -7,8 +9,6 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
-import type { ReactNode } from 'react';
 
 export interface IWorkspaceMenuItem {
     name: string;

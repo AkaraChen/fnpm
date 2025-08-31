@@ -1,8 +1,7 @@
 import type { Argv } from 'yargs';
 import type { Context } from '../util';
-import { CommandFactory } from './base';
-
 import Add from './add';
+import { CommandFactory } from './base';
 import CI from './ci';
 import Config from './config';
 import Default from './default';

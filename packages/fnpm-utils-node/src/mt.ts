@@ -1,7 +1,7 @@
 import {
-    type PM,
     detectPMByLock,
     findUpRoot,
+    type PM,
     scanProjects,
 } from '@akrc/monorepo-tools';
 import type { Project } from '@pnpm/types';

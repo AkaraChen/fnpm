@@ -5,10 +5,10 @@ import {
     Checkbox,
     Divider,
     Flex,
+    rem,
     ScrollArea,
     SimpleGrid,
     Text,
-    rem,
     useMantineTheme,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
@@ -17,11 +17,11 @@ import { IconCircleCheck, IconUpload } from '@tabler/icons-react';
 import { commands } from 'pm-combo';
 import { group, shake } from 'radash';
 import {
+    createContext,
     type Dispatch,
     type FC,
     type SetStateAction,
     Suspense,
-    createContext,
     useContext,
     useState,
 } from 'react';
@@ -33,10 +33,10 @@ import { ResultPage } from '~/components/result';
 import { SemverRange } from '~/components/semver-range';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import { safeContext } from '~/server/fnpm.server';
 import {
-    type UpdateManifest,
     resolveContext,
+    safeContext,
+    type UpdateManifest,
     update,
 } from '~/server/fnpm.server';
 

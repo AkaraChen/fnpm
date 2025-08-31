@@ -1,8 +1,8 @@
-import { type UpdateOptions, commands } from 'pm-combo';
+import { commands, type UpdateOptions } from 'pm-combo';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { exec } from '../util';
-import { BaseCommand } from './base';
 import type { BaseCommandOptions } from './base';
+import { BaseCommand } from './base';
 
 interface UpdateCommandOptions extends BaseCommandOptions {
     packages?: string[];

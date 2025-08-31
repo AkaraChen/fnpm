@@ -1,8 +1,8 @@
-import { Card } from '@/components/card';
-import { Link } from '@/components/link';
 import type { schema } from '@akrc/npm-registry-client';
 import { npmjs } from '@akrc/npm-registry-client';
 import type { FC } from 'react';
+import { Card } from '@/components/card';
+import { Link } from '@/components/link';
 
 type DependencyProps = {
     name: string;

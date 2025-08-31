@@ -1,9 +1,9 @@
+import Link from 'next/link';
+import invariant from 'tiny-invariant';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { sha256 } from '@/lib/crypto';
 import { npmjsRegistry } from '@/lib/npmjs';
-import Link from 'next/link';
-import invariant from 'tiny-invariant';
 import { SearchBar } from './bar';
 
 interface SearchParams {

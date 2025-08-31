@@ -1,5 +1,5 @@
+import type { schema } from '@akrc/npm-registry-client';
 import { useQuery } from '@tanstack/react-query';
-import type { Packument } from 'query-registry';
 
 export function usePackument(name: string) {
     return useQuery({
@@ -9,7 +9,7 @@ export function usePackument(name: string) {
             url.searchParams.set('name', name);
             return (await fetch(url.toString(), {
                 signal: context.signal,
-            }).then((res) => res.json())) as Packument;
+            }).then((res) => res.json())) as schema['PackageMetadata'];
         },
     });
 }

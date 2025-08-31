@@ -1,3 +1,4 @@
+import type { Project } from '@pnpm/types';
 import { Effect } from 'effect';
 import { getDeps } from 'fnpm-toolkit';
 import type {
@@ -9,11 +10,8 @@ import type {
 import microUtilsReplacements from 'module-replacements/manifests/micro-utilities.json';
 import nativeReplacements from 'module-replacements/manifests/native.json';
 import preferredReplacements from 'module-replacements/manifests/preferred.json';
-import type { RuleContext } from '../rule';
-
-import type { Project } from '@pnpm/types';
 import type { PackageJson } from 'type-fest';
-import type { Rule } from '../rule';
+import type { Rule, RuleContext } from '../rule';
 
 function createRule<T extends ModuleReplacement>(
     replacements: T[],

@@ -7,11 +7,11 @@ import {
     Flex,
     Grid,
     Menu,
+    rem,
     ScrollArea,
     SimpleGrid,
     Stack,
     Text,
-    rem,
 } from '@mantine/core';
 import {
     IconAdjustments,
@@ -32,7 +32,7 @@ import {
     hasTypes,
 } from 'fnpm-toolkit';
 import { commands } from 'pm-combo';
-import { type FC, type ReactNode, createContext, useContext } from 'react';
+import { createContext, type FC, type ReactNode, useContext } from 'react';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';

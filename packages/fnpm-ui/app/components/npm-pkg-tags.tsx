@@ -6,7 +6,7 @@ import {
     SiReact,
     SiTypescript,
 } from '@icons-pack/react-simple-icons';
-import { Flex, Skeleton, rem } from '@mantine/core';
+import { Flex, rem, Skeleton } from '@mantine/core';
 import { hasBin, hasExportFields, hasReact, hasTypes } from 'fnpm-toolkit';
 import { type ComponentProps, type FC, useMemo } from 'react';
 import type { PackageJson } from 'type-fest';

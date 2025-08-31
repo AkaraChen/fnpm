@@ -10,6 +10,7 @@
         "typecheck": "tsc"
     },
     "dependencies": {
+        "@akrc/npm-registry-client": "workspace:*",
         "@react-router/serve": "^7.8.2",
         "react-router": "^7.8.2"
     },
@@ -47,7 +48,6 @@
         "postcss": "^8.5.6",
         "postcss-preset-mantine": "^1.18.0",
         "postcss-simple-vars": "^7.0.1",
-        "query-registry": "^4.2.0",
         "radash": "^12.1.1",
         "react": "^19.1.1",
         "react-dom": "^19.1.1",

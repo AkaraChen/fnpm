@@ -1,4 +1,4 @@
-import { getPackument } from 'query-registry';
+import { npmjs } from '@akrc/npm-registry-client';
 import type { LoaderFunctionArgs } from 'react-router';
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -7,5 +7,8 @@ export async function loader(args: LoaderFunctionArgs) {
     if (!name) {
         throw new Error('Missing package [name]');
     }
-    return await getPackument(name);
+    const { data } = await npmjs.GET('/{packageName}', {
+        params: { path: { packageName: name } },
+    });
+    return data;
 }
