@@ -1,13 +1,12 @@
 'use client';
 
-import { npmjsRegistry, viewOnNpmjs } from '@/lib/npmjs';
-import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
-import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
+import { IconExternalLink, IconSettings } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { CommandLoading } from 'cmdk';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { npmjsRegistry, viewOnNpmjs } from '@/lib/npmjs';
 import {
     CommandDialog,
     CommandGroup,

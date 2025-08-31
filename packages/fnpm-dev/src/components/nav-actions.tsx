@@ -1,7 +1,21 @@
 'use client';
 
+import {
+    IconArrowDown,
+    IconArrowUp,
+    IconBell,
+    IconChartAreaLine,
+    IconCopy,
+    IconCornerUpLeft,
+    IconCornerUpRight,
+    IconDots,
+    IconExternalLink,
+    IconFileText,
+    IconSettings,
+    IconStar,
+    IconTrash,
+} from '@tabler/icons-react';
 import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
 import {
     Popover,
@@ -17,19 +31,6 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import IconArrowDown from '@tabler/icons-react/dist/esm/icons/IconArrowDown';
-import IconArrowUp from '@tabler/icons-react/dist/esm/icons/IconArrowUp';
-import IconBell from '@tabler/icons-react/dist/esm/icons/IconBell';
-import IconChartAreaLine from '@tabler/icons-react/dist/esm/icons/IconChartAreaLine';
-import IconCopy from '@tabler/icons-react/dist/esm/icons/IconCopy';
-import IconCornerUpLeft from '@tabler/icons-react/dist/esm/icons/IconCornerUpLeft';
-import IconCornerUpRight from '@tabler/icons-react/dist/esm/icons/IconCornerUpRight';
-import IconDots from '@tabler/icons-react/dist/esm/icons/IconDots';
-import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
-import IconFileText from '@tabler/icons-react/dist/esm/icons/IconFileText';
-import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
-import IconStar from '@tabler/icons-react/dist/esm/icons/IconStar';
-import IconTrash from '@tabler/icons-react/dist/esm/icons/IconTrash';
 
 const data = [
     [

@@ -1,7 +1,15 @@
 'use client';
 
+import {
+    IconCommand,
+    IconExternalLink,
+    IconHome2,
+    IconSearch,
+    IconSettings,
+} from '@tabler/icons-react';
+import { usePathname } from 'next/navigation';
 import type * as React from 'react';
-
+import { useState } from 'react';
 import { NavFavorites } from '@/components/nav-favorites';
 import { NavMain, type NavMainItem } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
@@ -17,13 +25,6 @@ import {
     SidebarRail,
 } from '@/components/ui/sidebar';
 import { viewOnNpmjs } from '@/lib/npmjs';
-import IconCommand from '@tabler/icons-react/dist/esm/icons/IconCommand';
-import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
-import IconHome2 from '@tabler/icons-react/dist/esm/icons/IconHome2';
-import IconSearch from '@tabler/icons-react/dist/esm/icons/IconSearch';
-import IconSettings from '@tabler/icons-react/dist/esm/icons/IconSettings';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import { CommandMenu } from './command-menu';
 
 // This is sample data.

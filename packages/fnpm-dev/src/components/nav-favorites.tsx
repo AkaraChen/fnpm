@@ -1,6 +1,13 @@
 'use client';
 
 import {
+    IconArrowUpRight,
+    IconDots,
+    IconExternalLink,
+    IconStarOff,
+    IconTrash,
+} from '@tabler/icons-react';
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -16,11 +23,6 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar';
-import IconArrowUpRight from '@tabler/icons-react/dist/esm/icons/IconArrowUpRight';
-import IconDots from '@tabler/icons-react/dist/esm/icons/IconDots';
-import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
-import IconStarOff from '@tabler/icons-react/dist/esm/icons/IconStarOff';
-import IconTrash from '@tabler/icons-react/dist/esm/icons/IconTrash';
 
 export function NavFavorites({
     favorites,

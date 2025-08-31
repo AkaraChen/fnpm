@@ -1,14 +1,14 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { urlToAbsolute } from '@/lib/url';
-import IconTerminal from '@tabler/icons-react/dist/esm/icons/IconTerminal';
+import { IconTerminal } from '@tabler/icons-react';
 import { devDepsMatchers } from 'fnpm-toolkit';
 import { useClipboard } from 'foxact/use-clipboard';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { urlToAbsolute } from '@/lib/url';
 
 interface CopyCommandProps {
     name: string;

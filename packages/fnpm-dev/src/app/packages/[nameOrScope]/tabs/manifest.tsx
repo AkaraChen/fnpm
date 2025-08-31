@@ -1,14 +1,12 @@
+import type { schema } from '@akrc/npm-registry-client';
+import hostedGitInfo from 'hosted-git-info';
+import type { FC } from 'react';
 import { IconButton } from '@/app/packages/[nameOrScope]/tabs/component';
 import { Card } from '@/components/card';
 import { processor } from '@/lib/markdown';
 import { fetchFromJsdelivr } from '@/lib/request';
-import type { schema } from '@akrc/npm-registry-client';
-import hostedGitInfo from 'hosted-git-info';
-import type { FC } from 'react';
 import 'github-markdown-css/github-markdown.css';
-import IconBug from '@tabler/icons-react/dist/esm/icons/IconBug';
-import IconExternalLink from '@tabler/icons-react/dist/esm/icons/IconExternalLink';
-import IconGitBranch from '@tabler/icons-react/dist/esm/icons/IconGitBranch';
+import { IconBug, IconExternalLink, IconGitBranch } from '@tabler/icons-react';
 import { CopyCommand, TagBadge } from './manifest.client';
 
 interface ReadmeProps {
