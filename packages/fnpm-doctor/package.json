@@ -20,7 +20,7 @@
         "@akrc/monorepo-tools": "^4.1.0",
         "@effect/platform": "^0.90.6",
         "@effect/platform-node": "^0.96.0",
-        "@pnpm/types": "12.2.0",
+        "@pnpm/types": "1000.7.0",
         "effect": "^3.17.9",
         "fnpm-test-suite": "workspace:*",
         "module-replacements": "^2.9.0",
