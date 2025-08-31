@@ -16,7 +16,7 @@
         "prepare": "husky",
         "start": "node ./packages/fnpm/dist/fnpm.js",
         "format": "prettier --write .",
-        "lint": "pnpm -r lint"
+        "lint": "turbo lint"
     },
     "keywords": [],
     "author": "",
