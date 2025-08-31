@@ -16,7 +16,8 @@
         "prepare": "husky",
         "start": "node ./packages/fnpm/dist/fnpm.js",
         "format": "prettier --write .",
-        "lint": "turbo lint"
+        "lint": "turbo lint",
+        "lint:fix": "turbo lint -- --fix"
     },
     "keywords": [],
     "author": "",
@@ -65,7 +66,7 @@
     },
     "lint-staged": {
         "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-            "eslint --fix",
+            "turbo lint -- --fix",
             "prettier --write"
         ]
     }
