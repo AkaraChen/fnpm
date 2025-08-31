@@ -55,6 +55,7 @@ export default defineConfig([
             '**/build/**',
             '**/.react-router/**',
             '**/.next/**',
+            '**/.mastra/**',
         ],
     },
 ]);

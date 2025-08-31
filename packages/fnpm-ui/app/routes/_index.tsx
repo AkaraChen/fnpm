@@ -136,20 +136,8 @@ export async function loader() {
 type LoaderData = Awaited<ReturnType<typeof loader>>;
 
 const RADIAN = Math.PI / 180;
-interface FormattedLabelProps {
-    cx: number;
-    cy: number;
-    midAngle: number;
-    innerRadius: number;
-    outerRadius: number;
-    payload: {
-        payload: {
-            name: string;
-            count: number;
-        };
-    };
-}
-const getFormattedLabel = (e: FormattedLabelProps) => {
+
+const getFormattedLabel = (e: any) => {
     const {
         cx,
         cy,
@@ -158,6 +146,11 @@ const getFormattedLabel = (e: FormattedLabelProps) => {
         outerRadius,
         payload: { payload },
     } = e;
+
+    if (midAngle === undefined) {
+        return null; // Don't render label if midAngle is undefined
+    }
+
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
