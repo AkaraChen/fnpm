@@ -129,17 +129,17 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                     <SimpleGrid cols={3}>
                         {list.map((pkg) => {
                             const checked = props.toggles.includes(
-                                pkg.package.name,
+                                pkg!.package.name,
                             );
                             return (
                                 <NpmSearchItem
-                                    key={pkg.package.name}
-                                    name={pkg.package.name}
-                                    version={pkg.package.version}
-                                    description={pkg.package.description}
+                                    key={pkg!.package.name}
+                                    name={pkg!.package.name}
+                                    version={pkg!.package.version}
+                                    description={pkg!.package.description}
                                     checked={checked}
                                     onToggle={(checked) => {
-                                        onToggle(pkg.package.name, checked);
+                                        onToggle(pkg!.package.name, checked);
                                     }}
                                 />
                             );
