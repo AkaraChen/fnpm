@@ -137,6 +137,7 @@ type LoaderData = Awaited<ReturnType<typeof loader>>;
 
 const RADIAN = Math.PI / 180;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getFormattedLabel = (e: any) => {
     const {
         cx,
