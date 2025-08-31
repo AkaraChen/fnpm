@@ -1,8 +1,13 @@
-import { type File, type Folder, type Node, isFolder } from '@/lib/tar';
 import { nanoid } from 'nanoid';
 import { type FC, useMemo, useState } from 'react';
 import { type NodeRendererProps, Tree } from 'react-arborist';
+import { type File, type Folder, isFolder, type Node } from '@/lib/tar';
 import 'file-icons-js/css/style.css';
+import { IconFolder } from '@tabler/icons-react';
+// @ts-expect-error
+import { getClassWithColor } from 'file-icons-js';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
     Dialog,
     DialogContent,
@@ -10,11 +15,6 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { cn, detectLangByFilename } from '@/lib/utils';
-import IconFolder from '@tabler/icons-react/dist/esm/icons/IconFolder';
-// @ts-ignore
-import { getClassWithColor } from 'file-icons-js';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 interface FileTreeProps {
     fileTree: Node[];
@@ -39,18 +39,15 @@ function sortNode(a: Node, b: Node) {
 
 const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
     const { node, style } = props;
+    const [open, setOpen] = useState(false);
     const indentSize = Number.parseFloat(`${style.paddingLeft || 0}`);
     const indent = indentSize / 24;
     if (!node.isLeaf) {
         return (
-            <div
+            <button
+                type='button'
                 onClick={() => {
                     node.toggle();
-                }}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        node.toggle();
-                    }
                 }}
                 className={
                     'flex items-center hover:text-blue-500 h-10 cursor-pointer border-b border-border px-4 w-full'
@@ -61,10 +58,9 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
             >
                 <IconFolder size={18} />
                 <span className={'ml-2'}>{props.node.data.name}</span>
-            </div>
+            </button>
         );
     }
-    const [open, setOpen] = useState(false);
     return (
         <div
             className={cn(
@@ -87,21 +83,17 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
             </div>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger>
-                    <div
+                    <button
+                        type='button'
                         className={
                             'ml-1 opacity-75 hover:text-blue-500 hover:opacity-100'
                         }
                         onClick={() => {
                             setOpen(true);
                         }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                setOpen(true);
-                            }
-                        }}
                     >
                         {props.node.data.name}
-                    </div>
+                    </button>
                 </DialogTrigger>
                 <DialogContent
                     className={
