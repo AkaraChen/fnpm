@@ -16,7 +16,7 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "bunchee": "6.5.2",
+        "bunchee": "6.6.0",
         "openapi-fetch": "^0.14.0",
         "openapi-typescript": "^7.9.1"
     },

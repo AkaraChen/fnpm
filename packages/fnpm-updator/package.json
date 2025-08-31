@@ -16,7 +16,7 @@
     "devDependencies": {
         "@effect/platform": "^0.90.6",
         "@effect/platform-node": "^0.96.0",
-        "bunchee": "6.5.2",
+        "bunchee": "6.6.0",
         "effect": "^3.17.9",
         "fnpm-test-suite": "workspace:*"
     },
