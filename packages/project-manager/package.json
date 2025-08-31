@@ -15,17 +15,19 @@
     "packageManager": "pnpm@10.15.0",
     "type": "module",
     "dependencies": {
-        "better-sqlite3": "^11.10.0",
-        "drizzle-orm": "^0.33.0",
-        "drizzle-zod": "^0.5.1",
-        "zod": "^3.25.76"
+        "better-sqlite3": "^12.2.0",
+        "drizzle-orm": "^0.44.5",
+        "drizzle-zod": "^0.8.3",
+        "zod": "^4.1.5"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^7.6.13",
         "bunchee": "6.5.2",
-        "drizzle-kit": "^0.24.2"
+        "drizzle-kit": "^0.31.4"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {

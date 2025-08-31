@@ -13,13 +13,15 @@
     "packageManager": "pnpm@10.15.0",
     "type": "module",
     "devDependencies": {
-        "@effect/platform": "^0.84.11",
-        "@effect/platform-node": "^0.85.16",
+        "@effect/platform": "^0.90.6",
+        "@effect/platform-node": "^0.96.0",
         "bunchee": "6.5.2",
         "effect": "^3.17.9",
         "fnpm-test-suite": "workspace:*"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {

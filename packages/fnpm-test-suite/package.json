@@ -16,7 +16,7 @@
     "packageManager": "pnpm@10.15.0",
     "dependencies": {
         "@akrc/yaml": "^4.2.0",
-        "@effect/platform": "^0.84.11",
+        "@effect/platform": "^0.90.6",
         "defu": "^6.1.4",
         "effect": "^3.17.9",
         "nanoid": "^5.1.5"
@@ -24,13 +24,15 @@
     "type": "module",
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.1.0",
-        "@effect/platform-node": "^0.85.16",
+        "@effect/platform-node": "^0.96.0",
         "bunchee": "6.5.2",
         "json-schema-to-typescript": "^15.0.4",
         "pm-combo": "workspace:*",
         "type-fest": "^4.41.0"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {

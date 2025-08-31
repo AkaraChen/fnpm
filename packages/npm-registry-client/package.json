@@ -20,7 +20,9 @@
         "openapi-typescript": "^7.9.1"
     },
     "type": "module",
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {

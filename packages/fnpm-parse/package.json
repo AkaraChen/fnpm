@@ -15,7 +15,9 @@
     "devDependencies": {
         "bunchee": "6.5.2"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "module": "./dist/es/index.js",
     "types": "./dist/es/index.d.ts",
     "exports": {

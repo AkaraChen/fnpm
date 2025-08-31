@@ -1,8 +1,6 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
-    "organizeImports": {
-        "enabled": true
-    },
+    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+    "assist": { "actions": { "source": { "organizeImports": "on" } } },
     "linter": {
         "enabled": true,
         "rules": {
@@ -42,7 +40,7 @@
     },
     "overrides": [
         {
-            "include": ["./packages/fnpm-dev/src/components/ui"],
+            "includes": ["packages/fnpm-dev/src/components/ui/**"],
             "linter": {
                 "enabled": false
             }
