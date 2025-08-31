@@ -5,7 +5,7 @@ import { exec } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface TestCommandOptions extends BaseCommandOptions {}
+type TestCommandOptions = BaseCommandOptions;
 
 class Test extends BaseCommand<TestCommandOptions> {
     public command = ['test', 't'];

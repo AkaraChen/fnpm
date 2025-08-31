@@ -21,7 +21,7 @@ describe('pnpm workspace utils', () => {
             expect(readSpec).toEqual(specToWrite);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -32,13 +32,13 @@ describe('pnpm workspace utils', () => {
             const initialSpec: Spec = {
                 packages: ['packages/*'],
                 otherField: 'initial',
-            } as any; // Test with extra field
+            }; // @ts-expect-error: Testing with extra field not in spec
             yield* WritePnpmWorkspaceYaml(dir, initialSpec);
 
             const updates: Spec = {
                 packages: ['apps/**', 'services/**'],
                 anotherField: 'updated',
-            } as any;
+            }; // @ts-expect-error: Testing with extra field not in spec
             yield* UpdatePnpmWorkspaceYaml(dir, updates);
 
             const finalSpec = yield* ReadPnpmWorkspaceYaml(dir);
@@ -48,11 +48,15 @@ describe('pnpm workspace utils', () => {
                 'services/**',
                 'packages/*',
             ]);
-            expect((finalSpec as any).otherField).toBe('initial'); // Fields only in parsed are kept
-            expect((finalSpec as any).anotherField).toBe('updated'); // Fields only in input are added
+            expect(
+                (finalSpec as Spec & { otherField: string }).otherField
+            ).toBe('initial'); // Fields only in parsed are kept
+            expect(
+                (finalSpec as Spec & { anotherField: string }).anotherField
+            ).toBe('updated'); // Fields only in input are added
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

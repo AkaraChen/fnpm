@@ -3,7 +3,7 @@ import { exec } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface PublishCommandOptions extends BaseCommandOptions {}
+type PublishCommandOptions = BaseCommandOptions;
 
 class Publish extends BaseCommand<PublishCommandOptions> {
     public command = 'publish';

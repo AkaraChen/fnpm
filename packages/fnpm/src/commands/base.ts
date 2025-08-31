@@ -5,7 +5,7 @@ import type { Context } from '../util';
 /**
  * Base command options that all commands can extend
  */
-export interface BaseCommandOptions extends Options {}
+export type BaseCommandOptions = Options;
 
 /**
  * Base command class that all command classes can extend
@@ -57,14 +57,14 @@ export class CommandFactory {
     }
     create<T extends BaseCommandOptions>(
         Command: new (ctx: Context) => BaseCommand<T>,
-        ctx: Context = this.ctx,
+        ctx: Context = this.ctx
     ) {
         const original = new Command(ctx);
         const command: Partial<CommandModule> = {
             ...original,
         };
         command.builder = original.builder?.bind(original);
-        command.handler = original.handler?.bind(original) as unknown as any;
+        command.handler = original.handler?.bind(original);
         return command as CommandModule<EmptyObject, T>;
     }
 }

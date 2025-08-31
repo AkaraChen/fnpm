@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
-export default function ({ children }: PropsWithChildren) {
+export default function SettingsLayout({ children }: PropsWithChildren) {
     return (
         <SidebarProvider>
             <AppSidebar />

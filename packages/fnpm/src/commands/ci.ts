@@ -5,7 +5,7 @@ import { exec } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface CICommandOptions extends BaseCommandOptions {}
+type CICommandOptions = BaseCommandOptions;
 
 class CI extends BaseCommand<CICommandOptions> {
     public command = 'ci';

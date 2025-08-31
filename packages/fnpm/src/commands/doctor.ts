@@ -4,7 +4,7 @@ import type { Argv } from 'yargs';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface DoctorCommandOptions extends BaseCommandOptions {}
+type DoctorCommandOptions = BaseCommandOptions;
 
 class Doctor extends BaseCommand<DoctorCommandOptions> {
     public command = 'doctor';

@@ -8,7 +8,7 @@ import { error, exec } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface DefaultCommandOptions extends BaseCommandOptions {}
+type DefaultCommandOptions = BaseCommandOptions;
 
 class Default extends BaseCommand<DefaultCommandOptions> {
     public command = '*';
@@ -33,7 +33,7 @@ class Default extends BaseCommand<DefaultCommandOptions> {
             });
         } catch {
             error(
-                'Not in a package workspace, you may running fnpm at incorrect place.',
+                'Not in a package workspace, you may running fnpm at incorrect place.'
             );
         }
         const scripts = pkg.scripts || {};

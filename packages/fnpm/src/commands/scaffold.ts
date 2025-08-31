@@ -4,7 +4,7 @@ import { exec } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface ScaffoldCommandOptions extends BaseCommandOptions {}
+type ScaffoldCommandOptions = BaseCommandOptions;
 
 class Scaffold extends BaseCommand<ScaffoldCommandOptions> {
     public command = ['scaffold', 'sc'];
@@ -20,7 +20,7 @@ class Scaffold extends BaseCommand<ScaffoldCommandOptions> {
                 name: 'akrc',
                 args: [],
             }),
-            { cwd: this.ctx.root },
+            { cwd: this.ctx.root }
         );
     };
 }

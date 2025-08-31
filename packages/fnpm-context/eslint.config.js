@@ -1,13 +1,3 @@
-import eslintConfig from 'configs/eslint';
+import eslintConfig from 'configs/eslint-node';
 
-export default [
-    ...eslintConfig,
-    {
-        languageOptions: {
-            parserOptions: {
-                project: true,
-                tsconfigRootDir: import.meta.dirname,
-            },
-        },
-    },
-];
+export default [...eslintConfig];

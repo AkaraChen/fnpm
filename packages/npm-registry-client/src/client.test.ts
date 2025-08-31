@@ -10,7 +10,7 @@ describe('createApiClient', () => {
         };
         const client = createApiClient(options);
         try {
-            // @ts-expect-error
+            // @ts-expect-error: This is a test for an invalid GET call
             await client.GET('/test-url');
         } catch (e) {
             expect(e).toBeInstanceOf(Error);
@@ -32,7 +32,7 @@ describe('createApiClient', () => {
             },
         });
         try {
-            // @ts-expect-error
+            // @ts-expect-error: This is a test for an invalid GET call with merged options
             await client2.GET('/test-url');
         } catch (e) {
             expect(e).toBeInstanceOf(Error);

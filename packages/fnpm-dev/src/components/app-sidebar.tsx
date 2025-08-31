@@ -10,7 +10,7 @@ import {
 import { usePathname } from 'next/navigation';
 import type * as React from 'react';
 import { useState } from 'react';
-import { NavFavorites } from '@/components/nav-favorites';
+
 import { NavMain, type NavMainItem } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
 import {
@@ -98,9 +98,6 @@ export function AppSidebar(props: AppSidebarProps) {
                 <NavMain items={navMain} />
             </SidebarHeader>
             <SidebarContent>
-                {false && (
-                    <NavFavorites favorites={data.favorites.slice(0, 3)} />
-                )}
                 {workspaces && <NavWorkspaces workspaces={workspaces} />}
                 <CommandMenu open={open} onOpenChange={setOpen} />
                 <NavSecondary items={data.navSecondary} className='mt-auto' />

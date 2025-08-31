@@ -64,7 +64,9 @@ const Tags: FC<TagsProps> = async (props) => {
                 },
             });
             haveDt = true;
-        } catch {}
+        } catch {
+            // Ignore error if types package does not exist
+        }
     }
     return (
         <div className={'flex gap-2'}>
@@ -127,7 +129,7 @@ export async function Package(props: PackageProps) {
         .then((r) => r.data!);
     const lastweekDownloads = downloadCounts.downloads.reduce(
         (acc, curr) => acc + curr.downloads,
-        0,
+        0
     );
     return (
         <>
@@ -163,7 +165,7 @@ export async function Package(props: PackageProps) {
                         <div
                             className={cn(
                                 spaceMono.className,
-                                'text-sm opacity-50 mb-6',
+                                'text-sm opacity-50 mb-6'
                             )}
                         >
                             <span>{current}</span>

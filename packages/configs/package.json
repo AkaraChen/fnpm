@@ -2,13 +2,21 @@
     "name": "configs",
     "private": true,
     "dependencies": {
-        "@eslint/js": "^9.34.0",
-        "eslint": "^9.34.0",
         "eslint-config-prettier": "^10.1.8",
-        "is-ci": "^4.1.0",
-        "typescript-eslint": "^8.41.0"
+        "is-ci": "^4.1.0"
+    },
+    "scripts": {
+        "lint": "eslint ."
     },
     "devDependencies": {
+        "@eslint/css": "^0.11.0",
+        "@eslint/js": "^9.34.0",
+        "@eslint/json": "^0.13.2",
+        "@eslint/markdown": "^7.2.0",
+        "eslint": "^9.34.0",
+        "eslint-plugin-react": "^7.37.5",
+        "globals": "^16.3.0",
+        "typescript-eslint": "^8.41.0",
         "vitest": "^3.2.4"
     },
     "type": "module",
@@ -21,9 +29,13 @@
             "types": "./src/vitest.ts",
             "default": "./src/vitest.ts"
         },
-        "./eslint": {
-            "types": "./src/eslint.js",
-            "default": "./src/eslint.js"
+        "./eslint-node": {
+            "types": "./src/eslint/node.js",
+            "default": "./src/eslint/node.js"
+        },
+        "./eslint-react": {
+            "types": "./src/eslint/react.js",
+            "default": "./src/eslint/react.js"
         }
     }
 }

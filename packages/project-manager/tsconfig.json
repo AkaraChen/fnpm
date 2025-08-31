@@ -4,5 +4,5 @@
         "module": "ESNext",
         "moduleResolution": "bundler"
     },
-    "include": ["src"]
+    "include": ["src", "drizzle.config.ts", "eslint.config.js"]
 }

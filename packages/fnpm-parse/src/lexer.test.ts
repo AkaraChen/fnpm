@@ -3,9 +3,9 @@ import { AtSign, Lexer, Segment, Slash } from './lexer';
 
 describe('Lexer', () => {
     // Helper function to check if a token is a Segment with the expected value
-    function expectSegment(token: any, value: string) {
+    function expectSegment(token: Segment, value: string) {
         expect(token).toBeInstanceOf(Segment);
-        expect((token as Segment).value).toBe(value);
+        expect(token.value).toBe(value);
     }
 
     it('should tokenize a simple package name', () => {

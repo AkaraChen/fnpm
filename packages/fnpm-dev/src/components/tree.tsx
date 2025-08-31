@@ -4,7 +4,7 @@ import { type NodeRendererProps, Tree } from 'react-arborist';
 import { type File, type Folder, isFolder, type Node } from '@/lib/tar';
 import 'file-icons-js/css/style.css';
 import { IconFolder } from '@tabler/icons-react';
-// @ts-expect-error
+// @ts-expect-error: Module has no type declarations
 import { getClassWithColor } from 'file-icons-js';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -65,7 +65,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
         <div
             className={cn(
                 'flex items-center h-10 border-b border-border px-4 w-full',
-                style,
+                style
             )}
         >
             <div
@@ -77,7 +77,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                 <i
                     className={cn(
                         getClassWithColor(props.node.data.name),
-                        'not-italic block size-full',
+                        'not-italic block size-full'
                     )}
                 />
             </div>
@@ -104,7 +104,7 @@ const FileTreeNode: FC<NodeRendererProps<TreeNode>> = (props) => {
                     <div className={'overflow-y-auto'}>
                         <SyntaxHighlighter
                             language={detectLangByFilename(
-                                props.node.data.name,
+                                props.node.data.name
                             )}
                             style={atomOneLight}
                             customStyle={{

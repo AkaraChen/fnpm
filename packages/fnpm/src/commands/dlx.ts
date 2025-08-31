@@ -5,7 +5,7 @@ import { error, exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface DlxCommandOptions extends BaseCommandOptions {}
+type DlxCommandOptions = BaseCommandOptions;
 
 class Dlx extends BaseCommand<DlxCommandOptions> {
     public command = 'dlx';

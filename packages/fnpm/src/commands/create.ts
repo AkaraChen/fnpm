@@ -4,7 +4,7 @@ import { error, exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
-interface CreateCommandOptions extends BaseCommandOptions {}
+type CreateCommandOptions = BaseCommandOptions;
 
 class Create extends BaseCommand<CreateCommandOptions> {
     public command = 'create';

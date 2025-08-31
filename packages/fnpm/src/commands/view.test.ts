@@ -40,13 +40,13 @@ describe('View Command', () => {
         // Mock package.json content
         vi.mocked(readPkg.readPackage).mockResolvedValue({
             name: 'test-package',
-        } as any);
+        }); // @ts-expect-error: Mocking package.json for test
 
         await yargs(['view']).command(cmd).parse();
 
         // Verify that open was called with the correct URL
         expect(open.default).toHaveBeenCalledWith(
-            'https://npm.im/test-package',
+            'https://npm.im/test-package'
         );
     });
 
@@ -62,13 +62,13 @@ describe('View Command', () => {
         // Mock package.json content
         vi.mocked(readPkg.readPackage).mockResolvedValue({
             name: 'test-package',
-        } as any);
+        }); // @ts-expect-error: Mocking package.json for test
 
         await yargs(['view', 'npm']).command(cmd).parse();
 
         // Verify that open was called with the correct URL
         expect(open.default).toHaveBeenCalledWith(
-            'https://npm.im/test-package',
+            'https://npm.im/test-package'
         );
     });
 
@@ -88,13 +88,13 @@ describe('View Command', () => {
                 type: 'git',
                 url: 'git+https://github.com/user/test-package.git',
             },
-        } as any);
+        }); // @ts-expect-error: Mocking package.json for test
 
         await yargs(['view', 'repo']).command(cmd).parse();
 
         // Verify that open was called with the correct URL
         expect(open.default).toHaveBeenCalledWith(
-            'https://github.com/user/test-package.git',
+            'https://github.com/user/test-package.git'
         );
     });
 
@@ -114,13 +114,13 @@ describe('View Command', () => {
                 type: 'svn',
                 url: 'svn://example.com/repo',
             },
-        } as any);
+        }); // @ts-expect-error: Mocking package.json for test
 
         await yargs(['view', 'repo']).command(cmd).parse();
 
         // Verify that error was called with the correct message
         expect(util.error).toHaveBeenCalledWith(
-            "The package's repository is hosted on svn which is not supported yet.",
+            "The package's repository is hosted on svn which is not supported yet."
         );
     });
 
@@ -134,19 +134,19 @@ describe('View Command', () => {
 
         // Override the handler to test unsupported platform
         cmd.handler = async (args: any) => {
+            // @ts-expect-error: Testing unsupported platform
             // Simulate unsupported platform
             args.platform = 'unsupported';
-            await (await import('./view')).default.prototype.handler.call(
-                cmd,
-                args,
-            );
+            await (
+                await import('./view')
+            ).default.prototype.handler.call(cmd, args);
         };
 
         await yargs(['view']).command(cmd).parse();
 
         // Verify that error was called with the correct message
         expect(util.error).toHaveBeenCalledWith(
-            'The requested platform unsupported is not supported',
+            'The requested platform unsupported is not supported'
         );
     });
 });

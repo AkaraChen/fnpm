@@ -104,14 +104,14 @@ export async function loader() {
                             ...update,
                         };
                     });
-                },
+                }
             );
         })
         .then((updates) => {
             const deduped = updates.reduce(
                 (acc, curr) => {
                     const existing = acc.find(
-                        (update) => update.name === curr.name,
+                        (update) => update.name === curr.name
                     );
                     if (existing) {
                         existing.workspace.push(...curr.workspace);
@@ -120,7 +120,7 @@ export async function loader() {
                     }
                     return acc;
                 },
-                [] as typeof updates,
+                [] as typeof updates
             );
             return deduped;
         });
@@ -136,7 +136,20 @@ export async function loader() {
 type LoaderData = Awaited<ReturnType<typeof loader>>;
 
 const RADIAN = Math.PI / 180;
-const getFormattedLabel = (e: any) => {
+interface FormattedLabelProps {
+    cx: number;
+    cy: number;
+    midAngle: number;
+    innerRadius: number;
+    outerRadius: number;
+    payload: {
+        payload: {
+            name: string;
+            count: number;
+        };
+    };
+}
+const getFormattedLabel = (e: FormattedLabelProps) => {
     const {
         cx,
         cy,

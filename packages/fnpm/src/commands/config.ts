@@ -63,8 +63,9 @@ class Config<U extends ConfigCommandOptions> extends BaseCommand<U> {
             error(`Invalid verb ${verb}`);
         }
         const command = commands.config.concat(this.ctx.pm, {
-            verb: Object.entries(verbsMap).find(([_k, v]) =>
-                v.includes(verb),
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            verb: Object.entries(verbsMap).find(([_verbKey, v]) =>
+                v.includes(verb)
             )![0] as ConfigOptions['verb'],
             global,
             json,
