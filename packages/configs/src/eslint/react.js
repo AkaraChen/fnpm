@@ -1,13 +1,33 @@
 import base from './base.js';
-import pluginReact from 'eslint-plugin-react';
+import eslintReact from '@eslint-react/eslint-plugin';
 import globals from 'globals';
+
+// Use the legacy config which has the rules directly
+let reactConfig;
+try {
+    reactConfig = eslintReact.default.configs['recommended-typescript-legacy'];
+} catch {
+    // Fallback to basic rules if config is not available
+    reactConfig = {
+        rules: {
+            '@eslint-react/no-missing-key': 'warn',
+            '@eslint-react/no-array-index-key': 'warn',
+            '@eslint-react/no-children-count': 'warn',
+            '@eslint-react/no-children-for-each': 'warn',
+            '@eslint-react/no-children-map': 'warn',
+            '@eslint-react/no-children-only': 'warn',
+            '@eslint-react/no-children-prop': 'warn',
+            '@eslint-react/no-children-to-array': 'warn',
+        },
+    };
+}
 
 export default [
     ...base,
     {
         files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
         plugins: {
-            react: pluginReact,
+            '@eslint-react': eslintReact,
         },
         languageOptions: {
             parserOptions: {
@@ -19,15 +39,6 @@ export default [
                 ...globals.browser,
             },
         },
-        settings: {
-            react: {
-                version: 'detect',
-            },
-        },
-        rules: {
-            ...pluginReact.configs.recommended.rules,
-            'react/react-in-jsx-scope': 'off',
-            'react/no-unknown-property': ['error', { ignore: ['cmdk-*'] }],
-        },
+        rules: reactConfig.rules,
     },
 ];
