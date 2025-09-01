@@ -8,7 +8,7 @@ export function viewOnNpmjs(pathname: string) {
         window.open('https://npmjs.com');
     } else if (pathname === '/search') {
         const keyword = new URLSearchParams(window.location.search).get(
-            'keyword',
+            'keyword'
         );
         if (!keyword) {
             return;

@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router';
 
 export const useQueryParams = <T extends string>(
     key: string,
-    defaultValue: T = '' as T,
+    defaultValue: T = '' as T
 ) => {
     const [search, setSearch] = useSearchParams();
     const value: T = (search.get(key) as T) || defaultValue;

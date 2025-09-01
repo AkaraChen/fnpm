@@ -17,7 +17,7 @@ export async function loader(args: LoaderFunctionArgs) {
     const ctx = safeContext(context);
     const pm = ctx.pm;
     const project = ctx.projects.find(
-        (project) => project.manifest.name === name,
+        (project) => project.manifest.name === name
     );
     const isRoot = ctx.isMonoRepo && ctx.rootProject?.manifest.name === name;
     return { pm, project, isRoot };
@@ -105,7 +105,7 @@ export default function Page() {
                             setSelectedPackages([...selectedPackages, name]);
                         } else {
                             setSelectedPackages(
-                                selectedPackages.filter((pkg) => pkg !== name),
+                                selectedPackages.filter((pkg) => pkg !== name)
                             );
                         }
                     }}

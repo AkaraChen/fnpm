@@ -22,7 +22,7 @@ export async function findProjects() {
 
 export async function updateProject(
     id: number,
-    updatedFields: Partial<NewProject>,
+    updatedFields: Partial<NewProject>
 ) {
     const result = await db
         .update(projects)

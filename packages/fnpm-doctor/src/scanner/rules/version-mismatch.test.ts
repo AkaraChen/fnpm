@@ -41,7 +41,7 @@ describe('version-mismatch', () => {
             expect(context.report).toHaveBeenCalledOnce();
         });
         await Effect.runPromise(
-            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped),
+            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

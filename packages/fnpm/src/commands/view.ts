@@ -27,11 +27,11 @@ class View<U extends ViewCommandOptions> extends BaseCommand<U> {
             case 'repo': {
                 if (pkgJson.repository?.type !== 'git') {
                     error(
-                        `The package's repository is hosted on ${pkgJson.repository?.type} which is not supported yet.`,
+                        `The package's repository is hosted on ${pkgJson.repository?.type} which is not supported yet.`
                     );
                 }
                 const url = gitUrlParse(pkgJson.repository!.url).toString(
-                    'https',
+                    'https'
                 );
                 open(url);
                 break;

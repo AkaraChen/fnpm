@@ -11,7 +11,7 @@ export function MakeWorkspace(
     pm: mt.PM,
     dir: string,
     selectors: string[],
-    pkgJson: PackageJson = { name: 'workspace' },
+    pkgJson: PackageJson = { name: 'workspace' }
 ) {
     return Effect.gen(function* () {
         const exec = yield* CommandExecutor.CommandExecutor;
@@ -36,8 +36,8 @@ export function MakeWorkspace(
             pipe(
                 Command.make(cmd!, ...args),
                 Command.workingDirectory(dir),
-                Command.runInShell(true),
-            ),
+                Command.runInShell(true)
+            )
         );
         const code = yield* process.exitCode;
         if (code !== ExitCode(0)) {

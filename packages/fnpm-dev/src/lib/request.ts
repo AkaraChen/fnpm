@@ -6,7 +6,7 @@ export function fetchFromJsdelivr(opts: {
     const { name, version, path } = opts;
     const url = new URL(
         `/npm/${name}@${version ?? 'latest'}/${path}`,
-        'https://cdn.jsdelivr.net',
+        'https://cdn.jsdelivr.net'
     );
     return fetch(url);
 }

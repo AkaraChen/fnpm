@@ -37,7 +37,7 @@ function ResolveMonorepoContext(cwd: string) {
         const root = yield* findRootResult;
         return yield* Effect.gen(function* () {
             const pm = yield* Effect.orElse(DetectPMByLock(root), () =>
-                Effect.succeed(prefferedPM),
+                Effect.succeed(prefferedPM)
             );
             const projects = yield* ScanProjects(root, pm);
             const rootProject = projects.find((p) => p.rootDir === root)!;
@@ -56,7 +56,7 @@ function ResolveSingleRepoContext(cwd: string) {
     return Effect.gen(function* () {
         const root = yield* PackageDirectory({ cwd });
         const pm = yield* Effect.orElse(DetectPMByLock(root), () =>
-            Effect.succeed(prefferedPM),
+            Effect.succeed(prefferedPM)
         );
         const manifest = yield* ReadPackage({
             cwd: root,
@@ -89,8 +89,8 @@ export async function resolveContext(cwd: string): Promise<Context> {
                 root: cwd,
                 pm: prefferedPM,
                 isMonoRepo: false,
-            } satisfies Context),
-        ),
+            } satisfies Context)
+        )
     );
     return await Effect.runPromise(program);
 }

@@ -36,6 +36,7 @@
         "fnpm-doctor": "workspace:*",
         "fnpm-parse": "workspace:*",
         "fnpm-ui": "workspace:*",
+        "fuse.js": "^7.1.0",
         "get-port-please": "^3.2.0",
         "git-url-parse": "^16.1.0",
         "open": "^10.2.0",

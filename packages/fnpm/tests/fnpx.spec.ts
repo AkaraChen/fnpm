@@ -15,14 +15,14 @@ describe('fnpx smoke test', () => {
             const command = pipe(
                 Command.make('node', executable, '--version'),
                 Command.workingDirectory(dir),
-                Command.runInShell(true),
+                Command.runInShell(true)
             );
             const process = yield* executor.start(command);
             const code = yield* process.exitCode;
             expect(code).toBe(0);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -38,10 +38,10 @@ describe('fnpx smoke test', () => {
                     'create-next-app@15.3.3',
                     'app-name',
                     ' --empty',
-                    '--yes',
+                    '--yes'
                 ),
                 Command.workingDirectory(dir),
-                Command.runInShell(true),
+                Command.runInShell(true)
             );
             const appDir = path.join(dir, 'app-name');
             const process = yield* executor.start(command);
@@ -51,7 +51,7 @@ describe('fnpx smoke test', () => {
             expect(exists).toBe(true);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

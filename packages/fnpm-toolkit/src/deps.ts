@@ -47,7 +47,7 @@ export type DepsField = (typeof depsFields)[number];
 export function traverseDepsField(
     pkg: PackageJson,
     fn: (field: Record<string, string>) => void,
-    fields: Readonly<DepsField[]> = depsFields,
+    fields: Readonly<DepsField[]> = depsFields
 ): void {
     for (const field of fields) {
         const deps = pkg[field];
@@ -59,7 +59,7 @@ export function traverseDepsField(
 
 export function getDeps(
     pkg: PackageJson,
-    fields: Readonly<DepsField[]> = depsFields,
+    fields: Readonly<DepsField[]> = depsFields
 ): string[] {
     return [
         ...new Set(fields.flatMap((field) => Object.keys(pkg[field] ?? {}))),
@@ -68,7 +68,7 @@ export function getDeps(
 
 export function getDep(
     pkg: PackageJson,
-    dep: string,
+    dep: string
 ): {
     field: DepsField;
     version: string;

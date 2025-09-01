@@ -31,7 +31,7 @@ export default async function Page(props: {
             <div className='grid grid-cols-2 gap-4'>
                 {result.objects.map(async (item) => {
                     const hashedEmail = await sha256(
-                        item.package.publisher.email!,
+                        item.package.publisher.email!
                     );
                     const avatarUrl = `https://www.gravatar.com/avatar/${hashedEmail}`;
                     return (
@@ -75,7 +75,7 @@ export default async function Page(props: {
                                 </span>
                                 <span className={'text-sm opacity-50'}>
                                     {new Date(
-                                        item.package.date,
+                                        item.package.date
                                     ).toLocaleDateString()}{' '}
                                     • {item.package.version}
                                 </span>

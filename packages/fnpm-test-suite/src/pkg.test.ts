@@ -23,7 +23,7 @@ describe('pkg', () => {
             expect(json.version).toBe(version);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -41,7 +41,7 @@ describe('pkg', () => {
             expect(json).toEqual(pkgToWrite);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -69,7 +69,7 @@ describe('pkg', () => {
             expect(json.description).toBe('updated description'); // Description should be added
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

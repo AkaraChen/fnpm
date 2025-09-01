@@ -157,7 +157,7 @@ describe('Remove Command', () => {
         expect(() =>
             yargs(['remove', 'pkg1', 'pkg2', '-D', '--save-exact', '-G'])
                 .command(factory.create(Remove))
-                .parse(),
+                .parse()
         ).toThrow();
     });
 
@@ -165,7 +165,7 @@ describe('Remove Command', () => {
         expect(() =>
             yargs(['remove', 'pkg1', '--save', '--save-dev'])
                 .command(factory.create(Remove))
-                .parse(),
+                .parse()
         ).toThrow();
     });
 });

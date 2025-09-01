@@ -17,5 +17,5 @@ mount(
         .help()
         .alias('help', 'h')
         .usage('Usage: $0 <command> [options]'),
-    ctx,
+    ctx
 ).parse();

@@ -11,7 +11,7 @@ export const Card: FC<CardProps> = (props) => {
         <div
             className={cn(
                 'p-4 bg-background rounded border border-zinc-200',
-                className,
+                className
             )}
             {...rest}
         >

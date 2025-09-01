@@ -203,7 +203,7 @@ const Scripts: FC = () => {
                             </ActionIcon>
                         }
                     />
-                ),
+                )
             )}
         </SimpleGrid>
     );
@@ -435,8 +435,8 @@ export default function Page() {
                                 onClick={() => {
                                     navigate(
                                         `/installer/${encodeURIComponent(
-                                            data.project.manifest.name!,
-                                        )}`,
+                                            data.project.manifest.name!
+                                        )}`
                                     );
                                 }}
                             >

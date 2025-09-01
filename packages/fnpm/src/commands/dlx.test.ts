@@ -72,7 +72,7 @@ describe('Dlx Command', () => {
         await yargs(['dlx']).command(cmd).parse();
 
         expect((await import('../util')).error).toHaveBeenCalledWith(
-            'No package specified',
+            'No package specified'
         );
     });
 

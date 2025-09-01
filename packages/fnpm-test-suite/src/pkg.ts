@@ -10,14 +10,14 @@ export function MakePackage(
     pkg: PackageJson = {
         name: nanoid(),
         version: '1.0.0',
-    },
+    }
 ) {
     return Effect.gen(function* () {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         yield* fs.writeFileString(
             path.join(dir, 'package.json'),
-            JSON.stringify(pkg),
+            JSON.stringify(pkg)
         );
         const srcDir = yield* fs.makeTempDirectoryScoped({
             directory: dir,
@@ -25,7 +25,7 @@ export function MakePackage(
         });
         yield* fs.writeFileString(
             path.join(srcDir, 'index.js'),
-            'console.log("Hello World");',
+            'console.log("Hello World");'
         );
     });
 }
@@ -46,7 +46,7 @@ export function WritePackageJson(dir: string, pkg: PackageJson) {
         const path = yield* Path.Path;
         yield* fs.writeFileString(
             path.join(dir, 'package.json'),
-            JSON.stringify(pkg),
+            JSON.stringify(pkg)
         );
     });
 }

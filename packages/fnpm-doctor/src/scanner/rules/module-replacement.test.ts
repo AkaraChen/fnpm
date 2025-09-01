@@ -35,7 +35,7 @@ describe('ModuleReplacement', () => {
             },
         });
         await Effect.runPromise(
-            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped),
+            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });
@@ -48,7 +48,7 @@ describe('ModuleReplacement', () => {
             },
         });
         await Effect.runPromise(
-            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped),
+            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });
@@ -61,7 +61,7 @@ describe('ModuleReplacement', () => {
             },
         });
         await Effect.runPromise(
-            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped),
+            program.pipe(Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

@@ -26,7 +26,7 @@ describe('workspace', () => {
             expect(pnpmWsYaml.packages).toEqual(selectors);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -47,7 +47,7 @@ describe('workspace', () => {
             expect(pkgJson.workspaces).toEqual(selectors);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -68,12 +68,12 @@ describe('workspace', () => {
             });
 
             const isInWorkspace = yield* Effect.promise(() =>
-                mt.isInMonorepo(dir, subPkgPath),
+                mt.isInMonorepo(dir, subPkgPath)
             );
             expect(isInWorkspace).toBe(true);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 
@@ -94,12 +94,12 @@ describe('workspace', () => {
             });
 
             const isInWorkspace = yield* Effect.promise(() =>
-                mt.isInMonorepo(dir, subPkgPath),
+                mt.isInMonorepo(dir, subPkgPath)
             );
             expect(isInWorkspace).toBe(true);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

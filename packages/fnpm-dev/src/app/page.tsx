@@ -58,7 +58,7 @@ export default function Page() {
                     >
                         <h2
                             className={cn(
-                                'text-4xl font-semibold text-foreground mt-[20vh]',
+                                'text-4xl font-semibold text-foreground mt-[20vh]'
                             )}
                         >
                             What do you want to build?

@@ -93,7 +93,7 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                                                     };
                                                 }
                                                 return item;
-                                            },
+                                            }
                                         ),
                                     };
                                 });
@@ -111,8 +111,7 @@ export const InstallConfirm: FC<InstallConfirmProps> = (props) => {
                                         return {
                                             ...data,
                                             [orignal]: data[orignal].filter(
-                                                (item) =>
-                                                    item.name !== pkg.name,
+                                                (item) => item.name !== pkg.name
                                             ),
                                             [value]: [...data[value], pkg],
                                         };

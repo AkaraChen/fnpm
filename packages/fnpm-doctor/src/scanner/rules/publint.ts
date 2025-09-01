@@ -50,7 +50,7 @@ export const publint: Rule = (ctx) => {
                     for (const message of result.messages) {
                         const formatted = formatDiagnose(
                             message,
-                            project.manifest,
+                            project.manifest
                         );
                         ctx.report({
                             id: `publint-${formatted.title}`,

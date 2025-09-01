@@ -21,10 +21,10 @@ describe('update', () => {
                 yield* Effect.tryPromise({
                     try: () => resolveContext(dir),
                     catch: () => Effect.die('Failed to resolve context'),
-                }),
+                })
             );
             expect(context.rootProject?.manifest.dependencies?.react).toBe(
-                oldVersion,
+                oldVersion
             );
             const manifests = yield* Update(context);
             expect(manifests[''][0].name).toBe('react');
@@ -33,7 +33,7 @@ describe('update', () => {
         });
 
         await Effect.runPromise(
-            pipe(program, Effect.scoped, Effect.provide(NodeContext.layer)),
+            pipe(program, Effect.scoped, Effect.provide(NodeContext.layer))
         );
     });
 
@@ -48,7 +48,7 @@ describe('update', () => {
                 yield* Effect.tryPromise({
                     try: () => resolveContext(dir),
                     catch: () => Effect.die('Failed to resolve context'),
-                }),
+                })
             );
             expect(context.rootProject?.manifest.packageManager).toBe('pnpm');
             const manifests = yield* Update(context);
@@ -56,7 +56,7 @@ describe('update', () => {
         });
 
         await Effect.runPromise(
-            pipe(program, Effect.scoped, Effect.provide(NodeContext.layer)),
+            pipe(program, Effect.scoped, Effect.provide(NodeContext.layer))
         );
     });
 });

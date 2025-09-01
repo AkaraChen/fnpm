@@ -85,7 +85,7 @@ export default function Page() {
                                 optional.length &&
                                     commands.add.concat(data.pm, {
                                         packages: optional.map(
-                                            (pkg) => pkg.name,
+                                            (pkg) => pkg.name
                                         ),
                                         saveOptional: true,
                                         allowRoot: isRoot,
@@ -98,7 +98,7 @@ export default function Page() {
                                     command: shell,
                                     cwd: data.projects.find(
                                         (project) =>
-                                            project.manifest.name === name,
+                                            project.manifest.name === name
                                     )?.rootDir,
                                 };
                             });
@@ -112,7 +112,7 @@ export default function Page() {
             <Flex mb={10} gap={20} wrap={'wrap'}>
                 {data.projects.map((project) => {
                     const isSelected = selectedProjects.includes(
-                        project.manifest.name!,
+                        project.manifest.name!
                     );
                     return (
                         <Checkbox
@@ -128,8 +128,8 @@ export default function Page() {
                                     setSelectedProjects(
                                         selectedProjects.filter(
                                             (name) =>
-                                                name !== project.manifest.name,
-                                        ),
+                                                name !== project.manifest.name
+                                        )
                                     );
                                 }
                             }}
@@ -147,7 +147,7 @@ export default function Page() {
                             setSelectedPackages([...selectedPackages, name]);
                         } else {
                             setSelectedPackages(
-                                selectedPackages.filter((pkg) => pkg !== name),
+                                selectedPackages.filter((pkg) => pkg !== name)
                             );
                         }
                     }}

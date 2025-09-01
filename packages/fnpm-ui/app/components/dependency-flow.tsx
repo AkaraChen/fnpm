@@ -37,7 +37,7 @@ const getLayoutedElements = (
     edges: Edge[],
     options: {
         direction: 'TB' | 'LR';
-    },
+    }
 ) => {
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     g.setGraph({ rankdir: options.direction });
@@ -72,7 +72,7 @@ const getLayoutedElements = (
 
 const getNodesAndEdges = (
     projects: Array<Manifest>,
-    rootProject?: Manifest,
+    rootProject?: Manifest
 ) => {
     const nodes = projects.map((project) => ({
         type: 'custom',
@@ -125,7 +125,7 @@ const CustomNode: FC<NodeProps<Node<{ workspace: string }>>> = ({ data }) => {
                 withBorder
                 onClick={() => {
                     const url = `/packages/${encodeURIComponent(
-                        data.workspace,
+                        data.workspace
                     )}`;
                     navigate(url);
                 }}
@@ -142,7 +142,7 @@ const InnerDependencyFlow: FC<DependencyFlowProps> = (props) => {
     const { fitView } = useReactFlow();
     const initial = useMemo(
         () => getNodesAndEdges(projects, rootProject),
-        [projects, rootProject],
+        [projects, rootProject]
     );
     const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initial.edges);

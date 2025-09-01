@@ -51,7 +51,7 @@ export async function loader() {
             Object.entries(updates).map(([workspace, updates]) => [
                 workspace,
                 updates.map((update) => ({ ...update, workspace })),
-            ]),
+            ])
         );
     });
     const { projects, pm } = ctx;
@@ -166,12 +166,12 @@ const UpdateButton: FC = () => {
                     command: commands.update
                         .concat(pm, {
                             packages: updates!.map(
-                                (upd) => `${upd.name}@${upd.latest}`,
+                                (upd) => `${upd.name}@${upd.latest}`
                             ),
                         })
                         .join(' '),
                 } as RunElement;
-            },
+            }
         );
         run.start({
             queue,
@@ -226,7 +226,7 @@ export default function Page() {
     const unCheck = (...manifests: UpdateManifest[]) => {
         setSelected((prev) => {
             return prev.filter(
-                (upd) => !manifests.some((manifest) => manifest === upd),
+                (upd) => !manifests.some((manifest) => manifest === upd)
             );
         });
     };
@@ -240,7 +240,7 @@ export default function Page() {
                     <Await resolve={data.updates}>
                         {(updates) => {
                             const hasUpdate = Object.values(updates).some(
-                                (v) => v.length,
+                                (v) => v.length
                             );
                             return (
                                 <PageContext.Provider

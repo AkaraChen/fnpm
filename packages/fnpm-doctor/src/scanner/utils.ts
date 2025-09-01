@@ -27,12 +27,12 @@ export function writeToConsole(diagnose: Diagnose): void {
     method(
         `${pc.cyan(workspace.join(','))}[${pc.dim(diagnose.scope)}]`,
         pc.bold(level),
-        pc.bold(diagnose.title),
+        pc.bold(diagnose.title)
     );
     method(
         diagnose.description,
         ' '.repeat(1),
-        diagnose.docs ? terminalLink('Document', diagnose.docs.toString()) : '',
+        diagnose.docs ? terminalLink('Document', diagnose.docs.toString()) : ''
     );
     console.log();
 }

@@ -56,7 +56,7 @@ describe('Use Command', () => {
             ['corepack', 'use', 'pnpm@latest'],
             {
                 cwd: '/test/root',
-            },
+            }
         );
     });
 });

@@ -16,7 +16,7 @@ export const versionMismatch: Rule = (ctx) => {
                 project.manifest as PackageJson,
                 (dependencies) => {
                     for (const [name, version] of Object.entries(
-                        dependencies,
+                        dependencies
                     )) {
                         const versions =
                             versionMap.get(name) || ([] as VersionMap[]);
@@ -26,7 +26,7 @@ export const versionMismatch: Rule = (ctx) => {
                         });
                         versionMap.set(name, versions);
                     }
-                },
+                }
             );
         }
         for (const [name, versions] of versionMap.entries()) {
@@ -38,7 +38,7 @@ export const versionMismatch: Rule = (ctx) => {
                     level: 'error',
                     title: `${name} version mismatch`,
                     description: `Version mismatch for ${name}: ${Array.from(
-                        versions,
+                        versions
                     )
                         .map((v) => v.workspace)
                         .join(', ')}`,

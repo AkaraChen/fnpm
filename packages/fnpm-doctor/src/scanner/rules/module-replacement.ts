@@ -15,7 +15,7 @@ import type { Rule, RuleContext } from '../rule';
 
 function createRule<T extends ModuleReplacement>(
     replacements: T[],
-    reporter: (replacement: T, ctx: RuleContext, project: Project) => void,
+    reporter: (replacement: T, ctx: RuleContext, project: Project) => void
 ): Rule {
     return (ctx) =>
         Effect.sync(() => {
@@ -40,12 +40,12 @@ export const nativeReplacementRule: Rule = createRule(
             level: 'warning',
             docs: new URL(
                 replacement.mdnPath,
-                'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/',
+                'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/'
             ),
             scope: 'native-module',
             workspace: [project.manifest.name!],
         });
-    },
+    }
 );
 
 export const microUtilsReplacementRule: Rule = createRule(
@@ -59,7 +59,7 @@ export const microUtilsReplacementRule: Rule = createRule(
             scope: 'micro-utils-module',
             workspace: [project.manifest.name!],
         });
-    },
+    }
 );
 
 export const preferredReplacementRule: Rule = createRule(
@@ -72,10 +72,10 @@ export const preferredReplacementRule: Rule = createRule(
             level: 'info',
             docs: new URL(
                 `${replacement.docPath}.md`,
-                'https://github.com/es-tooling/module-replacements/blob/main/docs/modules/',
+                'https://github.com/es-tooling/module-replacements/blob/main/docs/modules/'
             ),
             scope: 'preferred-module',
             workspace: [project.manifest.name!],
         });
-    },
+    }
 );

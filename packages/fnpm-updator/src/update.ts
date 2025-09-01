@@ -31,7 +31,7 @@ function TransformInfo(updates: Record<string, string>, root: string) {
         const info = updates as Record<string, string>;
         const pkg = yield* ReadPackage({ cwd: root });
         for (const [name, latest] of Object.entries(info).filter(
-            ([name]) => !pmNames.includes(name),
+            ([name]) => !pmNames.includes(name)
         )) {
             const current = getDep(pkg, name)!.version!;
             if (!current) continue;
@@ -59,7 +59,7 @@ export function Update(ctx: SafeContext) {
                 const pkg = yield* ResolvePackage(ctx, workspace);
                 const manifests = yield* TransformInfo(
                     deps,
-                    resolveWorkspace(ctx, workspace),
+                    resolveWorkspace(ctx, workspace)
                 );
                 result[pkg.name!] = manifests;
             }

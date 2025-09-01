@@ -9,7 +9,7 @@ import { Effect, Option } from 'effect';
 import type { UnknownException } from 'effect/Cause';
 
 export function FindUpRoot(
-    searchDir: string,
+    searchDir: string
 ): Effect.Effect<Option.Option<string>, UnknownException, never> {
     return Effect.match(
         Effect.tryPromise(() => findUpRoot(searchDir)),
@@ -20,19 +20,19 @@ export function FindUpRoot(
             onFailure() {
                 return Option.none();
             },
-        },
+        }
     );
 }
 
 export function ScanProjects(
     searchDir: string,
-    pm: PM,
+    pm: PM
 ): Effect.Effect<Project[], UnknownException> {
     return Effect.tryPromise(() => scanProjects(searchDir, pm));
 }
 
 export function DetectPMByLock(
-    searchDir: string,
+    searchDir: string
 ): Effect.Effect<PM, UnknownException> {
     return Effect.try(() => detectPMByLock(searchDir).unwrap());
 }

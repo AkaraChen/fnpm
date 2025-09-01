@@ -10,7 +10,7 @@ export function ReadPnpmWorkspaceYaml(dir: string) {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const content = yield* fs.readFileString(
-            path.join(dir, 'pnpm-workspace.yaml'),
+            path.join(dir, 'pnpm-workspace.yaml')
         );
         const yaml = yield* YamlParse<Spec>(content);
         return yaml;
@@ -23,7 +23,7 @@ export function WritePnpmWorkspaceYaml(dir: string, input: Spec) {
         const path = yield* Path.Path;
         yield* fs.writeFileString(
             path.join(dir, 'pnpm-workspace.yaml'),
-            yaml.dump(input),
+            yaml.dump(input)
         );
     });
 }
@@ -33,7 +33,7 @@ export function UpdatePnpmWorkspaceYaml(dir: string, input: Spec) {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const content = yield* fs.readFileString(
-            path.join(dir, 'pnpm-workspace.yaml'),
+            path.join(dir, 'pnpm-workspace.yaml')
         );
         const parsed = yield* YamlParse<Spec>(content);
         const merged = defu(input, parsed);

@@ -5,28 +5,28 @@ describe('concatNpmUrl', () => {
     it('should create npm.im URL when no version is provided', () => {
         expect(concatNpmUrl('react')).toBe('https://npm.im/react');
         expect(concatNpmUrl('@types/react')).toBe(
-            'https://npm.im/@types/react',
+            'https://npm.im/@types/react'
         );
     });
 
     it('should create npmjs.com URL with version when version is provided', () => {
         expect(concatNpmUrl('react', '17.0.2')).toBe(
-            'https://www.npmjs.com/package/react/v/17.0.2',
+            'https://www.npmjs.com/package/react/v/17.0.2'
         );
         expect(concatNpmUrl('@types/react', '17.0.0')).toBe(
-            'https://www.npmjs.com/package/@types/react/v/17.0.0',
+            'https://www.npmjs.com/package/@types/react/v/17.0.0'
         );
     });
 
     it('should simplify version in URL when complex version is provided', () => {
         expect(concatNpmUrl('react', 'v17.0.2')).toBe(
-            'https://www.npmjs.com/package/react/v/17.0.2',
+            'https://www.npmjs.com/package/react/v/17.0.2'
         );
         expect(concatNpmUrl('react', '17.0.2-beta.1')).toBe(
-            'https://www.npmjs.com/package/react/v/17.0.2',
+            'https://www.npmjs.com/package/react/v/17.0.2'
         );
         expect(concatNpmUrl('react', '^17.0.2')).toBe(
-            'https://www.npmjs.com/package/react/v/17.0.2',
+            'https://www.npmjs.com/package/react/v/17.0.2'
         );
     });
 });
@@ -50,7 +50,7 @@ describe('parsePackageName', () => {
 
     it('should throw an error for invalid scoped package names', () => {
         expect(() => parsePackageName('@invalid')).toThrow(
-            'Invalid package name',
+            'Invalid package name'
         );
         expect(() => parsePackageName('@/')).toThrow('Invalid package name');
     });

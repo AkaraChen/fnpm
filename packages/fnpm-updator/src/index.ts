@@ -4,7 +4,7 @@ import type { UpdateManifest } from './types';
 import { Update } from './update';
 
 export async function update(
-    ctx: Context,
+    ctx: Context
 ): Promise<Record<string, UpdateManifest[]>> {
     return await Effect.runPromise(Update(safeContext(ctx)));
 }

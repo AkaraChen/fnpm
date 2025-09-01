@@ -6,7 +6,7 @@ import { getContext } from '../src/util';
 const __dirname = new URL('.', import.meta.url).pathname;
 
 export const runString = <E, R>(
-    stream: Stream.Stream<Uint8Array, E, R>,
+    stream: Stream.Stream<Uint8Array, E, R>
 ): Effect.Effect<string, E, R> =>
     stream.pipe(Stream.decodeText(), Stream.runFold(Str.empty, Str.concat));
 

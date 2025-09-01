@@ -23,7 +23,7 @@ describe('simple smoke test', () => {
             const command = pipe(
                 Command.make('node', executable, '-w', 'test'),
                 Command.workingDirectory(dir),
-                Command.runInShell(true),
+                Command.runInShell(true)
             );
             const [exitCode, stdout] = yield* pipe(
                 Command.start(command),
@@ -34,15 +34,15 @@ describe('simple smoke test', () => {
                             runString(process.stdout),
                             runString(process.stderr),
                         ],
-                        { concurrency: 3 },
-                    ),
-                ),
+                        { concurrency: 3 }
+                    )
+                )
             );
             expect(exitCode).toBe(0);
             expect(stdout.includes(id)).toBe(true);
         });
         await Effect.runPromise(
-            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped),
+            pipe(program, Effect.provide(NodeContext.layer), Effect.scoped)
         );
     });
 });

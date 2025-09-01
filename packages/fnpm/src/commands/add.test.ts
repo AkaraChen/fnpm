@@ -173,7 +173,7 @@ describe('Add Command', () => {
         expect(() =>
             yargs(['add', 'pkg1', 'pkg2', '-D', '--save-exact', '-G'])
                 .command(factory.create(Add))
-                .parse(),
+                .parse()
         ).toThrow();
     });
 });

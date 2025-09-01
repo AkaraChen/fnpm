@@ -129,7 +129,7 @@ export const NpmSearch: FC<NpmSearchProps> = (props) => {
                     <SimpleGrid cols={3}>
                         {list.map((pkg) => {
                             const checked = props.toggles.includes(
-                                pkg!.package.name,
+                                pkg!.package.name
                             );
                             return (
                                 <NpmSearchItem

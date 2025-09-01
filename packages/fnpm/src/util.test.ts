@@ -39,7 +39,7 @@ describe('util', () => {
                         cwd: options.cwd,
                         stdio: 'inherit',
                     },
-                },
+                }
             );
         });
     });
