@@ -1,7 +1,8 @@
 import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
-import { resolveContext } from 'fnpm-context';
+import { resolveContext, safeContext } from 'fnpm-context';
 import parser from 'fnpm-parse';
+import Fuse from 'fuse.js';
 import { packageDirectory } from 'package-directory';
 import { x } from 'tinyexec';
 import { hideBin } from 'yargs/helpers';
@@ -35,16 +36,61 @@ export interface Context {
 
 export async function getContext(cwd: string): Promise<Context> {
     const ctx = await resolveContext(cwd);
-    const hasWFlag = process.argv[2] === '-w';
-    if (hasWFlag) {
+    const { pm } = ctx;
+
+    // workspace mode
+    if (process.argv[2] === '-w') {
         process.argv.splice(2, 1);
+        return {
+            pm,
+            args: hideBin(process.argv),
+            root: ctx.root,
+        };
     }
-    const args = hideBin(process.argv);
-    const root = hasWFlag ? ctx.root : (await packageDirectory({ cwd })) || cwd;
+
+    // switch to another project
+    if (process.argv[2] === '-s') {
+        try {
+            const context = safeContext(ctx);
+            const fuse = new Fuse(context.projects, {
+                keys: [
+                    {
+                        name: 'manifest.name',
+                        weight: 2,
+                    },
+                    {
+                        name: 'manifest.description',
+                        weight: 1,
+                    },
+                ],
+            });
+            const matcher = process.argv[3];
+            if (!matcher) {
+                error('No search term provided');
+            }
+            const result = fuse.search(matcher, {
+                limit: 1,
+            });
+            if (!result.length) {
+                error('No matching projects found');
+            }
+            const project = result.at(0)!.item;
+            process.argv.splice(2, 2);
+            return {
+                pm: ctx.pm,
+                args: hideBin(process.argv),
+                root: project.rootDir,
+            };
+        } catch {
+            error('Monorepo not found');
+        }
+    }
+
+    // default mode, resolve package directory
     return {
-        pm: ctx.pm,
-        args,
-        root,
+        pm,
+        args: hideBin(process.argv),
+        root: (await packageDirectory({ cwd })) || cwd,
     };
 }
 
