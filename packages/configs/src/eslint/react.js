@@ -2,14 +2,25 @@ import base from './base.js';
 import eslintReact from '@eslint-react/eslint-plugin';
 import globals from 'globals';
 
-// Use the recommended TypeScript config from ESLint React
-let reactConfig;
-try {
-    reactConfig = eslintReact.default.configs['recommended-typescript-legacy'];
-} catch {
-    // Fallback to basic rules if config is not available
-    reactConfig = {
+export default [
+    ...base,
+    {
+        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+        plugins: {
+            '@eslint-react': eslintReact,
+        },
+        languageOptions: {
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+            },
+            globals: {
+                ...globals.browser,
+            },
+        },
         rules: {
+            // Core React rules
             '@eslint-react/no-missing-key': 'warn',
             '@eslint-react/no-array-index-key': 'warn',
             '@eslint-react/no-children-count': 'warn',
@@ -58,26 +69,5 @@ try {
             '@eslint-react/jsx-uses-react': 'off',
             '@eslint-react/jsx-uses-vars': 'off',
         },
-    };
-}
-
-export default [
-    ...base,
-    {
-        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
-        plugins: {
-            '@eslint-react': eslintReact,
-        },
-        languageOptions: {
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true,
-                },
-            },
-            globals: {
-                ...globals.browser,
-            },
-        },
-        rules: reactConfig.rules,
     },
 ];
