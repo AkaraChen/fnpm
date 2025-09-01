@@ -20,7 +20,7 @@
         "@fontsource-variable/inter": "^5.2.6",
         "@fontsource/space-mono": "^5.2.8",
         "@icons-pack/react-simple-icons": "^13.7.0",
-        "@mantine/core": "^8.2.7",
+        "@mantine/core": "^8.2.8",
         "@mantine/hooks": "^8.2.7",
         "@mantine/modals": "^8.2.7",
         "@microsoft/fetch-event-source": "^2.0.1",
