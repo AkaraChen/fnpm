@@ -83,8 +83,5 @@
             "turbo lint -- --fix",
             "prettier --write"
         ]
-    },
-    "dependencies": {
-        "pkg-types": "^2.3.0"
     }
 }

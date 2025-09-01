@@ -38,10 +38,6 @@ patchedDependencies:
 importers:
 
   .:
-    dependencies:
-      pkg-types:
-        specifier: ^2.3.0
-        version: 2.3.0
     devDependencies:
       '@akrc/tsconfig':
         specifier: ^2.0.0
