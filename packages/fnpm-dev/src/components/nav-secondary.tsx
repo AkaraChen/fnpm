@@ -1,7 +1,7 @@
 import type { TablerIcon } from '@tabler/icons-react';
 import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
-import type React from 'react';
+import type * as React from 'react';
 import {
     SidebarGroup,
     SidebarGroupContent,

@@ -32,7 +32,7 @@ import {
     hasTypes,
 } from 'fnpm-toolkit';
 import { commands } from 'pm-combo';
-import { createContext, type FC, type ReactNode, useContext } from 'react';
+import { createContext, type FC, type ReactNode, use } from 'react';
 import type { LoaderFunctionArgs } from 'react-router';
 import { useLoaderData, useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';
@@ -76,7 +76,7 @@ const CardItem: FC<CardItemProps> = ({ label, content, extra }) => {
 };
 
 const PublishField: FC = () => {
-    const { project, pm } = useContext(PageContext);
+    const { project, pm } = use(PageContext);
     const json = project.manifest as PackageJson;
     const pkgSize = useRun({
         cwd: project.rootDir,
@@ -165,7 +165,7 @@ const PublishField: FC = () => {
 };
 
 const Scripts: FC = () => {
-    const { project, pm } = useContext(PageContext);
+    const { project, pm } = use(PageContext);
     const run = useRun({
         cwd: project.rootDir,
     });
@@ -235,7 +235,7 @@ const DepsMenuItemIcon: FC<DepsMenuItemIconProps> = (props) => {
 };
 
 const DepsMenu: FC<DepsMenuProps> = (props) => {
-    const { project, pm } = useContext(PageContext);
+    const { project, pm } = use(PageContext);
     const { name } = props;
     const { field, version } = getDep(project.manifest as PackageJson, name)!;
     const run = useRun({
@@ -344,7 +344,7 @@ const DependencyGroup: FC<DependencyGroupProps> = (props) => {
 };
 
 const Dependency: FC = () => {
-    const { project } = useContext(PageContext);
+    const { project } = use(PageContext);
     return (
         <Stack>
             {project.manifest.dependencies && (
@@ -376,12 +376,13 @@ const Dependency: FC = () => {
 };
 
 const PageContext = createContext<PageContext>(null as unknown as PageContext);
+PageContext.displayName = 'PageContext';
 
 export default function Page() {
     const data = useLoaderData<typeof loader>();
     const navigate = useNavigate();
     return (
-        <PageContext.Provider
+        <PageContext
             value={{
                 project: data.project as unknown as Project,
                 pm: data.pm,
@@ -449,6 +450,6 @@ export default function Page() {
                     </Card>
                 </Grid.Col>
             </Grid>
-        </PageContext.Provider>
+        </PageContext>
     );
 }

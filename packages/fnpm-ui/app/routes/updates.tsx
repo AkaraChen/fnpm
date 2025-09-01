@@ -22,7 +22,7 @@ import {
     type FC,
     type SetStateAction,
     Suspense,
-    useContext,
+    use,
     useState,
 } from 'react';
 import type { MetaFunction } from 'react-router';
@@ -82,6 +82,7 @@ type PageContext = {
 };
 
 const PageContext = createContext<PageContext>({} as PageContext);
+PageContext.displayName = 'PageContext';
 
 interface UpdateGroupProps {
     updates: UpdateManifestWithWorkspace[];
@@ -90,7 +91,7 @@ interface UpdateGroupProps {
 
 const UpdateGroup: FC<UpdateGroupProps> = (props) => {
     const { updates, label } = props;
-    const { selected, check, unCheck } = useContext(PageContext);
+    const { selected, check, unCheck } = use(PageContext);
     const isAllSelected = updates.every((upd) => {
         return selected.includes(upd);
     });
@@ -142,7 +143,7 @@ const UpdateGroup: FC<UpdateGroupProps> = (props) => {
 };
 
 const GroupByWorkspace: FC = () => {
-    const { updates } = useContext(PageContext);
+    const { updates } = use(PageContext);
     const shaked: typeof updates = shake(updates, (v) => !v.length);
     return Object.entries(shaked).map(([workspace, updates]) => (
         <UpdateGroup key={workspace} updates={updates} label={workspace} />
@@ -150,7 +151,7 @@ const GroupByWorkspace: FC = () => {
 };
 
 const UpdateButton: FC = () => {
-    const { selected, pm, projects } = useContext(PageContext);
+    const { selected, pm, projects } = use(PageContext);
     const run = useRun({
         onSuccess() {
             window.location.reload();
@@ -243,7 +244,7 @@ export default function Page() {
                                 (v) => v.length
                             );
                             return (
-                                <PageContext.Provider
+                                <PageContext
                                     value={{
                                         selected,
                                         setSelected,
@@ -292,7 +293,7 @@ export default function Page() {
                                             your packages.
                                         </ResultPage>
                                     )}
-                                </PageContext.Provider>
+                                </PageContext>
                             );
                         }}
                     </Await>
