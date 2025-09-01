@@ -4,16 +4,12 @@ import {
     type Options as PackageDirectoryOptions,
     packageDirectory,
 } from 'package-directory';
-import {
-    type PackageJson,
-    type Options as ReadPackageOptions,
-    readPackage,
-} from 'read-pkg';
+import { type PackageJson, readPackage } from 'pkg-types';
 
 export function ReadPackage(
-    options: ReadPackageOptions
+    path?: string
 ): Effect.Effect<PackageJson, never, never> {
-    return Effect.promise(() => readPackage(options));
+    return Effect.promise(() => readPackage(path));
 }
 
 export function PackageDirectory(

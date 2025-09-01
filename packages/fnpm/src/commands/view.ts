@@ -1,6 +1,6 @@
 import gitUrlParse from 'git-url-parse';
 import open from 'open';
-import { readPackage } from 'read-pkg';
+import { readPackage } from 'pkg-types';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error } from '../util';
 import type { BaseCommandOptions } from './base';
@@ -22,7 +22,7 @@ class View<U extends ViewCommandOptions> extends BaseCommand<U> {
 
     public async handler(args: ArgumentsCamelCase<U>) {
         const { platform } = args;
-        const pkgJson = await readPackage({ cwd: this.ctx.root });
+        const pkgJson = await readPackage(this.ctx.root);
         switch (platform) {
             case 'repo': {
                 if (pkgJson.repository?.type !== 'git') {

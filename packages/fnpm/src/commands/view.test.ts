@@ -4,7 +4,7 @@ import { factory } from '../../tests/utils';
 import View from './view';
 
 // Mock dependencies
-vi.mock('read-pkg', () => ({
+vi.mock('pkg-types', () => ({
     readPackage: vi.fn(),
 }));
 
@@ -34,7 +34,7 @@ describe('View Command', () => {
             root: '/test/root',
             pm: 'pnpm',
         });
-        const readPkg = await import('read-pkg');
+        const readPkg = await import('pkg-types');
         const open = await import('open');
 
         // Mock package.json content
@@ -56,7 +56,7 @@ describe('View Command', () => {
             root: '/test/root',
             pm: 'pnpm',
         });
-        const readPkg = await import('read-pkg');
+        const readPkg = await import('pkg-types');
         const open = await import('open');
 
         // Mock package.json content
@@ -78,7 +78,7 @@ describe('View Command', () => {
             root: '/test/root',
             pm: 'pnpm',
         });
-        const readPkg = await import('read-pkg');
+        const readPkg = await import('pkg-types');
         const open = await import('open');
 
         // Mock package.json content
@@ -104,7 +104,7 @@ describe('View Command', () => {
             root: '/test/root',
             pm: 'pnpm',
         });
-        const readPkg = await import('read-pkg');
+        const readPkg = await import('pkg-types');
         const util = await import('../util');
 
         // Mock package.json content with non-git repository

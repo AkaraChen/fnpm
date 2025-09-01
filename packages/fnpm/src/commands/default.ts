@@ -1,7 +1,7 @@
 import consola from 'consola';
 import colors from 'picocolors';
 import { commands } from 'pm-combo';
-import { readPackage } from 'read-pkg';
+import { readPackage } from 'pkg-types';
 import type { PackageJson } from 'type-fest';
 import type { ArgumentsCamelCase, Argv } from 'yargs';
 import { error, exec } from '../util';
@@ -28,9 +28,7 @@ class Default extends BaseCommand<DefaultCommandOptions> {
         const inputs = this.ctx.args;
         let pkg: PackageJson;
         try {
-            pkg = await readPackage({
-                cwd: this.ctx.root,
-            });
+            pkg = await readPackage(this.ctx.root);
         } catch {
             error(
                 'Not in a package workspace, you may running fnpm at incorrect place.'

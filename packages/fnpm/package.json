@@ -43,7 +43,7 @@
         "package-directory": "^8.1.0",
         "picocolors": "^1.1.1",
         "pm-combo": "workspace:*",
-        "read-pkg": "^9.0.1",
+        "pkg-types": "^2.3.0",
         "tinyexec": "^1.0.1",
         "yargs": "^18.0.0"
     },
