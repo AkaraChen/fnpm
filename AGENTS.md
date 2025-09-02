@@ -21,6 +21,19 @@ This is a pnpm + Turbo monorepo. Packages live under `packages/*` and share conf
 - `pnpm start`: run the CLI (`packages/fnpm/dist/fnpm.js`).
 - Per‑package: `pnpm -F @akrc/fnpm dev`, `pnpm -F fnpm-ui dev`.
 
+## Global `fnpm` availability
+
+- `@akrc/fnpm` is already linked globally in this environment.
+- You can run the CLI directly via `fnpm` and `fnpx` without using `node packages/fnpm/dist/*`.
+- Examples:
+  - `fnpm --help`
+  - `fnpm dlx create-next-app --help`
+  - `fnpx create-next-app --help`
+- If you need to relink after local changes:
+  - Build: `pnpm -F @akrc/fnpm build`
+  - Link: `pnpm -F @akrc/fnpm link:fnpm`
+  - Unlink: `pnpm -F @akrc/fnpm unlink:fnpm`
+
 ## Coding Style & Naming Conventions
 
 - Language: TypeScript, ESM.

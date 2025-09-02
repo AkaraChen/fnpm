@@ -22,7 +22,9 @@ yargs(ctx.args)
     .help()
     .alias('help', 'h')
     .command(factory.create(Fnpx))
-    .help()
-    .alias('help', 'h')
+    .parserConfiguration({
+        'halt-at-non-option': true,
+        'unknown-options-as-args': true,
+    })
     .usage('Usage: $0 <command> [options]')
     .parse();
