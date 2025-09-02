@@ -61,7 +61,7 @@ export class CommandFactory {
         ctx: Context = this.ctx
     ) {
         const original = new Command(ctx);
-        const command: Partial<CommandModule> = {
+        const command: Partial<CommandModule<EmptyObject, T>> = {
             ...original,
         };
         command.builder = original.builder?.bind(original);

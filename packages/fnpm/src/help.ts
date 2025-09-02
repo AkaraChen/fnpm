@@ -1,5 +1,5 @@
 import pc from 'picocolors';
-import type { Argv, CommandModule, Options as YargsOption } from 'yargs';
+import type { Argv, Options as YargsOption } from 'yargs';
 
 type Position = {
     name: string;
@@ -34,45 +34,62 @@ function createCollector() {
     const collected: Collected = { positions: [], options: [] };
     const aliasMap = new Map<string, string[]>();
 
-    const api: Partial<Argv> & { __getCollected: () => Collected } = {
-        positional(name: string, opt?: YargsOption) {
-            const ex = (opt || {}) as OptEx;
-            collected.positions.push({
-                name,
-                description: ex.description,
-                required: ex.demandOption,
-                type: ex.type,
-                array: ex.array,
-            });
-            return this as unknown as Argv;
+    type Chain = Argv & { __getCollected: () => Collected };
+    const target: Record<string, unknown> = {};
+    const proxy = new Proxy(target, {
+        get(_t, prop: string | symbol) {
+            if (prop === '__getCollected') {
+                return () => collected;
+            }
+            if (prop === 'positional') {
+                return (name: string, opt?: YargsOption) => {
+                    const ex = (opt || {}) as OptEx;
+                    collected.positions.push({
+                        name,
+                        description: ex.description,
+                        required: ex.demandOption,
+                        type: ex.type,
+                        array: ex.array,
+                    });
+                    return proxy as Chain;
+                };
+            }
+            if (prop === 'option') {
+                return (name: string, opt?: YargsOption) => {
+                    const ex = (opt || {}) as OptEx;
+                    const aliases = ([] as string[]).concat(ex.alias || []);
+                    aliasMap.set(name, aliases);
+                    collected.options.push({
+                        name,
+                        aliases,
+                        type: ex.type,
+                        description: ex.description,
+                        required: ex.demandOption,
+                        array: ex.array,
+                    });
+                    return proxy as Chain;
+                };
+            }
+            if (prop === 'alias') {
+                return (key: string, alias: string | string[]) => {
+                    const list = aliasMap.get(key) || [];
+                    aliasMap.set(
+                        key,
+                        list.concat(Array.isArray(alias) ? alias : [alias])
+                    );
+                    const found = collected.options.find((o) => o.name === key);
+                    if (found) found.aliases = aliasMap.get(key)!;
+                    return proxy as Chain;
+                };
+            }
+            // For all other methods in builder chain, return a chainable noop
+            return (...args: unknown[]) => {
+                void args;
+                return proxy as Chain;
+            };
         },
-        option(name: string, opt?: YargsOption) {
-            const ex = (opt || {}) as OptEx;
-            const aliases = ([] as string[]).concat(ex.alias || []);
-            aliasMap.set(name, aliases);
-            collected.options.push({
-                name,
-                aliases,
-                type: ex.type,
-                description: ex.description,
-                required: ex.demandOption,
-                array: ex.array,
-            });
-            return this as unknown as Argv;
-        },
-        alias(key: string, alias: string | string[]) {
-            const list = aliasMap.get(key) || [];
-            aliasMap.set(
-                key,
-                list.concat(Array.isArray(alias) ? alias : [alias])
-            );
-            const found = collected.options.find((o) => o.name === key);
-            if (found) found.aliases = aliasMap.get(key)!;
-            return this as unknown as Argv;
-        },
-        __getCollected: () => collected,
-    } as unknown as Argv & { __getCollected: () => Collected };
-    return api;
+    }) as unknown as Chain;
+    return proxy;
 }
 
 function formatFlag(name: string, aliases: string[]) {
@@ -83,9 +100,15 @@ function formatFlag(name: string, aliases: string[]) {
     return [shorts.join(', '), longs.join(', ')].filter(Boolean).join(', ');
 }
 
-export function printCommandHelp(cmd: CommandModule, bin = 'fnpm') {
+type HelpableCommand = {
+    command: string | string[];
+    describe?: string;
+    builder?: (a: Argv) => Argv | undefined;
+};
+
+export function printCommandHelp(cmd: HelpableCommand, bin = 'fnpm') {
     const collector = createCollector();
-    const builder = (cmd as unknown as { builder?: (a: Argv) => Argv }).builder;
+    const builder = cmd.builder;
     if (builder) builder(collector);
     const { positions, options } = collector.__getCollected();
 
