@@ -588,8 +588,8 @@ importers:
         specifier: ^8.2.7
         version: 8.2.7(react@19.1.1)
       '@mantine/modals':
-        specifier: ^8.2.7
-        version: 8.2.7(@mantine/core@8.2.7(@mantine/hooks@8.2.7(react@19.1.1))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.7(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: ^8.2.8
+        version: 8.2.8(@mantine/core@8.2.7(@mantine/hooks@8.2.7(react@19.1.1))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.7(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@microsoft/fetch-event-source':
         specifier: ^2.0.1
         version: 2.0.1
@@ -1792,11 +1792,11 @@ packages:
     peerDependencies:
       react: ^18.x || ^19.x
 
-  '@mantine/modals@8.2.7':
-    resolution: {integrity: sha512-btbZ4lO7S931jklBtmE6VTHUG7g4VuQLuloDxfWa21nK4X7pUjq9zvaeuYVkIVJuUxm4kXn/mMHnw57V2B6Tvw==}
+  '@mantine/modals@8.2.8':
+    resolution: {integrity: sha512-+RzHK4uy/Gsk6RspunD8An9WYF921If8S2pDeveMwxVhUeNMZXeh9FpQWESlqVV+SHSPDDP4QeTkwhJm9DWf2g==}
     peerDependencies:
-      '@mantine/core': 8.2.7
-      '@mantine/hooks': 8.2.7
+      '@mantine/core': 8.2.8
+      '@mantine/hooks': 8.2.8
       react: ^18.x || ^19.x
       react-dom: ^18.x || ^19.x
 
@@ -9582,7 +9582,7 @@ snapshots:
     dependencies:
       react: 19.1.1
 
-  '@mantine/modals@8.2.7(@mantine/core@8.2.7(@mantine/hooks@8.2.7(react@19.1.1))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.7(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@mantine/modals@8.2.8(@mantine/core@8.2.7(@mantine/hooks@8.2.7(react@19.1.1))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.7(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
       '@mantine/core': 8.2.7(@mantine/hooks@8.2.7(react@19.1.1))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@mantine/hooks': 8.2.7(react@19.1.1)
