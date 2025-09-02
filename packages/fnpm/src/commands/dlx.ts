@@ -1,6 +1,6 @@
 import consola from 'consola';
 import { commands } from 'pm-combo';
-import type { ArgumentsCamelCase, Argv } from 'yargs';
+import type { Argv } from 'yargs';
 import { exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
@@ -22,8 +22,7 @@ class Dlx extends BaseCommand<DlxCommandOptions> {
         }) as Argv<DlxCommandOptions>;
     }
 
-    public async handler(_args: ArgumentsCamelCase<DlxCommandOptions>) {
-        void _args;
+    public async handler() {
         // Determine the package name and rest of args directly from raw argv
         // to avoid yargs interpretation (which we disabled for this command).
         const argv = this.ctx.args;
