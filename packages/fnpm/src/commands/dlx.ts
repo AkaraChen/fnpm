@@ -4,6 +4,7 @@ import type { Argv } from 'yargs';
 import { error, exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
+import { printCommandHelp } from '../help';
 
 type DlxCommandOptions = BaseCommandOptions;
 
@@ -33,12 +34,7 @@ class Dlx extends BaseCommand<DlxCommandOptions> {
             error('No package specified');
         }
         if (String(pkg).startsWith('-')) {
-            consola.log('fnpm dlx\n');
-            consola.log('download and exec');
-            consola.log('\nUsage: fnpm dlx <pkg> [args...]');
-            consola.log('\nExamples:');
-            consola.log('  fnpm dlx create-next-app --help');
-            consola.log('  fnpm dlx cowsay "hello"');
+            printCommandHelp(this);
             return;
         }
         const command = commands.dlx.concat(this.ctx.pm, {

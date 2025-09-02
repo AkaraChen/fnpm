@@ -19,8 +19,6 @@ yargs(ctx.args)
     .recommendCommands()
     .version(pkg.version)
     .alias('version', 'v')
-    .help()
-    .alias('help', 'h')
     .command(factory.create(Fnpx))
     .parserConfiguration({
         'halt-at-non-option': true,

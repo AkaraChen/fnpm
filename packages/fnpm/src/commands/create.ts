@@ -1,7 +1,7 @@
-import consola from 'consola';
 import { commands } from 'pm-combo';
 import type { Argv } from 'yargs';
 import { error, exec, normalizePackageVersion } from '../util';
+import { printCommandHelp } from '../help';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
@@ -30,12 +30,7 @@ class Create extends BaseCommand<CreateCommandOptions> {
             error('No package [name] specified');
         }
         if (String(name).startsWith('-')) {
-            consola.log('fnpm create\n');
-            consola.log('create an new project using package from npm');
-            consola.log('\nUsage: fnpm create <name> [args...]');
-            consola.log('\nExamples:');
-            consola.log('  fnpm create next-app --help');
-            consola.log('  fnpm create vite my-app -- --template react-ts');
+            printCommandHelp(this);
             return;
         }
         const shell = commands.create.concat(this.ctx.pm, {
