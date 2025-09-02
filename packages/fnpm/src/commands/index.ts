@@ -8,6 +8,7 @@ import Default from './default';
 import Dlx from './dlx';
 import Doctor from './doctor';
 import Init from './init';
+import Create from './create';
 import Publish from './publish';
 import Registry from './registry';
 import Remove from './remove';
@@ -25,6 +26,7 @@ export function mount(argv: Argv, ctx: Context) {
     const factory = new CommandFactory(ctx);
     return argv
         .command(factory.create(Add))
+        .command(factory.create(Create))
         .command(factory.create(Dlx))
         .command(factory.create(Remove))
         .command(factory.create(Init))

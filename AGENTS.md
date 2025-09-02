@@ -21,6 +21,19 @@ This is a pnpm + Turbo monorepo. Packages live under `packages/*` and share conf
 - `pnpm start`: run the CLI (`packages/fnpm/dist/fnpm.js`).
 - Per‑package: `pnpm -F @akrc/fnpm dev`, `pnpm -F fnpm-ui dev`.
 
+## Global `fnpm` availability
+
+- `@akrc/fnpm` is already linked globally in this environment.
+- You can run the CLI directly via `fnpm` and `fnpx` without using `node packages/fnpm/dist/*`.
+- Examples:
+  - `fnpm --help`
+  - `fnpm dlx create-next-app --help`
+  - `fnpx create-next-app --help`
+- If you need to relink after local changes:
+  - Build: `pnpm -F @akrc/fnpm build`
+  - Link: `pnpm -F @akrc/fnpm link:fnpm`
+  - Unlink: `pnpm -F @akrc/fnpm unlink:fnpm`
+
 ## Coding Style & Naming Conventions
 
 - Language: TypeScript, ESM.
@@ -40,6 +53,14 @@ This is a pnpm + Turbo monorepo. Packages live under `packages/*` and share conf
 - Conventional Commits: `feat:`, `fix:`, `chore:`, `refactor:`, `build:`, `ci:` with optional scope, e.g. `feat(fnpm): add use command`.
 - PRs: concise description, linked issues, and screenshots/video for UI changes. Keep diffs focused; update docs when commands or flags change.
 - CI enforces lint/format; run `pnpm check` locally before pushing.
+
+## GitHub CLI PR Flow
+
+- gh is installed and authenticated in this environment.
+- On request, I will create PRs using `gh` and open them in the browser.
+- Create PR (example): `gh pr create --fill --base main --head feat/fnpm-help-passthrough`
+- Open PR in browser: `gh pr view --web`
+- Alternatively open by URL: `open "$(gh pr view --json url -q .url)"`
 
 ## Security & Configuration Tips
 
