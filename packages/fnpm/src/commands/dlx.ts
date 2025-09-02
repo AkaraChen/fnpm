@@ -1,7 +1,7 @@
 import consola from 'consola';
 import { commands } from 'pm-combo';
 import type { Argv } from 'yargs';
-import { exec, normalizePackageVersion } from '../util';
+import { error, exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
@@ -29,7 +29,10 @@ class Dlx extends BaseCommand<DlxCommandOptions> {
         const startIndex = argv[0] === 'dlx' ? 1 : 0;
         const pkg = argv[startIndex];
         const rest = argv.slice(startIndex + 1);
-        if (!pkg || String(pkg).startsWith('-')) {
+        if (!pkg) {
+            error('No package specified');
+        }
+        if (String(pkg).startsWith('-')) {
             consola.log('fnpm dlx\n');
             consola.log('download and exec');
             consola.log('\nUsage: fnpm dlx <pkg> [args...]');

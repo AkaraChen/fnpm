@@ -1,7 +1,7 @@
 import consola from 'consola';
 import { commands } from 'pm-combo';
 import type { Argv } from 'yargs';
-import { exec, normalizePackageVersion } from '../util';
+import { error, exec, normalizePackageVersion } from '../util';
 import type { BaseCommandOptions } from './base';
 import { BaseCommand } from './base';
 
@@ -26,7 +26,10 @@ class Create extends BaseCommand<CreateCommandOptions> {
         const startIndex = argv[0] === 'create' ? 1 : 0;
         const name = argv[startIndex];
         const rest = argv.slice(startIndex + 1);
-        if (!name || String(name).startsWith('-')) {
+        if (!name) {
+            error('No package [name] specified');
+        }
+        if (String(name).startsWith('-')) {
             consola.log('fnpm create\n');
             consola.log('create an new project using package from npm');
             consola.log('\nUsage: fnpm create <name> [args...]');
