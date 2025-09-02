@@ -1,6 +1,7 @@
 import type { EmptyObject } from 'type-fest';
 import type { ArgumentsCamelCase, Argv, CommandModule, Options } from 'yargs';
 import type { Context } from '../util';
+import { printCommandHelp } from '../help';
 
 /**
  * Base command options that all commands can extend
@@ -60,11 +61,42 @@ export class CommandFactory {
         ctx: Context = this.ctx
     ) {
         const original = new Command(ctx);
-        const command: Partial<CommandModule> = {
+        const command: Partial<CommandModule<EmptyObject, T>> = {
             ...original,
         };
         command.builder = original.builder?.bind(original);
-        command.handler = original.handler?.bind(original);
+        const bound = original.handler?.bind(original);
+        command.handler = ((args: ArgumentsCamelCase<T>) => {
+            const argv = ctx.args;
+            const dashDash = argv.indexOf('--');
+            const searchEnd = dashDash === -1 ? argv.length : dashDash;
+            const isHelp = (s: string) => s === '--help' || s === '-h';
+            const helpIndex = argv.findIndex(
+                (t, i) => i < searchEnd && isHelp(String(t))
+            );
+
+            if (helpIndex >= 0) {
+                // Identify primary command token from pattern, e.g. 'dlx', 'create'
+                const patterns = Array.isArray(original.command)
+                    ? original.command
+                    : [original.command];
+                const primary = String(patterns[0]).split(' ')[0];
+
+                // Special-case forwarding commands: allow help after first positional
+                if (primary === 'dlx' || primary === 'create') {
+                    const firstPosIndex = argv[0] === primary ? 1 : 0;
+                    if (helpIndex <= firstPosIndex) {
+                        printCommandHelp(original);
+                        return;
+                    }
+                } else {
+                    printCommandHelp(original);
+                    return;
+                }
+            }
+
+            return bound?.(args);
+        }) as unknown as CommandModule<EmptyObject, T>['handler'];
         return command as CommandModule<EmptyObject, T>;
     }
 }

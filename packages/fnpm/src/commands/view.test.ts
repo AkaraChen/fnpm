@@ -39,8 +39,9 @@ describe('View Command', () => {
 
         // Mock package.json content
         vi.mocked(readPkg.readPackage).mockResolvedValue({
+            // Mocking package.json for test
             name: 'test-package',
-        }); // @ts-expect-error: Mocking package.json for test
+        } as any);
 
         await yargs(['view']).command(cmd).parse();
 
@@ -61,8 +62,9 @@ describe('View Command', () => {
 
         // Mock package.json content
         vi.mocked(readPkg.readPackage).mockResolvedValue({
+            // Mocking package.json for test
             name: 'test-package',
-        }); // @ts-expect-error: Mocking package.json for test
+        } as any);
 
         await yargs(['view', 'npm']).command(cmd).parse();
 
@@ -88,7 +90,7 @@ describe('View Command', () => {
                 type: 'git',
                 url: 'git+https://github.com/user/test-package.git',
             },
-        }); // @ts-expect-error: Mocking package.json for test
+        } as any);
 
         await yargs(['view', 'repo']).command(cmd).parse();
 
@@ -114,7 +116,7 @@ describe('View Command', () => {
                 type: 'svn',
                 url: 'svn://example.com/repo',
             },
-        }); // @ts-expect-error: Mocking package.json for test
+        } as any);
 
         await yargs(['view', 'repo']).command(cmd).parse();
 
@@ -134,7 +136,6 @@ describe('View Command', () => {
 
         // Override the handler to test unsupported platform
         cmd.handler = async (args: any) => {
-            // @ts-expect-error: Testing unsupported platform
             // Simulate unsupported platform
             args.platform = 'unsupported';
             await (
