@@ -1,5 +1,5 @@
 import pc from 'picocolors';
-import type { Argv, Options as YargsOption } from 'yargs';
+import type { Argv, CommandModule, Options as YargsOption } from 'yargs';
 
 type Position = {
     name: string;
@@ -30,11 +30,12 @@ type OptEx = Partial<YargsOption> & {
     type?: string;
 };
 
-function createCollector() {
+type Chain = Argv & { __getCollected: () => Collected };
+
+function createCollector(): Chain {
     const collected: Collected = { positions: [], options: [] };
     const aliasMap = new Map<string, string[]>();
 
-    type Chain = Argv & { __getCollected: () => Collected };
     const target: Record<string, unknown> = {};
     const proxy = new Proxy(target, {
         get(_t, prop: string | symbol) {
@@ -82,7 +83,6 @@ function createCollector() {
                     return proxy as Chain;
                 };
             }
-            // For all other methods in builder chain, return a chainable noop
             return (...args: unknown[]) => {
                 void args;
                 return proxy as Chain;
@@ -100,11 +100,10 @@ function formatFlag(name: string, aliases: string[]) {
     return [shorts.join(', '), longs.join(', ')].filter(Boolean).join(', ');
 }
 
-type HelpableCommand = {
-    command: string | string[];
-    describe?: string;
-    builder?: (a: Argv) => Argv | undefined;
-};
+type HelpableCommand =
+    Pick<CommandModule<unknown, unknown>, 'command' | 'describe'> & {
+        builder?: (a: Argv) => Argv | undefined;
+    };
 
 export function printCommandHelp(cmd: HelpableCommand, bin = 'fnpm') {
     const collector = createCollector();

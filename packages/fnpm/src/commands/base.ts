@@ -94,7 +94,6 @@ export class CommandFactory {
                     return;
                 }
             }
-
             return bound?.(args);
         }) as unknown as CommandModule<EmptyObject, T>['handler'];
         return command as CommandModule<EmptyObject, T>;
