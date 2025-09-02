@@ -54,6 +54,14 @@ This is a pnpm + Turbo monorepo. Packages live under `packages/*` and share conf
 - PRs: concise description, linked issues, and screenshots/video for UI changes. Keep diffs focused; update docs when commands or flags change.
 - CI enforces lint/format; run `pnpm check` locally before pushing.
 
+## GitHub CLI PR Flow
+
+- gh is installed and authenticated in this environment.
+- On request, I will create PRs using `gh` and open them in the browser.
+- Create PR (example): `gh pr create --fill --base main --head feat/fnpm-help-passthrough`
+- Open PR in browser: `gh pr view --web`
+- Alternatively open by URL: `open "$(gh pr view --json url -q .url)"`
+
 ## Security & Configuration Tips
 
 - Use `pnpm@10` (pinned in `packageManager`).
