@@ -25,7 +25,7 @@
     "type": "module",
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.1.0",
-        "@effect/platform-node": "^0.96.0",
+        "@effect/platform-node": "^0.96.1",
         "bunchee": "6.6.0",
         "json-schema-to-typescript": "^15.0.4",
         "pm-combo": "workspace:*",
