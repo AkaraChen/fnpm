@@ -37,12 +37,7 @@ import { PageHeader } from '~/components/page-header';
 import { AllClear } from '~/components/result';
 import { SemverRange } from '~/components/semver-range';
 import { root } from '~/server/config.server';
-import {
-    resolveContext,
-    safeContext,
-    scan,
-    update,
-} from '~/server/fnpm.server';
+import { resolveWorkspaceContext, scan, update } from '~/server/fnpm.server';
 
 export const meta: MetaFunction = () => {
     return [{ title: 'Dashboard' }];
@@ -83,9 +78,18 @@ const InfoCard: FC<InfoCardProps> = (props) => {
     );
 };
 
+/**
+ * Prepare and return the data required by the dashboard route.
+ *
+ * @returns An object containing:
+ * - `projects`: the resolved workspace projects array.
+ * - `depsGraph`: an array of `{ name, count }` entries where `count` is the number of dependencies for each project's manifest.
+ * - `diagnoses`: diagnostic results from scanning the workspace root.
+ * - `updates`: a deduplicated list of dependency update entries; each entry includes `name`, update metadata, and a `workspace` array listing all workspaces affected by that update.
+ * - `rootProject`: the resolved root project of the workspace (if any).
+ */
 export async function loader() {
-    const context = await resolveContext(root);
-    const ctx = safeContext(context);
+    const ctx = await resolveWorkspaceContext(root);
     const depsGraph = ctx.projects.map((project) => {
         const count = getDeps(project.manifest as PackageJson);
         return {
@@ -94,7 +98,7 @@ export async function loader() {
         };
     });
     const { diagnoses } = await scan(root);
-    const updates = update(context)
+    const updates = update(ctx)
         .then((updates) => {
             return Object.entries(updates ?? {}).flatMap(
                 ([workspace, json]) => {

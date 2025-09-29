@@ -1,6 +1,6 @@
 import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
-import { resolveContext, safeContext } from 'fnpm-context';
+import { resolveRepoContext, resolveWorkspaceContext } from 'fnpm-context';
 import parser from 'fnpm-parse';
 import Fuse from 'fuse.js';
 import { packageDirectory } from 'package-directory';
@@ -34,9 +34,23 @@ export interface Context {
     args: string[];
 }
 
+/**
+ * Resolve the execution context (package manager, root directory, and CLI args) for a given working directory.
+ *
+ * The returned context adapts to command-line flags:
+ * - If `-w` is present, `root` is the repository root.
+ * - If `-s <term>` is present, `root` is the matched workspace project's root (fuzzy-searched by manifest name/description); missing term or no match will terminate the process with an error message.
+ * - Otherwise, `root` is the nearest package directory for `cwd` or `cwd` if none is found.
+ *
+ * @param cwd - The working directory to resolve repository/workspace/package context from
+ * @returns The resolved Context containing:
+ *   - `pm`: package manager information from the repository context,
+ *   - `args`: the remaining CLI arguments after removing handled flags,
+ *   - `root`: the selected root directory as described above
+ */
 export async function getContext(cwd: string): Promise<Context> {
-    const ctx = await resolveContext(cwd);
-    const { pm } = ctx;
+    const repoContext = await resolveRepoContext(cwd);
+    const { pm } = repoContext;
 
     // workspace mode
     if (process.argv[2] === '-w') {
@@ -44,14 +58,14 @@ export async function getContext(cwd: string): Promise<Context> {
         return {
             pm,
             args: hideBin(process.argv),
-            root: ctx.root,
+            root: repoContext.root,
         };
     }
 
     // switch to another project
     if (process.argv[2] === '-s') {
         try {
-            const context = safeContext(ctx);
+            const context = await resolveWorkspaceContext(repoContext);
             const fuse = new Fuse(context.projects, {
                 keys: [
                     {
@@ -77,7 +91,7 @@ export async function getContext(cwd: string): Promise<Context> {
             const project = result.at(0)!.item;
             process.argv.splice(2, 2);
             return {
-                pm: ctx.pm,
+                pm: repoContext.pm,
                 args: hideBin(process.argv),
                 root: project.rootDir,
             };

@@ -1,33 +1,27 @@
-import { NativeSelect, Skeleton } from '@mantine/core';
-import type { SafeContext } from 'fnpm-context';
-import { type FC, Suspense } from 'react';
-import { Await, useParams } from 'react-router';
+import { NativeSelect } from '@mantine/core';
+import type { WorkspaceContext } from 'fnpm-context';
+import { type FC } from 'react';
+import { useParams } from 'react-router';
 
-export interface ProjectSelector {
-    promise: Promise<SafeContext>;
+export interface ProjectSelectorProps {
+    context: WorkspaceContext;
     onChange: (project: string) => void;
 }
 
-export const ProjectSelector: FC<ProjectSelector> = (props) => {
-    const { promise, onChange } = props;
+export const ProjectSelector: FC<ProjectSelectorProps> = (props) => {
+    const { context, onChange } = props;
     const params = useParams();
+    const fallback = context.rootProject?.manifest.name;
+    const value = params.name ?? fallback ?? '';
     return (
-        <Suspense fallback={<Skeleton h={'60px'} w={'300px'} />}>
-            <Await resolve={promise}>
-                {(context) => (
-                    <NativeSelect
-                        data={context.projects.map((p) => p.manifest.name!)}
-                        w={'300px'}
-                        label={'Select package'}
-                        value={
-                            params.name || context.rootProject!.manifest.name
-                        }
-                        onChange={(e) => {
-                            onChange(e.target.value);
-                        }}
-                    />
-                )}
-            </Await>
-        </Suspense>
+        <NativeSelect
+            data={context.projects.map((p) => p.manifest.name!)}
+            w={'300px'}
+            label={'Select package'}
+            value={value}
+            onChange={(e) => {
+                onChange(e.target.value);
+            }}
+        />
     );
 };

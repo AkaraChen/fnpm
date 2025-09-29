@@ -54,7 +54,8 @@ describe('util', () => {
     });
 
     describe('getContext', () => {
-        let mockResolveContext: Mock;
+        let mockResolveRepoContext: Mock;
+        let mockResolveWorkspaceContext: Mock;
         let mockPackageDirectory: Mock;
         let mockHideBin: Mock;
         let getContextFunc: typeof import('./util').getContext;
@@ -62,12 +63,14 @@ describe('util', () => {
         beforeEach(async () => {
             vi.resetModules(); // Reset module cache before setting up mocks
 
-            mockResolveContext = vi.fn();
+            mockResolveRepoContext = vi.fn();
+            mockResolveWorkspaceContext = vi.fn();
             mockPackageDirectory = vi.fn();
             mockHideBin = vi.fn();
 
             vi.doMock('fnpm-context', () => ({
-                resolveContext: mockResolveContext,
+                resolveRepoContext: mockResolveRepoContext,
+                resolveWorkspaceContext: mockResolveWorkspaceContext,
             }));
             vi.doMock('package-directory', () => ({
                 packageDirectory: mockPackageDirectory,
@@ -81,18 +84,19 @@ describe('util', () => {
 
         // No afterEach for vi.resetModules() here, as beforeEach handles it.
 
-        it('should return context with root from resolveContext when -w flag is present', async () => {
+        it('should return context with root from resolveRepoContext when -w flag is present', async () => {
             const originalArgv = [...process.argv];
             process.argv = ['node', 'script.js', '-w', 'some', 'args'];
-            mockResolveContext.mockResolvedValue({
+            mockResolveRepoContext.mockResolvedValue({
                 root: '/resolved/root',
                 pm: 'pnpm',
+                kind: 'mono',
             });
             mockHideBin.mockReturnValue(['some', 'args']);
 
             const context = await getContextFunc('/current/dir');
 
-            expect(mockResolveContext).toHaveBeenCalledWith('/current/dir');
+            expect(mockResolveRepoContext).toHaveBeenCalledWith('/current/dir');
             expect(context.root).toBe('/resolved/root');
             expect(context.pm).toBe('pnpm');
             expect(mockHideBin).toHaveBeenCalledWith([
@@ -108,9 +112,10 @@ describe('util', () => {
         it('should return context with root from packageDirectory when -w flag is not present', async () => {
             const originalArgv = [...process.argv];
             process.argv = ['node', 'script.js', 'other', 'args'];
-            mockResolveContext.mockResolvedValue({
+            mockResolveRepoContext.mockResolvedValue({
                 root: '/resolved/root',
                 pm: 'npm',
+                kind: 'single',
             });
             mockPackageDirectory.mockResolvedValue('/pkg/dir/root');
             mockHideBin.mockReturnValue(['other', 'args']);
@@ -118,7 +123,7 @@ describe('util', () => {
             const { getContext } = await import('./util');
             const context = await getContext('/current/dir');
 
-            expect(mockResolveContext).toHaveBeenCalledWith('/current/dir');
+            expect(mockResolveRepoContext).toHaveBeenCalledWith('/current/dir');
             expect(mockPackageDirectory).toHaveBeenCalledWith({
                 cwd: '/current/dir',
             });
@@ -137,16 +142,19 @@ describe('util', () => {
         it('should return context with cwd as root when -w is not present and packageDirectory returns null', async () => {
             const originalArgv = [...process.argv];
             process.argv = ['node', 'script.js', 'another', 'arg'];
-            mockResolveContext.mockResolvedValue({
+            mockResolveRepoContext.mockResolvedValue({
                 root: '/resolved/root',
                 pm: 'yarn',
+                kind: 'single',
             });
             mockPackageDirectory.mockResolvedValue(null);
             mockHideBin.mockReturnValue(['another', 'arg']);
 
             const context = await getContextFunc('/fallback/cwd');
 
-            expect(mockResolveContext).toHaveBeenCalledWith('/fallback/cwd');
+            expect(mockResolveRepoContext).toHaveBeenCalledWith(
+                '/fallback/cwd'
+            );
             expect(mockPackageDirectory).toHaveBeenCalledWith({
                 cwd: '/fallback/cwd',
             });
