@@ -15,7 +15,7 @@
     "type": "module",
     "devDependencies": {
         "@akrc/monorepo-tools": "^4.1.0",
-        "@pnpm/types": "12.2.0",
+        "@pnpm/types": "1000.8.0",
         "bunchee": "6.6.0"
     },
     "files": [
