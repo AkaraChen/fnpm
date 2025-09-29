@@ -18,10 +18,20 @@ import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import { resolveWorkspaceContext } from '~/server/fnpm.server';
 
+/**
+ * Load the workspace context for the application's root directory.
+ *
+ * @returns The resolved workspace context containing workspace metadata and projects.
+ */
 export async function loader() {
     return await resolveWorkspaceContext(root);
 }
 
+/**
+ * Renders the installer UI for selecting workspace projects and npm packages, configuring install options, and running per-project install commands.
+ *
+ * @returns The page element containing project checkboxes, a package search with toggles, an install confirmation modal, and a button to start installation.
+ */
 export default function Page() {
     const data = useLoaderData<typeof loader>();
     const [selectedProjects, setSelectedProjects] = useState<string[]>([]);

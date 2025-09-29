@@ -7,6 +7,11 @@ import { PageHeader } from '~/components/page-header';
 import { root } from '~/server/config.server';
 import { resolveWorkspaceContext } from '~/server/fnpm.server';
 
+/**
+ * Loads workspace context and provides projects and the root project for the page.
+ *
+ * @returns An object containing `projects` (the workspace projects) and `rootProject` (the workspace root project, if any)
+ */
 export async function loader() {
     const { projects, rootProject } = await resolveWorkspaceContext(root);
     return {

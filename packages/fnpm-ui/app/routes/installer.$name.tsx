@@ -11,6 +11,15 @@ import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import { resolveWorkspaceContext } from '~/server/fnpm.server';
 
+/**
+ * Load workspace context and resolve the package manager, the project matching the route `name`, and whether that project is the workspace root.
+ *
+ * @param args - Loader function arguments; `args.params.name` is used to identify the project by manifest name.
+ * @returns An object with:
+ *  - `pm`: the workspace package manager
+ *  - `project`: the project whose manifest name matches `name`, or the workspace root project if no match is found
+ *  - `isRoot`: `true` when the workspace is a mono-repo and the resolved project is the root project, `false` otherwise
+ */
 export async function loader(args: LoaderFunctionArgs) {
     const name = args.params.name;
     const ctx = await resolveWorkspaceContext(root);
