@@ -32,7 +32,7 @@
         "fnpm-toolkit": "workspace:*",
         "fnpm-utils-node": "workspace:*",
         "picocolors": "^1.1.1",
-        "publint": "^0.3.12",
+        "publint": "^0.3.13",
         "terminal-link": "^4.0.0",
         "try-files": "^1.1.0",
         "ts-pattern": "^5.8.0"

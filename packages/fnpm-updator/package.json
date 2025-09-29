@@ -11,7 +11,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.15.0",
+    "packageManager": "pnpm@10.17.1",
     "type": "module",
     "devDependencies": {
         "@effect/platform": "^0.90.6",
@@ -41,7 +41,7 @@
         "fnpm-context": "workspace:*",
         "fnpm-toolkit": "workspace:*",
         "fnpm-utils-node": "workspace:*",
-        "npm-check-updates": "^18.0.3",
+        "npm-check-updates": "^18.3.1",
         "pathe": "^2.0.3"
     },
     "publishConfig": {
