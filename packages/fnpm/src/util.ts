@@ -34,6 +34,20 @@ export interface Context {
     args: string[];
 }
 
+/**
+ * Resolve the execution context (package manager, root directory, and CLI args) for a given working directory.
+ *
+ * The returned context adapts to command-line flags:
+ * - If `-w` is present, `root` is the repository root.
+ * - If `-s <term>` is present, `root` is the matched workspace project's root (fuzzy-searched by manifest name/description); missing term or no match will terminate the process with an error message.
+ * - Otherwise, `root` is the nearest package directory for `cwd` or `cwd` if none is found.
+ *
+ * @param cwd - The working directory to resolve repository/workspace/package context from
+ * @returns The resolved Context containing:
+ *   - `pm`: package manager information from the repository context,
+ *   - `args`: the remaining CLI arguments after removing handled flags,
+ *   - `root`: the selected root directory as described above
+ */
 export async function getContext(cwd: string): Promise<Context> {
     const repoContext = await resolveRepoContext(cwd);
     const { pm } = repoContext;

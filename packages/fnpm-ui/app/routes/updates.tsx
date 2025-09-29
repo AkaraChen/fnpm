@@ -43,6 +43,14 @@ interface UpdateManifestWithWorkspace extends UpdateManifest {
     workspace: string;
 }
 
+/**
+ * Load workspace update data along with projects and package-manager info for the Updates page.
+ *
+ * @returns An object with:
+ * - `updates`: a mapping from workspace name to an array of update entries where each entry includes its originating `workspace` property.
+ * - `projects`: the array of workspace `Project` records from the resolved context.
+ * - `pm`: the package-manager information from the resolved context.
+ */
 export async function loader() {
     const ctx = await resolveWorkspaceContext(root);
     const updates = update(ctx).then((updates) => {

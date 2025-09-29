@@ -78,6 +78,16 @@ const InfoCard: FC<InfoCardProps> = (props) => {
     );
 };
 
+/**
+ * Prepare and return the data required by the dashboard route.
+ *
+ * @returns An object containing:
+ * - `projects`: the resolved workspace projects array.
+ * - `depsGraph`: an array of `{ name, count }` entries where `count` is the number of dependencies for each project's manifest.
+ * - `diagnoses`: diagnostic results from scanning the workspace root.
+ * - `updates`: a deduplicated list of dependency update entries; each entry includes `name`, update metadata, and a `workspace` array listing all workspaces affected by that update.
+ * - `rootProject`: the resolved root project of the workspace (if any).
+ */
 export async function loader() {
     const ctx = await resolveWorkspaceContext(root);
     const depsGraph = ctx.projects.map((project) => {

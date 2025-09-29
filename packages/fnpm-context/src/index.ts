@@ -34,6 +34,12 @@ export interface CurrentPackageContext {
     project?: Project;
 }
 
+/**
+ * Resolve a monorepo repository context by locating the repository root from the given directory.
+ *
+ * @param cwd - Path to start searching for the monorepo root
+ * @returns A RepoContext whose `root` is the discovered monorepo root, `pm` is the detected package manager (falls back to the preferred PM `'pnpm'` if detection fails), and `kind` is `'mono'`.
+ */
 function ResolveMonorepoRepoContext(cwd: string) {
     return Effect.gen(function* () {
         const findRootResult = yield* FindUpRoot(cwd);
@@ -49,6 +55,12 @@ function ResolveMonorepoRepoContext(cwd: string) {
     });
 }
 
+/**
+ * Resolve a single-repository context starting from the given working directory.
+ *
+ * @param cwd - The directory to start resolving the package root from
+ * @returns A `RepoContext` with `root` set to the repository root, `pm` set to the detected package manager (defaults to `pnpm` when detection fails), and `kind` equal to `"single"`.
+ */
 function ResolveSingleRepoContext(cwd: string) {
     return Effect.gen(function* () {
         const root = yield* PackageDirectory({ cwd });
@@ -63,6 +75,12 @@ function ResolveSingleRepoContext(cwd: string) {
     });
 }
 
+/**
+ * Resolve the repository context for a given working directory, detecting monorepo or single-repo layout and falling back to an unknown context if detection fails.
+ *
+ * @param cwd - The directory to start resolution from; used to locate the repository root.
+ * @returns The resolved RepoContext containing `root`, detected package manager `pm`, and `kind` ("mono", "single", or "unknown").
+ */
 export async function resolveRepoContext(cwd: string): Promise<RepoContext> {
     const program = pipe(
         ResolveMonorepoRepoContext(cwd),
@@ -78,6 +96,13 @@ export async function resolveRepoContext(cwd: string): Promise<RepoContext> {
     return await Effect.runPromise(program);
 }
 
+/**
+ * Create a minimal Project object from a package manifest and root path.
+ *
+ * @param root - Filesystem path of the project's root directory
+ * @param manifest - Package manifest (package.json) content for the project
+ * @returns A Project-compatible object with `rootDir`, `rootDirRealPath`, `manifest`, and a `writeProjectManifest` method that throws an `Error` when called
+ */
 function createProjectFromManifest(
     root: string,
     manifest: Project['manifest']
@@ -94,6 +119,13 @@ function createProjectFromManifest(
 
 type WorkspaceInput = string | RepoContext;
 
+/**
+ * Resolve a workspace context from a filesystem path or an existing repository context.
+ *
+ * @param input - The workspace input: either a directory path to resolve or an existing RepoContext.
+ * @returns A WorkspaceContext containing repository info, discovered projects, and the optional `rootProject`.
+ * @throws Error when the repository kind cannot be resolved (`'unknown'`).
+ */
 export async function resolveWorkspaceContext(
     input: WorkspaceInput
 ): Promise<WorkspaceContext> {
@@ -136,6 +168,17 @@ export interface ResolveCurrentPackageOptions {
     workspace?: WorkspaceContext;
 }
 
+/**
+ * Resolve the current package context for a given working directory, optionally linking it to a workspace.
+ *
+ * @param cwd - The directory to resolve the package from; used as a fallback if a package root cannot be determined.
+ * @param options - Optional settings.
+ * @param options.workspace - A workspace context whose projects will be searched for a matching project by root directory.
+ * @returns An object containing:
+ *  - `rootDir`: the resolved package root directory (falls back to `cwd` when a package root is not found),
+ *  - `manifest`: the package manifest for `rootDir`,
+ *  - `project` (optional): the workspace project whose `rootDir` equals the resolved `rootDir`, if any.
+ */
 export async function resolveCurrentPackage(
     cwd: string,
     options: ResolveCurrentPackageOptions = {}

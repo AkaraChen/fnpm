@@ -39,6 +39,12 @@ import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import { resolveWorkspaceContext, type Project } from '~/server/fnpm.server';
 
+/**
+ * Load the workspace project referenced by the route and the workspace package manager.
+ *
+ * @param args - Loader arguments; expects `args.params.name` to identify the project's manifest name.
+ * @returns An object containing `project` (the project whose manifest name matches `args.params.name`, or the workspace root project if no match) and `pm` (the workspace package manager).
+ */
 export async function loader(args: LoaderFunctionArgs) {
     const ctx = await resolveWorkspaceContext(root);
     const pm = ctx.pm;
