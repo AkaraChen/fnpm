@@ -27,7 +27,7 @@
         "@types/yargs": "^17.0.33",
         "effect": "^3.17.9",
         "fnpm-test-suite": "workspace:*",
-        "nanoid": "^5.1.5",
+        "nanoid": "^5.1.6",
         "type-fest": "^4.41.0"
     },
     "dependencies": {

@@ -14,13 +14,13 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.15.0",
+    "packageManager": "pnpm@10.17.1",
     "dependencies": {
         "@akrc/yaml": "^4.2.0",
         "@effect/platform": "^0.90.6",
         "defu": "^6.1.4",
         "effect": "^3.17.9",
-        "nanoid": "^5.1.5"
+        "nanoid": "^5.1.6"
     },
     "type": "module",
     "devDependencies": {
