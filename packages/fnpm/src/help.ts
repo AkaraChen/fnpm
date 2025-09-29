@@ -32,6 +32,14 @@ type OptEx = Partial<YargsOption> & {
 
 type Chain = Argv & { __getCollected: () => Collected };
 
+/**
+ * Create a chainable collector proxy that records positional arguments and options defined by yargs-style builders.
+ *
+ * The returned Chain exposes a __getCollected method that returns an object with `positions` and `options` arrays.
+ * The proxy accepts chained calls such as `.positional(name, opt)`, `.option(name, opt)`, and `.alias(key, alias)` to populate the collected metadata; any other accessed properties are no-op chainable functions.
+ *
+ * @returns A Chain proxy whose `__getCollected()` method returns the collected `positions` and `options`.
+ */
 function createCollector(): Chain {
     const collected: Collected = { positions: [], options: [] };
     const aliasMap = new Map<string, string[]>();
@@ -92,6 +100,13 @@ function createCollector(): Chain {
     return proxy;
 }
 
+/**
+ * Produce a combined flag string from a primary name and its aliases.
+ *
+ * @param name - The primary flag name; a single character produces a short form (`-x`), otherwise a long form (`--name`).
+ * @param aliases - Alternative flag names; single-character aliases produce short forms, multi-character aliases produce long forms.
+ * @returns A combined, comma-separated string of short forms (e.g. `-x`) and long forms (e.g. `--name`)
+ */
 function formatFlag(name: string, aliases: string[]) {
     const shorts = aliases.filter((a) => a.length === 1).map((a) => `-${a}`);
     const longs = [name.length === 1 ? `-${name}` : `--${name}`].concat(
@@ -105,6 +120,16 @@ type HelpableCommand =
         builder?: (a: Argv) => Argv | undefined;
     };
 
+/**
+ * Print formatted help for a subcommand to standard output.
+ *
+ * Invokes the command's `builder` (if provided) to collect positional and option metadata,
+ * then prints a header, optional description, usage line, and lists of positionals and options
+ * with their types and array markers.
+ *
+ * @param cmd - The command descriptor containing `command`, optional `describe`, and an optional `builder` used to declare positionals/options
+ * @param bin - The CLI binary name to display in headers and usage lines (defaults to `"fnpm"`)
+ */
 export function printCommandHelp(cmd: HelpableCommand, bin = 'fnpm') {
     const collector = createCollector();
     const builder = cmd.builder;
