@@ -21,7 +21,6 @@ import {
     IconTrash,
     type TablerIcon,
 } from '@tabler/icons-react';
-import { resolveContext } from 'fnpm-context';
 import {
     concatNpmUrl,
     getBin,
@@ -38,11 +37,10 @@ import { useLoaderData, useNavigate } from 'react-router';
 import type { PackageJson } from 'type-fest';
 import { useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import { type Project, safeContext } from '~/server/fnpm.server';
+import { resolveWorkspaceContext, type Project } from '~/server/fnpm.server';
 
 export async function loader(args: LoaderFunctionArgs) {
-    const context = await resolveContext(root);
-    const ctx = safeContext(context);
+    const ctx = await resolveWorkspaceContext(root);
     const pm = ctx.pm;
     const project =
         ctx.projects.find((p) => p.manifest.name === args.params.name) ||

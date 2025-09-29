@@ -1,6 +1,6 @@
 import type * as mt from '@akrc/monorepo-tools';
 import type { Effect } from 'effect';
-import { resolveContext } from 'fnpm-context';
+import { resolveWorkspaceContext } from 'fnpm-context';
 
 export type Rule = (ctx: RuleContext) => Effect.Effect<void>;
 
@@ -38,14 +38,11 @@ export class RuleContextImpl implements RuleContext {
     }
 
     async init(): Promise<void> {
-        const rawContext = await resolveContext(this.cwd);
-        this.root = rawContext.root;
-        this.pm = rawContext.pm;
-        if (!('projects' in rawContext)) {
-            throw new Error('projects not found');
-        }
-        this.projects = rawContext.projects;
-        this.isMonoRepo = rawContext.isMonoRepo;
+        const workspace = await resolveWorkspaceContext(this.cwd);
+        this.root = workspace.root;
+        this.pm = workspace.pm;
+        this.projects = workspace.projects;
+        this.isMonoRepo = workspace.kind === 'mono';
     }
 
     report(diagnose: Diagnose): void {

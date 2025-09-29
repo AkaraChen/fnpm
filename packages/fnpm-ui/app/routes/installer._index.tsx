@@ -16,11 +16,10 @@ import { NpmSearch } from '~/components/npm-search';
 import { useQueryParams } from '~/hooks/qps';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
-import { resolveContext, safeContext } from '~/server/fnpm.server';
+import { resolveWorkspaceContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const context = await resolveContext(root);
-    return safeContext(context);
+    return await resolveWorkspaceContext(root);
 }
 
 export default function Page() {
@@ -62,7 +61,7 @@ export default function Page() {
 
                         const queue = selectedProjects.flatMap((name) => {
                             const isRoot =
-                                data.isMonoRepo &&
+                                data.kind === 'mono' &&
                                 data.rootProject?.manifest.name === name;
                             const shells = [
                                 prod.length &&

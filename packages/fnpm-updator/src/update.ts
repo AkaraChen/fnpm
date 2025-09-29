@@ -1,17 +1,17 @@
 import { Effect } from 'effect';
-import type { Context, SafeContext } from 'fnpm-context';
+import type { WorkspaceContext } from 'fnpm-context';
 import { getDep } from 'fnpm-toolkit';
 import { ReadPackage } from 'fnpm-utils-node';
 import { type RunOptions, run } from 'npm-check-updates';
 import path from 'pathe';
 import type { UpdateManifest } from './types';
 
-function resolveWorkspace(ctx: Context, filePath: string) {
+function resolveWorkspace(ctx: WorkspaceContext, filePath: string) {
     const dir = path.dirname(filePath);
     return path.resolve(ctx.root, dir);
 }
 
-function ResolvePackage(ctx: Context, filePath: string) {
+function ResolvePackage(ctx: WorkspaceContext, filePath: string) {
     const dir = resolveWorkspace(ctx, filePath);
     return ReadPackage({ cwd: dir });
 }
@@ -41,10 +41,10 @@ function TransformInfo(updates: Record<string, string>, root: string) {
     });
 }
 
-export function Update(ctx: SafeContext) {
+export function Update(ctx: WorkspaceContext) {
     return Effect.gen(function* () {
         const updates = yield* Run({
-            workspaces: ctx.isMonoRepo,
+            workspaces: ctx.kind === 'mono',
             cwd: ctx.root,
             install: 'never',
             silent: true,
@@ -53,7 +53,7 @@ export function Update(ctx: SafeContext) {
             throw new Error('Invalid updates args');
         }
         const result: Record<string, UpdateManifest[]> = {};
-        if (ctx.isMonoRepo) {
+        if (ctx.kind === 'mono') {
             const info = updates as Record<string, Record<string, string>>;
             for (const [workspace, deps] of Object.entries(info)) {
                 const pkg = yield* ResolvePackage(ctx, workspace);
@@ -67,7 +67,7 @@ export function Update(ctx: SafeContext) {
         }
         const info = updates as Record<string, string>;
         const manifests = yield* TransformInfo(info, ctx.root);
-        result[ctx.rootProject!.manifest.name!] = manifests;
+        result[ctx.rootProject?.manifest.name ?? ''] = manifests;
         return result;
     });
 }

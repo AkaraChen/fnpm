@@ -1,7 +1,7 @@
 import { FileSystem } from '@effect/platform';
 import { NodeContext } from '@effect/platform-node';
 import { Effect, pipe } from 'effect';
-import { resolveContext, safeContext } from 'fnpm-context';
+import { resolveWorkspaceContext } from 'fnpm-context';
 import { MakePackage } from 'fnpm-test-suite';
 import { describe, expect, it } from 'vitest';
 import { Update } from './update';
@@ -17,12 +17,10 @@ describe('update', () => {
                     react: oldVersion,
                 },
             });
-            const context = safeContext(
-                yield* Effect.tryPromise({
-                    try: () => resolveContext(dir),
-                    catch: () => Effect.die('Failed to resolve context'),
-                })
-            );
+            const context = yield* Effect.tryPromise({
+                try: () => resolveWorkspaceContext(dir),
+                catch: () => Effect.die('Failed to resolve context'),
+            });
             expect(context.rootProject?.manifest.dependencies?.react).toBe(
                 oldVersion
             );
@@ -44,12 +42,10 @@ describe('update', () => {
             yield* MakePackage(dir, {
                 packageManager: 'pnpm',
             });
-            const context = safeContext(
-                yield* Effect.tryPromise({
-                    try: () => resolveContext(dir),
-                    catch: () => Effect.die('Failed to resolve context'),
-                })
-            );
+            const context = yield* Effect.tryPromise({
+                try: () => resolveWorkspaceContext(dir),
+                catch: () => Effect.die('Failed to resolve context'),
+            });
             expect(context.rootProject?.manifest.packageManager).toBe('pnpm');
             const manifests = yield* Update(context);
             expect(manifests['']).toHaveLength(0);

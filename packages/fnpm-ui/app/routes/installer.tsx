@@ -4,10 +4,10 @@ import { Outlet } from 'react-router';
 import { BasePage } from '~/components/page';
 import { PageHeader } from '~/components/page-header';
 import { root } from '~/server/config.server';
-import { resolveContext } from '~/server/fnpm.server';
+import { resolveWorkspaceContext } from '~/server/fnpm.server';
 
 export async function loader() {
-    const context = resolveContext(root);
+    const context = resolveWorkspaceContext(root);
     return {
         context,
     };

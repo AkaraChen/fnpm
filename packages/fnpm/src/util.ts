@@ -1,6 +1,6 @@
 import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
-import { resolveContext, safeContext } from 'fnpm-context';
+import { resolveRepoContext, resolveWorkspaceContext } from 'fnpm-context';
 import parser from 'fnpm-parse';
 import Fuse from 'fuse.js';
 import { packageDirectory } from 'package-directory';
@@ -35,8 +35,8 @@ export interface Context {
 }
 
 export async function getContext(cwd: string): Promise<Context> {
-    const ctx = await resolveContext(cwd);
-    const { pm } = ctx;
+    const repoContext = await resolveRepoContext(cwd);
+    const { pm } = repoContext;
 
     // workspace mode
     if (process.argv[2] === '-w') {
@@ -44,14 +44,14 @@ export async function getContext(cwd: string): Promise<Context> {
         return {
             pm,
             args: hideBin(process.argv),
-            root: ctx.root,
+            root: repoContext.root,
         };
     }
 
     // switch to another project
     if (process.argv[2] === '-s') {
         try {
-            const context = safeContext(ctx);
+            const context = await resolveWorkspaceContext(repoContext);
             const fuse = new Fuse(context.projects, {
                 keys: [
                     {
@@ -77,7 +77,7 @@ export async function getContext(cwd: string): Promise<Context> {
             const project = result.at(0)!.item;
             process.argv.splice(2, 2);
             return {
-                pm: ctx.pm,
+                pm: repoContext.pm,
                 args: hideBin(process.argv),
                 root: project.rootDir,
             };

@@ -34,8 +34,7 @@ import { SemverRange } from '~/components/semver-range';
 import { type RunElement, useRun } from '~/hooks/run';
 import { root } from '~/server/config.server';
 import {
-    resolveContext,
-    safeContext,
+    resolveWorkspaceContext,
     type UpdateManifest,
     update,
 } from '~/server/fnpm.server';
@@ -45,7 +44,7 @@ interface UpdateManifestWithWorkspace extends UpdateManifest {
 }
 
 export async function loader() {
-    const ctx = safeContext(await resolveContext(root));
+    const ctx = await resolveWorkspaceContext(root);
     const updates = update(ctx).then((updates) => {
         return Object.fromEntries(
             Object.entries(updates).map(([workspace, updates]) => [

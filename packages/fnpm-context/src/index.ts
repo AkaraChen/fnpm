@@ -13,42 +13,39 @@ import {
     ScanProjects,
 } from 'fnpm-utils-node';
 
-export type SafeContext = {
+const preferredPM = 'pnpm' as const;
+
+export type RepoKind = 'mono' | 'single' | 'unknown';
+
+export interface RepoContext {
     root: string;
     pm: mt.PM;
+    kind: RepoKind;
+}
+
+export interface WorkspaceContext extends RepoContext {
     projects: Project[];
     rootProject?: Project;
-    isMonoRepo: boolean;
-};
+}
 
-export type Context =
-    | SafeContext
-    | {
-          root: string;
-          pm: mt.PM;
-          isMonoRepo: false;
-      };
+export interface CurrentPackageContext {
+    rootDir: string;
+    manifest: Project['manifest'];
+    project?: Project;
+}
 
-const prefferedPM = 'pnpm' as const;
-
-function ResolveMonorepoContext(cwd: string) {
+function ResolveMonorepoRepoContext(cwd: string) {
     return Effect.gen(function* () {
         const findRootResult = yield* FindUpRoot(cwd);
         const root = yield* findRootResult;
-        return yield* Effect.gen(function* () {
-            const pm = yield* Effect.orElse(DetectPMByLock(root), () =>
-                Effect.succeed(prefferedPM)
-            );
-            const projects = yield* ScanProjects(root, pm);
-            const rootProject = projects.find((p) => p.rootDir === root)!;
-            return {
-                root: root,
-                pm,
-                projects,
-                rootProject,
-                isMonoRepo: true,
-            } as Context;
-        });
+        const pm = yield* Effect.orElse(DetectPMByLock(root), () =>
+            Effect.succeed(preferredPM)
+        );
+        return {
+            root,
+            pm,
+            kind: 'mono' as const,
+        } satisfies RepoContext;
     });
 }
 
@@ -56,48 +53,107 @@ function ResolveSingleRepoContext(cwd: string) {
     return Effect.gen(function* () {
         const root = yield* PackageDirectory({ cwd });
         const pm = yield* Effect.orElse(DetectPMByLock(root), () =>
-            Effect.succeed(prefferedPM)
+            Effect.succeed(preferredPM)
         );
-        const manifest = yield* ReadPackage({
-            cwd: root,
-        });
-        const rootProject: Project = {
-            rootDir: root as ProjectRootDir,
-            rootDirRealPath: root as ProjectRootDirRealPath,
-            manifest: manifest as Project['manifest'],
-            writeProjectManifest() {
-                throw new Error('Not implemented');
-            },
-        };
-        const projects: Project[] = [rootProject];
         return {
             root,
             pm,
-            projects,
-            rootProject,
-            isMonoRepo: false,
-        } as Context;
+            kind: 'single' as const,
+        } satisfies RepoContext;
     });
 }
 
-export async function resolveContext(cwd: string): Promise<Context> {
+export async function resolveRepoContext(cwd: string): Promise<RepoContext> {
     const program = pipe(
-        ResolveMonorepoContext(cwd),
+        ResolveMonorepoRepoContext(cwd),
         Effect.orElse(() => ResolveSingleRepoContext(cwd)),
         Effect.catchAll(() =>
             Effect.succeed({
                 root: cwd,
-                pm: prefferedPM,
-                isMonoRepo: false,
-            } satisfies Context)
+                pm: preferredPM,
+                kind: 'unknown' as const,
+            } satisfies RepoContext)
         )
     );
     return await Effect.runPromise(program);
 }
 
-export function safeContext(context: Context): SafeContext {
-    if (!('projects' in context)) {
-        throw new Error('Invalid context');
+function createProjectFromManifest(
+    root: string,
+    manifest: Project['manifest']
+) {
+    return {
+        rootDir: root as ProjectRootDir,
+        rootDirRealPath: root as ProjectRootDirRealPath,
+        manifest,
+        writeProjectManifest() {
+            throw new Error('Not implemented');
+        },
+    } satisfies Project;
+}
+
+type WorkspaceInput = string | RepoContext;
+
+export async function resolveWorkspaceContext(
+    input: WorkspaceInput
+): Promise<WorkspaceContext> {
+    const repo =
+        typeof input === 'string' ? await resolveRepoContext(input) : input;
+
+    if (repo.kind === 'unknown') {
+        throw new Error('Unable to resolve workspace from unknown repository');
     }
-    return context;
+
+    if (repo.kind === 'mono') {
+        const program = Effect.gen(function* () {
+            const projects = yield* ScanProjects(repo.root, repo.pm);
+            const rootProject = projects.find((p) => p.rootDir === repo.root);
+            return {
+                ...repo,
+                projects,
+                rootProject,
+            } satisfies WorkspaceContext;
+        });
+        return await Effect.runPromise(program);
+    }
+
+    const program = Effect.gen(function* () {
+        const manifest = yield* ReadPackage({ cwd: repo.root });
+        const project = createProjectFromManifest(
+            repo.root,
+            manifest as Project['manifest']
+        );
+        return {
+            ...repo,
+            projects: [project],
+            rootProject: project,
+        } satisfies WorkspaceContext;
+    });
+    return await Effect.runPromise(program);
+}
+
+export interface ResolveCurrentPackageOptions {
+    workspace?: WorkspaceContext;
+}
+
+export async function resolveCurrentPackage(
+    cwd: string,
+    options: ResolveCurrentPackageOptions = {}
+): Promise<CurrentPackageContext> {
+    const program = Effect.gen(function* () {
+        const rootDir = yield* Effect.orElse(PackageDirectory({ cwd }), () =>
+            Effect.succeed(cwd)
+        );
+        const manifest = yield* ReadPackage({ cwd: rootDir });
+        const project = options.workspace?.projects.find(
+            (p) => p.rootDir === rootDir
+        );
+        return {
+            rootDir,
+            manifest: manifest as Project['manifest'],
+            project,
+        } satisfies CurrentPackageContext;
+    });
+
+    return await Effect.runPromise(program);
 }
