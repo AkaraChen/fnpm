@@ -72,7 +72,11 @@
             "side-channel": "npm:@nolyfill/side-channel@^1.0.44",
             "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1.0.44",
             "string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1.0.44",
-            "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.44"
+            "which-typed-array": "npm:@nolyfill/which-typed-array@^1.0.44",
+            "is-interactive": "npm:@socketregistry/is-interactive@^1",
+            "is-unicode-supported": "npm:@socketregistry/is-unicode-supported@^1",
+            "object-assign": "npm:@socketregistry/object-assign@^1",
+            "path-parse": "npm:@socketregistry/path-parse@^1"
         },
         "patchedDependencies": {
             "@xyflow/react": "patches/@xyflow__react.patch"
