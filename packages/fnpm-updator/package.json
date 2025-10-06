@@ -14,7 +14,7 @@
     "packageManager": "pnpm@10.17.1",
     "type": "module",
     "devDependencies": {
-        "@effect/platform": "^0.90.6",
+        "@effect/platform": "^0.92.1",
         "@effect/platform-node": "^0.96.1",
         "bunchee": "6.6.0",
         "effect": "^3.17.9",
