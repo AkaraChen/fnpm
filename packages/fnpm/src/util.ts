@@ -1,7 +1,7 @@
+import type { PM } from '@akrc/monorepo-tools';
 import { consola } from 'consola';
 import { resolveRepoContext, resolveWorkspaceContext } from 'fnpm-context';
 import parser from 'fnpm-parse';
-import type { PM } from 'fnpm-utils-node';
 import Fuse from 'fuse.js';
 import { packageDirectory } from 'package-directory';
 import { x } from 'tinyexec';

@@ -3,11 +3,11 @@ import type {
     ProjectRootDir,
     ProjectRootDirRealPath,
 } from '@pnpm/types';
+import type { PM } from '@akrc/monorepo-tools';
 import { Effect, pipe } from 'effect';
 import {
     DetectPMByLock,
     FindUpRoot,
-    type PM,
     PackageDirectory,
     ReadPackage,
     ScanProjects,
