@@ -31,7 +31,7 @@ export const config: Command<ConfigOptions> = {
         const { verb, global, json } = options;
         switch (verb) {
             case 'list': {
-                if (['npm', 'pnpm'].includes(pm)) {
+                if (['npm', 'pnpm', 'deno', 'bun'].includes(pm)) {
                     return [
                         pm,
                         'config',
@@ -51,7 +51,7 @@ export const config: Command<ConfigOptions> = {
                 return [pm, 'get', options.key];
             }
             case 'delete': {
-                if (['npm', 'pnpm'].includes(pm)) {
+                if (['npm', 'pnpm', 'deno', 'bun'].includes(pm)) {
                     return [
                         pm,
                         'config',
@@ -69,7 +69,7 @@ export const config: Command<ConfigOptions> = {
                 ].filter(Boolean);
             }
             case 'set': {
-                if (['npm', 'pnpm'].includes(pm)) {
+                if (['npm', 'pnpm', 'deno', 'bun'].includes(pm)) {
                     return [
                         pm,
                         'config',

@@ -20,6 +20,14 @@ export const dlx: Command<DlxOptions> = {
             case 'pnpm': {
                 return ['pnpx', pkg, ...args];
             }
+            case 'deno': {
+                // Deno doesn't have a direct equivalent to dlx, use 'deno run'
+                return ['deno', 'run', '-A', pkg, ...args];
+            }
+            case 'bun': {
+                // Bun has 'bunx' similar to npx
+                return ['bunx', pkg, ...args];
+            }
         }
         return [pm, 'exec', pkg, ...args];
     },

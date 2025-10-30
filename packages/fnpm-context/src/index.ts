@@ -1,4 +1,3 @@
-import type * as mt from '@akrc/monorepo-tools';
 import type {
     Project,
     ProjectRootDir,
@@ -8,6 +7,7 @@ import { Effect, pipe } from 'effect';
 import {
     DetectPMByLock,
     FindUpRoot,
+    type PM,
     PackageDirectory,
     ReadPackage,
     ScanProjects,
@@ -19,7 +19,7 @@ export type RepoKind = 'mono' | 'single' | 'unknown';
 
 export interface RepoContext {
     root: string;
-    pm: mt.PM;
+    pm: PM;
     kind: RepoKind;
 }
 

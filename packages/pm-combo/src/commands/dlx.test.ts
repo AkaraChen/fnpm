@@ -43,4 +43,29 @@ describe('dlx', () => {
         const result = dlx.concat('pnpm', options);
         expect(result).toEqual(['pnpx', 'my-package', '--flag1', '--flag2']);
     });
+
+    it('should return the correct command for deno', () => {
+        const options: DlxOptions = {
+            package: 'my-package',
+            args: ['--flag1', '--flag2'],
+        };
+        const result = dlx.concat('deno', options);
+        expect(result).toEqual([
+            'deno',
+            'run',
+            '-A',
+            'my-package',
+            '--flag1',
+            '--flag2',
+        ]);
+    });
+
+    it('should return the correct command for bun', () => {
+        const options: DlxOptions = {
+            package: 'my-package',
+            args: ['--flag1', '--flag2'],
+        };
+        const result = dlx.concat('bun', options);
+        expect(result).toEqual(['bunx', 'my-package', '--flag1', '--flag2']);
+    });
 });

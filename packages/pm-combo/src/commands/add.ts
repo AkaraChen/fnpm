@@ -87,7 +87,9 @@ export const add: Command<AddOptions> = {
                 }
                 case 'yarn-classic': {
                     args.push('-W');
+                    break;
                 }
+                // deno and bun don't need special allowRoot flags
             }
         }
 

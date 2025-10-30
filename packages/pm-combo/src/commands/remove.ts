@@ -13,6 +13,7 @@ export const remove: Command<RemoveOptions> = {
         const args: string[] = [];
         const { saveDev, savePeer, saveOptional, packages, global } = options;
 
+        // deno and bun use 'remove' command like npm/yarn/pnpm
         args.push(pm, pm === 'npm' ? 'uninstall' : 'remove');
 
         if (saveDev) {
