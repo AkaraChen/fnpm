@@ -1,18 +1,20 @@
 import { ParseError } from './errors';
-import { AtSign, Lexer, Segment, Slash, type Token } from './lexer';
+import { AtSign, Colon, Lexer, Segment, Slash, type Token } from './lexer';
 import { type IParseResult, type IParseResultBase, ParseResult } from './types';
 
 enum ParserFsmState {
     START = 0,
-    EXPECT_SCOPE_SEGMENT = 1, // After @
-    EXPECT_SLASH_AFTER_SCOPE = 2, // After @scope_segment
-    EXPECT_NAME_SEGMENT_FOR_SCOPE = 3, // After @scope_segment/
-    NAME_FOUND = 4, // Name is parsed, scope might be too
-    EXPECT_VERSION_SEGMENT = 5, // After ...name@
-    EXPECT_PATH_OR_END_AFTER_VERSION = 6, // After ...name@version
-    PATH_PARSING = 7, // Consuming path segments, starts after the first path slash
-    END = 8,
-    ERROR = 9,
+    EXPECT_PROTOCOL_OR_SCOPE_SEGMENT = 1, // After initial segment, could be protocol: or @scope
+    EXPECT_PACKAGE_AFTER_PROTOCOL = 2, // After protocol:
+    EXPECT_SCOPE_SEGMENT = 3, // After @
+    EXPECT_SLASH_AFTER_SCOPE = 4, // After @scope_segment
+    EXPECT_NAME_SEGMENT_FOR_SCOPE = 5, // After @scope_segment/
+    NAME_FOUND = 6, // Name is parsed, scope might be too
+    EXPECT_VERSION_SEGMENT = 7, // After ...name@
+    EXPECT_PATH_OR_END_AFTER_VERSION = 8, // After ...name@version
+    PATH_PARSING = 9, // Consuming path segments, starts after the first path slash
+    END = 10,
+    ERROR = 11,
 }
 
 class Parser {
@@ -35,33 +37,18 @@ class Parser {
     }
 
     public parse(str: string): IParseResult {
-        // Extract protocol if present (e.g., npm:, jsr:, http:, https:)
-        let protocol: string | undefined;
-        let packageStr = str;
-
-        const colonIndex = str.indexOf(':');
-        if (colonIndex > 0) {
-            // Check if this looks like a protocol (letters before colon)
-            const potentialProtocol = str.substring(0, colonIndex);
-            // Protocol should be letters only (npm, jsr, http, https, etc.)
-            if (/^[a-z]+$/i.test(potentialProtocol)) {
-                protocol = potentialProtocol;
-                packageStr = str.substring(colonIndex + 1);
-            }
-        }
-
-        this.tokens = new Lexer(packageStr).lex();
+        this.tokens = new Lexer(str).lex();
         this.currentIndex = 0;
-        this.result = { name: '', protocol }; // Reset for multiple calls on same instance
+        this.result = { name: '' }; // Reset for multiple calls on same instance
         this.state = ParserFsmState.START;
         this.pathBuffer = [];
 
-        if (this.tokens.length === 0 && packageStr.length > 0) {
+        if (this.tokens.length === 0 && str.length > 0) {
             // Input string was not empty, but lexer produced no tokens (e.g. string of only invalid chars for lexer)
             // Or handle this as an error state in the FSM if preferred.
             return new ParseResult(this.result);
         }
-        if (this.tokens.length === 0 && packageStr.length === 0) {
+        if (this.tokens.length === 0 && str.length === 0) {
             return new ParseResult(this.result); // Empty input string
         }
 
@@ -75,6 +62,7 @@ class Parser {
                 // No more tokens
                 switch (this.state) {
                     case ParserFsmState.START:
+                    case ParserFsmState.EXPECT_PROTOCOL_OR_SCOPE_SEGMENT:
                     case ParserFsmState.NAME_FOUND:
                     case ParserFsmState.EXPECT_PATH_OR_END_AFTER_VERSION:
                     case ParserFsmState.PATH_PARSING:
@@ -89,6 +77,35 @@ class Parser {
 
             switch (this.state) {
                 case ParserFsmState.START:
+                    if (token instanceof AtSign) {
+                        this.consumeToken();
+                        this.state = ParserFsmState.EXPECT_SCOPE_SEGMENT;
+                    } else if (token instanceof Segment) {
+                        // Could be protocol or package name
+                        this.result.name = token.value;
+                        this.consumeToken();
+                        this.state =
+                            ParserFsmState.EXPECT_PROTOCOL_OR_SCOPE_SEGMENT;
+                    } else {
+                        this.state = ParserFsmState.ERROR;
+                    }
+                    break;
+
+                case ParserFsmState.EXPECT_PROTOCOL_OR_SCOPE_SEGMENT:
+                    if (token instanceof Colon) {
+                        // Previous segment was a protocol
+                        this.result.protocol = this.result.name;
+                        this.result.name = '';
+                        this.consumeToken();
+                        this.state =
+                            ParserFsmState.EXPECT_PACKAGE_AFTER_PROTOCOL;
+                    } else {
+                        // No colon, so it's just a package name
+                        this.state = ParserFsmState.NAME_FOUND;
+                    }
+                    break;
+
+                case ParserFsmState.EXPECT_PACKAGE_AFTER_PROTOCOL:
                     if (token instanceof AtSign) {
                         this.consumeToken();
                         this.state = ParserFsmState.EXPECT_SCOPE_SEGMENT;

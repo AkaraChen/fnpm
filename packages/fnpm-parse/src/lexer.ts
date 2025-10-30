@@ -10,7 +10,11 @@ export class Slash {
     value = '/';
 }
 
-export type Token = Segment | AtSign | Slash;
+export class Colon {
+    value = ':';
+}
+
+export type Token = Segment | AtSign | Slash | Colon;
 
 export class Lexer {
     private index = 0;
@@ -67,6 +71,12 @@ export class Lexer {
             case '/':
                 this.emit();
                 this.tokens.push(new Slash());
+                this.advance();
+                break;
+
+            case ':':
+                this.emit();
+                this.tokens.push(new Colon());
                 this.advance();
                 break;
 
