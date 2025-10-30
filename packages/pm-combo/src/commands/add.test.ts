@@ -26,4 +26,44 @@ describe('add', () => {
             '--save-exact',
         ]);
     });
+
+    it('should add npm: prefix to packages for deno', () => {
+        const options: AddOptions = {
+            packages: ['express', 'lodash@4.17.21'],
+        };
+
+        const result = add.concat('deno', options);
+
+        expect(result).toEqual([
+            'deno',
+            'add',
+            'npm:express',
+            'npm:lodash@4.17.21',
+        ]);
+    });
+
+    it('should not add npm: prefix if package already has protocol for deno', () => {
+        const options: AddOptions = {
+            packages: ['npm:express', 'npm:lodash@4.17.21'],
+        };
+
+        const result = add.concat('deno', options);
+
+        expect(result).toEqual([
+            'deno',
+            'add',
+            'npm:express',
+            'npm:lodash@4.17.21',
+        ]);
+    });
+
+    it('should throw error for jsr: packages in deno', () => {
+        const options: AddOptions = {
+            packages: ['jsr:@std/testing'],
+        };
+
+        expect(() => add.concat('deno', options)).toThrow(
+            'JSR packages are not yet supported'
+        );
+    });
 });

@@ -53,10 +53,23 @@ describe('dlx', () => {
         expect(result).toEqual([
             'deno',
             'run',
-            '-A',
-            'my-package',
+            'npm:my-package',
             '--flag1',
             '--flag2',
+        ]);
+    });
+
+    it('should return the correct command for deno with protocol', () => {
+        const options: DlxOptions = {
+            package: 'npm:cowsay@1.5.0',
+            args: ['Hello from Deno'],
+        };
+        const result = dlx.concat('deno', options);
+        expect(result).toEqual([
+            'deno',
+            'run',
+            'npm:cowsay@1.5.0',
+            'Hello from Deno',
         ]);
     });
 

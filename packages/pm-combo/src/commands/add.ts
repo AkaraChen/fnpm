@@ -40,7 +40,26 @@ export const add: Command<AddOptions> = {
                   ? ['deno', 'add']
                   : install.concat(pm, { fixed });
 
-        args.push(...packages);
+        // For Deno, packages need protocol prefix (npm: or jsr:)
+        if (pm === 'deno') {
+            const processedPackages = packages.map((pkg) => {
+                // Check if package already has a protocol
+                if (pkg.includes(':')) {
+                    // Check if it's jsr: protocol
+                    if (pkg.startsWith('jsr:')) {
+                        throw new Error(
+                            'JSR packages are not yet supported. Please use npm: packages for now.'
+                        );
+                    }
+                    return pkg;
+                }
+                // Add npm: prefix if no protocol is specified
+                return `npm:${pkg}`;
+            });
+            args.push(...processedPackages);
+        } else {
+            args.push(...packages);
+        }
 
         if (save === false && pm === 'npm') {
             args.push('--no-save');

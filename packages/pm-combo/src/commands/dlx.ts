@@ -21,8 +21,12 @@ export const dlx: Command<DlxOptions> = {
                 return ['pnpx', pkg, ...args];
             }
             case 'deno': {
-                // Deno doesn't have a direct equivalent to dlx, use 'deno run'
-                return ['deno', 'run', '-A', pkg, ...args];
+                // Deno uses 'deno run' with npm: protocol
+                // Example: deno run npm:cowsay@1.5.0 "Hello from Deno"
+                const packageWithProtocol = pkg.includes(':')
+                    ? pkg
+                    : `npm:${pkg}`;
+                return ['deno', 'run', packageWithProtocol, ...args];
             }
             case 'bun': {
                 // Bun has 'bunx' similar to npx
