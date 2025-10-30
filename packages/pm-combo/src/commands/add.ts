@@ -32,6 +32,7 @@ export const add: Command<AddOptions> = {
         } = options;
 
         // Bun uses 'add' instead of 'install <packages>'
+        // Deno and other PMs use 'install <packages>' from install.concat()
         const args: string[] =
             pm === 'bun' ? ['bun', 'add'] : install.concat(pm, { fixed });
 
@@ -91,7 +92,9 @@ export const add: Command<AddOptions> = {
                     args.push('-W');
                     break;
                 }
-                // deno and bun don't need special allowRoot flags
+                // Deno and Bun don't need workspace flags:
+                // - Deno doesn't have a traditional monorepo/workspace system
+                // - Bun handles workspaces automatically without special flags
             }
         }
 
