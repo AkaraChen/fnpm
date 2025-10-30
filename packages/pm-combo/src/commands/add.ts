@@ -1,3 +1,4 @@
+import parser, { normalizeForDeno } from 'fnpm-parse';
 import { type InstallOptions, install } from './install';
 import type { Command } from './type';
 
@@ -31,9 +32,31 @@ export const add: Command<AddOptions> = {
             allowRoot,
         } = options;
 
-        const args: string[] = install.concat(pm, { fixed });
+        // Bun uses 'add' instead of 'install <packages>'
+        // Deno also uses 'add' as the preferred command for adding packages
+        const args: string[] =
+            pm === 'bun'
+                ? ['bun', 'add']
+                : pm === 'deno'
+                  ? ['deno', 'add']
+                  : install.concat(pm, { fixed });
 
-        args.push(...packages);
+        // For Deno, use parser to normalize package names with npm: protocol
+        if (pm === 'deno') {
+            const normalizedPackages = packages.map((pkg) => {
+                const parsed = parser.parse(pkg);
+                // Throw error if jsr: protocol is used (not yet supported)
+                if (parsed.protocol === 'jsr') {
+                    throw new Error(
+                        'JSR packages are not yet supported. Please use npm: packages for now.'
+                    );
+                }
+                return normalizeForDeno(pkg);
+            });
+            args.push(...normalizedPackages);
+        } else {
+            args.push(...packages);
+        }
 
         if (save === false && pm === 'npm') {
             args.push('--no-save');
@@ -87,7 +110,11 @@ export const add: Command<AddOptions> = {
                 }
                 case 'yarn-classic': {
                     args.push('-W');
+                    break;
                 }
+                // Deno and Bun don't need workspace flags:
+                // - Deno doesn't have a traditional monorepo/workspace system
+                // - Bun handles workspaces automatically without special flags
             }
         }
 

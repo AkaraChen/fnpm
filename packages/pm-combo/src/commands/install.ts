@@ -25,6 +25,14 @@ export const install: Command<InstallOptions> = {
                     return ['pnpm', 'install', '--frozen-lockfile'];
                 }
                 return ['pnpm', 'install'];
+            case 'deno':
+                // Deno uses 'deno install' for dependencies
+                return ['deno', 'install'];
+            case 'bun':
+                if (fixed) {
+                    return ['bun', 'install', '--frozen-lockfile'];
+                }
+                return ['bun', 'install'];
         }
     },
 };

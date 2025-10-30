@@ -1,9 +1,9 @@
-import type * as mt from '@akrc/monorepo-tools';
 import type {
     Project,
     ProjectRootDir,
     ProjectRootDirRealPath,
 } from '@pnpm/types';
+import type { PM } from '@akrc/monorepo-tools';
 import { Effect, pipe } from 'effect';
 import {
     DetectPMByLock,
@@ -19,7 +19,7 @@ export type RepoKind = 'mono' | 'single' | 'unknown';
 
 export interface RepoContext {
     root: string;
-    pm: mt.PM;
+    pm: PM;
     kind: RepoKind;
 }
 

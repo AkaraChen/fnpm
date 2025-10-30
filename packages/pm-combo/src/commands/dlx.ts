@@ -1,4 +1,4 @@
-import parser from 'fnpm-parse';
+import parser, { normalizeForDeno } from 'fnpm-parse';
 import type { Command } from './type';
 
 export interface DlxOptions {
@@ -19,6 +19,22 @@ export const dlx: Command<DlxOptions> = {
             }
             case 'pnpm': {
                 return ['pnpx', pkg, ...args];
+            }
+            case 'deno': {
+                // Deno uses 'deno run' with npm: protocol
+                const parsed = parser.parse(pkg);
+                // Throw error if jsr: protocol is used (not yet supported)
+                if (parsed.protocol === 'jsr') {
+                    throw new Error(
+                        'JSR packages are not yet supported. Please use npm: packages for now.'
+                    );
+                }
+                const normalizedPkg = normalizeForDeno(pkg);
+                return ['deno', 'run', normalizedPkg, ...args];
+            }
+            case 'bun': {
+                // Bun has 'bunx' similar to npx
+                return ['bunx', pkg, ...args];
             }
         }
         return [pm, 'exec', pkg, ...args];

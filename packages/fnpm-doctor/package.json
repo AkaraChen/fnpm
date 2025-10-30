@@ -17,7 +17,7 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "@akrc/monorepo-tools": "^4.1.0",
+        "@akrc/monorepo-tools": "^5.0.0",
         "@effect/platform": "^0.90.6",
         "@effect/platform-node": "^0.96.1",
         "@pnpm/types": "12.2.0",

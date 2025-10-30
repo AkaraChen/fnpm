@@ -1,10 +1,14 @@
 export interface IParseResult {
+    /** protocol if present, eg: npm:express -> npm, jsr:@std/testing -> jsr */
+    protocol?: string;
     /** scope without @, eg: @scope/package -> scope */
     scope?: string;
     /** name without scope, eg: @scope/package -> package */
     name: string;
     /** full name with scope, eg: @scope/package@1.0.0/path -> @scope/package */
     fullName: string;
+    /** full name with protocol if present, eg: npm:@scope/package */
+    fullNameWithProtocol: string;
     /** version, eg: @scope/package@1.0.0/path -> 1.0.0 */
     version?: string;
     /** path, eg: @scope/package@1.0.0/README.md -> README.md */
@@ -14,6 +18,7 @@ export interface IParseResult {
 }
 
 export interface IParseResultBase {
+    protocol?: string;
     scope?: string;
     name: string;
     version?: string;
@@ -21,12 +26,14 @@ export interface IParseResultBase {
 }
 
 export class ParseResult implements IParseResult {
+    protocol?: string;
     scope?: string;
     name: string;
     version?: string;
     path?: string;
 
     constructor(opts: IParseResultBase) {
+        this.protocol = opts.protocol;
         this.scope = opts.scope;
         this.name = opts.name;
         this.version = opts.version;
@@ -38,6 +45,13 @@ export class ParseResult implements IParseResult {
             return `@${this.scope}/${this.name}`;
         }
         return this.name;
+    }
+
+    get fullNameWithProtocol(): string {
+        if (this.protocol) {
+            return `${this.protocol}:${this.fullName}`;
+        }
+        return this.fullName;
     }
 
     get extension(): string | undefined {

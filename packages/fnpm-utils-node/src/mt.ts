@@ -31,6 +31,10 @@ export function ScanProjects(
     return Effect.tryPromise(() => scanProjects(searchDir, pm));
 }
 
+/**
+ * Detect package manager by lock file
+ * Now uses native detection from @akrc/monorepo-tools v5.0.0+ which supports deno and bun
+ */
 export function DetectPMByLock(
     searchDir: string
 ): Effect.Effect<PM, UnknownException> {

@@ -33,4 +33,28 @@ describe('init', () => {
         const result = init.concat('yarn', options);
         expect(result).toEqual(['yarn', 'init']);
     });
+
+    it('should return correct command for deno', () => {
+        const options: InitOptions = {
+            interactively: true,
+        };
+        const result = init.concat('deno', options);
+        expect(result).toEqual(['deno', 'init']);
+    });
+
+    it('should return correct command for bun with interactive mode', () => {
+        const options: InitOptions = {
+            interactively: true,
+        };
+        const result = init.concat('bun', options);
+        expect(result).toEqual(['bun', 'init']);
+    });
+
+    it('should return correct command for bun without interactive mode', () => {
+        const options: InitOptions = {
+            interactively: false,
+        };
+        const result = init.concat('bun', options);
+        expect(result).toEqual(['bun', 'init', '-y']);
+    });
 });
