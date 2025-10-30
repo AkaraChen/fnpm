@@ -35,18 +35,33 @@ class Parser {
     }
 
     public parse(str: string): IParseResult {
-        this.tokens = new Lexer(str).lex();
+        // Extract protocol if present (e.g., npm:, jsr:, http:, https:)
+        let protocol: string | undefined;
+        let packageStr = str;
+
+        const colonIndex = str.indexOf(':');
+        if (colonIndex > 0) {
+            // Check if this looks like a protocol (letters before colon)
+            const potentialProtocol = str.substring(0, colonIndex);
+            // Protocol should be letters only (npm, jsr, http, https, etc.)
+            if (/^[a-z]+$/i.test(potentialProtocol)) {
+                protocol = potentialProtocol;
+                packageStr = str.substring(colonIndex + 1);
+            }
+        }
+
+        this.tokens = new Lexer(packageStr).lex();
         this.currentIndex = 0;
-        this.result = { name: '' }; // Reset for multiple calls on same instance
+        this.result = { name: '', protocol }; // Reset for multiple calls on same instance
         this.state = ParserFsmState.START;
         this.pathBuffer = [];
 
-        if (this.tokens.length === 0 && str.length > 0) {
+        if (this.tokens.length === 0 && packageStr.length > 0) {
             // Input string was not empty, but lexer produced no tokens (e.g. string of only invalid chars for lexer)
             // Or handle this as an error state in the FSM if preferred.
             return new ParseResult(this.result);
         }
-        if (this.tokens.length === 0 && str.length === 0) {
+        if (this.tokens.length === 0 && packageStr.length === 0) {
             return new ParseResult(this.result); // Empty input string
         }
 

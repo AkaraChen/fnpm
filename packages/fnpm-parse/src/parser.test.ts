@@ -239,4 +239,54 @@ describe('Parser', () => {
             extension: undefined, // '.eslintrc.js' starts with a dot
         });
     });
+
+    describe('Protocol parsing', () => {
+        it('should parse npm: protocol', () => {
+            assertParseResult('npm:express', {
+                protocol: 'npm',
+                name: 'express',
+                fullName: 'express',
+                fullNameWithProtocol: 'npm:express',
+            });
+        });
+
+        it('should parse jsr: protocol', () => {
+            assertParseResult('jsr:@std/testing', {
+                protocol: 'jsr',
+                scope: 'std',
+                name: 'testing',
+                fullName: '@std/testing',
+                fullNameWithProtocol: 'jsr:@std/testing',
+            });
+        });
+
+        it('should parse npm: protocol with version', () => {
+            assertParseResult('npm:cowsay@1.5.0', {
+                protocol: 'npm',
+                name: 'cowsay',
+                fullName: 'cowsay',
+                fullNameWithProtocol: 'npm:cowsay',
+                version: '1.5.0',
+            });
+        });
+
+        it('should parse npm: protocol with scoped package', () => {
+            assertParseResult('npm:@types/node', {
+                protocol: 'npm',
+                scope: 'types',
+                name: 'node',
+                fullName: '@types/node',
+                fullNameWithProtocol: 'npm:@types/node',
+            });
+        });
+
+        it('should handle package without protocol', () => {
+            assertParseResult('express', {
+                protocol: undefined,
+                name: 'express',
+                fullName: 'express',
+                fullNameWithProtocol: 'express',
+            });
+        });
+    });
 });

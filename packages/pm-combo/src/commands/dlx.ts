@@ -1,4 +1,4 @@
-import parser from 'fnpm-parse';
+import parser, { normalizeForDeno } from 'fnpm-parse';
 import type { Command } from './type';
 
 export interface DlxOptions {
@@ -22,11 +22,9 @@ export const dlx: Command<DlxOptions> = {
             }
             case 'deno': {
                 // Deno uses 'deno run' with npm: protocol
-                // Example: deno run npm:cowsay@1.5.0 "Hello from Deno"
-                const packageWithProtocol = pkg.includes(':')
-                    ? pkg
-                    : `npm:${pkg}`;
-                return ['deno', 'run', packageWithProtocol, ...args];
+                // Use parser to normalize package name
+                const normalizedPkg = normalizeForDeno(pkg);
+                return ['deno', 'run', normalizedPkg, ...args];
             }
             case 'bun': {
                 // Bun has 'bunx' similar to npx
