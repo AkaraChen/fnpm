@@ -11,6 +11,8 @@ fnpm now supports Deno and Bun as package managers in addition to npm, yarn, and
 - **Deno**: Detected by the presence of `deno.lock` or `deno.json` files
 - **Bun**: Detected by the presence of `bun.lockb` file
 
+Detection is now handled natively by `@akrc/monorepo-tools` v5.0.0+, which includes built-in support for Deno and Bun.
+
 ## Command Mapping
 
 ### Install
@@ -39,41 +41,56 @@ Run, exec, test, why, create, and update commands work with their standard synta
 ## Monorepo Support
 
 As per the requirement, both Deno and Bun are treated similarly to npm/yarn for monorepo operations:
-- They use the base monorepo-tools detection logic
+- They use the base monorepo-tools detection logic (now native in v5.0.0+)
 - They are mapped to npm-like behavior for workspace operations
 - The `toBasePM()` helper function converts `deno` and `bun` to `npm` when needed for compatibility
 
 ## Implementation Details
 
-### Type Extensions
+### Dependencies
 
-The `PM` type is extended in `packages/fnpm-utils-node/src/types.ts`:
+- `@akrc/monorepo-tools` v5.0.0+ provides native PM type including deno and bun
+- Detection logic is handled by the library's `detectPMByLock()` function
+
+### Type System
+
+The `PM` type is re-exported from `@akrc/monorepo-tools` in `packages/fnpm-utils-node/src/types.ts`:
 
 ```typescript
-export type PM = BasePM | 'deno' | 'bun';
+import type { PM } from '@akrc/monorepo-tools';
+
+export type { PM };
+// PM = 'npm' | 'yarn' | 'pnpm' | 'bun' | 'deno'
+```
+
+Helper functions for PM type compatibility:
+
+```typescript
+// Check if PM is a base type (npm, yarn, pnpm)
+export function isBasePM(pm: PM): boolean;
+
+// Convert deno/bun to npm for monorepo compatibility
+export function toBasePM(pm: PM): 'npm' | 'yarn' | 'pnpm';
 ```
 
 ### Detection Logic
 
-Extended detection is implemented in `packages/fnpm-utils-node/src/mt.ts`:
+Detection is delegated to `@akrc/monorepo-tools` in `packages/fnpm-utils-node/src/mt.ts`:
 
 ```typescript
+import { detectPMByLock } from '@akrc/monorepo-tools';
+
 export function DetectPMByLock(searchDir: string) {
-    // Check for deno.lock or deno.json
-    if (existsSync(join(searchDir, 'deno.lock')) || 
-        existsSync(join(searchDir, 'deno.json'))) {
-        return 'deno';
-    }
-    
-    // Check for bun.lockb
-    if (existsSync(join(searchDir, 'bun.lockb'))) {
-        return 'bun';
-    }
-    
-    // Fall back to base detection (npm, yarn, pnpm)
-    return baseDetectPMByLock(searchDir).unwrap();
+    return Effect.try(() => detectPMByLock(searchDir).unwrap());
 }
 ```
+
+The library natively detects:
+- `pnpm-lock.yaml` → pnpm
+- `yarn.lock` → yarn
+- `package-lock.json` → npm
+- `bun.lockb` → bun
+- `deno.lock` or `deno.json` → deno
 
 ### Command Generation
 

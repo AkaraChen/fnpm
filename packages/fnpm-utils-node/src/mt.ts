@@ -1,14 +1,12 @@
 import {
-    detectPMByLock as baseDetectPMByLock,
+    detectPMByLock,
     findUpRoot,
+    type PM,
     scanProjects,
 } from '@akrc/monorepo-tools';
 import type { Project } from '@pnpm/types';
 import { Effect, Option } from 'effect';
 import type { UnknownException } from 'effect/Cause';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-import type { PM } from './types';
 import { toBasePM } from './types';
 
 export function FindUpRoot(
@@ -36,26 +34,11 @@ export function ScanProjects(
 }
 
 /**
- * Detect package manager by lock file, including extended support for deno and bun
+ * Detect package manager by lock file
+ * Now uses native detection from @akrc/monorepo-tools v5.0.0+ which supports deno and bun
  */
 export function DetectPMByLock(
     searchDir: string
 ): Effect.Effect<PM, UnknownException> {
-    return Effect.try(() => {
-        // Check for deno.lock or deno.json
-        if (
-            existsSync(join(searchDir, 'deno.lock')) ||
-            existsSync(join(searchDir, 'deno.json'))
-        ) {
-            return 'deno' as PM;
-        }
-
-        // Check for bun.lockb
-        if (existsSync(join(searchDir, 'bun.lockb'))) {
-            return 'bun' as PM;
-        }
-
-        // Fall back to base detection (npm, yarn, pnpm)
-        return baseDetectPMByLock(searchDir).unwrap() as PM;
-    });
+    return Effect.try(() => detectPMByLock(searchDir).unwrap());
 }

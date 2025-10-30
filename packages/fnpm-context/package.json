@@ -14,7 +14,7 @@
     "packageManager": "pnpm@10.17.1",
     "type": "module",
     "devDependencies": {
-        "@akrc/monorepo-tools": "^4.1.0",
+        "@akrc/monorepo-tools": "^5.0.0",
         "@pnpm/types": "12.2.0",
         "bunchee": "6.6.0"
     },

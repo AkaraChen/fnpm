@@ -1,15 +1,15 @@
-import type { PM as BasePM } from '@akrc/monorepo-tools';
+import type { PM } from '@akrc/monorepo-tools';
 
 /**
- * Extended PM type that includes deno and bun support.
- * The base PM type from @akrc/monorepo-tools only includes 'npm' | 'yarn' | 'pnpm'.
+ * Re-export PM type from @akrc/monorepo-tools
+ * As of version 5.0.0, it includes: 'npm' | 'yarn' | 'pnpm' | 'bun' | 'deno'
  */
-export type PM = BasePM | 'deno' | 'bun';
+export type { PM };
 
 /**
  * Check if a PM value is a base PM type (npm, yarn, pnpm)
  */
-export function isBasePM(pm: PM): pm is BasePM {
+export function isBasePM(pm: PM): boolean {
     return pm === 'npm' || pm === 'yarn' || pm === 'pnpm';
 }
 
@@ -18,9 +18,9 @@ export function isBasePM(pm: PM): pm is BasePM {
  * - deno -> npm (deno uses npm-compatible commands)
  * - bun -> npm (bun uses npm-compatible commands)
  */
-export function toBasePM(pm: PM): BasePM {
+export function toBasePM(pm: PM): 'npm' | 'yarn' | 'pnpm' {
     if (pm === 'deno' || pm === 'bun') {
         return 'npm';
     }
-    return pm;
+    return pm as 'npm' | 'yarn' | 'pnpm';
 }
