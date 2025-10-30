@@ -32,9 +32,13 @@ export const add: Command<AddOptions> = {
         } = options;
 
         // Bun uses 'add' instead of 'install <packages>'
-        // Deno and other PMs use 'install <packages>' from install.concat()
+        // Deno also uses 'add' as the preferred command for adding packages
         const args: string[] =
-            pm === 'bun' ? ['bun', 'add'] : install.concat(pm, { fixed });
+            pm === 'bun'
+                ? ['bun', 'add']
+                : pm === 'deno'
+                  ? ['deno', 'add']
+                  : install.concat(pm, { fixed });
 
         args.push(...packages);
 
