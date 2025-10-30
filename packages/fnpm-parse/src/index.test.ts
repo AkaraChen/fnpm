@@ -12,10 +12,9 @@ describe('normalizeForDeno', () => {
         expect(normalizeForDeno('npm:cowsay@1.5.0')).toBe('npm:cowsay@1.5.0');
     });
 
-    it('should throw error for jsr: protocol', () => {
-        expect(() => normalizeForDeno('jsr:@std/testing')).toThrow(
-            'JSR packages are not yet supported'
-        );
+    it('should handle jsr: protocol without throwing (validation moved to CLI)', () => {
+        // normalizeForDeno no longer throws for jsr:, just returns it as-is
+        expect(normalizeForDeno('jsr:@std/testing')).toBe('jsr:@std/testing');
     });
 
     it('should handle scoped packages', () => {

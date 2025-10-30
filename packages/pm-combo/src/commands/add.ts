@@ -1,4 +1,4 @@
-import { normalizeForDeno } from 'fnpm-parse';
+import parser, { normalizeForDeno } from 'fnpm-parse';
 import { type InstallOptions, install } from './install';
 import type { Command } from './type';
 
@@ -43,9 +43,16 @@ export const add: Command<AddOptions> = {
 
         // For Deno, use parser to normalize package names with npm: protocol
         if (pm === 'deno') {
-            const normalizedPackages = packages.map((pkg) =>
-                normalizeForDeno(pkg)
-            );
+            const normalizedPackages = packages.map((pkg) => {
+                const parsed = parser.parse(pkg);
+                // Throw error if jsr: protocol is used (not yet supported)
+                if (parsed.protocol === 'jsr') {
+                    throw new Error(
+                        'JSR packages are not yet supported. Please use npm: packages for now.'
+                    );
+                }
+                return normalizeForDeno(pkg);
+            });
             args.push(...normalizedPackages);
         } else {
             args.push(...packages);
