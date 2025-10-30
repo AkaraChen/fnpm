@@ -40,17 +40,17 @@ Run, exec, test, why, create, and update commands work with their standard synta
 
 ## Monorepo Support
 
-As per the requirement, both Deno and Bun are treated similarly to npm/yarn for monorepo operations:
-- They use the base monorepo-tools detection logic (now native in v5.0.0+)
-- They are mapped to npm-like behavior for workspace operations
-- The `toBasePM()` helper function converts `deno` and `bun` to `npm` when needed for compatibility
+Both Deno and Bun are now fully supported natively by `@akrc/monorepo-tools` v5.0.0+:
+- Detection and workspace operations handled directly by the library
+- No conversion or mapping needed - all PM types work natively
+- Consistent behavior across all package managers
 
 ## Implementation Details
 
 ### Dependencies
 
 - `@akrc/monorepo-tools` v5.0.0+ provides native PM type including deno and bun
-- Detection logic is handled by the library's `detectPMByLock()` function
+- Detection and workspace operations handled natively by the library
 
 ### Type System
 
@@ -63,15 +63,7 @@ export type { PM };
 // PM = 'npm' | 'yarn' | 'pnpm' | 'bun' | 'deno'
 ```
 
-Helper functions for PM type compatibility:
-
-```typescript
-// Check if PM is a base type (npm, yarn, pnpm)
-export function isBasePM(pm: PM): boolean;
-
-// Convert deno/bun to npm for monorepo compatibility
-export function toBasePM(pm: PM): 'npm' | 'yarn' | 'pnpm';
-```
+All PM types are now handled natively - no conversion helpers needed.
 
 ### Detection Logic
 

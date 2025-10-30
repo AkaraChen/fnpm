@@ -7,7 +7,6 @@ import {
 import type { Project } from '@pnpm/types';
 import { Effect, Option } from 'effect';
 import type { UnknownException } from 'effect/Cause';
-import { toBasePM } from './types';
 
 export function FindUpRoot(
     searchDir: string
@@ -29,8 +28,7 @@ export function ScanProjects(
     searchDir: string,
     pm: PM
 ): Effect.Effect<Project[], UnknownException> {
-    const basePM = toBasePM(pm);
-    return Effect.tryPromise(() => scanProjects(searchDir, basePM));
+    return Effect.tryPromise(() => scanProjects(searchDir, pm));
 }
 
 /**
