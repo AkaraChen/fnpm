@@ -18,8 +18,8 @@ fnpm now supports Deno and Bun as package managers in addition to npm, yarn, and
 - **Bun**: `bun install` (supports `--frozen-lockfile` for fixed installs)
 
 ### Add
-- **Deno**: `deno install <packages>`
-- **Bun**: `bun install <packages>` (supports dev/peer/optional flags)
+- **Deno**: `deno install <packages>` (Deno uses install for adding packages)
+- **Bun**: `bun add <packages>` (uses dedicated add command, supports dev/peer/optional flags)
 
 ### Remove
 - **Deno**: `deno remove <packages>`
@@ -85,6 +85,7 @@ Added comprehensive tests for deno and bun commands:
 - Install command tests (3 tests)
 - DLX command tests (2 tests)
 - Init command tests (3 tests)
+- **Total: 8 new tests**
 
 All 246 tests pass, including the new deno/bun tests.
 

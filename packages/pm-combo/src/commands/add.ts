@@ -31,7 +31,9 @@ export const add: Command<AddOptions> = {
             allowRoot,
         } = options;
 
-        const args: string[] = install.concat(pm, { fixed });
+        // Bun uses 'add' instead of 'install <packages>'
+        const args: string[] =
+            pm === 'bun' ? ['bun', 'add'] : install.concat(pm, { fixed });
 
         args.push(...packages);
 
