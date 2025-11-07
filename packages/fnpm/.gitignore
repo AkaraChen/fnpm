@@ -1,0 +1,8 @@
+# CPU profiles
+*.cpuprofile
+
+# Clinic.js output
+.clinic/
+
+# Benchmark results
+benchmark-*.json

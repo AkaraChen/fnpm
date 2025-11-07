@@ -8,7 +8,11 @@
         "link:fnpm": "pnpm link . -g",
         "unlink:fnpm": "pnpm remove @akrc/fnpm -g",
         "dev": "tsdown --watch",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "profile": "node profile.js",
+        "profile:help": "node profile.js --help",
+        "profile:analyze": "node analyze-profile.js",
+        "benchmark": "node benchmark.js"
     },
     "keywords": [
         "fnpm"
