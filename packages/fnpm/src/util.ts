@@ -49,7 +49,12 @@ export interface Context {
  *   - `root`: the selected root directory as described above
  */
 export async function getContext(cwd: string): Promise<Context> {
-    const repoContext = await resolveRepoContext(cwd);
+    // Start both repo context and package directory resolution in parallel
+    const [repoContext, packageDir] = await Promise.all([
+        resolveRepoContext(cwd),
+        packageDirectory({ cwd }),
+    ]);
+
     const { pm } = repoContext;
 
     // workspace mode
@@ -100,11 +105,11 @@ export async function getContext(cwd: string): Promise<Context> {
         }
     }
 
-    // default mode, resolve package directory
+    // default mode, use pre-resolved package directory
     return {
         pm,
         args: hideBin(process.argv),
-        root: (await packageDirectory({ cwd })) || cwd,
+        root: packageDir || cwd,
     };
 }
 

@@ -1,46 +1,80 @@
-import type { Argv } from 'yargs';
+import type { Argv, CommandModule } from 'yargs';
 import type { Context } from '../util';
-import Add from './add';
 import { CommandFactory } from './base';
-import CI from './ci';
-import Config from './config';
-import Default from './default';
-import Dlx from './dlx';
-import Doctor from './doctor';
-import Init from './init';
-import Create from './create';
-import Publish from './publish';
-import Registry from './registry';
-import Remove from './remove';
-import Scaffold from './scaffold';
-import Test from './test';
-import UI from './ui';
-import Update from './update';
-import Use from './use';
-import View from './view';
-import Why from './why';
+
+// Define command metadata for lazy loading
+const commandMetadata = [
+    {
+        name: 'add [packages..]',
+        aliases: ['a', 'install', 'i'],
+        loader: () => import('./add'),
+    },
+    {
+        name: 'create [template]',
+        aliases: ['c'],
+        loader: () => import('./create'),
+    },
+    { name: 'dlx [package]', aliases: ['x'], loader: () => import('./dlx') },
+    {
+        name: 'remove [packages..]',
+        aliases: ['rm', 'r', 'uninstall'],
+        loader: () => import('./remove'),
+    },
+    { name: 'init', aliases: [], loader: () => import('./init') },
+    { name: 'test', aliases: ['t'], loader: () => import('./test') },
+    { name: 'ci', aliases: [], loader: () => import('./ci') },
+    { name: 'doctor', aliases: [], loader: () => import('./doctor') },
+    { name: 'ui', aliases: [], loader: () => import('./ui') },
+    { name: '$0', aliases: [], loader: () => import('./default') }, // default command
+    { name: 'use [version]', aliases: [], loader: () => import('./use') },
+    {
+        name: 'update [packages..]',
+        aliases: ['up'],
+        loader: () => import('./update'),
+    },
+    { name: 'publish', aliases: [], loader: () => import('./publish') },
+    { name: 'why [package]', aliases: [], loader: () => import('./why') },
+    { name: 'config', aliases: [], loader: () => import('./config') },
+    { name: 'registry', aliases: [], loader: () => import('./registry') },
+    { name: 'scaffold', aliases: [], loader: () => import('./scaffold') },
+    { name: 'view [package]', aliases: ['v'], loader: () => import('./view') },
+];
 
 export { default as Dlx } from './dlx';
 
 export function mount(argv: Argv, ctx: Context) {
     const factory = new CommandFactory(ctx);
-    return argv
-        .command(factory.create(Add))
-        .command(factory.create(Create))
-        .command(factory.create(Dlx))
-        .command(factory.create(Remove))
-        .command(factory.create(Init))
-        .command(factory.create(Test))
-        .command(factory.create(CI))
-        .command(factory.create(Doctor))
-        .command(factory.create(UI))
-        .command(factory.create(Default))
-        .command(factory.create(Use))
-        .command(factory.create(Update))
-        .command(factory.create(Publish))
-        .command(factory.create(Why))
-        .command(factory.create(Config))
-        .command(factory.create(Registry))
-        .command(factory.create(Scaffold))
-        .command(factory.create(View));
+
+    // Register all commands with lazy loading
+    for (const { name, aliases, loader } of commandMetadata) {
+        const commandNames = [name, ...aliases];
+
+        argv.command({
+            command: commandNames,
+            describe: '', // Will be filled when module loads
+            builder: async (yargs: Argv) => {
+                const module = await loader();
+                const Command = module.default;
+                const instance = new Command(ctx);
+
+                // Apply the actual builder
+                if (instance.builder) {
+                    return instance.builder(yargs);
+                }
+                return yargs;
+            },
+            handler: async (args) => {
+                const module = await loader();
+                const Command = module.default;
+                const cmd = factory.create(Command, ctx);
+
+                // Execute the handler
+                if (cmd.handler) {
+                    await cmd.handler(args);
+                }
+            },
+        } as CommandModule);
+    }
+
+    return argv;
 }
