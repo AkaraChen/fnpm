@@ -98,4 +98,67 @@ export class CommandFactory {
         }) as unknown as CommandModule<EmptyObject, T>['handler'];
         return command as CommandModule<EmptyObject, T>;
     }
+
+    /**
+     * Create a lazy-loaded command using dynamic imports.
+     * The module is loaded on first registration to extract metadata,
+     * then the heavy logic (builder/handler) only runs when the command is invoked.
+     */
+    createLazy<T extends BaseCommandOptions>(
+        loader: () => Promise<{
+            default: new (ctx: Context) => BaseCommand<T>;
+        }>,
+        ctx: Context = this.ctx
+    ): CommandModule<EmptyObject, T> {
+        let cachedModule: {
+            default: new (ctx: Context) => BaseCommand<T>;
+        } | null = null;
+        let metadataInstance: BaseCommand<T> | null = null;
+
+        // Load the module and create an instance to extract metadata
+        const initPromise = loader().then((module) => {
+            cachedModule = module;
+            metadataInstance = new module.default(ctx);
+            return metadataInstance;
+        });
+
+        // Ensure metadata is available synchronously by blocking
+        // This is a necessary compromise for yargs compatibility
+        const metadata: { command: string | string[]; describe: string } = {
+            command: '*',
+            describe: '',
+        };
+
+        // Try to load synchronously if possible (will be available on next tick)
+        initPromise.then((instance) => {
+            metadata.command = instance.command;
+            metadata.describe = instance.describe;
+        });
+
+        return {
+            get command() {
+                return metadata.command;
+            },
+            get describe() {
+                return metadata.describe;
+            },
+            builder: async (yargs: Argv) => {
+                await initPromise;
+                const instance = metadataInstance!;
+
+                if (instance.builder) {
+                    return instance.builder(yargs) as Argv<T>;
+                }
+                return yargs as Argv<T>;
+            },
+            handler: async (args: ArgumentsCamelCase<T>) => {
+                await initPromise;
+                const cmd = this.create(cachedModule!.default, ctx);
+
+                if (cmd.handler) {
+                    await cmd.handler(args);
+                }
+            },
+        } as CommandModule<EmptyObject, T>;
+    }
 }
