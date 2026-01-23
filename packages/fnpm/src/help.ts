@@ -115,10 +115,12 @@ function formatFlag(name: string, aliases: string[]) {
     return [shorts.join(', '), longs.join(', ')].filter(Boolean).join(', ');
 }
 
-type HelpableCommand =
-    Pick<CommandModule<unknown, unknown>, 'command' | 'describe'> & {
-        builder?: (a: Argv) => Argv | undefined;
-    };
+type HelpableCommand = Pick<
+    CommandModule<unknown, unknown>,
+    'command' | 'describe'
+> & {
+    builder?: (a: Argv) => Argv | undefined;
+};
 
 /**
  * Print formatted help for a subcommand to standard output.
