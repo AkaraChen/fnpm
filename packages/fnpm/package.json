@@ -48,8 +48,8 @@
         "yargs": "^18.0.0"
     },
     "bin": {
-        "fnpm": "./dist/fnpm.js",
-        "fnpx": "./dist/fnpx.js"
+        "fnpm": "./dist/fnpm.mjs",
+        "fnpx": "./dist/fnpx.mjs"
     },
     "files": [
         "dist"

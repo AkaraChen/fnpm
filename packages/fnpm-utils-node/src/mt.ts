@@ -12,9 +12,9 @@ export function FindUpRoot(
     searchDir: string
 ): Effect.Effect<Option.Option<string>, UnknownException, never> {
     return Effect.match(
-        Effect.tryPromise(() => findUpRoot(searchDir)),
+        Effect.tryPromise(() => findUpRoot(searchDir) as Promise<string>),
         {
-            onSuccess(value) {
+            onSuccess(value: string) {
                 return Option.some(value);
             },
             onFailure() {
