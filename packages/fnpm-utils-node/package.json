@@ -22,7 +22,7 @@
         "dist"
     ],
     "dependencies": {
-        "@akrc/monorepo-tools": "^5.0.0",
+        "@akrc/monorepo-tools": "^5.2.0",
         "effect": "^3.17.9"
     },
     "main": "./dist/index.cjs",
