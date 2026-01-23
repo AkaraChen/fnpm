@@ -9,7 +9,7 @@ import { resolveWorkspaceContext } from '~/server/fnpm.server';
 /**
  * Load and provide the workspace context for this route.
  *
- * @returns An object with a `context` property containing the resolved workspace context. 
+ * @returns An object with a `context` property containing the resolved workspace context.
  */
 export async function loader() {
     const context = resolveWorkspaceContext(root);

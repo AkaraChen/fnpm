@@ -4,7 +4,7 @@
     "version": "1.13.1",
     "type": "module",
     "scripts": {
-        "build": "tsc && react-router build",
+        "build": "react-router build",
         "dev": "react-router",
         "start": "react-router-serve ./build/server/index.js",
         "typecheck": "tsc",
