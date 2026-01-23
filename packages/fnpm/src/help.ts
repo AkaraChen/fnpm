@@ -163,9 +163,3 @@ export function printCommandHelp(cmd: HelpableCommand, bin = 'fnpm') {
         console.log(`  ${flags}  ${pc.dim(type)}  ${o.description || ''}`);
     }
 }
-
-export function printRootHelp(bin = 'fnpm') {
-    console.log(pc.bold(bin));
-    console.log(`\n${pc.cyan('Usage:')} ${bin} <command> [options]`);
-    console.log(`\nRun '${bin} <command> --help' for command-specific help.`);
-}
